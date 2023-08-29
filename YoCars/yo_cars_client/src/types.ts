@@ -1,5 +1,5 @@
 export interface Item {
-    id: number;
+    id: string;
     date: string;
     temperatureC: number;
     temperatureF: number;
