@@ -1,0 +1,38 @@
+.header{
+    display: flex;
+    padding: 0px 0 7px 25px;
+    margin:-5px 0 0 0;
+}
+.headerMenu{
+    display: flex;
+}
+.headerList{
+    display: flex;
+    flex-direction: row;
+    margin:left 115px;
+    padding-left: 230px;
+}
+.headerMenuList{
+    display: flex;
+    padding: 0px 0px 0px 0px;
+    justify-content: space-between;
+}
+.headerListIcon{
+    display: flex;
+    width: 31px;
+    height: 31px;
+    padding-top:13px;
+    margin: left 235px;
+}
+.headerListText{
+    display: flex;
+    padding: 0px 0 0px 18px;
+    color: #f5f5f5;
+    min-width: 100%;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+}
+.headerListText:hover{
+    font-weight: 600;
+}
