@@ -9,25 +9,26 @@ export function Header() {
     
     return (
         <div className={styles.header}>
-            <img className={styles.headerLogo} src={logo} alt=""/>
-            <div className={styles.headerMenu}> 
             <ul className={styles.headerMenuList}>
-                    <li className={styles.headerList}>
-                        <img className= {styles.headerListIcon} src={phoneIcon} alt=""/>
-                        <p className = {styles.headerListText}>8(800)535-35-35</p>
-                    </li>
-                    <li className={styles.headerList}>
-                        <img className= {styles.headerListIcon} src={authorizationIcon} alt=""/>
-                        <p className = {styles.headerListText}>Авторизация</p>
-                    </li>
-                    <li className={styles.headerList}>
-                        <img className= {styles.headerListIcon} src={menuIcon} alt=""/>
-                        <p className = {styles.headerListText}>Меню</p>
-                    </li>
+                <li className={styles.headerList}>
+                    <img className={styles.headerLogo} src={logo} alt=""/>
+                </li>
+                <li className={styles.headerList}>
+                    <img className={styles.headerListIcon} src={phoneIcon} alt=""/>
+                    <p className={styles.headerListText}>8(800)535-35-35</p>
+                </li>
+                <li className={styles.headerList}>
+                    <img className={styles.headerListIcon} src={authorizationIcon} alt=""/>
+                    <p className={styles.headerListText}>Авторизация</p>
+                </li>
+                <li className={styles.headerList}>
+                    {/*TODO: Компонент бургер меню*/}
+                    <img className={styles.headerListIcon} src={menuIcon} alt=""/>
+                    <p className={styles.headerListText}>Меню</p>
+                </li>
             </ul>
-            </div>
         </div>
     );
-};
+}
 
 export default Header;

@@ -1,12 +1,10 @@
 import './App.css';
-
-
-import SiteComponent from "./components/body/body";
+import Intro from "./components/homePage/intro/intro";
 
 function App() {
   return (
     <div className="App">
-      <SiteComponent />
+        <Intro />
     </div>
   );
 }

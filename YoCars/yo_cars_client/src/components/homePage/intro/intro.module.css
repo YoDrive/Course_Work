@@ -1,0 +1,86 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 956px;
+    background: url("../../../assets/backgroundImage.jpg") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.introInfoContainer {
+    display: flex;
+    margin-top: 80px;
+    width: 1400px;
+    align-items: center;
+    justify-content: flex-end;
+    color: #F5F5F5;
+}
+
+.introInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 483px;
+    /*height: 462px;*/
+}
+
+.benefit {
+    display: flex;
+    height: 350px;
+    width: 1400px;
+    justify-content: space-between;
+    color: #F5F5F5;
+    align-items: center;
+}
+
+.title {
+    font-family: Montserrat;
+    font-size: 70px;
+    font-weight: 700;
+    line-height: 85px;
+    margin-bottom: 20px;
+}
+
+.subTitle {
+    font-family: Montserrat;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.info {
+    font-family: Montserrat;
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 31px;
+    text-align: left;
+}
+
+.searchCarBtn {
+    margin-top: 120px;
+    padding: 18px 116px;
+    font-family: Montserrat;
+    font-size: 23px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #212528;
+}
+
+.benefitItem {
+    width: 225px;
+}
+
+.benefitText {
+    margin-top: 30px;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}

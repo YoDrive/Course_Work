@@ -1,38 +1,38 @@
-.header{
+.header {
     display: flex;
-    padding: 0px 0 7px 25px;
-    margin:-5px 0 0 0;
+    min-width: 1400px;
+    justify-content: center;
 }
-.headerMenu{
+.headerMenuList {
     display: flex;
+    max-width: 1400px;
+    height: 80px;
+    align-items: center;
+    gap: 235px;
 }
-.headerList{
+.headerList {
     display: flex;
     flex-direction: row;
-    margin:left 115px;
-    padding-left: 230px;
+    align-items: center;
+    gap: 10px;
 }
-.headerMenuList{
+.headerLogo {
     display: flex;
-    padding: 0px 0px 0px 0px;
-    justify-content: space-between;
+    width: 240px;
+    height: 47px;
 }
-.headerListIcon{
+.headerListIcon {
     display: flex;
     width: 31px;
     height: 31px;
-    padding-top:13px;
-    margin: left 235px;
 }
 .headerListText{
     display: flex;
-    padding: 0px 0 0px 18px;
     color: #f5f5f5;
-    min-width: 100%;
-    font-family: 'Montserrat';
+    font-family: Montserrat;
     font-size: 16px;
     font-weight: 500;
 }
-.headerListText:hover{
-    font-weight: 600;
+.headerList:hover {
+    cursor: pointer;
 }
