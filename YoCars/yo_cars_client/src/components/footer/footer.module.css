@@ -1,0 +1,26 @@
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 215px;
+    width: auto;
+    height: 128px;
+}
+
+.links {
+    display: flex;
+    gap: 35px;
+}
+
+.footerInfo {
+    text-align: left;
+}
+
+
+.footerInfo, .linksText, .footerLink {
+    color: #F5F5F5;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+}
