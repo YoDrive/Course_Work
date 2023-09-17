@@ -7,30 +7,28 @@ export function Contact() {
 
     return (
         <div className={styles.contactContainer}>
-            <h2 className={styles.tytle}>Связаться с нами</h2>
+            <h2 className={styles.title}>Связаться с нами</h2>
             <div className={styles.container}>
                 <div className={styles.contacts}>
-                    <div>
-                        <h3>По телефону:</h3>
-                        <div>
+                    <div className={styles.contactsInfo}>
+                        <h3 className={styles.contactsSubtitle}>Телефон:</h3>
+                        <div className={styles.contactsCouple}>
                             <img src={phoneImg} alt=""/>
-                            <p>8(800)535-35-35</p>
+                            <p className={styles.contactsText}>8(800)535-35-35</p>
                         </div>
                     </div>
-                    <div>
-                        <h3>Адрес:</h3>
-                        <div>
+                    <div className={styles.contactsInfo}>
+                        <h3 className={styles.contactsSubtitle}>Адрес:</h3>
+                        <div className={styles.contactsCouple}>
                             <img src={mark} alt=""/>
-                            <p>г.Йошкар-Ола, Ленинский проспект 18б</p>
+                            <p className={styles.contactsText}>г.Йошкар-Ола, Эшкинина 10В</p>
                         </div>
                     </div>
                 </div>
-                <div className={styles.map}>
-
-                </div>
+                <iframe className={styles.map} src="https://yandex.ru/map-widget/v1/?ll=47.912418%2C56.631159&mode=search&whatshere%5Bpoint%5D=47.907271%2C56.630982&whatshere%5Bzoom%5D=17&z=17.2"></iframe>
             </div>
         </div>
-    );
+    )
 }
 
 export default Contact;
