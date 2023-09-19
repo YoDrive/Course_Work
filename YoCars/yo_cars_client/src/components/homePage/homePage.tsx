@@ -1,0 +1,20 @@
+import React from 'react';
+import styles from "./homePage.module.css"
+import Intro from "./intro/intro";
+import Autopark from "./autopark/autopark";
+import Contact from "./contact/contact";
+import Footer from '../footer/footer';
+
+export function HomePage() {
+
+    return (
+        <div className={styles.homePageContainer}>
+            <Intro />
+            <Autopark />
+            <Contact />
+            <Footer/>
+        </div>
+    );
+}
+
+export default HomePage;
