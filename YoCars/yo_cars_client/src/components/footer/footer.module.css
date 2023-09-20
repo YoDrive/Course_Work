@@ -12,7 +12,12 @@
     gap: 35px;
 }
 
+.linksIcon:hover {
+    cursor:pointer;
+}
+
 .footerInfo {
+    margin-top: 23px;
     text-align: left;
 }
 
@@ -21,6 +26,14 @@
     color: #F5F5F5;
     font-family: Montserrat;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 22px;
+}
+
+.footerLink{
+    text-decoration: underline;
+}
+.footerLink:hover{
+    color:#595757;
+    cursor:pointer;
 }

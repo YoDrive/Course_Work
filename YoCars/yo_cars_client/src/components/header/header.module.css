@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 .headerLogo {
     display: flex;
@@ -30,6 +30,9 @@
     font-family: Montserrat;
     font-size: 16px;
     font-weight: 500;
+}
+.headerListText:hover{
+    color:#595757;
 }
 .headerList:hover {
     cursor: pointer;

@@ -30,9 +30,10 @@
 
 .benefit {
     display: flex;
-    height: 350px;
-    width: 1400px;
     justify-content: space-between;
+    height: 350px;
+    width: 1160px;
+    min-width: 250px;
     color: #F5F5F5;
     align-items: center;
 }
@@ -57,7 +58,7 @@
 .info {
     font-family: Montserrat;
     font-size: 23px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 31px;
     text-align: left;
 }
@@ -76,6 +77,8 @@
 
 .searchCarBtn:hover {
     cursor: pointer;
+    color:#F5F5F5;
+    background-color: rgba(0,0,0,0.5);
 }
 
 .benefitItem {
@@ -86,7 +89,7 @@
     margin-top: 30px;
     font-family: Montserrat;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 24px;
     text-align: left;
 }
