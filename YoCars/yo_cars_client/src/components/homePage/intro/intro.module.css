@@ -25,14 +25,14 @@
     align-items: flex-start;
     justify-content: center;
     width: 483px;
-    /*height: 462px;*/
 }
 
 .benefit {
     display: flex;
-    height: 350px;
-    width: 1400px;
     justify-content: space-between;
+    height: 350px;
+    width: 1160px;
+    min-width: 250px;
     color: #F5F5F5;
     align-items: center;
 }
@@ -57,7 +57,7 @@
 .info {
     font-family: Montserrat;
     font-size: 23px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 31px;
     text-align: left;
 }
@@ -76,27 +76,24 @@
 
 .searchCarBtn:hover {
     cursor: pointer;
+    background-color:rgba(0,0,0,0.8);
+    color:#F5F5F5;
 }
 
 .benefitItem {
-    width: 225px;
+    width: 220px;
+    height: 206px;
+}
+
+.benefitItem:last-child{
+    width: 195px;
 }
 
 .benefitText {
     margin-top: 30px;
     font-family: Montserrat;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 24px;
     text-align: left;
-}
-
-.benefitItem:last-child {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.benefitItem:last-child .benefitImage {
-    padding-left: 30px;
 }

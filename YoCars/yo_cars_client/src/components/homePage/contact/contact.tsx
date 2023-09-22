@@ -13,14 +13,14 @@ export function Contact() {
                     <div className={styles.contactsInfo}>
                         <h3 className={styles.contactsSubtitle}>Телефон:</h3>
                         <div className={styles.contactsCouple}>
-                            <img src={phoneImg} alt=""/>
+                            <img className={styles.contactsIcon} src={phoneImg} alt=""/>
                             <p className={styles.contactsText}>8(800)535-35-35</p>
                         </div>
                     </div>
                     <div className={styles.contactsInfo}>
                         <h3 className={styles.contactsSubtitle}>Адрес:</h3>
                         <div className={styles.contactsCouple}>
-                            <img src={mark} alt=""/>
+                            <img className={styles.contactsIcon} src={mark} alt=""/>
                             <p className={styles.contactsText}>г.Йошкар-Ола, Эшкинина 10В</p>
                         </div>
                     </div>
