@@ -27,7 +27,7 @@ export function Intro() {
                 </li>
                 <li className={styles.benefitItem}>
                     <img className={styles.benefitImage} src={thirdImage} alt=""></img>
-                    <p className={styles.benefitText}>Высокая скорость оформления</p>
+                    <p className={styles.benefitText}>Высокая скорость оформления сделки</p>
                 </li>
             </ul>
         </div>

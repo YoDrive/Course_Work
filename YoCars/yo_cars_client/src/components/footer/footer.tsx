@@ -12,10 +12,10 @@ export function Footer() {
             <p className={styles.footerInfo}>© 2023. YoDrive. Компания аренды автомобилей.<br/>Официальный сайт.</p>
             <div className={styles.links}>
                 <p className={styles.linksText}>Наши соцсети</p>
-                <img src={vkImg} alt=""/>
-                <img src={tgImg} alt=""/>
-                <img src={ytImg} alt=""/>
-                <img src={instImg} alt=""/>
+                <img className={styles.linksIcon} src={vkImg} alt=""/>
+                <img className={styles.linksIcon} src={tgImg} alt=""/>
+                <img className={styles.linksIcon} src={ytImg} alt=""/>
+                <img className={styles.linksIcon} src={instImg} alt=""/>
             </div>
             <p className={styles.footerLink}>Правовая информация</p>
         </div>

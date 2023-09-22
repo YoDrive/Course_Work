@@ -23,11 +23,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    padding: 0 0 70px 75px;
     gap: 25px;
     height: 540px;
-    width: 380px;
-    margin-right: 340px;
+    width: 480px;
+    margin-right: 150px;
     background: #212528F2;
 }
 
@@ -59,8 +59,16 @@
     color: #F5F5F5;
     font-family: Montserrat;
     font-size: 22px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 27px;
+}
+.contactsText:hover{
+    cursor:pointer;
+    text-decoration: underline;
+}
+
+.contactsIcon{
+    margin-bottom: 4px;
 }
 
 .map {
