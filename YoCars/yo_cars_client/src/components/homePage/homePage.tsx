@@ -3,7 +3,6 @@ import styles from "./homePage.module.css"
 import Intro from "./intro/intro";
 import Autopark from "./autopark/autopark";
 import Contact from "./contact/contact";
-import Footer from '../footer/footer';
 
 export function HomePage() {
 
@@ -12,7 +11,6 @@ export function HomePage() {
             <Intro />
             <Autopark />
             <Contact />
-            <Footer/>
         </div>
     );
 }

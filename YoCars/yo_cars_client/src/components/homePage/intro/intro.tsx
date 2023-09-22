@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './intro.module.css';
-import Header from "../../header/header";
 import firstImage from '../../../assets/firstImage.svg';
 import secondImage from '../../../assets/secondImage.svg';
 import thirdImage from '../../../assets/thirdImage.svg';
@@ -9,7 +8,6 @@ export function Intro() {
 
     return (
         <div className={styles.content}>
-            <Header />
             <div className={styles.introInfoContainer}>
                 <div className={styles.introInfo}>
                     <h1 className={styles.title}>YoDrive</h1>

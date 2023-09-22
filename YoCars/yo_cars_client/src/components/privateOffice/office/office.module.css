@@ -1,0 +1,59 @@
+.content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 743px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.menu{
+    width: 360px;
+    height: 628px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 20px 0 0 93px;
+    border: 1px solid;
+    border-color: #5A5C5E;
+    border-radius: 2px;
+}
+.menuHead{
+    height: 238px;
+    display: flex;
+    flex-direction: column;
+}
+.headIcon{
+    width: 92px;
+    padding-top: 59px;
+    margin-left: 130px;
+}
+.headName{
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 500;
+    color: #f5f5f5;
+    padding-top: 20px;
+}
+.menuButtons{
+    display: flex;
+    flex-direction: column;
+}
+.menuButton{
+    height: 65px;
+    width: 358px;
+    background-color: transparent;
+    font-family: Montserrat;
+    font-size: 17px;
+    font-weight: 300;
+    color: #f5f5f5;
+    text-align: left;
+    padding-left: 50px;
+    border: none;
+    border-top: 1px solid;
+    border-color: #5A5C5E;
+}
+.menuButton:active{
+    background-color: #5A5C5E;
+}
