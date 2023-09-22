@@ -25,7 +25,6 @@
     align-items: flex-start;
     justify-content: center;
     width: 483px;
-    /*height: 462px;*/
 }
 
 .benefit {
@@ -82,7 +81,12 @@
 }
 
 .benefitItem {
-    width: 225px;
+    width: 220px;
+    height: 206px;
+}
+
+.benefitItem:last-child{
+    width: 195px;
 }
 
 .benefitText {
@@ -92,14 +96,4 @@
     font-weight: 300;
     line-height: 24px;
     text-align: left;
-}
-
-.benefitItem:last-child {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.benefitItem:last-child .benefitImage {
-    padding-left: 30px;
 }
