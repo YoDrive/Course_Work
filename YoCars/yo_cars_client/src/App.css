@@ -9,6 +9,8 @@ ul li {
 }
 
 .App {
+  display: flex;
+  flex-direction: column;
   background-color: #212528;
   min-height: 100vh;
   height: 100%;
