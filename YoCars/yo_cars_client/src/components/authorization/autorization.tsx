@@ -30,7 +30,7 @@ export function AuthorizationPage() {
                 <h1 className={styles.title}>Авторизация</h1>
                 <Form className={styles.inputContainer}>
                     <Form.Group className={styles.form} controlId="formBasicEmail">
-                        <Form.Label className={styles.inputText}>Email</Form.Label>
+                        <Form.Label className={styles.inputText} >Email</Form.Label>
                         <Form.Control className={styles.inputForm} type="email" />
                     </Form.Group>
                     <Form.Group className={styles.form} controlId="formBasicPassword">
@@ -38,8 +38,8 @@ export function AuthorizationPage() {
                         <Form.Control className={styles.inputForm} type="password" />
                     </Form.Group>
                     <div className={styles.buttons}>
-                         <Button className={styles.registerBtn} variant="primary" type="submit">Регистрация</Button>
-                         <Button className={styles.enterBtn} variant="primary" type="submit">Вход</Button>
+                         <Button className={styles.registerBtn} variant="dark" type="submit">Регистрация</Button>
+                         <Button className={styles.enterBtn} variant="dark" type="submit">Вход</Button>
                     </div>
                 </Form>
             </div>
