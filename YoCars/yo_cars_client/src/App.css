@@ -10,4 +10,6 @@ ul li {
 
 .App {
   background-color: #212528;
+  min-height: 100vh;
+  height: 100%;
 }
