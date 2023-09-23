@@ -1,9 +1,16 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex: 1 0 auto;
+    align-items: flex-end;
+    width: 100%;
+}
+
 .footer {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 215px;
-    width: auto;
+    justify-content: space-between;
+    width: 1400px;
     height: 128px;
 }
 
