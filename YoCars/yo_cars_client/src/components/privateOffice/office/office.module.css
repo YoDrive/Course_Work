@@ -3,13 +3,16 @@
     flex-direction: column;
     width: 1400px;
 }
+.mainPart {
+    margin-top: 58px;
+    width: 1400px;
+}
 .menu{
     width: 360px;
     height: 628px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    margin: 20px 0 0 93px;
     border: 1px solid;
     border-color: #5A5C5E;
     border-radius: 2px;
