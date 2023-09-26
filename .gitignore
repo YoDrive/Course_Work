@@ -1,0 +1,56 @@
+# Rider
+.idea/
+
+# Visual Studio
+.vscode/
+*.suo
+*.user
+*.sln.docstates
+
+# WebStorm
+.idea/
+*.iml
+
+# C# / .NET
+/bin/
+/obj/
+*.user
+*.suo
+*.log
+*.dll
+*.pdb
+*.idb
+[Tt]est[Rr]esult*/
+[Bb]in/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Aa][Rr][Cc][Hh][Ii][Vv][Ee]/
+[Rr][Ee][Ll][Ee][Aa][Ss][Ee][Ss]/
+_ReSharper/
+_ReSharper.Caches/
+*.dbmdl
+*.dbproj.schemaview
+Generated_Code/
+[Tt]humbs.db
+[Bb]ackup*/
+[Oo]bj/
+[Ll]og/
+[Ll]og.xml
+[Bb]uild [Ll]og.*
+*_i.c
+*_p.c
+*_ps.*dbml
+[Tt]est[Rr]esults/
+
+# React
+/node_modules/
+/dist/
+/build/
+
+# ASP.NET WebAPI
+/appsettings.json
+/appsettings.Development.json
