@@ -1,12 +1,15 @@
-﻿services:
+﻿version: '3'
+
+services:
   yoDriveBackend:
     image: yocars
     build:
       context: .
-      dockerfile: YoCars/yo_cars_client/node_modules/@surma/rollup-plugin-off-main-thread/Dockerfile
+      dockerfile: ./YoCars/Dockerfile
+
   yoDriveDb:
     image: postgres
-    container_name: PublicationDB
+    container_name: yodrivedb
     ports:
       - "5446:5432"
     volumes:
@@ -15,8 +18,12 @@
       POSTGRES_DB: "yodrivedb"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "admin"
+
   react-app:
     build:
       context: ./YoCars/yo_cars_client
-      ports:
-        - "3000:80"
+    ports:
+      - "3000:80"
+
+volumes:
+  pg_data: 
