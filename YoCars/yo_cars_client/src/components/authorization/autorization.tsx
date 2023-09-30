@@ -3,11 +3,8 @@ import axios from "axios";
 import styles from './authorization.module.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { User } from "../../models/Auth/user.model";
 
-interface User {
-    email: string;
-    password: string;
-}
 
 export function AuthorizationPage() {
 
@@ -23,11 +20,9 @@ export function AuthorizationPage() {
     }
 
     const handAuthorization = async () => {
-        console.log(user);
-
         try
         {
-            await axiosInstance.post('/api/auth', user);
+            await axiosInstance.post('/api/auth/login', user);
             alert('Авторизация прошла успешно');
         }
         catch (error)

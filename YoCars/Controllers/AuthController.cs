@@ -20,9 +20,15 @@ public class AuthController : ControllerBase
         _db = db;
     }
 
-    [HttpPost]
-    public IActionResult Login()
+    [HttpPost("login")]
+    public async Task<ActionResult> Login(User user)
     {
         return Ok(new {message = "Авторизация успешна!"});
+    }
+
+    [HttpPost("register")]
+    public async Task<ActionResult> Register(User user)
+    {
+        return Ok(new { message = "Регистрация успешна!" });
     }
 }
