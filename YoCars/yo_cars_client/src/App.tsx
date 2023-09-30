@@ -12,10 +12,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
           <Routes>
-              <Route  path="/" element={<HomePage/>} />
+              <Route  path="/homePage" element={<HomePage/>} />
               <Route  path="/lkClient" element={<LKClient/>} />
-              <Route  path={"/auth"} element={<AuthorizationPage/>} />
-              <Route  path="*" element={<Navigate to="/" replace />} />
+              <Route  path="/auth" element={<AuthorizationPage/>} />
+              <Route  path="*" element={<Navigate to="/homePage" replace />} />
           </Routes>
       </BrowserRouter>
       <Footer/>
