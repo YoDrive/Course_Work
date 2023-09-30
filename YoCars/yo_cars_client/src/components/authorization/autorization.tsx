@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import styles from './authorization.module.css';
 import Button from 'react-bootstrap/Button';
@@ -7,7 +8,7 @@ import { User } from "../../models/Auth/user.model";
 
 
 export function AuthorizationPage() {
-
+    const navigate = useNavigate();
     const [user, setUser] = useState<User>({email: '', password: ''});
 
     const axiosInstance = axios.create({
@@ -24,6 +25,7 @@ export function AuthorizationPage() {
         {
             await axiosInstance.post('/api/auth/login', user);
             alert('Авторизация прошла успешно');
+            navigate('/lkClient');
         }
         catch (error)
         {
@@ -39,15 +41,27 @@ export function AuthorizationPage() {
                 <Form className={styles.inputContainer}>
                     <Form.Group className={styles.form} controlId="formBasicEmail">
                         <Form.Label className={styles.inputText} onChange={handleInputChange}>Email</Form.Label>
-                        <Form.Control className={styles.inputForm} type="email" />
+                        <Form.Control
+                            className={styles.inputForm}
+                            type="email"
+                            name="email"
+                            value={user.email}
+                            onChange={handleInputChange}
+                        />
                     </Form.Group>
                     <Form.Group className={styles.form} controlId="formBasicPassword">
                         <Form.Label className={styles.inputText} onChange={handleInputChange}>Пароль</Form.Label>
-                        <Form.Control className={styles.inputForm} type="password" />
+                        <Form.Control
+                            className={styles.inputForm}
+                            type="password"
+                            name="password"
+                            value={user.password}
+                            onChange={handleInputChange}
+                        />
                     </Form.Group>
                     <div className={styles.buttons}>
-                         <Button className={styles.registerBtn} variant="dark" type="submit">Регистрация</Button>
-                         <Button className={styles.enterBtn} onClick={handAuthorization} variant="dark" type="submit">Вход</Button>
+                         <Button className={styles.registerBtn} variant="dark">Регистрация</Button>
+                         <Button className={styles.enterBtn} onClick={handAuthorization} variant="dark">Вход</Button>
                     </div>
                 </Form>
             </div>
