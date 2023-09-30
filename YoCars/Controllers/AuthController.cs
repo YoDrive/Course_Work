@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using YoCars.Domain.AuthDto;
 using YoCars.Domain.Data;
 
 namespace YoCars.Controllers;
 
-public class User
-{
-    public string Email { get; set; }
-    public string Password { get; set; }
-}
 
 [ApiController]
 [Route("api/[Controller]")]
@@ -21,13 +17,13 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult> Login(User user)
+    public async Task<ActionResult> Login(UserAuthDto dto)
     {
-        return Ok(new {message = "Авторизация успешна!"});
+        return Ok();
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult> Register(User user)
+    public async Task<ActionResult> Register()
     {
         return Ok(new { message = "Регистрация успешна!" });
     }
