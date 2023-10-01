@@ -30,7 +30,6 @@ public class User
     [Required]
     [Column(TypeName = "varchar(150)")]
     public string Password { get; set; }
-    [Required]
     [MaxLength(255)]
-    public string UserImage { get; set; }
+    public string? UserImage { get; set; }
 }

@@ -1,6 +1,8 @@
+using YoCars.Domain.Models;
+
 namespace YoCars.Domain.Data.Interfaces;
 
-public class IUserRepository
+public interface IUserRepository
 {
-    
+    public Task<User> GetById(int id);
 }
