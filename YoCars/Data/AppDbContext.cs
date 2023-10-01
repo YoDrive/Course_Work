@@ -11,4 +11,6 @@ public class AppDbContext : DbContext
     }   
     
     public DbSet<CarBrand> CarBrand { get; set; }
+    public DbSet<Role> Role { get; set; }
+    public DbSet<User> User { get; set; }
 }
