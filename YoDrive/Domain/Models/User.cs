@@ -32,4 +32,7 @@ public class User
     public string Password { get; set; }
     [MaxLength(255)]
     public string? UserImage { get; set; }
+    
+    [InverseProperty("User")]
+    public ICollection<Rent>? Rents { get; set; }
 }
