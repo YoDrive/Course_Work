@@ -1,6 +1,6 @@
-using YoCars.Domain.Models;
+using YoDrive.Domain.Models;
 
-namespace YoCars.Domain.Data.Interfaces;
+namespace YoDrive.Domain.Data.Interfaces;
 
 public interface IUserRepository
 {

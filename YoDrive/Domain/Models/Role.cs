@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace YoCars.Domain.Models;
+namespace YoDrive.Domain.Models;
 
 public class Role
 {

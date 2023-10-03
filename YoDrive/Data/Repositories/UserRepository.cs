@@ -1,8 +1,8 @@
 using AutoMapper;
-using YoCars.Domain.Data.Interfaces;
-using YoCars.Domain.Models;
+using YoDrive.Domain.Data.Interfaces;
+using YoDrive.Domain.Models;
 
-namespace YoCars.Domain.Data.Repositories;
+namespace YoDrive.Domain.Data.Repositories;
 
 public class UserRepository : IUserRepository
 {

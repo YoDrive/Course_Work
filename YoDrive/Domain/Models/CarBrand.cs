@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace YoCars.Domain.Models;
+namespace YoDrive.Domain.Models;
 
 public class CarBrand
 {

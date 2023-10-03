@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoCars", "YoCars\YoCars.csproj", "{04568674-E264-4EBD-A697-83473E3F7735}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoDrive", "YoDrive\YoDrive.csproj", "{04568674-E264-4EBD-A697-83473E3F7735}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

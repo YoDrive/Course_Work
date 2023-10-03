@@ -4,13 +4,13 @@ using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using YoCars.Domain.AuthDto;
-using YoCars.Domain.Data;
-using YoCars.Domain.Data.Interfaces;
-using YoCars.Domain.Data.Repositories;
-using YoCars.Domain.Models;
+using YoDrive.Domain.AuthDto;
+using YoDrive.Domain.Data;
+using YoDrive.Domain.Data.Interfaces;
+using YoDrive.Domain.Data.Repositories;
+using YoDrive.Domain.Models;
 
-namespace YoCars.Controllers;
+namespace YoDrive.Controllers;
 
 
 [ApiController]

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using YoCars.Domain.Data;
+using YoDrive.Domain.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

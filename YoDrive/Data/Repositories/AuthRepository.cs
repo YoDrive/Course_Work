@@ -1,9 +1,9 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using YoCars.Domain.AuthDto;
-using YoCars.Domain.Data.Interfaces;
+using YoDrive.Domain.AuthDto;
+using YoDrive.Domain.Data.Interfaces;
 
-namespace YoCars.Domain.Data.Repositories;
+namespace YoDrive.Domain.Data.Repositories;
 
 public class AuthRepository : IAuthRepository
 {

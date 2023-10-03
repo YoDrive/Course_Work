@@ -1,8 +1,8 @@
 using AutoMapper;
-using YoCars.Domain.AuthDto;
-using YoCars.Domain.Models;
+using YoDrive.Domain.AuthDto;
+using YoDrive.Domain.Models;
 
-namespace YoCars.Profiles;
+namespace YoDrive.Profiles;
 
 public class AuthProfile : Profile
 {

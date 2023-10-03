@@ -1,6 +1,6 @@
-using YoCars.Domain.Models;
+using YoDrive.Domain.Models;
 
-namespace YoCars.Domain.AuthDto;
+namespace YoDrive.Domain.AuthDto;
 
 public class UserReadDto
 {

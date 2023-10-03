@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using YoCars.Domain.Data;
+using YoDrive.Domain.Data;
 
 #nullable disable
 
-namespace YoCars.Migrations
+namespace YoDrive.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20231001150422_Initial-Migration")]
@@ -25,7 +25,7 @@ namespace YoCars.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("YoCars.Domain.Models.CarBrand", b =>
+            modelBuilder.Entity("YoDrive.Domain.Models.CarBrand", b =>
                 {
                     b.Property<Guid>("CarBrandId")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace YoCars.Migrations
                     b.ToTable("CarBrand");
                 });
 
-            modelBuilder.Entity("YoCars.Domain.Models.Role", b =>
+            modelBuilder.Entity("YoDrive.Domain.Models.Role", b =>
                 {
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace YoCars.Migrations
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("YoCars.Domain.Models.User", b =>
+            modelBuilder.Entity("YoDrive.Domain.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -109,9 +109,9 @@ namespace YoCars.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("YoCars.Domain.Models.User", b =>
+            modelBuilder.Entity("YoDrive.Domain.Models.User", b =>
                 {
-                    b.HasOne("YoCars.Domain.Models.Role", "Role")
+                    b.HasOne("YoDrive.Domain.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

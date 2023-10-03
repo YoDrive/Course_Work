@@ -1,6 +1,6 @@
-using YoCars.Domain.AuthDto;
+using YoDrive.Domain.AuthDto;
 
-namespace YoCars.Domain.Data.Interfaces;
+namespace YoDrive.Domain.Data.Interfaces;
 
 public interface IAuthRepository
 {

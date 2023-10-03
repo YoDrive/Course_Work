@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using YoCars.Domain.Models;
+using YoDrive.Domain.Models;
 
-namespace YoCars.Domain.Data;
+namespace YoDrive.Domain.Data;
 
 public class AppDbContext : DbContext
 {
