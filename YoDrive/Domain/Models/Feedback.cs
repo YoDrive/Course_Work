@@ -12,10 +12,6 @@ public class Feedback
     public int RentId { get; set; }
     [Required]
     public Rent Rent { get; set; }
-    [ForeignKey(nameof(CarId))] 
-    public int CarId { get; set; }
-    [Required]
-    public Car Car { get; set; }
     [Required]
     public string Response { get; set; }
     [Required]

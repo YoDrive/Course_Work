@@ -7,8 +7,11 @@ public class CarBrand
 {
     [Key]
     [Required]
-    public Guid CarBrandId { get; set; }
+    public int CarBrandId { get; set; }
     [Required] 
     [Column(TypeName = "varchar(100)")]
     public string Name { get; set; }
+    
+    [InverseProperty("CarBrand")]
+    public ICollection<CarModel>? CarModels { get; set; }
 }
