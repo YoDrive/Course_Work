@@ -12,7 +12,7 @@ export function AuthorizationPage() {
     const [user, setUser] = useState<User>({email: '', password: ''});
 
     const axiosInstance = axios.create({
-        baseURL: 'http://localhost:5083', // Укажите нужный адрес и порт
+        baseURL: 'http://localhost:5083',
     });
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
