@@ -1,41 +1,21 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, {useState, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
-import styles from './authorization.module.css';
-import { User } from "../../models/Auth/user.model";
+import {Context} from "../../index";
+import {observer} from "mobx-react-lite";
 
 
 export function AuthorizationPage() {
     const navigate = useNavigate();
-    const [user, setUser] = useState<User>({email: '', password: ''});
-
-    const axiosInstance = axios.create({
-        baseURL: 'http://localhost:5083',
-    });
-
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setUser({...user, [name]: value});
-    }
-
-    const handAuthorization = async () => {
-        try
-        {
-            await axiosInstance.post('/api/auth/login', user);
-            alert('Авторизация прошла успешно');
-            navigate('/lkClient');
-        }
-        catch (error)
-        {
-            console.error('Ошибка авторизации: ', error);
-            alert('Ошибка при авторизации');
-        }
-    }
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const {store} = useContext(Context);
 
     return (
-        <div>
-
-        </div>
+        <form>
+            <input onChange={e => setEmail(e.target.value)} type="email" value={email}/>
+            <input onChange={e => setPassword(e.target.value)} type="password" value={password}/>
+            <button onClick={() => store.login(email, password)}>Логин</button>
+        </form>
     );
 
     // return (
@@ -73,4 +53,4 @@ export function AuthorizationPage() {
     // )
 }
 
-export default AuthorizationPage;
+export default observer(AuthorizationPage);
