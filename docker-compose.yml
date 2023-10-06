@@ -19,7 +19,7 @@ services:
       POSTGRES_PASSWORD: "admin"
   react-app:
     build:
-      context: ./YoCars/yo_cars_client
+      context: ./yo_cars_client
     ports:
       - "3000:80"
   adminer:
