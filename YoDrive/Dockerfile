@@ -5,16 +5,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["YoCars/YoCars.csproj", "YoCars/"]
-RUN dotnet restore "YoCars/YoCars.csproj"
+COPY ["YoDrive/YoDrive.csproj", "YoDrive/"]
+RUN dotnet restore "YoDrive/YoDrive.csproj"
 COPY . .
-WORKDIR "/src/YoCars"
-RUN dotnet build "YoCars.csproj" -c Release -o /app/build
+WORKDIR "/src/YoDrive"
+RUN dotnet build "YoDrive.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "YoCars.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "YoDrive.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "YoCars.dll"]
+ENTRYPOINT ["dotnet", "YoDrive.dll"]

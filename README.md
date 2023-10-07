@@ -7,7 +7,7 @@
 ## Запуск приложения
 
 - Запустить Docker Desktop
-- Из корня проекта пишем в терминале команду docker-compose -f docker-compose.yml up --build
+- Из корня проекта пишем в терминале команду `docker-compose -f docker-compose.yml up --build -d`
 
 ## Описание проекта
 
