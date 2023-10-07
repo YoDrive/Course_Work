@@ -4,7 +4,7 @@ import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 
 
-export function AuthorizationPage() {
+export function LoginPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -14,7 +14,7 @@ export function AuthorizationPage() {
         <form>
             <input onChange={e => setEmail(e.target.value)} type="email" value={email}/>
             <input onChange={e => setPassword(e.target.value)} type="password" value={password}/>
-            <button onClick={() => store.login(email, password)}>Логин</button>
+            <button onClick={(e) => {e.preventDefault(); store.login(email, password)}}>Логин</button>
         </form>
     );
 
@@ -53,4 +53,4 @@ export function AuthorizationPage() {
     // )
 }
 
-export default observer(AuthorizationPage);
+export default observer(LoginPage);

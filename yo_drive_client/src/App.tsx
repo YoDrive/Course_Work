@@ -4,7 +4,7 @@ import HomePage from "./components/homePage/homePage";
 import  LKClient  from './components/privateOffice/lkClient';
 import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import Footer from "../src/components/footer/footer"
-import AuthorizationPage from "./components/authorization/autorization";
+import AuthorizationPage from "./components/authorization/login";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
 
