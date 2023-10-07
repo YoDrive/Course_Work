@@ -3,7 +3,9 @@ using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using YoDrive.Configurations;
 using YoDrive.Domain.AuthDto;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Interfaces;
@@ -46,7 +48,8 @@ public class AuthController : ControllerBase
             return BadRequest("Wrong password.");
         }
 
-        string token = "Bearer " + CreateToken(dbUser);
+        var token = CreateToken(dbUser);
+        SaveToken(dbUser.UserId, token.RefreshToken);
 
         return Ok(token);
     }
@@ -70,20 +73,23 @@ public class AuthController : ControllerBase
             FirstName = request.FirstName,
             Surname = request.Surname,
             Patronymic = request.Patronymic,
-            RoleId = 1,
+            RoleId = 2,
             PhoneNumber = request.PhoneNumber,
-            Role = _db.Role.FirstOrDefault(_ => _.RoleId == 1)
+            Role = _db.Role.FirstOrDefault(_ => _.RoleId == 2)
         };
         
         user = newUser;
-
+        
+        var token = CreateToken(user);
+        SaveToken(user.UserId, token.RefreshToken);
+        
         _db.Add(newUser);
         _db.SaveChanges();
 
-        return Ok(newUser);
+        return Ok(token);
     }
 
-    private string CreateToken(User user)
+    private JwtToken CreateToken(User user)
     {
         List<Claim> claims = new List<Claim>
         {
@@ -102,9 +108,39 @@ public class AuthController : ControllerBase
             expires: DateTime.Now.AddDays(1),
             signingCredentials: cred
         );
+        
+        var refreshToken = new JwtSecurityToken(
+            claims: claims,
+            expires: DateTime.Now.AddDays(30),
+            signingCredentials: cred
+        );
 
-        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+        var jwtAccess = new JwtSecurityTokenHandler().WriteToken(token);
+        var jwtRefresh = new JwtSecurityTokenHandler().WriteToken(refreshToken);
 
-        return jwt;
+        return new JwtToken()
+        {
+            AccessToken = "Bearer " + jwtAccess,
+            RefreshToken = jwtRefresh
+        };
+    }
+
+    private async Task<Token> SaveToken(int userId, string refreshToken)
+    {
+        var tokenData = await _db.Token.FirstOrDefaultAsync(_ => _.UserId == userId);
+        if (tokenData != null)
+        {
+            tokenData.RefreshToken = refreshToken;
+            _db.Update(tokenData);
+            _db.SaveChanges();
+            return tokenData;
+        }
+
+        tokenData.UserId = userId;
+        tokenData.RefreshToken = refreshToken;
+        
+        _db.Add(tokenData);
+        _db.SaveChanges();
+        return tokenData;
     }
 }
