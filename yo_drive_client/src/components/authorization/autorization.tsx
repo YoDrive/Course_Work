@@ -2,6 +2,8 @@ import React, {useState, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
+import Header from '../header/header'
+
 
 
 export function AuthorizationPage() {
@@ -12,8 +14,8 @@ export function AuthorizationPage() {
 
     return (
         <form>
-            <input onChange={e => setEmail(e.target.value)} type="email" value={email}/>
-            <input onChange={e => setPassword(e.target.value)} type="password" value={password}/>
+            <input onChange={e => setEmail(e.target.value)} type="email" value={email} />
+            <input onChange={e => setPassword(e.target.value)} type="password" value={password} />
             <button onClick={() => store.login(email, password)}>Логин</button>
         </form>
     );
