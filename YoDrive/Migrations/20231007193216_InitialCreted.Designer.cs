@@ -12,8 +12,8 @@ using YoDrive.Domain.Data;
 namespace YoDrive.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231003143232_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231007193216_InitialCreted")]
+    partial class InitialCreted
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -382,8 +382,7 @@ namespace YoDrive.Migrations
 
             modelBuilder.Entity("YoDrive.Domain.Models.Rent", b =>
                 {
-                    b.Navigation("Feedback")
-                        .IsRequired();
+                    b.Navigation("Feedback");
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.Role", b =>

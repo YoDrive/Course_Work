@@ -379,8 +379,7 @@ namespace YoDrive.Migrations
 
             modelBuilder.Entity("YoDrive.Domain.Models.Rent", b =>
                 {
-                    b.Navigation("Feedback")
-                        .IsRequired();
+                    b.Navigation("Feedback");
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.Role", b =>
