@@ -25,5 +25,5 @@ public class Rent
     public decimal RentCost { get; set; }
     
     [InverseProperty("Rent")]
-    public Feedback Feedback { get; set; }
+    public Feedback? Feedback { get; set; }
 }

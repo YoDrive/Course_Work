@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Repositories;
@@ -29,7 +30,7 @@ public class CarBrandController : ControllerBase
     /// Получение всех марок
     /// </summary>
     /// <returns></returns>
-    [HttpGet("GetBrands")]
+    [HttpGet("GetBrands"), Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetBrands()
     {
         try
