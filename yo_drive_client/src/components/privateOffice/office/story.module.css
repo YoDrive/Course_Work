@@ -1,0 +1,102 @@
+.info{
+    width: 924px;
+    height: 518px;
+    color:#f5f5f5;
+    font-family: Montserrat;
+    display: flex;
+    flex-direction: column;
+    padding-left: 82px;
+}
+.headerBlock{
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    width: 942px;
+}
+.calendar{
+    display: flex;
+    flex-direction: row;
+    margin-left: 252px;
+}
+.calendar:hover{
+    cursor: pointer;
+}
+.calendarIcon{
+    gap: 20px;
+    width: 21px;
+    height: 30px;
+    margin-top: 17px;
+    margin-right: 5px;
+}
+.calendarText{
+    padding-top: 7px;
+    font-size: 30px;
+    font-weight: 300;
+}
+.infoStory{
+    display: flex;
+    flex-direction: column;
+}
+.storyHeaders{
+    margin-top: 32px;
+    margin-left: 28px;
+    display: flex;
+    flex-direction: row;
+    width: 841px;
+    column-gap: 110px;
+}
+.storyHeader{
+    font-family: Montserrat;
+    font-size: 14px;
+    align-items: center;
+    justify-content: space-between;
+}
+.storyHeader_rewiev{
+    margin-left: 57px;
+}
+.storyBlock{
+    width: 933px;
+    height: 60px;
+    background-color: #d9d9d9;
+    border-radius: 2;
+    margin-top: 15px;
+    margin-left: 4px;
+    display: flex;
+    flex-direction: row;
+    padding-top: 22px;
+    padding-left: 22px;
+    font-family: Montserrat;
+    color: #212528;
+    font-size: 14px;
+}
+.blockText_first{
+    margin-right: 24px;
+}
+.blockText_second{
+    margin-right: 119px;
+}
+.blockText_third{
+    margin-right: 90px;
+}
+.blockText_fourth{
+    margin-right: 41px;
+}
+.blockText_rewiev{
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+}
+.rewiev_star{
+    width: 22px;
+    height: 21px;
+    margin-right: 10px;
+    padding-bottom: 4px;
+}
+.rewiev_icon{
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+}
+.rewiev_icon:hover{
+    cursor: pointer;
+}

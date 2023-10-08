@@ -1,0 +1,9 @@
+.prewievBlock{
+    width: 937px;
+    height: 300px;
+    gap: 20px;
+}
+.carBlocks{
+    display: flex;
+    flex-direction: column;
+}
