@@ -22,4 +22,4 @@ jobs:
 
     - name: Build and Deploy
       run: |
-        docker-compose up -d
+        docker-compose -f docker-compose.yml up --build -d
