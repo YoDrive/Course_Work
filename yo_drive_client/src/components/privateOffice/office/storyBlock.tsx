@@ -1,6 +1,6 @@
 import styles from './story.module.css'
 import star from '../../../assets/star.svg'
-import rewiew from '../../../assets/rewiev.svg'
+import rewiev from '../../../assets/rewiev.svg'
 
  export function StoryBlock(){
     return(
@@ -12,7 +12,7 @@ import rewiew from '../../../assets/rewiev.svg'
             <p className={styles.blockText_rewiev }>
                 <img className={styles.rewiev_star} src={star}></img>
                 <p className={styles.rewiev_digit}>5.0</p>
-                <img className={styles.rewiev_icon} src={rewiew}></img>
+                <img className={styles.rewiev_icon} src={rewiev}></img>
             </p>
         </li>
     )
