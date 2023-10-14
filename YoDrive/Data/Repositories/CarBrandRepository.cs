@@ -45,6 +45,12 @@ public class CarBrandRepository : ICarBrandRepository
         return _mapper.Map<CarBrandReadDto>(brand);
     }
 
+    /// <summary>
+    /// Создание бренда авто
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     public async Task<CarBrandReadDto> CreateCarBrand(CarBrandAddDto dto)
     {
         if (_db.CarBrand.FirstOrDefault(_=>_.Name.ToLower() == dto.Name.ToLower()) != null)
@@ -55,5 +61,31 @@ public class CarBrandRepository : ICarBrandRepository
         _db.CarBrand.Add(response);
         _db.SaveChangesAsync();
         return _mapper.Map<CarBrandReadDto>(response);
+    }
+
+    public CarBrandReadDto UpdateCarBrand(CarBrandUpdateDto dto)
+    {
+        var brand = _db.CarBrand.FirstOrDefault(_ => _.CarBrandId == dto.CarBrandId);
+
+        if (brand == null)
+            throw new KeyNotFoundException();
+
+        brand.Name = dto.Name;
+
+        _db.CarBrand.Update(brand);
+        _db.SaveChanges();
+
+        return _mapper.Map<CarBrandReadDto>(brand);
+    }
+
+    public void DeleteCarBrand(int id)
+    {
+        var brand = _db.CarBrand.FirstOrDefault(_ => _.CarBrandId == id);
+
+        if (brand == null)
+            throw new KeyNotFoundException();
+
+        _db.CarBrand.Remove(brand);
+        _db.SaveChanges();
     }
 }
