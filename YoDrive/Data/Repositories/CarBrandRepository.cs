@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using YoDrive.Domain.Data.Interfaces;
 using YoDrive.Domain.Dtos.CarBrandDto;
 using YoDrive.Domain.Models;
 
 namespace YoDrive.Domain.Data.Repositories;
 
-public class CarBrandRepository
+public class CarBrandRepository : ICarBrandRepository
 {
     private readonly IMapper _mapper;
     private readonly AppDbContext _db;
