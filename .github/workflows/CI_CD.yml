@@ -1,0 +1,33 @@
+name: CI/CD YoDrive
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CI: false 
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies and build application
+        run: |
+          cd yo_drive_client  # Переход в папку с фронтендом
+          npm install
+          npm run build  # Сборка приложения
+
+          # После сборки можно вернуться в корневую папку репозитория
+          cd ..
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.MY_SECRET_TOKEN }}
+          publish_dir: yo_drive_client/build
+          publish_branch: main

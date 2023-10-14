@@ -1,0 +1,31 @@
+﻿version: "3.9"
+
+services:
+  yoDriveBackend:
+    image: yocars
+    build:
+      context: .
+      dockerfile: ./YoDrive/Dockerfile
+  yoDriveDb:
+    image: postgres
+    container_name: yodrivedb
+    ports:
+      - "5446:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "yodrivedb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "admin"
+  react-app:
+    build:
+      context: ./yo_drive_client
+    ports:
+      - "3000:80"
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+volumes:
+  pg_data: 

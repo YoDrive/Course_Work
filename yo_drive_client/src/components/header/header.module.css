@@ -1,0 +1,39 @@
+.header {
+    display: flex;
+    min-width: 1400px;
+}
+.headerMenuList {
+    display: flex;
+    max-width: 1400px;
+    height: 80px;
+    align-items: center;
+    gap: 252px;
+}
+.headerList {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+.headerLogo {
+    display: flex;
+    height: 47px;
+}
+.headerListIcon {
+    display: flex;
+    width: 31px;
+    height: 31px;
+}
+.headerListText{
+    display: flex;
+    color: #f5f5f5;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+}
+.headerListText:hover{
+    color:#a3a3a3;
+}
+.headerList:hover {
+    cursor: pointer;
+}
