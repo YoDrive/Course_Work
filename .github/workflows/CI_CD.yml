@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CI: false 
     steps:
       - name: Get repository code
         uses: actions/checkout@v3
