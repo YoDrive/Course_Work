@@ -1,6 +1,7 @@
 {
   "name": "yo_cars_client",
   "version": "0.1.0",
+  "homepage": "https://yodrive.github.io/Course_Work",
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
