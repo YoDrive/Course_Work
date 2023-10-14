@@ -7,6 +7,7 @@ import Footer from "../src/components/footer/footer"
 import AuthorizationPage from "./components/authorization/login";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
+import Registration from './components/registration/registration';
 
 function App() {
     const {store} = useContext(Context);
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/lkClient" element={<LKClient/>}/>
                     <Route path="/auth" element={<AuthorizationPage/>}/>
                     <Route path="*" element={<Navigate to="/homePage" replace/>}/>
+                    <Route path="/registration"element={<Registration/>}/>
                 </Routes>
             </BrowserRouter>
             <Footer/>

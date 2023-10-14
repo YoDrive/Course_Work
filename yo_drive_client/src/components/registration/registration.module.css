@@ -1,0 +1,69 @@
+.registrationForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.registrationTitle{
+    font-family: Montserrat;
+    color: #f5f5f5;
+    font-size: 32px;
+}
+.registrationItem{
+    display: flex;
+    flex-direction: column;
+    font-family: Montserrat;
+    font-size: 16px;
+    color: #f5f5f5;
+}
+.itemInput{
+    margin-top: 5px;
+    padding-left: 10px;
+    width: 400px;
+    height: 32px;
+    background-color: #f5f5f5;
+    border: none;
+    font-family: Montserrat;
+    font-size: 18px;
+}
+.itemError{
+    font-family: Montserrat;
+    font-size: 12px;
+    color: #b42121;
+    margin-top: 5px;
+}
+.registrationButton{
+    width: 252px;
+    height: 33px;
+    background-color: transparent;
+    color: #f5f5f5;
+    border: solid;
+    border-color: #f5f5f5;
+    border-width: 1px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+}
+.registrationButton:hover{
+    border: none;
+    background-color: #f5f5f5;
+    color: #212528;
+}
+.registrationBittons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+.buttonExit{
+    height: 31px;
+    background-color: transparent;
+    color: #f5f5f5;
+    font-family: Montserrat;
+    font-size: 16px;
+    margin-right: 20px;
+    border: none;
+    font-weight: 400;
+}
+.buttonExit:hover{
+    font-weight: 600;
+}
