@@ -16,7 +16,18 @@ jobs:
     steps:
       - name: Get repository code
         uses: actions/checkout@v3
-      - name: Install dependecies
-        run: npm install --prefix yo_drive_client
-      - name: Build application
-        run: npm run build --prefix yo_drive_client
+
+      - name: Install dependencies and build application
+        run: |
+          cd yo_drive_client  # Переход в папку с фронтендом
+          npm install
+          npm run build  # Сборка приложения
+
+          # После сборки можно вернуться в корневую папку репозитория
+          cd ..
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: yo_drive_client/build
+          publish_branch: main
