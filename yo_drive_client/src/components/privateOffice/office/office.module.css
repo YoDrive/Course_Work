@@ -170,6 +170,7 @@
     display: flex;
     flex-direction: row;
     margin-top: 37px;
+    justify-content: space-between;
 }
 .buttonPrewiev{
     width: 315px;
@@ -177,15 +178,20 @@
     font-family: Montserrat;
     font-size: 20px;
     font-weight: 300;
+    color: #212528;
+    border:none;
+    background-color: #d9d9d9;
+}
+.buttonPrewiev:hover{
+    cursor: pointer;
+}
+.buttonPrewiev:focus{
+    background-color: transparent;
     color: #d9d9d9;
     border-style: solid;
     border-color: #d9d9d9;
     border-radius: 2px;
     border-width: 1px;
-    background-color: transparent;
-}
-.buttonPrewiev:hover{
-    cursor: pointer;
 }
 .filter{
     display: flex;
@@ -212,6 +218,7 @@
 }
 .filterButton:hover{
     cursor: pointer;
+    font-weight: 400;
 }
 .buttonAdd{
     width: 197px;
@@ -230,4 +237,12 @@
     border-style: solid;
     border-width: 1px;
     cursor: pointer;
+}
+.buttonAdd:focus{
+    background-color: transparent;
+    color: #d9d9d9;
+    border-style: solid;
+    border-color: #d9d9d9;
+    border-radius: 2px;
+    border-width: 1px;
 }

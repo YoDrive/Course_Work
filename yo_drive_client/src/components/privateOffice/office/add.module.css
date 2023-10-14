@@ -30,13 +30,19 @@
      font-weight: 300;
      border: none;
 }
+.imgButton:hover{
+     color: #212528;
+     background-color: #d9d9d9;
+     border: solid;
+     border-width: 1px;
+     cursor: pointer;
+}
 .blockInfo{
      margin: 22px 0 0 69px;
      height: 296px;
      width: 525px;
      display: flex;
      flex-direction: column;
-     /* background-color: aqua; */
 }
 .infoItem{
      display: flex;
@@ -81,6 +87,10 @@
      color: #212528;
      border: none;
 }
+.buttonCancel:hover{
+     font-weight: 400;
+     cursor: pointer;
+}
 .buttonSave{
      width: 146px;
      height: 48px;
@@ -90,4 +100,11 @@
      font-weight: 300;
      color: #d9d9d9;
      border: none;
+}
+.buttonSave:hover{
+     color: #212528;
+     background-color: #d9d9d9;
+     border: solid;
+     border-width: 1px;
+     cursor: pointer;
 }
