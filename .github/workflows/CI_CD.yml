@@ -15,6 +15,6 @@ jobs:
       - name: Get repository code
         uses: actions/checkout@v3
       - name: Install dependecies
-        run: npm --prefix yo_drive_client install
+        run: npm install --prefix yo_drive_client
       - name: Build application
-        run: npm --prefix yo_drive_client run build
+        run: npm run build --prefix yo_drive_client
