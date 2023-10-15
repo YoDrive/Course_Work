@@ -5,7 +5,7 @@ services:
     image: yocars
     build:
       context: .
-      dockerfile: ./YoCars/Dockerfile
+      dockerfile: ./YoDrive/Dockerfile
   yoDriveDb:
     image: postgres
     container_name: yodrivedb
@@ -19,7 +19,7 @@ services:
       POSTGRES_PASSWORD: "admin"
   react-app:
     build:
-      context: ./yo_cars_client
+      context: ./yo_drive_client
     ports:
       - "3000:80"
   adminer:

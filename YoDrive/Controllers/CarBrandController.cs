@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Repositories;
@@ -29,7 +30,7 @@ public class CarBrandController : ControllerBase
     /// Получение всех марок
     /// </summary>
     /// <returns></returns>
-    [HttpGet("GetBrands")]
+    [HttpGet("GetBrands"), Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetBrands()
     {
         try
@@ -75,6 +76,34 @@ public class CarBrandController : ControllerBase
         {
             var response = await _repository.CreateCarBrand(request);
             return Created(nameof(CreateBrand), response);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpPut("UpdateBrand")]
+    public async Task<IActionResult> UpdateBrand(CarBrandUpdateDto dto)
+    {
+        try
+        {
+            var response = _repository.UpdateCarBrand(dto);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return BadRequest($"Произошла непредвиденная ошибка сервера\n{e.Message}");
+        }
+    }
+
+    [HttpDelete("DeleteBrand")]
+    public async Task<IActionResult> DeleteBrand(int id)
+    {
+        try
+        {
+            _repository.DeleteCarBrand(id);
+            return Ok();
         }
         catch (Exception e)
         {

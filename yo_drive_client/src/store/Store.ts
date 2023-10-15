@@ -3,7 +3,7 @@ import {makeAutoObservable} from "mobx";
 import AuthService from "../services/AuthService";
 import axios from "axios";
 import {AuthResponse} from "../models/Auth/AuthResponse";
-import {API_URL} from "../instance";
+import { API_URL } from "../instance";
 
 export default class Store {
     user = {} as User;
