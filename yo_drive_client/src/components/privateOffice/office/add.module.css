@@ -64,10 +64,10 @@
      border-bottom: solid;
      border-width: 1px;
      border-color: #212528;
-     list-style-type: "D:\Course_Work\yo_drive_client\src\assets";
      font-family: Montserrat;
      font-size: 18px;
      font-weight: 300;
+     padding-left: 16px;
 }
 .listItem{
      padding-left: 20px;
@@ -75,7 +75,8 @@
 .infoButtons{
      display: flex;
      flex-direction: row;
-     margin: 9px 0 0 262px;
+     justify-content: flex-end;
+     margin-top: 8px;
 }
 .buttonCancel{
      width: 118px;

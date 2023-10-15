@@ -1,28 +1,28 @@
 import React, {useState} from 'react';
 import styles from './officeAdmin.module.css';
 import User from '../../../assets/user.svg'
-import { Statics } from './statics';
+import { Statistics } from './statistics';
 import { Data } from './data'
 import { Editor } from './editor'
 
 
 export function OfficeAdmin() {
     const[data, setData] = useState(true);
-    const[statics, setStatics] = useState(false);
+    const[statistics, setStatistics] = useState(false);
     const[editor, setEditor] = useState(false);
     const dateHandler = () =>{
         setData(true);
-        setStatics(false);
+        setStatistics(false);
         setEditor(false)
     }
-    const staticsHandler = ()=>{
+    const statisticsHandler = ()=>{
         setData(false);
-        setStatics(true);
+        setStatistics(true);
         setEditor(false);
     }
     const editorHandler = () =>{
         setData(false);
-        setStatics(false);
+        setStatistics(false);
         setEditor(true);
     }
 
@@ -38,13 +38,13 @@ export function OfficeAdmin() {
                         </div>
                         <div className={styles.menuButtons}>
                             <button onClick={dateHandler} className={styles.menuButton}>Мои данные</button>
-                            <button onClick={staticsHandler}className={styles.menuButton}>Статистика</button>
+                            <button onClick={statisticsHandler}className={styles.menuButton}>Статистика</button>
                             <button onClick={editorHandler} className={styles.menuButton}>Редактор автомобилей</button>
                             <button  className={styles.menuButton}>Выход</button>
                         </div>
                     </div>
                     {data && <Data/>}
-                    {statics && <Statics/>}
+                    {statistics && <Statistics/>}
                     {editor && <Editor/>}
             </div>
         </div>

@@ -1,6 +1,6 @@
 import styles from './office.module.css';
 
-export function Statics(){
+export function Statistics(){
     return(
         <div className={styles.info}>
                         <div className={styles.headerBlock}>
