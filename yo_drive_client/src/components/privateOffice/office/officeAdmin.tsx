@@ -1,20 +1,29 @@
 import React, {useState} from 'react';
-import styles from './office.module.css';
+import styles from './officeAdmin.module.css';
 import User from '../../../assets/user.svg'
-import { Story } from './story';
+import { Statistics } from './statistics';
 import { Data } from './data'
+import { Editor } from './editor'
 
 
-export function Office() {
+export function OfficeAdmin() {
     const[data, setData] = useState(true);
-    const[story, setStory] = useState(false);
+    const[statistics, setStatistics] = useState(false);
+    const[editor, setEditor] = useState(false);
     const dateHandler = () =>{
         setData(true);
-        setStory(false);
+        setStatistics(false);
+        setEditor(false)
     }
-    const storyHandler= ()=>{
+    const statisticsHandler = ()=>{
         setData(false);
-        setStory(true);
+        setStatistics(true);
+        setEditor(false);
+    }
+    const editorHandler = () =>{
+        setData(false);
+        setStatistics(false);
+        setEditor(true);
     }
 
     return (
@@ -23,22 +32,24 @@ export function Office() {
                 <div className={styles.mainPart}>
                     <div className={styles.menu}>
                         <div className={styles.menuHead}>
+                            <p className={styles.headRole}>Администратор</p>
                             <img className={styles.headIcon} src={User} alt=""></img>
                             <p className={styles.headName}>Фамилия Имя Oтчество</p>
                         </div>
                         <div className={styles.menuButtons}>
                             <button onClick={dateHandler} className={styles.menuButton}>Мои данные</button>
-                            <button onClick={storyHandler}className={styles.menuButton}>История бронирований</button>
-                            <button  className={styles.menuButton}>Забронировать автомобиль</button>
+                            <button onClick={statisticsHandler}className={styles.menuButton}>Статистика</button>
+                            <button onClick={editorHandler} className={styles.menuButton}>Редактор автомобилей</button>
                             <button  className={styles.menuButton}>Выход</button>
                         </div>
                     </div>
                     {data && <Data/>}
-                    {story && <Story/>}
+                    {statistics && <Statistics/>}
+                    {editor && <Editor/>}
             </div>
         </div>
         </div>
     );
 }
 
-export default Office;
+export default OfficeAdmin;

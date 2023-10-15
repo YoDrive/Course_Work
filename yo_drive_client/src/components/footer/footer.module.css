@@ -4,6 +4,7 @@
     flex: 1 0 auto;
     align-items: flex-end;
     width: 100%;
+    align-items: center;
 }
 
 .footer {
@@ -38,6 +39,7 @@
 
 .footerLink{
     text-decoration: underline;
+    padding-right: 22px;
 }
 
 .footerLink:hover{

@@ -30,10 +30,42 @@
     font-family: Montserrat;
     font-size: 16px;
     font-weight: 500;
+    margin-left: 1px;
 }
 .headerListText:hover{
     color:#a3a3a3;
 }
 .headerList:hover {
     cursor: pointer;
+}
+.headerMenu{
+    position: absolute;
+    margin-top: 672px;
+    padding: 11px 12px 8px 0;
+    display: flex;
+    flex-direction: column;
+    width: 153px;
+    height: 747px;
+    background-color: #212528;
+}
+.menuItem{
+    padding-top: 17px;
+    display: flex;
+    flex-direction: row;
+    gap: 17px;
+}
+.headerListIcon_Exit{
+    width: 27px;  
+}
+.menuItem{
+    border: none;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 300;
+    color:#f5f5f5;
+    text-align: left;
+    margin-left: 2px;
+}
+.menuItem:hover{
+    color: #a3a3a3;
 }

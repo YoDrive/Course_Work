@@ -4,12 +4,14 @@
     width: 1400px;
 }
 .mainPart {
-    margin-top: 58px;
+    margin-top: 29px;
     width: 1400px;
+    display: flex;
+    flex-direction: row;
 }
 .menu{
     width: 360px;
-    height: 628px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -21,6 +23,12 @@
     height: 238px;
     display: flex;
     flex-direction: column;
+}
+.headRole{
+    font-family: Montserrat;
+    color: #f5f5f5;
+    font-weight: 400;
+    font-size: 17px;
 }
 .headIcon{
     width: 92px;
@@ -60,4 +68,181 @@
     display: flex;
     width: 100%;
     justify-content: center;
+}
+.info{
+    width: 1020px;
+    height: 518px;
+    color:#f5f5f5;
+    font-family: Montserrat;
+    display: flex;
+    flex-direction: column;
+    padding-left: 82px;
+}
+.infoHeader{
+    text-align: left;
+    font-size: 36px;
+    font-weight: 500;
+}
+.infoText{
+    padding-top: 19px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 841px;
+    height: 184px;
+    text-align: left;
+    align-items: stretch;
+    gap: 20px;
+}
+.infoName{
+    padding-right: 150px;
+}
+.name{
+    font-size: 22px;
+    font-weight: 400;
+    padding-bottom: 15px;
+}
+.infoName_phone{
+    padding-right: 128px;
+}
+.nameInfo{
+    font-size: 18px;
+    font-weight: 300;
+}
+.buttons{
+    margin-top: 222px;
+    width: 941px;
+    height: 51px;
+    display: flex;
+    flex-direction: row;
+    align-items:stretch;
+    gap: 72px;
+}
+.buttonEdit{
+    width: 321px;
+    height: 50px;
+    background-color: #d9d9d9;
+    border: none;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 300;
+    color: #212528;
+}
+.buttonEdit:hover{
+    cursor: pointer;
+    color:#d9d9d9;
+    background-color: transparent;
+    border: solid;
+    border-color: #d9d9d9;
+    border-width: 1px;
+}
+.buttonImg{
+    background-color: #212528;
+    border: none;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 300;
+    color: #d9d9d9;
+    width: 250px;
+}
+.buttonImg:hover{
+    cursor: pointer;
+    color: #ffffff;
+}
+.buttonDelete{
+    width: 222px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 300;
+    color: #d9d9d9;
+    border-style: solid;
+    border-color: #d9d9d9;
+    border-radius: 2px;
+    border-width: 1px;
+    background-color: transparent;
+}
+.buttonDelete:hover{
+    color: #212528;
+    background-color: #d9d9d9;
+    cursor: pointer;
+}
+.headerButtons{
+    display: flex;
+    flex-direction: row;
+    margin-top: 37px;
+    justify-content: space-between;
+}
+.buttonPrewiev{
+    width: 315px;
+    height: 50px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 300;
+    color: #212528;
+    border:none;
+    background-color: #d9d9d9;
+}
+.buttonPrewiev:hover{
+    cursor: pointer;
+}
+.buttonPrewiev:focus{
+    background-color: transparent;
+    color: #d9d9d9;
+    border-style: solid;
+    border-color: #d9d9d9;
+    border-radius: 2px;
+    border-width: 1px;
+}
+.filter{
+    display: flex;
+    flex-direction: row;
+    width: 159px;
+    height: 50px;
+    margin-left: 40px;
+    margin-right: 226px;
+}
+.filter:hover{
+    cursor: pointer;
+}
+.filterImg{
+    width: 30px;
+    padding-right: 5px;
+}
+.filterButton{
+    background-color: transparent;
+    border: none;
+    font-family: Montserrat;
+    font-size: 20px;
+    color: #d9d9d9;
+    font-weight: 300;
+}
+.filterButton:hover{
+    cursor: pointer;
+    font-weight: 400;
+}
+.buttonAdd{
+    width: 197px;
+    height: 50px;
+    background-color: #d9d9d9;
+    font-family: Montserrat;
+    font-size: 20px;
+    color: #212528;
+    font-weight: 300;
+    border: none;
+}
+.buttonAdd:hover{
+    background-color: #212528;
+    color: #d9d9d9;
+    border: #d9d9d9;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+}
+.buttonAdd:focus{
+    background-color: transparent;
+    color: #d9d9d9;
+    border-style: solid;
+    border-color: #d9d9d9;
+    border-radius: 2px;
+    border-width: 1px;
 }

@@ -2,9 +2,11 @@ import React, {useState, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
+import Header from '../header/header'
 
 
-export function LoginPage() {
+
+export function AuthorizationPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -12,9 +14,9 @@ export function LoginPage() {
 
     return (
         <form>
-            <input onChange={e => setEmail(e.target.value)} type="email" value={email}/>
-            <input onChange={e => setPassword(e.target.value)} type="password" value={password}/>
-            <button onClick={(e) => {e.preventDefault(); store.login(email, password)}}>Логин</button>
+            <input onChange={e => setEmail(e.target.value)} type="email" value={email} />
+            <input onChange={e => setPassword(e.target.value)} type="password" value={password} />
+            <button onClick={() => store.login(email, password)}>Логин</button>
         </form>
     );
 
@@ -53,4 +55,4 @@ export function LoginPage() {
     // )
 }
 
-export default observer(LoginPage);
+export default observer(AuthorizationPage);
