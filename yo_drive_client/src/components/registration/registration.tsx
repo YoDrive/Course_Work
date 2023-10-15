@@ -96,7 +96,7 @@ export function Registration() {
                 <div style={{height: 13}}>
                     {errors?.password && <p className={styles.itemError}>{errors?.root?.message||"*Поле обязательно к заполнению"}</p>}
                 </div>
-                <div className={styles.registrationBittons}>
+                <div className={styles.registrationButtons}>
                     <input onClick={reset} className={styles.buttonExit} type="button" value="Отмена"></input>
                     <input className={styles.registrationButton} type="submit" value="Зарегистрироваться"></input>
                 </div>
