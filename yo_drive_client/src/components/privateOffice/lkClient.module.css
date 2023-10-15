@@ -1,5 +1,6 @@
 .lkClientContainer {
     display: flex;
+    min-height: calc(100vh - 128px);
     flex-direction: column;
     text-align: center;
     align-items: center;
