@@ -11,12 +11,12 @@ function Overlay({ onClick }: { onClick: () => void }) {
     return <div className={styles.overlay} onClick={onClick}></div>;
 }
 
-interface MenuNavProps {
+interface Props {
     isMenuActive: boolean;
     togle: () => void;
 }
 
-function MenuNav(props: MenuNavProps) {
+function MenuNav(props: Props) {
     const navigate = useNavigate();
 
     const handleNavigation = (path: string) => {
@@ -36,7 +36,12 @@ function MenuNav(props: MenuNavProps) {
     );
   }
 
-function OpenMenuBtn(props: { togle: () => void }) {
+function OpenMenuBtn(props: Props) {
+    if (props.isMenuActive) {
+        return (
+            <li className={styles.headerList} onClick={props.togle}></li>
+        )
+    }
     return (
     <li className={styles.headerList} onClick={props.togle}>
         <img className={styles.headerListIcon} src={menuIcon} alt=""/>
@@ -72,7 +77,7 @@ export function Header() {
                     <img className={styles.headerListIcon} src={authorizationIcon} alt=""/>
                     <p className={styles.headerListText}>Авторизация</p>
                 </li>
-                <OpenMenuBtn togle={togle}/>
+                <OpenMenuBtn isMenuActive={isMenuActive} togle={togle}/>
                 <MenuNav isMenuActive={isMenuActive} togle={togle}/>
             </ul>
         </div>
