@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import styles from './office.module.css';
-import User from '../../../assets/user.svg'
+import User from '../../../assets/user.svg';
 import { Story } from './story';
-import { Data } from './data'
-
+import { Data } from './data';
 
 export function Office() {
     const[data, setData] = useState(true);
@@ -28,7 +27,7 @@ export function Office() {
                         </div>
                         <div className={styles.menuButtons}>
                             <button onClick={dateHandler} className={styles.menuButton}>Мои данные</button>
-                            <button onClick={storyHandler}className={styles.menuButton}>История бронирований</button>
+                            <button onClick={storyHandler} className={styles.menuButton}>История бронирований</button>
                             <button  className={styles.menuButton}>Забронировать автомобиль</button>
                             <button  className={styles.menuButton}>Выход</button>
                         </div>
