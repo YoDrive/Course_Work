@@ -1,7 +1,7 @@
 import styles from "./add.module.css"
 import space from "../../../assets/space.svg"
-import {useForm} from "react-hook-form"
-// import {galochka} from "../../../assets/galochka.svg"
+import { useForm } from "react-hook-form"
+
 export function Add(){
     const {
         register,
