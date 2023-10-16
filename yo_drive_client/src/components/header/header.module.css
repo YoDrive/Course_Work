@@ -2,6 +2,7 @@
     display: flex;
     min-width: 1400px;
 }
+
 .headerMenuList {
     display: flex;
     max-width: 1400px;
@@ -9,21 +10,25 @@
     align-items: center;
     gap: 252px;
 }
+
 .headerList {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 15px;
 }
+
 .headerLogo {
     display: flex;
     height: 47px;
 }
+
 .headerListIcon {
     display: flex;
     width: 31px;
     height: 31px;
 }
+
 .headerListText{
     display: flex;
     color: #f5f5f5;
@@ -32,31 +37,56 @@
     font-weight: 500;
     margin-left: 1px;
 }
+
 .headerListText:hover{
     color:#a3a3a3;
 }
+
 .headerList:hover {
     cursor: pointer;
 }
-.headerMenu{
-    position: absolute;
-    margin-top: 672px;
-    padding: 11px 12px 8px 0;
+
+.headerMenu {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: -50%;
     display: flex;
     flex-direction: column;
-    width: 153px;
-    height: 747px;
+    width: 253px;
+    height: 100%;
     background-color: #212528;
+    overflow-x: hidden;
+    transition: 0.45s all;
+  }
+  
+  .menuActive {
+    right: 0%;
+  }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); 
+  z-index: 1; 
 }
+
 .menuItem{
-    padding-top: 17px;
     display: flex;
     flex-direction: row;
-    gap: 17px;
+    justify-content: flex-end;
+    padding: 0 27px 27px 0;
 }
+
 .headerListIcon_Exit{
-    width: 27px;  
+    margin: 20px 0 27px 20px;  
+    width: 27px;
+    cursor: pointer;
 }
+
 .menuItem{
     border: none;
     font-family: Montserrat;
@@ -65,7 +95,9 @@
     color:#f5f5f5;
     text-align: left;
     margin-left: 2px;
+    cursor: pointer;
 }
+
 .menuItem:hover{
     color: #a3a3a3;
 }
