@@ -1,16 +1,16 @@
 import React from 'react';
 import styles from "./lkClient.module.css"
-import Office from './office/office'
+import OfficeAdmin from './office/officeAdmin'
 import Header from '../header/header';
 
-export function LKClient() {
+export function LKAdmin() {
 
     return (
         <div className={styles.lkClientContainer}>
             <Header/>
-            <Office/>
+            <OfficeAdmin/>
         </div>
     );
 }
 
-export default LKClient;
+export default LKAdmin;

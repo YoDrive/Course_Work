@@ -1,0 +1,153 @@
+.addBlock{
+     width: 937px;
+     height: 335px;
+     margin-top: 34px;
+     background-color: #d9d9d9; 
+     display: flex;
+     flex-direction: row;
+}
+.blockImg{
+     display: flex;
+     flex-direction: column;
+}
+.imgSpace{
+     width: 273px;
+     height: 238px;
+     border: solid;
+     border-color: #212528;
+     border-width: 1px;
+     border-radius: 2px;
+     margin: 22px 0 0 42px;
+}
+.addForm{
+     display: flex;
+     flex-direction: row;
+}
+.spaceIcon{
+     margin-top: 58px;
+}
+.blockInfo{
+     margin: 22px 0 0 69px;
+     height: 296px;
+     width: 525px;
+     display: flex;
+     flex-direction: column;
+}
+.infoItem{
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     margin-bottom: 12px;
+}
+.itemName{
+     font-family: Montserrat;
+     font-size: 19px;
+     font-weight: 400px;
+     color: #212528
+}
+.itemInput{
+     width: 256px;
+     height: 28px;
+     background-color: transparent;
+     border: none;
+     border-bottom: solid;
+     border-width: 1px;
+     border-color: #212528;
+     font-family: Montserrat;
+     font-size: 18px;
+     font-weight: 300;
+     padding-left: 16px;
+}
+.listItem{
+     padding-left: 20px;
+}
+.infoButtons{
+     display: flex;
+     flex-direction: row;
+     justify-content: flex-end;
+     margin-top: 8px;
+}
+.buttonCancel{
+     width: 118px;
+     height: 48px;
+     background-color: transparent;
+     font-family: Montserrat;
+     font-size: 18px;
+     font-weight: 300;
+     color: #212528;
+     border: none;
+}
+.buttonCancel:hover{
+     font-weight: 400;
+     cursor: pointer;
+}
+.buttonSave{
+     width: 146px;
+     height: 48px;
+     background-color: #212528;
+     font-family: Montserrat;
+     font-size: 18px;
+     font-weight: 300;
+     color: #d9d9d9;
+     border: none;
+}
+.buttonSave:hover{
+     color: #212528;
+     background-color: #d9d9d9;
+     border: solid;
+     border-width: 1px;
+     cursor: pointer;
+}
+.inputImg{
+     width: 0.1px;
+     height: 0.1px;
+     opacity: 0;
+     overflow: hidden;
+     position: absolute;
+     z-index: -1;
+}
+.inputImg + label {
+     font-size: 18px;
+     font-weight: 300;
+     color: #d9d9d9;
+     background-color: #212528;
+     width: 273px;
+     height: 48px;
+     margin-left: 42px;
+     margin-top: 10px;
+     padding-top: 12px;
+}
+.inputImg + label:hover {
+     background-color: #d9d9d9;
+     color: #212528;
+     border: solid;
+     border-color: #212528;
+     border-radius: 2;
+     border-width: 1px;
+}
+input{
+     background: url("../../../assets/galochka.svg") 220px  no-repeat;
+}
+input:focus{
+     background: url("../../../assets/galochka2.svg") 220px  no-repeat;
+}
+input::-webkit-calendar-picker-indicator {
+     display: none !important;
+}
+.itemInputPrice{
+     width: 256px;
+     height: 28px;
+     background-color: transparent;
+     border: none;
+     border-bottom: solid;
+     border-width: 1px;
+     border-color: #212528;
+     font-family: Montserrat;
+     font-size: 18px;
+     font-weight: 300;
+     padding-left: 16px;
+     background: none;
+}
+.itemInputPrice:focus{
+     background: none;
+}

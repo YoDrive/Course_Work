@@ -82,4 +82,32 @@ public class CarBrandController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    
+    [HttpPut("UpdateBrand")]
+    public async Task<IActionResult> UpdateBrand(CarBrandUpdateDto dto)
+    {
+        try
+        {
+            var response = _repository.UpdateCarBrand(dto);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return BadRequest($"Произошла непредвиденная ошибка сервера\n{e.Message}");
+        }
+    }
+
+    [HttpDelete("DeleteBrand")]
+    public async Task<IActionResult> DeleteBrand(int id)
+    {
+        try
+        {
+            _repository.DeleteCarBrand(id);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

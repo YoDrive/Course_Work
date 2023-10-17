@@ -4,8 +4,14 @@ import firstImage from '../../../assets/firstImage.svg';
 import secondImage from '../../../assets/secondImage.svg';
 import thirdImage from '../../../assets/thirdImage.svg';
 import Header from "../../header/header";
+import { useNavigate } from "react-router-dom";
 
 export function Intro() {
+    const navigate = useNavigate();
+
+    const handleNavigation = (path: string) => {
+        navigate(path);
+    };
 
     return (
         <div className={styles.content}>
@@ -15,7 +21,7 @@ export function Intro() {
                     <h1 className={styles.title}>YoDrive</h1>
                     <h2 className={styles.subTitle}>Хочешь драйва - тебе к нам</h2>
                     <p className={styles.info}>YoDrive - компания аренды автомобилей в Йошкар-Оле. Более 5 лет на рынке. Лучшие цены в городе.</p>
-                    <button className={styles.searchCarBtn}>Найти автомобиль</button>
+                    <button className={styles.searchCarBtn} onClick={() => handleNavigation('/bookingPage')}>Найти автомобиль</button>
                 </div>
             </div>
             <ul className={styles.benefit}>

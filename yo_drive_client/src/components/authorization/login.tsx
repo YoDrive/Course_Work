@@ -74,8 +74,7 @@ export function LoginPage() {
                 </div>
             </div> 
         </div>
-
     );
 }
 
-export default observer(LoginPage);
+export default observer(AuthorizationPage);
