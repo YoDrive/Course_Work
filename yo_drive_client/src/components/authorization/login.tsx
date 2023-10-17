@@ -77,4 +77,4 @@ export function LoginPage() {
     );
 }
 
-export default observer(AuthorizationPage);
+export default observer(LoginPage);
