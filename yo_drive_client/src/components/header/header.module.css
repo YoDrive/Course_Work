@@ -1,6 +1,7 @@
 .header {
     display: flex;
-    min-width: 1400px;
+    width: 100%;
+    justify-content: center;
 }
 
 .headerMenuList {
@@ -8,14 +9,14 @@
     max-width: 1400px;
     height: 80px;
     align-items: center;
-    gap: 252px;
+    gap: 260px;
 }
 
 .headerList {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+    gap: 14px;
 }
 
 .headerLogo {

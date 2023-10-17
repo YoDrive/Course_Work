@@ -6,12 +6,11 @@
 }
 .content {
     display: flex;
-    width: 100%;
     height: 100%;
+    width: 100%;
     align-items: center;
     justify-content: center;
 }
-
 .registrationForm{
     display: flex;
     flex-direction: column;
@@ -45,8 +44,8 @@
     color: #b42121;
     margin-top: 5px;
 }
-.loginButton{
-    width: 120px;
+.registrationButton{
+    width: 252px;
     height: 33px;
     background-color: transparent;
     color: #f5f5f5;
@@ -57,7 +56,7 @@
     font-size: 16px;
     font-weight: 400;
 }
-.loginButton:hover{
+.registrationButton:hover{
     border: none;
     background-color: #f5f5f5;
     color: #212528;
@@ -68,7 +67,7 @@
     justify-content: flex-end;
     margin-top: 20px;
 }
-.buttonRegistration{
+.buttonExit{
     height: 31px;
     background-color: transparent;
     color: #f5f5f5;
@@ -78,6 +77,6 @@
     border: none;
     font-weight: 400;
 }
-.buttonRegistration:hover{
+.buttonExit:hover{
     font-weight: 600;
 }

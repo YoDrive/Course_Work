@@ -8,6 +8,7 @@ import Footer from "../src/components/footer/footer"
 import AuthorizationPage from "./components/authorization/login";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
+import Registration from './components/registration/registration';
 import BookingPage from './components/bookingPage/bookingPage';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/auth" element={<AuthorizationPage/>}/>
                     <Route path='/bookingPage' element={<BookingPage/>}/>
                     <Route path="*" element={<Navigate to="/homePage" replace/>}/>
+                    <Route path="/registration"element={<Registration/>}/>
                 </Routes>
             </BrowserRouter>
             <Footer/>
