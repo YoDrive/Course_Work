@@ -26,9 +26,9 @@ export function Registration() {
                         <label className={styles.registrationItem}>
                             Фамилия
                             <input className={styles.itemInput} placeholder="Иванов"
-                            {...register("lastName", {
-                                required:"Поле обязательно к заполнению"
-                                })}
+                                   {...register("lastName", {
+                                       required:"Поле обязательно к заполнению"
+                                   })}
                             />
                         </label>
                         <div style={{height: 13}}>
@@ -37,9 +37,9 @@ export function Registration() {
                         <label className={styles.registrationItem}>
                             Имя
                             <input className={styles.itemInput} placeholder="Иван"
-                            {...register("firstName", {
-                                required:"Поле обязательно к заполнению"
-                                })}
+                                   {...register("firstName", {
+                                       required:"Поле обязательно к заполнению"
+                                   })}
                             />
                         </label>
                         <div style={{height: 13}}>
@@ -48,9 +48,9 @@ export function Registration() {
                         <label className={styles.registrationItem}>
                             Отчество
                             <input className={styles.itemInput} placeholder="Иванович"
-                            {...register("patronymic", {
-                                required:"Поле обязательно к заполнению"
-                                })}
+                                   {...register("patronymic", {
+                                       required:"Поле обязательно к заполнению"
+                                   })}
                             />
                         </label>
                         <div style={{height: 13}}>
@@ -59,13 +59,13 @@ export function Registration() {
                         <label className={styles.registrationItem}>
                             E-mail
                             <input className={styles.itemInput} placeholder="ivanov.ivan@mail.ru"
-                            {...register("email", {
-                                required:"Поле обязательно к заполнению",
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "invalid email address"
-                                }
-                                })}
+                                   {...register("email", {
+                                       required:"Поле обязательно к заполнению",
+                                       pattern: {
+                                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                           message: "invalid email address"
+                                       }
+                                   })}
                             />
                         </label>
                         <div style={{height: 13}}>
@@ -74,13 +74,13 @@ export function Registration() {
                         <label className={styles.registrationItem}>
                             Телефон
                             <input className={styles.itemInput} placeholder="+79199191919"
-                            {...register("phoneNumber", {
-                                required:"Поле обязательно к заполнению",
-                                minLength: {
-                                    value: 12,
-                                    message: "Минимум 12 символов."
-                                }
-                                })}
+                                   {...register("phoneNumber", {
+                                       required:"Поле обязательно к заполнению",
+                                       minLength: {
+                                           value: 12,
+                                           message: "Минимум 12 символов."
+                                       }
+                                   })}
                             />
                         </label>
                         <div style={{height: 13}}>
@@ -89,9 +89,9 @@ export function Registration() {
                         <label className={styles.registrationItem}>
                             Пароль
                             <input type="password"className={styles.itemInput}
-                            {...register("password", {
-                                required:"Поле обязательно к заполнению",
-                                })}
+                                   {...register("password", {
+                                       required:"Поле обязательно к заполнению",
+                                   })}
                             />
                         </label>
                         <div style={{height: 13}}>
@@ -105,7 +105,7 @@ export function Registration() {
                 </div>
             </div>
         </div>
- 
+
     )
 }
 

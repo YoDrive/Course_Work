@@ -34,46 +34,47 @@ export function LoginPage() {
         <div className={styles.container}>
             <Header/>
             <div className={styles.content}>
-                 <div className={styles.registrationForm}>
-                      <h1 className={styles.registrationTitle}>Авторизация</h1>
-                          <form onSubmit={handleSubmit(onSubmit)}>
-                                 <label className={styles.registrationItem}>
-                                    E-mail
-                                    <input className={styles.itemInput} placeholder="ivanov.ivan@mail.ru"
-                                    {...register("email", {
-                                        required:"Поле обязательно к заполнению",
-                                        pattern: {
-                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                            message: "invalid email address"
-                                        }
-                                        })}
-                                    />
-                                </label>
-                                <div style={{height: 13}}>
-                                    {errors?.email && <p className={styles.itemError}>{errors?.root?.message||"*Поле обязательно к заполнению"}</p>}
-                                </div>
-                                <div style={{height: 13}}>
-                                    {errors?.phoneNumber?.message && <p className={styles.itemError}>{errors?.root?.message ||"*Поле обязательно к заполнению"}</p>}
-                                </div>
-                                <label className={styles.registrationItem}>
-                                    Пароль
-                                    <input type="password"className={styles.itemInput}
-                                    {...register("password", {
-                                        required:"Поле обязательно к заполнению",
-                                        })}
-                                    />
-                                </label>
-                                <div style={{height: 13}}>
-                                    {errors?.password && <p className={styles.itemError}>{errors?.root?.message||"*Поле обязательно к заполнению"}</p>}
-                                </div>
-                                <div className={styles.registrationButtons}>
-                                    <input className={styles.buttonRegistration} onClick={() => handleNavigation('/Registration')} type="button" value="Регистрация"></input>
-                                    <input className={styles.loginButton} type="submit" value="Вход"></input>
-                                </div>
-                            </form>
+                <div className={styles.registrationForm}>
+                    <h1 className={styles.registrationTitle}>Авторизация</h1>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <label className={styles.registrationItem}>
+                            E-mail
+                            <input className={styles.itemInput} placeholder="ivanov.ivan@mail.ru"
+                                   {...register("email", {
+                                       required:"Поле обязательно к заполнению",
+                                       pattern: {
+                                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                           message: "invalid email address"
+                                       }
+                                   })}
+                            />
+                        </label>
+                        <div style={{height: 13}}>
+                            {errors?.email && <p className={styles.itemError}>{errors?.root?.message||"*Поле обязательно к заполнению"}</p>}
+                        </div>
+                        <div style={{height: 13}}>
+                            {errors?.phoneNumber?.message && <p className={styles.itemError}>{errors?.root?.message ||"*Поле обязательно к заполнению"}</p>}
+                        </div>
+                        <label className={styles.registrationItem}>
+                            Пароль
+                            <input type="password"className={styles.itemInput}
+                                   {...register("password", {
+                                       required:"Поле обязательно к заполнению",
+                                   })}
+                            />
+                        </label>
+                        <div style={{height: 13}}>
+                            {errors?.password && <p className={styles.itemError}>{errors?.root?.message||"*Поле обязательно к заполнению"}</p>}
+                        </div>
+                        <div className={styles.registrationButtons}>
+                            <input className={styles.buttonRegistration} onClick={() => handleNavigation('/Registration')} type="button" value="Регистрация"></input>
+                            <input className={styles.loginButton} type="submit" value="Вход"></input>
+                        </div>
+                    </form>
                 </div>
-            </div> 
+            </div>
         </div>
+
     );
 }
 

@@ -42,7 +42,7 @@
 .itemName{
      font-family: Montserrat;
      font-size: 19px;
-     font-weight: 400px;
+     font-weight: 400;
      color: #212528
 }
 .itemInput{
@@ -122,16 +122,16 @@
      color: #212528;
      border: solid;
      border-color: #212528;
-     border-radius: 2;
+     border-radius: 2px;
      border-width: 1px;
 }
-input{
+.itemInput{
      background: url("../../../assets/galochka.svg") 220px  no-repeat;
 }
-input:focus{
+.itemInput:focus{
      background: url("../../../assets/galochka2.svg") 220px  no-repeat;
 }
-input::-webkit-calendar-picker-indicator {
+.itemInput::-webkit-calendar-picker-indicator {
      display: none !important;
 }
 .itemInputPrice{
