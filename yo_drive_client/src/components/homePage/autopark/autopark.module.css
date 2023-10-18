@@ -1,11 +1,25 @@
 .autoparkContainer {
-    height: 844px;
+  height: 844px;
 }
 .tytle {
-    padding-top: 94px;
-    color: #F5F5F5;
-    font-family: Montserrat;
-    font-size: 35px;
-    font-weight: 600;
-    line-height: 43px;
+  padding-top: 94px;
+  color: #F5F5F5;
+  font-family: Montserrat;
+  font-size: 35px;
+  font-weight: 600;
+  line-height: 43px;
+}
+
+.swiperContainer {
+  margin: 100px 0 121px 0;
+}
+
+.carName {
+  margin-top: 80px;
+  width: 350px;
+  font-family: Montserrat;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 32px;
+  color: #F5F5F5;
 }
