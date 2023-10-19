@@ -38,16 +38,16 @@ export function OfficeAdmin() {
                         </div>
                         <div className={styles.menuButtons}>
                             <button onClick={dateHandler} className={styles.menuButton}>Мои данные</button>
-                            <button onClick={statisticsHandler}className={styles.menuButton}>Статистика</button>
+                            <button onClick={statisticsHandler} className={styles.menuButton}>Статистика</button>
                             <button onClick={editorHandler} className={styles.menuButton}>Редактор автомобилей</button>
-                            <button  className={styles.menuButton}>Выход</button>
+                            <button className={styles.menuButton}>Выход</button>
                         </div>
                     </div>
                     {data && <Data/>}
                     {statistics && <Statistics/>}
                     {editor && <Editor/>}
+                </div>
             </div>
-        </div>
         </div>
     );
 }

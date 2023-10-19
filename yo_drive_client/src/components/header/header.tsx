@@ -25,13 +25,13 @@ function MenuNav(props: Props) {
 
     return (
         <>
-        {props.isMenuActive && <Overlay onClick={props.togle} />}
-        <div className={`${styles.headerMenu} ${props.isMenuActive ? styles.menuActive : ""}`}>
-          <img className={styles.headerListIcon_Exit} src={menuExit} onClick={props.togle} alt=""/>
-          <p className={styles.menuItem} onClick={() => handleNavigation('/HomePage')}>Главная</p>
-          <p className={styles.menuItem} onClick={() => handleNavigation('/lkClient')}>Личный кабинет</p>
-          <p className={styles.menuItem} onClick={() => handleNavigation('/bookingPage')}>Бронирование авто</p>
-        </div>
+            {props.isMenuActive && <Overlay onClick={props.togle} />}
+            <div className={`${styles.headerMenu} ${props.isMenuActive ? styles.menuActive : ""}`}>
+              <img className={styles.headerListIcon_Exit} src={menuExit} onClick={props.togle} alt=""/>
+              <p className={styles.menuItem} onClick={() => handleNavigation('/HomePage')}>Главная</p>
+              <p className={styles.menuItem} onClick={() => handleNavigation('/lkClient')}>Личный кабинет</p>
+              <p className={styles.menuItem} onClick={() => handleNavigation('/bookingPage')}>Бронирование авто</p>
+            </div>
         </>
     );
   }
