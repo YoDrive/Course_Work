@@ -3,28 +3,37 @@ import { useNavigate } from "react-router-dom";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import styles from "./login.module.css"
-import {useForm} from "react-hook-form"
+import {SubmitHandler, useForm} from "react-hook-form"
 import Header from "../header/header"
-
+import {User} from "../../models/Auth/User.model";
+import {RegistrationModel} from "../../models/Auth/Registration.model";
 
 export function LoginPage() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const {store} = useContext(Context);
     const {
         register,
         formState: {errors},
-        handleSubmit,
-        reset
-    } = useForm({
+        handleSubmit
+    } = useForm<User>({
         mode: "onBlur"
     });
 
-    const onSubmit = (data: any) =>{
-        alert(JSON.stringify(data));
-        reset()
+    const onSubmit: SubmitHandler<User> = async (data) => {
+        try {
+            await store.login(data);
+            handleNavigation('/lkClient');
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                alert(error.message);
+            } else {
+                alert("Произошла ошибка");
+            }
+        }
     }
-    const navigate = useNavigate();
 
     const handleNavigation = (path: string) => {
         navigate(path);
@@ -52,9 +61,9 @@ export function LoginPage() {
                         <div style={{height: 13}}>
                             {errors?.email && <p className={styles.itemError}>{errors?.root?.message||"*Поле обязательно к заполнению"}</p>}
                         </div>
-                        <div style={{height: 13}}>
-                            {errors?.phoneNumber?.message && <p className={styles.itemError}>{errors?.root?.message ||"*Поле обязательно к заполнению"}</p>}
-                        </div>
+                        {/*<div style={{height: 13}}>*/}
+                        {/*    {errors?.phoneNumber?.message && <p className={styles.itemError}>{errors?.root?.message ||"*Поле обязательно к заполнению"}</p>}*/}
+                        {/*</div>*/}
                         <label className={styles.registrationItem}>
                             Пароль
                             <input type="password"className={styles.itemInput}
