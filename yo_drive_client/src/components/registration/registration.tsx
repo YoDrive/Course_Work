@@ -5,6 +5,7 @@ import {useForm, SubmitHandler} from "react-hook-form"
 import styles from "./registration.module.css"
 import Header from "../header/header"
 import {RegistrationModel} from "../../models/Auth/Registration.model";
+
 export function Registration() {
     const navigate = useNavigate();
     const store = new Store();
@@ -17,8 +18,6 @@ export function Registration() {
     });
 
     const onSubmit: SubmitHandler<RegistrationModel> = async (data) => {
-        console.log(data)
-        alert(JSON.stringify(data));
         await store.registration(data);
         handleNavigation('/lkClient');
     }

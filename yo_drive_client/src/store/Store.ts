@@ -22,15 +22,15 @@ export default class Store {
         this.user = user;
     }
 
-    async login(email: string, password: string) {
+    async login(user: User) {
         try {
-            const response = await AuthService.login(email, password);
+            const response = await AuthService.login(user);
             localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
         }
         catch (error: any) {
-            console.log(error.response?.data?.message);
+            throw new Error("Неверный логин или пароль.");
         }
     }
 
