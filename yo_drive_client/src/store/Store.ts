@@ -4,6 +4,7 @@ import AuthService from "../services/AuthService";
 import axios from "axios";
 import {AuthResponse} from "../models/Auth/AuthResponse";
 import { API_URL } from "../instance";
+import {RegistrationModel} from "../models/Auth/Registration.model";
 
 export default class Store {
     user = {} as User;
@@ -33,9 +34,9 @@ export default class Store {
         }
     }
 
-    async registration(email: string, password: string) {
+    async registration(data: RegistrationModel) {
         try {
-            const response = await AuthService.registration(email, password);
+            const response = await AuthService.registration(data);
             localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
