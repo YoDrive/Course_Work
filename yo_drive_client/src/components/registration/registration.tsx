@@ -1,20 +1,31 @@
-import {useForm} from "react-hook-form"
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Store from "../../store/Store";
+import {useForm, SubmitHandler} from "react-hook-form"
 import styles from "./registration.module.css"
 import Header from "../header/header"
+import {RegistrationModel} from "../../models/Auth/Registration.model";
 export function Registration() {
+    const navigate = useNavigate();
+    const store = new Store();
     const {
         register,
-        formState: {errors},
-        handleSubmit,
-        reset
-    } = useForm({
+        formState: { errors },
+        handleSubmit
+    } = useForm<RegistrationModel>({ // Укажите тип данных для useForm
         mode: "onBlur"
     });
 
-    const onSubmit = (data: any) =>{
+    const onSubmit: SubmitHandler<RegistrationModel> = async (data) => {
+        console.log(data)
         alert(JSON.stringify(data));
-        reset()
+        await store.registration(data);
+        handleNavigation('/lkClient');
     }
+
+    const handleNavigation = (path: string) => {
+        navigate(path);
+    };
 
     return (
         <div className={styles.container}>
@@ -26,13 +37,13 @@ export function Registration() {
                         <label className={styles.registrationItem}>
                             Фамилия
                             <input className={styles.itemInput} placeholder="Иванов"
-                                   {...register("lastName", {
+                                   {...register("surName", {
                                        required: "Поле обязательно к заполнению"
                                    })}
                             />
                         </label>
                         <div style={{height: 13}}>
-                            {errors?.lastName &&
+                            {errors?.surName &&
                                 <p className={styles.itemError}>{errors?.root?.message || "*Поле обязательно к заполнению"}</p>}
                         </div>
                         <label className={styles.registrationItem}>
@@ -104,7 +115,7 @@ export function Registration() {
                                 <p className={styles.itemError}>{errors?.root?.message || "*Поле обязательно к заполнению"}</p>}
                         </div>
                         <div className={styles.registrationButtons}>
-                            <input onClick={reset} className={styles.buttonExit} type="button" value="Отмена"></input>
+                            <input onClick={() => handleNavigation('/HomePage')} className={styles.buttonExit} type="button" value="Отмена"></input>
                             <input className={styles.registrationButton} type="submit"
                                    value="Зарегистрироваться"></input>
                         </div>
