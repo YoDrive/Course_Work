@@ -44,7 +44,7 @@ jobs:
       - name: Apply Migrations to PostgreSQL
         run: |
               dotnet ef database update --connection "Host=localhost;Port=5432;Database=yodrivedb;Username=postgres;Password=admin"
-        working-directory: ./YoDrive/Migrations
+        working-directory: ./Migrations
 
       - name: Install Node.js
         uses: actions/setup-node@v2
