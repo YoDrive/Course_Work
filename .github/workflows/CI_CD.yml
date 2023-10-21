@@ -39,8 +39,8 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-      - name: Run Migrations
-        run: dotnet ef database update
+      - name: Установка инструментов EF Core
+        run: dotnet tool install --global dotnet-ef
       - name: Apply Migrations to PostgreSQL
         run: |
               dotnet ef database update --connection "Host=localhost;Port=5432;Database=yodrivedb;Username=postgres;Password=admin"
