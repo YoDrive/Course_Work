@@ -19,7 +19,7 @@ jobs:
         image: postgres:16 
         env:
           POSTGRES_DB: yodrivedb
-          POSTGRES_USER: admin
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: admin
         options: >-
           --health-cmd pg_isready
@@ -41,6 +41,10 @@ jobs:
         run: dotnet build --no-restore
       - name: Run Migrations
         run: dotnet ef database update
+      - name: Apply Migrations to PostgreSQL
+        run: |
+              dotnet ef database update --connection "Host=localhost;Port=5432;Database=yodrivedb;Username=postgres;Password=admin"
+        working-directory: ./YoDrive/Migrations
 
       - name: Install Node.js
         uses: actions/setup-node@v2
