@@ -35,7 +35,7 @@ public class FilialRepository : IFilialRepository
         return _mapper.Map<FilialReadDto>(filial);
     }
 
-    public async Task<FilialReadDto> CreateFilial(FilialCreateDto dto)
+    public async Task<FilialReadDto> CreateFilial(FilialAddDto dto)
     {
         var entity = _db.Filial.FirstOrDefault(_ => _.Address.ToLower() == dto.Address.ToLower());
         

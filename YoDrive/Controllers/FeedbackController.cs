@@ -81,7 +81,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpPost("CreateFeedback")]
-    public async Task<IActionResult> CreateFeedback(FeedbackCreateDto dto)
+    public async Task<IActionResult> CreateFeedback(FeedbackAddDto dto)
     {
         try
         {

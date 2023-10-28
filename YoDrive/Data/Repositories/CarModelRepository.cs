@@ -54,7 +54,7 @@ public class CarModelRepository : ICarModelRepository
     /// <param name="dto"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public async Task<CarModelReadDto> CreateModel(CarModelCreateDto dto)
+    public async Task<CarModelReadDto> CreateModel(CarModelAddDto dto)
     {
         var entity = _db.CarModel
             .FirstOrDefault(_ => _.ModelName.ToLower() == dto.ModelName.ToLower() && _.CarBrandId == dto.CarBrandId);
@@ -104,6 +104,7 @@ public class CarModelRepository : ICarModelRepository
         }
 
 
+        model.IsDeleted = false;
         model.ModelName = dto.ModelName;
 
         _db.CarModel.Update(model);

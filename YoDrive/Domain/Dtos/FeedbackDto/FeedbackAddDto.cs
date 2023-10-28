@@ -1,6 +1,6 @@
 namespace YoDrive.Domain.Dtos.FeedbackDto;
 
-public class FeedbackCreateDto
+public class FeedbackAddDto
 {
     public int RentId { get; set; }
     public string Response { get; set; }
