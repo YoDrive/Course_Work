@@ -8,5 +8,5 @@ public interface ICarBrandRepository
     Task<CarBrandReadDto> GetCarBrandById(int id);
     Task<CarBrandReadDto> CreateCarBrand(CarBrandAddDto dto);
     CarBrandReadDto UpdateCarBrand(CarBrandUpdateDto dto);
-    void DeleteCarBrand(int id);
+    Task<bool> DeleteCarBrand(int id);
 }

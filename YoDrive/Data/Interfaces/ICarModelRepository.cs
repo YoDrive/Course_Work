@@ -4,9 +4,9 @@ namespace YoDrive.Domain.Data.Interfaces;
 
 public interface ICarModelRepository
 {
-    IEnumerable<CarModelReadDto> GetModels();
+    Task<IEnumerable<CarModelReadDto>> GetModels();
     CarModelReadDto GetModelById(int id);
     Task<CarModelReadDto> CreateModel(CarModelCreateDto dto);
-    Task<CarModelReadDto> UpdateCarBrand(CarModelUpdateDto dto);
-    Task<bool> DeleteCarBrand(int id);
+    Task<CarModelReadDto> UpdateModel(CarModelUpdateDto dto);
+    Task<bool> DeleteModel(int id);
 }

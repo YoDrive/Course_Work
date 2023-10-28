@@ -14,7 +14,9 @@ public class Filial
     [Required]
     [MaxLength(30)]
     public string PhoneNumber { get; set; }
+    [Required]
+    public bool IsDeleted { get; set; }
     
     [InverseProperty("Filial")]
-    public ICollection<Car>? Cars { get; set; }
+    public virtual ICollection<Car>? Cars { get; set; }
 }

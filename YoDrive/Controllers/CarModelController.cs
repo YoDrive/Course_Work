@@ -63,7 +63,7 @@ public class CarModelController : ControllerBase
     {
         try
         {
-            var response = _repository.UpdateCarBrand(dto);
+            var response = _repository.UpdateModel(dto);
             return Ok(response);
         }
         catch (Exception e)
@@ -77,7 +77,7 @@ public class CarModelController : ControllerBase
     {
         try
         {
-            var response = _repository.DeleteCarBrand(id);
+            var response = _repository.DeleteModel(id);
             return Ok(response);
         }
         catch (Exception e)

@@ -23,7 +23,7 @@ public class FeedbackRepository : IFeedbackRepository
     /// <returns></returns>
     public async Task<IEnumerable<FeedbackReadDto>> GetAllFeedbacks()
     {
-        var feedbacks = await _mapper.ProjectTo<FeedbackReadDto>(_db.Feedback).ToListAsync();
+        var feedbacks = await _mapper.ProjectTo<FeedbackReadDto>(_db.Feedback.Include(_ => _.Rent)).ToListAsync();
 
         return feedbacks;
     }
@@ -70,7 +70,9 @@ public class FeedbackRepository : IFeedbackRepository
     /// <exception cref="ArgumentException"></exception>
     public async Task<FeedbackReadDto> GetFeedbackById(int id)
     {
-        var feedback = _db.Feedback.Where(_ => _.FeedbackId == id);
+        var feedback = _db.Feedback
+            .Include(_ => _.Rent)
+            .FirstOrDefault(_ => _.FeedbackId == id);
 
         if (feedback == null)
             throw new ArgumentException();
