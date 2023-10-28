@@ -12,7 +12,7 @@ public class Rent
     public int UserId { get; set; }
     [Required]
     public User User { get; set; }
-    [ForeignKey(nameof(Car))]
+    [ForeignKey(nameof(CarId))]
     public int CarId { get; set; }
     [Required]
     public Car Car { get; set; }
@@ -23,7 +23,9 @@ public class Rent
     [Required]
     [Column(TypeName="money")]
     public decimal RentCost { get; set; }
+    [Required]
+    public bool IsDeleted { get; set; }
     
     [InverseProperty("Rent")]
-    public Feedback? Feedback { get; set; }
+    public virtual Feedback? Feedback { get; set; }
 }

@@ -8,5 +8,5 @@ public interface IFilialRepository
     Task<FilialReadDto> GetFilialById(int id);
     Task<FilialReadDto> CreateFilial(FilialCreateDto dto);
     Task<FilialReadDto> UpdateFilial(FilialUpdateDto dto);
-    void DeleteFilial(int id);
+    Task<bool> DeleteFilial(int id);
 }

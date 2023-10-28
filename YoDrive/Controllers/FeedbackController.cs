@@ -99,7 +99,7 @@ public class FeedbackController : ControllerBase
     {
         try
         {
-            var response = _repository.UpdateFeedback(dto);
+            var response = await _repository.UpdateFeedback(dto);
             return Ok(response);
         }
         catch (Exception e)
@@ -113,7 +113,7 @@ public class FeedbackController : ControllerBase
     {
         try
         {
-            _repository.DeleteFeedback(id);
+            await _repository.DeleteFeedback(id);
             return Ok();
         }
         catch (Exception e)

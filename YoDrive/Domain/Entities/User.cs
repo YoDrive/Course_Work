@@ -8,7 +8,7 @@ public class User
     [Key]
     [Required]
     public int UserId { get; set; }
-    [ForeignKey(nameof(Role))]
+    [ForeignKey(nameof(RoleId))]
     public int RoleId { get; set; }
     [Required]
     public Role Role { get; set; }
@@ -32,7 +32,9 @@ public class User
     public string Password { get; set; }
     [MaxLength(255)]
     public string? UserImage { get; set; }
+    [Required]
+    public bool IsDeleted { get; set; }
     
     [InverseProperty("User")]
-    public ICollection<Rent>? Rents { get; set; }
+    public virtual ICollection<Rent>? Rents { get; set; }
 }

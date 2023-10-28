@@ -1,3 +1,4 @@
+using System.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using YoDrive.Domain.Data.Interfaces;
@@ -29,24 +30,34 @@ public class FilialRepository : IFilialRepository
         var filial = await _db.Filial.FirstOrDefaultAsync(_ => _.FilialId == id);
 
         if (filial == null)
-            throw new KeyNotFoundException($"Филиал с id {id} не найден");
+            throw new Exception($"Филиал с id {id} не найден");
 
         return _mapper.Map<FilialReadDto>(filial);
     }
 
     public async Task<FilialReadDto> CreateFilial(FilialCreateDto dto)
     {
-        var f = _db.Filial.FirstOrDefault(_ => _.Address.ToLower() == dto.Address.ToLower());
-        if (f != null)
-            throw new Exception($"Филиал с адресом {f.Address} уже существует");
+        var entity = _db.Filial.FirstOrDefault(_ => _.Address.ToLower() == dto.Address.ToLower());
+        
+        if (entity != null)
+        {
+            if (entity.IsDeleted)
+            {
+                entity.IsDeleted = false;
+                entity.Address = dto.Address;
+                _db.Filial.Update(entity);
+                await _db.SaveChangesAsync();
+                return _mapper.Map<FilialReadDto>(entity);
+            }
+
+            throw new DuplicateNameException($"Филиал с адресом {entity.Address} уже существует");
+        }
         
         var filial = _mapper.Map<Filial>(dto);
-        
-        if (filial == null)
-            throw new ArgumentException();
-
+        filial.IsDeleted = false;
+    
         _db.Filial.Add(filial);
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
 
         return _mapper.Map<FilialReadDto>(filial);
     }
@@ -55,23 +66,38 @@ public class FilialRepository : IFilialRepository
     {
         var filial = _db.Filial.FirstOrDefault(_ => _.FilialId == dto.FilialId);
 
+        if (filial == null)
+            throw new KeyNotFoundException();
+        
+        if (_db.Filial.FirstOrDefault(_ => _.Address.ToLower() == dto.Address.ToLower()
+                                           && _.FilialId != dto.FilialId) != null)
+        {
+            throw new Exception($"Филиал с адресом '{dto.Address}' уже существует");   
+        }
+        
         filial.Address = dto.Address;
         filial.PhoneNumber = dto.PhoneNumber;
 
         _db.Filial.Update(filial);
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         
         return _mapper.Map<FilialReadDto>(filial);
     }
 
-    public void DeleteFilial(int id)
+    public async Task<bool> DeleteFilial(int id)
     {
         var filial = _db.Filial.FirstOrDefault(_ => _.FilialId == id);
 
         if (filial == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Филиал с Id {id} не найден");
 
-        _db.Filial.Remove(filial);
-        _db.SaveChanges();
+        var count = _db.Car.Where(_ => _.FilialId == id).ToList().Count();
+        if (count > 0)
+            throw new Exception($"Невозможно удалить {filial.Address}, имеются активные связи с автомобилями, в количестве: {count}");
+
+        filial.IsDeleted = true;
+        _db.Filial.Update(filial);
+        
+        return await _db.SaveChangesAsync() > 0;
     }
 }
