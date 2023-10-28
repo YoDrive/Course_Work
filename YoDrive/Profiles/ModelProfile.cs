@@ -11,5 +11,6 @@ public class ModelProfile : Profile
         CreateMap<CarModelReadDto, CarModel>().ReverseMap();
         CreateMap<CarModel, CarModelReadDto>().ReverseMap();
         CreateMap<CarModelCreateDto, CarModelReadDto>().ReverseMap();
+        CreateMap<CarModelUpdateDto, CarModel>();
     }
 }

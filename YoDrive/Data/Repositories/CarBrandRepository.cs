@@ -78,17 +78,23 @@ public class CarBrandRepository : ICarBrandRepository
         return _mapper.Map<CarBrandReadDto>(response);
     }
 
-    public CarBrandReadDto UpdateCarBrand(CarBrandUpdateDto dto)
+    public async Task<CarBrandReadDto> UpdateCarBrand(CarBrandUpdateDto dto)
     {
         var brand = _db.CarBrand.FirstOrDefault(_ => _.CarBrandId == dto.CarBrandId);
 
         if (brand == null)
             throw new KeyNotFoundException();
 
+        if (_db.CarBrand.FirstOrDefault(_ => _.Name.ToLower() == dto.Name.ToLower()
+                                             && _.CarBrandId != dto.CarBrandId) != null)
+        {
+            throw new Exception($"Марка автомобиля с названием '{dto.Name}' уже существует");   
+        }
+        
         brand.Name = dto.Name;
 
         _db.CarBrand.Update(brand);
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
 
         return _mapper.Map<CarBrandReadDto>(brand);
     }
