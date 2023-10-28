@@ -79,7 +79,7 @@ public class FilialController : ControllerBase
     {
         try
         {
-            var response = _repository.UpdateFilial(dto);
+            var response = await _repository.UpdateFilial(dto);
             return Ok(response);
         }
         catch (Exception e)
@@ -93,7 +93,7 @@ public class FilialController : ControllerBase
     {
         try
         {
-            _repository.DeleteFilial(id);
+            await _repository.DeleteFilial(id);
             return Ok();
         }
         catch (Exception e)
