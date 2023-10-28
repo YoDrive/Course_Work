@@ -24,18 +24,18 @@ public class CarModelController : ControllerBase
     }
 
     [HttpGet("GetAllModels")]
-    public IActionResult GetModels()
+    public async Task<IActionResult> GetModels()
     {
-        var response = _repository.GetModels();
+        var response = await _repository.GetModels();
         return Ok(response);
     }
 
     [HttpGet("GetModel")]
-    public IActionResult GetModel(int id)
+    public async Task<IActionResult> GetModel(int id)
     {
         try
         {
-            var response = _repository.GetModelById(id);
+            var response = await _repository.GetModelById(id);
             return Ok(response);
         }
         catch (Exception e)
@@ -45,11 +45,11 @@ public class CarModelController : ControllerBase
     }
 
     [HttpPost("CreateModel")]
-    public IActionResult CreateModel([FromBody] CarModelCreateDto dto)
+    public async Task<IActionResult> CreateModel([FromBody] CarModelCreateDto dto)
     {
         try
         {
-            var response = _repository.CreateModel(dto);
+            var response = await _repository.CreateModel(dto);
             return Created(nameof(CreateModel), response);
         }
         catch (Exception e)
@@ -59,11 +59,11 @@ public class CarModelController : ControllerBase
     }
 
     [HttpPut("UpdateModel")]
-    public IActionResult UpdateModel([FromBody] CarModelUpdateDto dto)
+    public async Task<IActionResult> UpdateModel([FromBody] CarModelUpdateDto dto)
     {
         try
         {
-            var response = _repository.UpdateModel(dto);
+            var response = await _repository.UpdateModel(dto);
             return Ok(response);
         }
         catch (Exception e)
@@ -73,11 +73,11 @@ public class CarModelController : ControllerBase
     }
 
     [HttpDelete("DeleteModel")]
-    public IActionResult DeleteModel(int id)
+    public async Task<IActionResult> DeleteModel(int id)
     {
         try
         {
-            var response = _repository.DeleteModel(id);
+            var response = await _repository.DeleteModel(id);
             return Ok(response);
         }
         catch (Exception e)

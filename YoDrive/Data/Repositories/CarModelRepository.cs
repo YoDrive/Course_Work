@@ -36,11 +36,11 @@ public class CarModelRepository : ICarModelRepository
     /// <param name="id"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public CarModelReadDto GetModelById(int id)
+    public async Task<CarModelReadDto> GetModelById(int id)
     {
-        var model = _db.CarModel
+        var model = await _db.CarModel
             .Include(_ => _.CarBrand)
-            .FirstOrDefault(_ => _.CarModelId == id);
+            .FirstOrDefaultAsync(_ => _.CarModelId == id);
         
         if (model == null)
             throw new Exception($"Модель с Id {id} не найдена");
