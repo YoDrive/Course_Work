@@ -56,7 +56,8 @@ public class CarModelRepository : ICarModelRepository
     /// <exception cref="Exception"></exception>
     public async Task<CarModelReadDto> CreateModel(CarModelCreateDto dto)
     {
-        var entity = _db.CarModel.FirstOrDefault(_ => _.ModelName.ToLower() == dto.ModelName.ToLower() && _.CarBrandId == dto.CarBrandId);
+        var entity = _db.CarModel
+            .FirstOrDefault(_ => _.ModelName.ToLower() == dto.ModelName.ToLower() && _.CarBrandId == dto.CarBrandId);
         
         if (entity != null)
         {
@@ -88,7 +89,9 @@ public class CarModelRepository : ICarModelRepository
     /// <exception cref="NotImplementedException"></exception>
     public async Task<CarModelReadDto> UpdateModel(CarModelUpdateDto dto)
     {
-        var model = _db.CarModel.FirstOrDefault(_ => _.CarModelId == dto.CarModelId);
+        var model = _db.CarModel
+            .Include(_ => _.CarBrand)
+            .FirstOrDefault(_ => _.CarModelId == dto.CarModelId);
 
         if (model == null)
             throw new KeyNotFoundException();

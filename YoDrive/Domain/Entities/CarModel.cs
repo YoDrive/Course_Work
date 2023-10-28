@@ -17,4 +17,7 @@ public class CarModel
     public string ModelName { get; set; }
     [Required]
     public bool IsDeleted { get; set; }
+    
+    [InverseProperty("CarModel")]
+    public virtual ICollection<Car> Cars { get; set; }
 }

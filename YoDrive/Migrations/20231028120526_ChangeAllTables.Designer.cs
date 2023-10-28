@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using YoDrive.Domain.Data;
@@ -11,9 +12,11 @@ using YoDrive.Domain.Data;
 namespace YoDrive.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231028120526_ChangeAllTables")]
+    partial class ChangeAllTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +38,7 @@ namespace YoDrive.Migrations
                     b.Property<string>("CarImage")
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
-                        .HasColumnName("car_image")
-                        .HasComment("Фото автомобиля");
+                        .HasColumnName("car_image");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("integer")
