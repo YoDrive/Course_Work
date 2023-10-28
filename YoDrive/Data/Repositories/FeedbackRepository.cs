@@ -36,6 +36,10 @@ public class FeedbackRepository : IFeedbackRepository
     /// <exception cref="NotImplementedException"></exception>
     public async Task<IEnumerable<FeedbackReadDto>> GetAllCarFeedback(int idCar)
     {
+        var car = _db.Car.FirstOrDefault(_ => _.CarId == idCar);
+        if (car == null)
+            throw new Exception($"Автомобиль с Id {idCar} не найден");
+        
         var carFeedbacks = _db.Feedback
             .Include(_ => _.Rent)
             .Where(_ => _.Rent.CarId == idCar);
@@ -75,7 +79,7 @@ public class FeedbackRepository : IFeedbackRepository
             .FirstOrDefaultAsync(_ => _.FeedbackId == id);
 
         if (feedback == null)
-            throw new ArgumentException($"Отзыв с Id {id} не найден");
+            throw new Exception($"Отзыв с Id {id} не найден");
 
         return _mapper.Map<FeedbackReadDto>(feedback);
     }
@@ -108,7 +112,7 @@ public class FeedbackRepository : IFeedbackRepository
             .FirstOrDefault(_ => _.FeedbackId == dto.FeedbackId);
 
         if (feedback == null)
-            throw new KeyNotFoundException();
+            throw new Exception($"Отзыв с Id {dto.FeedbackId} не найден");
 
         feedback.IsDeleted = false;
         feedback.Response = dto.Response;
@@ -130,7 +134,7 @@ public class FeedbackRepository : IFeedbackRepository
         var feedback = _db.Feedback.FirstOrDefault(_ => _.FeedbackId == id);
 
         if (feedback == null)
-            throw new KeyNotFoundException();
+            throw new Exception($"Отзыв с Id {id} не найден");
         feedback.IsDeleted = true;
         
         return await _db.SaveChangesAsync() > 0;

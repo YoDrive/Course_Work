@@ -4,9 +4,9 @@ using YoDrive.Domain.Models;
 
 namespace YoDrive.Profiles;
 
-public class FilialProfileDto : Profile
+public class FilialProfile : Profile
 {
-    public FilialProfileDto()
+    public FilialProfile()
     {
         CreateMap<Filial, FilialUpdateDto>().ReverseMap();
         CreateMap<FilialAddDto, Filial>().ReverseMap();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Repositories;
 using YoDrive.Domain.Dtos.CarDto;
+using YoDrive.Domain.Other;
 
 namespace YoDrive.Controllers;
 
@@ -76,6 +77,20 @@ public class CarController : ControllerBase
         try
         {
             var response = await _repository.DeleteCar(id);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost("GetCarsByFilter")]
+    public async Task<IActionResult> GetCarsByFilter(Filter request)
+    {
+        try
+        {
+            var response = await _repository.GetCarsByFilter(request);
             return Ok(response);
         }
         catch (Exception e)
