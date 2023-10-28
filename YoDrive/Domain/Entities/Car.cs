@@ -28,9 +28,6 @@ public class Car
     [Column(TypeName="smallint")]
     public GearBox GearBox { get; set; }
     [Required]
-    [Column(TypeName="smallint")]
-    public Engine Engine { get; set; }
-    [Required]
     [Column(TypeName="money")]
     public decimal CostDay { get; set; }
     [MaxLength(255)]

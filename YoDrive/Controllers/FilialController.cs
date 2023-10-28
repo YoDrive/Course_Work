@@ -61,7 +61,7 @@ public class FilialController : ControllerBase
     }
     
     [HttpPost("CreateFilial")]
-    public async Task<IActionResult> CreateFilial(FilialCreateDto dto)
+    public async Task<IActionResult> CreateFilial(FilialAddDto dto)
     {
         try
         {

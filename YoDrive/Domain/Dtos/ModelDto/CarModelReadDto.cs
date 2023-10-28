@@ -1,6 +1,4 @@
-using System.ComponentModel.DataAnnotations;
 using YoDrive.Domain.Dtos.CarBrandDto;
-using YoDrive.Domain.Models;
 
 namespace YoDrive.Domain.Dtos.ModelDto;
 

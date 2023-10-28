@@ -65,7 +65,7 @@ public class CarBrandController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest($"Произошла непредвиденная ошибка сервера\n{e.Message}");
+            return BadRequest($"{e.Message}");
         }
     }
 

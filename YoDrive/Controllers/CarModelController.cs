@@ -45,7 +45,7 @@ public class CarModelController : ControllerBase
     }
 
     [HttpPost("CreateModel")]
-    public async Task<IActionResult> CreateModel([FromBody] CarModelCreateDto dto)
+    public async Task<IActionResult> CreateModel([FromBody] CarModelAddDto dto)
     {
         try
         {

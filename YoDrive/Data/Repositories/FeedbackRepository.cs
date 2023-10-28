@@ -85,7 +85,7 @@ public class FeedbackRepository : IFeedbackRepository
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    public async Task<FeedbackReadDto> CreateFeedback(FeedbackCreateDto dto)
+    public async Task<FeedbackReadDto> CreateFeedback(FeedbackAddDto dto)
     {
         var response = _mapper.Map<Feedback>(dto);
         response.IsDeleted = false;
@@ -110,6 +110,7 @@ public class FeedbackRepository : IFeedbackRepository
         if (feedback == null)
             throw new KeyNotFoundException();
 
+        feedback.IsDeleted = false;
         feedback.Response = dto.Response;
         feedback.Stars = dto.Stars;
 

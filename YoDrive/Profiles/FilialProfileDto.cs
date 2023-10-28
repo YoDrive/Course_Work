@@ -9,8 +9,8 @@ public class FilialProfileDto : Profile
     public FilialProfileDto()
     {
         CreateMap<Filial, FilialUpdateDto>().ReverseMap();
-        CreateMap<FilialCreateDto, Filial>().ReverseMap();
+        CreateMap<FilialAddDto, Filial>().ReverseMap();
         CreateMap<Filial, FilialReadDto>().ReverseMap();
-        CreateMap<FilialCreateDto, FilialReadDto>().ReverseMap();
+        CreateMap<FilialAddDto, FilialReadDto>().ReverseMap();
     }
 }

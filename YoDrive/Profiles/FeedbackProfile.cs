@@ -9,8 +9,8 @@ public class FeedbackProfile : Profile
     public FeedbackProfile()
     {
         CreateMap<Feedback, FeedbackUpdateDto>().ReverseMap();
-        CreateMap<FeedbackCreateDto, Feedback>().ReverseMap();
+        CreateMap<FeedbackAddDto, Feedback>().ReverseMap();
         CreateMap<Feedback, FeedbackReadDto>().ReverseMap();
-        CreateMap<FeedbackCreateDto, FeedbackReadDto>().ReverseMap();
+        CreateMap<FeedbackAddDto, FeedbackReadDto>().ReverseMap();
     }
 }

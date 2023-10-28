@@ -139,12 +139,6 @@ public class AppDbContext : DbContext
                 .HasColumnType("smallint")
                 .HasComment("Тип коробки передач");
 
-            entity.Property(e => e.Engine)
-                .IsRequired()
-                .HasColumnName("engine")
-                .HasColumnType("smallint")
-                .HasComment("Тип двигателя");
-
             entity.Property(e => e.CostDay)
                 .IsRequired()
                 .HasColumnType("money")

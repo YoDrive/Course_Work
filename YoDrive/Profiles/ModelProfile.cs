@@ -9,9 +9,9 @@ public class ModelProfile : Profile
     public ModelProfile()
     {
         CreateMap<CarModelReadDto, CarModel>().ReverseMap();
-        CreateMap<CarModel, CarModelCreateDto>();
+        CreateMap<CarModel, CarModelAddDto>();
         CreateMap<CarModelUpdateDto, CarModel>();
-        CreateMap<CarModelCreateDto, CarModel>();
+        CreateMap<CarModelAddDto, CarModel>();
         CreateMap<CarModel, CarModelReadDto>()
             .ForMember(dest => dest.CarBrand, opt => opt.MapFrom(src => src.CarBrand));
     }

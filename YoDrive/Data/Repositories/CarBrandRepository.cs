@@ -90,7 +90,8 @@ public class CarBrandRepository : ICarBrandRepository
         {
             throw new Exception($"Марка автомобиля с названием '{dto.Name}' уже существует");   
         }
-        
+
+        brand.IsDeleted = false;
         brand.Name = dto.Name;
 
         _db.CarBrand.Update(brand);
