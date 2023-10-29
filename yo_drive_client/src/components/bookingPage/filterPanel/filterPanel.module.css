@@ -1,0 +1,147 @@
+.container{
+    background-color: #D9D9D9;
+    width: 1160px;
+    max-height: 140px;
+    padding-bottom: 5px;
+}
+.formHead{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 10px 0 10px;
+}
+.filterItem{
+    height: 25px;
+    display: flex;
+    flex-direction: row;
+    color: #000;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-right: 6px;
+}
+
+.dateItem,.textItem,.dropItem{
+    width: 165px;
+    height: 25px;
+    background-color: transparent;
+    border-radius: 2px;
+    border: 1px solid #212528;
+    font-family: Montserrat;
+    font-size: 16px;
+    padding-left: 8px;
+    margin-left: 12px ;
+}
+.dateItem::backdrop{
+    border-radius: 2px;
+    border: 1px solid #212528;
+}
+.dateItem::-webkit-calendar-picker-indicator {
+    color: transparent;
+    opacity: 1;
+    background: url(../../../assets/calendar.svg);
+    padding-bottom: 2px;
+    padding-left: 5px;
+    cursor: pointer;
+}
+.dropItem{
+    background: url("../../../assets/galochka.svg") 135px  no-repeat;
+}
+.dropItem:focus{
+    background: url("../../../assets/galochka2.svg") 135px  no-repeat;
+}
+.dropItem::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
+.toggleButton{
+    display: flex;
+    flex-direction: row;
+    font-family: Montserrat;
+    font-size: 22px;
+    font-weight: 600;
+    color: #000;
+    border: none;
+    background-color: transparent;
+    width: 230px;
+    height: 27px;
+    justify-content: space-between;
+}
+.toggleButton:hover{
+    cursor: pointer;
+}
+.imgToggle{
+    margin-top: 9px;
+}
+.formButton{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 165px;
+    height: 30px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #212528;
+    color: #D9D9D9;
+    border: none;
+}
+.imgForm{
+    margin-right: 5px;
+}
+.countForm{
+    font-weight: 300;
+    font-size: 14px;
+    padding: 8px 0 0 5px;
+}
+.filterForm{
+    margin-top: 8px;
+    margin-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 1147px;
+    height: 80px;
+    justify-content: space-between; 
+    transition-property: height;
+    transition-duration: 200ms;
+    overflow: hidden;
+} 
+.locationImg{
+    padding-bottom: 3px;
+}
+.filterScnd{
+    padding-left: 13px;
+    padding-right: 5px;
+}
+.scndText{
+    font-weight: 600;
+    font-size: 13px;
+    padding-left: 12px;
+}
+.radioBtns{
+    display: flex;
+    flex-direction: column;
+    width: 393px;
+    align-items: start;
+    margin-right: 6px;
+    margin-left: 13px;
+}
+.radioText{
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 0 0 5px;
+}
+.btnsRadio{
+    display: flex;
+    flex-direction: row;
+    padding-left: 5px;
+}
+input[type='radio']:checked{
+    accent-color: #212528;
+}
+.inputBlock{
+    margin-left: 6px;
+}
