@@ -18,9 +18,9 @@ public class RentRepository : IRentRepository
 
     public async Task<IEnumerable<RentReadDto>> GetRents()
     {
-        var feedbacks = await _mapper.ProjectTo<RentReadDto>(_db.Rent)
-            .Include(_ => _.Feedback)
+        var feedbacks = await _mapper.ProjectTo<RentReadDto>(_db.Rent
             .Include(_ => _.Car)
+            .Include(_ => _.Feedback))
             .ToListAsync();
         return feedbacks;
     }
@@ -77,10 +77,24 @@ public class RentRepository : IRentRepository
                               && _.EndDate > dto.StartDate))
             throw new Exception($"Невозможно забронировать автомобиль");
 
-        var response = _mapper.Map<Rent>(dto);
-        response.IsDeleted = false;
+        var response = new Rent()
+        {
+            UserId = dto.UserId,
+            User = _db.User
+                .FirstOrDefault(model => model.UserId == dto.UserId) ?? throw new Exception("Пользователь не найден"),
+            CarId = dto.CarId,
+            Car = _db.Car
+                .Include(_ => _.CarModel)
+                .Include(_ => _.CarClass)
+                .Include(_ => _.Filial)
+                .FirstOrDefault(model => model.CarId == dto.CarId) ?? throw new Exception("Автомобиль не найден"),
+            StartDate = dto.StartDate,
+            EndDate = dto.EndDate,
+            RentCost = dto.RentCost,
+            IsDeleted = false
+        };
         
-        _db.Rent.Add(response);
+        await _db.Rent.AddAsync(response);
         await _db.SaveChangesAsync();
         return _mapper.Map<RentReadDto>(response);
     }

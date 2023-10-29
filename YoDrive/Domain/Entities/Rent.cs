@@ -25,7 +25,5 @@ public class Rent
     public decimal RentCost { get; set; }
     [Required]
     public bool IsDeleted { get; set; }
-    
-    [InverseProperty("Rent")]
-    public virtual Feedback? Feedback { get; set; }
+    public Feedback? Feedback { get; set; }
 }

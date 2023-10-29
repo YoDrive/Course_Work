@@ -9,13 +9,22 @@ public class CarProfile : Profile
     public CarProfile()
     {
         CreateMap<Car, CarUpdateDto>().ReverseMap();
-        CreateMap<CarAddDto, Car>().ReverseMap();
-        CreateMap<Car, CarReadDto>()
-            .ForMember(_ => _.CarClass, _ => _.MapFrom(s => s.CarClass))
-            .ForMember(_ => _.Filial, _ => _.MapFrom(s => s.Filial))
-            .ForMember(_ => _.CarModel, _ => _.MapFrom(s => s.CarModel))
-            .ForMember(_ => _.Rents, _ => _.MapFrom(s => s.Rents))
+        CreateMap<CarAddDto, Car>()
+            .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.ClassId))
+            .ForMember(dest => dest.FilialId, opt => opt.MapFrom(src => src.FilialId))
             .ReverseMap();
-        CreateMap<CarAddDto, CarReadDto>().ReverseMap();
+        CreateMap<Car, CarReadDto>()
+            .ForMember(dest => dest.CarModel, opt => opt.MapFrom(src => src.CarModel))
+            .ForMember(dest => dest.CarClass, opt => opt.MapFrom(src => src.CarClass))
+            .ForMember(dest => dest.Filial, opt => opt.MapFrom(src => src.Filial))
+            .ForMember(dest => dest.CarId, opt => opt.MapFrom(src => src.CarId))
+            .ForMember(dest => dest.ModelId, opt => opt.MapFrom(src => src.CarModel.CarModelId))
+            .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.CarClass.CarClassId))
+            .ForMember(dest => dest.FilialId, opt => opt.MapFrom(src => src.Filial.FilialId))
+            .ReverseMap();
+        CreateMap<CarAddDto, CarReadDto>()
+            .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.ClassId))
+            .ForMember(dest => dest.FilialId, opt => opt.MapFrom(src => src.FilialId))
+            .ReverseMap();
     }
 }

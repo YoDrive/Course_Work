@@ -65,7 +65,14 @@ public class CarRepository : ICarRepository
                 entity.ClassId = dto.ClassId;
                 entity.FilialId = dto.FilialId;
                 entity.ModelId = dto.ModelId;
+                entity.CostDay = dto.CostDay;
                 entity.GearBox = dto.GearBox;
+                entity.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
+                                  throw new Exception("Модель не найдена");
+                entity.CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ??
+                                  throw new Exception("Класс не найден");
+                entity.Filial = _db.Filial.FirstOrDefault(filial => filial.FilialId == dto.FilialId) ??
+                                throw new Exception("Филиал не найден");
                 _db.Car.Update(entity);
                 await _db.SaveChangesAsync();
                 return _mapper.Map<CarReadDto>(entity);
@@ -73,13 +80,26 @@ public class CarRepository : ICarRepository
 
             throw new DuplicateNameException($"Автомобиль с гос. номером {dto.StateNumber} уже существует");
         }
-        
-        var response = _mapper.Map<Car>(dto);
-        response.IsDeleted = false;
-        
-        _db.Car.Add(response);
+
+        entity = new Car()
+        {
+            IsDeleted = false,
+            StateNumber = dto.StateNumber,
+            CarImage = dto.CarImage,
+            ClassId = dto.ClassId,
+            FilialId = dto.FilialId,
+            ModelId = dto.ModelId,
+            GearBox = dto.GearBox,
+            CostDay = dto.CostDay,
+            CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ?? throw new Exception("Модель не найдена"),
+            CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ?? throw new Exception("Класс не найден"),
+            Filial = _db.Filial.FirstOrDefault(filial => filial.FilialId == dto.FilialId) ?? throw new Exception("Филиал не найден")
+        };
+            
+        await _db.Car.AddAsync(entity);
         await _db.SaveChangesAsync();
-        return _mapper.Map<CarReadDto>(response);
+        var response = _mapper.Map<CarReadDto>(entity);
+        return response;
     }
 
     public async Task<CarReadDto> UpdateCar(CarUpdateDto dto)
@@ -100,6 +120,12 @@ public class CarRepository : ICarRepository
         car.ClassId = dto.ClassId;
         car.FilialId = dto.FilialId;
         car.ModelId = dto.ModelId;
+        car.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
+                       throw new Exception("Модель не найдена");
+        car.CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ??
+                       throw new Exception("Класс не найден");
+        car.Filial = _db.Filial.FirstOrDefault(filial => filial.FilialId == dto.FilialId) ??
+                     throw new Exception("Филиал не найден");
 
         _db.Car.Update(car);
         await _db.SaveChangesAsync();
