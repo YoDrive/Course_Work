@@ -11,9 +11,15 @@ public class RentProfile : Profile
         CreateMap<Rent, RentUpdateDto>().ReverseMap();
         CreateMap<RentAddDto, Rent>().ReverseMap();
         CreateMap<Rent, RentReadDto>()
-            .ForMember(_ => _.Car, _ => _.MapFrom(s => s.Car))
-            .ForMember(_ => _.User, _ => _.MapFrom(s => s.User))
-            .ForMember(_ => _.Feedback, _ => _.MapFrom(s => s.Feedback))
+            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
+            .ForMember(dest => dest.Car, opt => opt.MapFrom(src => src.Car))
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+            .ForMember(dest => dest.CarId, opt => opt.MapFrom(src => src.CarId))
+            .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
+            .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
+            .ForMember(dest => dest.RentCost, opt => opt.MapFrom(src => src.RentCost))
+            .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => src.IsDeleted))
+            .ForMember(dest => dest.Feedback, opt => opt.MapFrom(src => src.Feedback))
             .ReverseMap();
         CreateMap<RentAddDto, RentReadDto>().ReverseMap();
     }
