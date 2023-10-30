@@ -1,14 +1,14 @@
 .container{
     background-color: #D9D9D9;
     width: 1160px;
-    max-height: 140px;
-    padding-bottom: 5px;
+    height: auto;
+    border-radius: 2px;
 }
 .formHead{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 5px 10px 0 10px;
+    padding: 10px 10px 0 10px;
 }
 .filterItem{
     height: 25px;
@@ -98,16 +98,16 @@
     padding: 8px 0 0 5px;
 }
 .filterForm{
-    margin-top: 8px;
+    margin-top: 10px;
     margin-left: 10px;
     display: flex;
     flex-wrap: wrap;
     width: 1147px;
-    height: 80px;
     justify-content: space-between; 
     transition-property: height;
-    transition-duration: 200ms;
+    transition-duration: 250ms;
     overflow: hidden;
+    margin-bottom: 2px;
 } 
 .locationImg{
     padding-bottom: 3px;

@@ -39,8 +39,7 @@ export function FilterPanel() {
                     <p>Поиск</p>
                 </button>
             </div>
-           {isExpanded &&(
-           <form  onSubmit={handleSubmit(onSubmit)} className={styles.filterForm} >
+           <form  onSubmit={handleSubmit(onSubmit)} className={styles.filterForm}  style={{ height: isExpanded ? "83px" : "0px" }}>
                 <label className={styles.filterItem}>
                     с
                     <input type='date' className={styles.dateItem} autoComplete="off"
@@ -136,7 +135,7 @@ export function FilterPanel() {
                     </div>
                     </div>
                 </div>
-            </form>)}
+            </form>
         </div>
     );
 }
