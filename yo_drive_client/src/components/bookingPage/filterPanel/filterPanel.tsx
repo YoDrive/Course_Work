@@ -28,7 +28,7 @@ export function FilterPanel() {
         <div className={styles.container}>
             <div className={styles.formHead}>
                 <div className={styles.toggle} onClick={() => toggleExpand()}> 
-                    <button className={styles.toggleButton}  onClick={() => (selected === galochka1) ? setSelected(galochka2) : setSelected(galochka1)} >
+                    <button className={styles.toggleButton} onClick={() => (selected === galochka1) ? setSelected(galochka2) : setSelected(galochka1)} >
                         <img className={styles.imgToggle} src={selected}></img>
                         <p>Фильтры:</p>
                         <p className={styles.countForm}>(выбрано 0)</p>
@@ -39,7 +39,7 @@ export function FilterPanel() {
                     <p>Поиск</p>
                 </button>
             </div>
-           <form  onSubmit={handleSubmit(onSubmit)} className={styles.filterForm}  style={{ height: isExpanded ? "83px" : "0px" }}>
+           <form  onSubmit={handleSubmit(onSubmit)} className={styles.filterForm} style={{ height: isExpanded ? "83px" : "0px" }}>
                 <label className={styles.filterItem}>
                     с
                     <input type='date' className={styles.dateItem} autoComplete="off"
@@ -121,16 +121,16 @@ export function FilterPanel() {
                     <p className={styles.scndText}>Коробка передач</p>
                     <div className={styles.btnsRadio}>
                         <label className={styles.filterItem}>
-                            <input type='radio'  value="Механическая"className={styles.radioItem}
+                            <input type='radio' value="Механическая" className={styles.radioItem}
                             {...register("carGear")}
                                 />
                             <p className={styles.radioText} >Механическая</p>
                         </label>
                         <label className={styles.filterItem}>
-                            <input type='radio'  value="Автоматическая"className={styles.radioItem}
+                            <input type='radio'  value="Автоматическая" className={styles.radioItem}
                             {...register("carGear")}
                                 />
-                            <p className={styles.radioText} >Автоматическая</p>
+                            <p className={styles.radioText}>Автоматическая</p>
                         </label>
                     </div>
                     </div>
