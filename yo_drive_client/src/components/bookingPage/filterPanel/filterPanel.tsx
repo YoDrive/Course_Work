@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import styles from './filterPanel.module.css';
-import galochka1 from "../../../assets/galochka.svg";
-import galochka2 from "../../../assets/galochka2.svg"
+import galOpen from "../../../assets/galochkaClose.svg";
+import galClose from "../../../assets/galochkaOpen.svg"
 import lupa from "../../../assets/lupa.svg"
 import location from "../../../assets/location.svg"
 
@@ -13,7 +13,7 @@ export function FilterPanel() {
         setExpanded(!isExpanded);
     };
 
-    const [selected, setSelected] = useState(galochka1)
+    const [selected, setSelected] = useState(galOpen)
     const {
         register,
         handleSubmit,
@@ -28,7 +28,7 @@ export function FilterPanel() {
         <div className={styles.container}>
             <div className={styles.formHead}>
                 <div className={styles.toggle} onClick={() => toggleExpand()}> 
-                    <button className={styles.toggleButton} onClick={() => (selected === galochka1) ? setSelected(galochka2) : setSelected(galochka1)} >
+                    <button className={styles.toggleButton} onClick={() => (selected === galOpen) ? setSelected(galClose) : setSelected(galOpen)} >
                         <img className={styles.imgToggle} src={selected}></img>
                         <p>Фильтры:</p>
                         <p className={styles.countForm}>(выбрано 0)</p>
@@ -121,13 +121,13 @@ export function FilterPanel() {
                     <p className={styles.scndText}>Коробка передач</p>
                     <div className={styles.btnsRadio}>
                         <label className={styles.filterItem}>
-                            <input type='radio' value="Механическая" className={styles.radioItem}
+                            <input type="checkbox" value="Механическая" className={styles.checkboxItem}
                             {...register("carGear")}
                                 />
                             <p className={styles.radioText} >Механическая</p>
                         </label>
                         <label className={styles.filterItem}>
-                            <input type='radio'  value="Автоматическая" className={styles.radioItem}
+                            <input type="checkbox" value="Автоматическая" className={styles.checkboxItem}
                             {...register("carGear")}
                                 />
                             <p className={styles.radioText}>Автоматическая</p>

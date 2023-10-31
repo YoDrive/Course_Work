@@ -91,6 +91,6 @@
     flex-direction: row;
     margin-top: 2px;
 }
-input[type='checkbox']:checked{
+.checkbox[type='checkbox']:checked{
     accent-color: #212528;
 }
