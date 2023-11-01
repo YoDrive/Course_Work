@@ -12,8 +12,8 @@ using YoDrive.Domain.Data;
 namespace YoDrive.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231028120526_ChangeAllTables")]
-    partial class ChangeAllTables
+    [Migration("20231101075216_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,8 @@ namespace YoDrive.Migrations
                     b.Property<string>("CarImage")
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
-                        .HasColumnName("car_image");
+                        .HasColumnName("car_image")
+                        .HasComment("Фото автомобиля");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("integer")
@@ -49,11 +50,6 @@ namespace YoDrive.Migrations
                         .HasColumnType("money")
                         .HasColumnName("cost_day")
                         .HasComment("Стоимость аренды в день");
-
-                    b.Property<short>("Engine")
-                        .HasColumnType("smallint")
-                        .HasColumnName("engine")
-                        .HasComment("Тип двигателя");
 
                     b.Property<int>("FilialId")
                         .HasColumnType("integer")
