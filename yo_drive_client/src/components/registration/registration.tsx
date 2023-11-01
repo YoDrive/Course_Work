@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState}from "react";
 import { useNavigate } from "react-router-dom";
 import Store from "../../store/Store";
 import {useForm, SubmitHandler} from "react-hook-form"
@@ -7,6 +7,7 @@ import Header from "../header/header"
 import {RegistrationModel} from "../../models/Auth/Registration.model";
 
 export function Registration() {
+    const [shown, setShown] = useState(false);
     const navigate = useNavigate();
     const store = new Store();
     const {
@@ -76,20 +77,24 @@ export function Registration() {
                                        required: "Поле обязательно к заполнению",
                                        pattern: {
                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                           message: "invalid email address"
+                                           message: "Неправильно введён адрес почты"
                                        }
                                    })}
                             />
                         </label>
                         <div style={{height: 13}}>
                             {errors?.email &&
-                                <p className={styles.itemError}>{errors?.root?.message || "*Поле обязательно к заполнению"}</p>}
+                                <p className={styles.itemError}>{errors?.email?.message || "*Поле обязательно к заполнению"}</p>}
                         </div>
                         <label className={styles.registrationItem}>
                             Телефон
                             <input className={styles.itemInput} placeholder="+79199191919"
                                    {...register("phoneNumber", {
                                        required: "Поле обязательно к заполнению",
+                                       pattern:{
+                                        value: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/i,
+                                        message: "Неправильный номер телеофона"
+                                        },
                                        minLength: {
                                            value: 12,
                                            message: "Минимум 12 символов."
@@ -99,15 +104,19 @@ export function Registration() {
                         </label>
                         <div style={{height: 13}}>
                             {errors?.phoneNumber?.message &&
-                                <p className={styles.itemError}>{errors?.root?.message || "*Поле обязательно к заполнению"}</p>}
+                                <p className={styles.itemError}>{errors?.phoneNumber?.message || "*Поле обязательно к заполнению"}</p>}
                         </div>
                         <label className={styles.registrationItem}>
                             Пароль
-                            <input type="password" className={styles.itemInput}
+                            <input type={shown ? "text" : "password"} className={styles.itemInput}
                                    {...register("password", {
                                        required: "Поле обязательно к заполнению",
                                    })}
                             />
+                            <div className={styles.passwordShow}>       
+                                <input type="checkbox" className={styles.checkbox} onClick={() => setShown(!shown)} />
+                                <label className={styles.showPas}>Показать пароль</label>
+                            </div>
                         </label>
                         <div style={{height: 13}}>
                             {errors?.password &&
