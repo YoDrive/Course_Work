@@ -127,6 +127,11 @@ public class AppDbContext : DbContext
                 .HasColumnName("filial_id")
                 .HasComment("ID филиала автомобиля");
 
+            entity.Property(e => e.Year)
+                .IsRequired()
+                .HasColumnName("year")
+                .HasComment("Год выпуска");
+
             entity.Property(e => e.StateNumber)
                 .IsRequired()
                 .HasMaxLength(12)

@@ -22,6 +22,8 @@ public class Car
     [Required]
     public Filial Filial { get; set; }
     [Required]
+    public int Year { get; set; }
+    [Required]
     [MaxLength(12)]
     public string StateNumber { get; set; }
     [Required]

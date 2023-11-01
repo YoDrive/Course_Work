@@ -21,6 +21,7 @@ public class CarProfile : Profile
             .ForMember(dest => dest.ModelId, opt => opt.MapFrom(src => src.CarModel.CarModelId))
             .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.CarClass.CarClassId))
             .ForMember(dest => dest.FilialId, opt => opt.MapFrom(src => src.Filial.FilialId))
+            .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
             .ReverseMap();
         CreateMap<CarAddDto, CarReadDto>()
             .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.ClassId))

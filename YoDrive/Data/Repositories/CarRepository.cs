@@ -66,6 +66,7 @@ public class CarRepository : ICarRepository
                 entity.FilialId = dto.FilialId;
                 entity.ModelId = dto.ModelId;
                 entity.CostDay = dto.CostDay;
+                entity.Year = dto.Year;
                 entity.GearBox = dto.GearBox;
                 entity.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
                                   throw new Exception("Модель не найдена");
@@ -88,6 +89,7 @@ public class CarRepository : ICarRepository
             CarImage = dto.CarImage,
             ClassId = dto.ClassId,
             FilialId = dto.FilialId,
+            Year = dto.Year,
             ModelId = dto.ModelId,
             GearBox = dto.GearBox,
             CostDay = dto.CostDay,
@@ -120,6 +122,7 @@ public class CarRepository : ICarRepository
         car.ClassId = dto.ClassId;
         car.FilialId = dto.FilialId;
         car.ModelId = dto.ModelId;
+        car.Year = dto.Year;
         car.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
                        throw new Exception("Модель не найдена");
         car.CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ??

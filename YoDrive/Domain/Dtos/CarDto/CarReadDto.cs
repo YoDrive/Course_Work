@@ -14,6 +14,7 @@ public class CarReadDto
     public ClassReadDto CarClass { get; set; }
     public int FilialId { get; set; }
     public FilialReadDto Filial { get; set; }
+    public int Year { get; set; }
     public string StateNumber { get; set; }
     public GearBox GearBox { get; set; }
     public decimal CostDay { get; set; }
