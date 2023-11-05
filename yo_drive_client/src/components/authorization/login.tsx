@@ -6,9 +6,9 @@ import styles from "./login.module.css"
 import {SubmitHandler, useForm} from "react-hook-form"
 import Header from "../header/header"
 import {User} from "../../models/Auth/User.model";
-import {RegistrationModel} from "../../models/Auth/Registration.model";
 
 export function LoginPage() {
+    const [shown, setShown] = useState(false);
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -48,29 +48,29 @@ export function LoginPage() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <label className={styles.registrationItem}>
                             E-mail
-                            <input className={styles.itemInput} placeholder="ivanov.ivan@mail.ru"
+                            <input className={styles.itemInput} placeholder="ivanov.ivan@mail.ru" autoComplete="off"
                                    {...register("email", {
                                        required:"Поле обязательно к заполнению",
                                        pattern: {
                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                           message: "invalid email address"
+                                           message: "Неправильно введён адрес почты"
                                        }
                                    })}
                             />
                         </label>
                         <div style={{height: 13}}>
-                            {errors?.email && <p className={styles.itemError}>{errors?.root?.message||"*Поле обязательно к заполнению"}</p>}
+                            {errors?.email && <p className={styles.itemError}>{errors?.email.message||"*Поле обязательно к заполнению"}</p>}
                         </div>
-                        {/*<div style={{height: 13}}>*/}
-                        {/*    {errors?.phoneNumber?.message && <p className={styles.itemError}>{errors?.root?.message ||"*Поле обязательно к заполнению"}</p>}*/}
-                        {/*</div>*/}
                         <label className={styles.registrationItem}>
                             Пароль
-                            <input type="password"className={styles.itemInput}
+                            <input type={shown ? "text" : "password"} className={styles.itemInput} autoComplete="off"
                                    {...register("password", {
                                        required:"Поле обязательно к заполнению",
-                                   })}
-                            />
+                                   })}/>
+                            <div className={styles.passwordShow}>       
+                                <input type="checkbox" className={styles.checkbox} onClick={() => setShown(!shown)} />
+                                <label className={styles.showPas}>Показать пароль</label>
+                            </div>
                         </label>
                         <div style={{height: 13}}>
                             {errors?.password && <p className={styles.itemError}>{errors?.root?.message||"*Поле обязательно к заполнению"}</p>}

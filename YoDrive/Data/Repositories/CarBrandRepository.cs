@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using YoDrive.Domain.Data.Interfaces;
@@ -37,10 +38,10 @@ public class CarBrandRepository : ICarBrandRepository
     /// <exception cref="ArgumentException"></exception>
     public async Task<CarBrandReadDto> GetCarBrandById(int id)
     {
-        var brand = _db.CarBrand.FirstOrDefaultAsync(_ => _.CarBrandId == id);
+        var brand = await _db.CarBrand.FirstOrDefaultAsync(_ => _.CarBrandId == id);
 
         if (brand == null)
-            throw new ArgumentException();
+            throw new ArgumentException($"Марка автомобиля с Id {id} не найдена");
 
         return _mapper.Map<CarBrandReadDto>(brand);
     }
@@ -53,39 +54,66 @@ public class CarBrandRepository : ICarBrandRepository
     /// <exception cref="Exception"></exception>
     public async Task<CarBrandReadDto> CreateCarBrand(CarBrandAddDto dto)
     {
-        if (_db.CarBrand.FirstOrDefault(_=>_.Name.ToLower() == dto.Name.ToLower()) != null)
-            throw new Exception("Марка автомобиля с таким названием уже существует");
+        var entity = _db.CarBrand.FirstOrDefault(_ => _.Name.ToLower() == dto.Name.ToLower());
+        
+        if (entity != null)
+        {
+            if (entity.IsDeleted)
+            {
+                entity.IsDeleted = false;
+                entity.Name = dto.Name;
+                _db.CarBrand.Update(entity);
+                await _db.SaveChangesAsync();
+                return _mapper.Map<CarBrandReadDto>(entity);
+            }
 
+            throw new DuplicateNameException($"Марка автомобиля с названием {dto.Name} уже существует");
+        }
+        
         var response = _mapper.Map<CarBrand>(dto);
+        response.IsDeleted = false;
         
         _db.CarBrand.Add(response);
-        _db.SaveChangesAsync();
+        await _db.SaveChangesAsync();
         return _mapper.Map<CarBrandReadDto>(response);
     }
 
-    public CarBrandReadDto UpdateCarBrand(CarBrandUpdateDto dto)
+    public async Task<CarBrandReadDto> UpdateCarBrand(CarBrandUpdateDto dto)
     {
         var brand = _db.CarBrand.FirstOrDefault(_ => _.CarBrandId == dto.CarBrandId);
 
         if (brand == null)
             throw new KeyNotFoundException();
 
+        if (_db.CarBrand.FirstOrDefault(_ => _.Name.ToLower() == dto.Name.ToLower()
+                                             && _.CarBrandId != dto.CarBrandId) != null)
+        {
+            throw new Exception($"Марка автомобиля с названием '{dto.Name}' уже существует");   
+        }
+
+        brand.IsDeleted = false;
         brand.Name = dto.Name;
 
         _db.CarBrand.Update(brand);
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
 
         return _mapper.Map<CarBrandReadDto>(brand);
     }
 
-    public void DeleteCarBrand(int id)
+    public async Task<bool> DeleteCarBrand(int id)
     {
         var brand = _db.CarBrand.FirstOrDefault(_ => _.CarBrandId == id);
 
         if (brand == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Марка автомобиля с Id {id} не найдена");
 
-        _db.CarBrand.Remove(brand);
-        _db.SaveChanges();
+        var count = _db.CarModel.Where(_ => _.CarBrandId == id).ToList().Count();
+        if (count > 0)
+            throw new Exception($"Невозможно удалить {brand.Name}, имеются активные связи с моделями, в количестве: {count}");
+
+        brand.IsDeleted = true;
+        _db.CarBrand.Update(brand);
+        
+        return await _db.SaveChangesAsync() > 0;
     }
 }

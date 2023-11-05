@@ -81,3 +81,16 @@
 .buttonRegistration:hover{
     font-weight: 600;
 }
+.showPas{
+    font-size: 13px;
+    font-weight: 300;
+    margin-left: 2px;
+}
+.passwordShow{
+    display: flex;
+    flex-direction: row;
+    margin-top: 2px;
+}
+.checkbox[type='checkbox']:checked{
+    accent-color: #212528;
+}

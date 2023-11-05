@@ -31,7 +31,7 @@ export function Add(){
                 <div className={styles.blockInfo}>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Марка:</label>
-                        <input type="text" list="carBrand" className={styles.itemInput} {
+                        <input type="text" list="carBrand" className={styles.itemInput} autoComplete="off" {
                             ...register("carBrand")
                         }
                         />
@@ -42,7 +42,7 @@ export function Add(){
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Марка:</label>
-                        <input type="text" list="carModel" className={styles.itemInput} {
+                        <input type="text" list="carModel" className={styles.itemInput} autoComplete="off" {
                             ...register("carModel")
                         }
                         />
@@ -53,7 +53,7 @@ export function Add(){
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Год выпуска:</label>
-                        <input type="text" list="carYear" className={styles.itemInput} {
+                        <input type="text" list="carYear" className={styles.itemInput} autoComplete="off" {
                             ...register("carYear")
                         }
                         />
@@ -64,7 +64,7 @@ export function Add(){
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Тип КПП:</label>
-                        <input type="text" list="carGear" className={styles.itemInput} {
+                        <input type="text" list="carGear" className={styles.itemInput} autoComplete="off"{
                             ...register("carGear")
                         }
                         />
@@ -75,18 +75,18 @@ export function Add(){
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Тип кузова:</label>
-                        <input type="text" list="carСlass" className={styles.itemInput} {
+                        <input type="text" list="carClass" className={styles.itemInput} autoComplete="off"{
                             ...register("carClass")
                         }
                         />
                         <datalist className={styles.inputList} id="carClass">
-                            <option className={styles.listItem} value="Внедорожник">Внудорожник</option>
+                            <option className={styles.listItem} value="Внедорожник">Внедорожник</option>
                             <option className={styles.listItem} value="Седан">Седан</option>
                         </datalist>
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Цена аренды в сутки:</label>
-                        <input type="text" list="carPrice" className={styles.itemInputPrice} {
+                        <input type="text" list="carPrice" className={styles.itemInputPrice} autoComplete="off"{
                             ...register("carPrice")
                         }
                         />

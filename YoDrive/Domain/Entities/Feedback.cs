@@ -18,4 +18,6 @@ public class Feedback
     public Byte Stars { get; set; }
     [Required]
     public DateTime FeedbackDate { get; set; }
+    [Required]
+    public bool IsDeleted { get; set; }
 }

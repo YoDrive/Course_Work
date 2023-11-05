@@ -1,10 +1,12 @@
-using YoDrive.Domain.Models;
+using YoDrive.Domain.Dtos;
 
 namespace YoDrive.Domain.AuthDto;
 
 public class UserReadDto
 {
-    public int Role { get; set; }
+    public int UserId { get; set; }
+    public int RoleId { get; set; }
+    public RoleDto Role { get; set; }
     public string FirstName { get; set; }
     public string Surname { get; set; }
     public string Patronymic { get; set; }
@@ -12,4 +14,5 @@ public class UserReadDto
     public string Email { get; set; }
     public string Password { get; set; }
     public string UserImage { get; set; }
+    public bool IsDeleted { get; set; }
 }

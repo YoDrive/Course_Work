@@ -61,7 +61,7 @@ public class FilialController : ControllerBase
     }
     
     [HttpPost("CreateFilial")]
-    public async Task<IActionResult> CreateFilial(FilialCreateDto dto)
+    public async Task<IActionResult> CreateFilial(FilialAddDto dto)
     {
         try
         {
@@ -79,7 +79,7 @@ public class FilialController : ControllerBase
     {
         try
         {
-            var response = _repository.UpdateFilial(dto);
+            var response = await _repository.UpdateFilial(dto);
             return Ok(response);
         }
         catch (Exception e)
@@ -93,7 +93,7 @@ public class FilialController : ControllerBase
     {
         try
         {
-            _repository.DeleteFilial(id);
+            await _repository.DeleteFilial(id);
             return Ok();
         }
         catch (Exception e)

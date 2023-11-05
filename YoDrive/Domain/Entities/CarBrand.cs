@@ -11,7 +11,9 @@ public class CarBrand
     [Required] 
     [Column(TypeName = "varchar(100)")]
     public string Name { get; set; }
+    [Required]
+    public bool IsDeleted { get; set; }
     
     [InverseProperty("CarBrand")]
-    public ICollection<CarModel>? CarModels { get; set; }
+    public virtual ICollection<CarModel>? CarModels { get; set; }
 }
