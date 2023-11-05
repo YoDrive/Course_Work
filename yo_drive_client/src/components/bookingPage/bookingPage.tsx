@@ -1,9 +1,13 @@
-import React from 'react';
+import {useState} from 'react';
+import {useForm} from "react-hook-form";
 import styles from "./bookingPage.module.css"
 import Header from '../header/header';
 import FilterPanel from './filterPanel/filterPanel';
 import { CarBookingModel } from '../../models/Booking/CarBookingModel';
 import carr from '../../assets/car1.png'
+import galOpen from "../../assets/whgaloshkaClose.svg";
+import galClose from "../../assets/whgalochkaOpen.svg"
+import rows from "../../assets/rows.svg"
 
 
 let cars: CarBookingModel[] =
@@ -51,7 +55,24 @@ let listItems = cars.map((car) =>
 );
 
 export function BookingPage() {
+    const [selected, setSelected] = useState(galOpen)
+    const {
+        register,
+        handleSubmit,
+    } = useForm({
+        mode: "onBlur"
+    });
 
+    const [isExpanded, setExpanded] = useState(false);
+ 
+    const toggleExpand = () => {
+        setExpanded(!isExpanded);
+    };
+
+    const onSubmit=(data:any) =>{
+        console.log(data);
+        toggleExpand();
+    }
     return (
         <div className={styles.bookingPageContainer}>
             <Header/>
@@ -59,8 +80,31 @@ export function BookingPage() {
             <div className={styles.catalogContainer}>
                 <FilterPanel/>
                 <div className={styles.subtitle}>
-                    <p className={styles.subtitleText}>Автомобили </p>
-                    <p className={styles.subtitleFind}>(найдено {listItems.length}):</p>
+                    <div className={styles.subText}>
+                        <p className={styles.subtitleText}>Автомобили </p>
+                        <p className={styles.subtitleFind}>(найдено {listItems.length}):</p>
+                    </div>
+                    <form className={styles.subSort} onClick={() => (isExpanded === false)&&(selected === galOpen) ? setSelected(galClose) : setSelected(galOpen)}  onChange={handleSubmit(onSubmit)} >
+                        <div className={styles.subSortBtn} onClick={() => toggleExpand()}>
+                            <img className={styles.sortGal} src={selected}></img>
+                            <p className={styles.sortText}>Сортировка</p>
+                            <img className={styles.sortRows} src={rows}></img>
+                        </div>
+                        <div className={styles.dropDown} style={{ height: isExpanded ? "100%" : "0px" }}>
+                            <label className={styles.dropMenu}>
+                                <input type="radio" value="По рейтингу" className={styles.dropBtn} 
+                                {...register("sortType")}
+                                    />
+                                <p className={styles.btnText}>По рейтингу</p>
+                            </label>
+                            <label className={styles.dropMenu}>
+                                <input type="radio" value="По цене" className={styles.dropBtn} 
+                                {...register("sortType")}
+                                    />
+                                <p className={styles.btnText}>По цене</p>
+                            </label>
+                        </div>
+                    </form>
                 </div>
                 <ul className={styles.catalog}>{listItems}</ul>
             </div>

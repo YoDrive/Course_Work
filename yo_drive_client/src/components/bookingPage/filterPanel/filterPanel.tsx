@@ -5,6 +5,15 @@ import galOpen from "../../../assets/galochkaClose.svg";
 import galClose from "../../../assets/galochkaOpen.svg"
 import lupa from "../../../assets/lupa.svg"
 import location from "../../../assets/location.svg"
+export function getCurrentDate(separator='-'){
+
+    let myCurrentDate = new Date()
+    let date = myCurrentDate.getDate();
+    let month = myCurrentDate.getMonth() + 1;
+    let year = myCurrentDate.getFullYear();
+    
+    return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date<10?`0${date}`:`${date}`}`
+    }
 
 export function FilterPanel() {
     const [isExpanded, setExpanded] = useState(false);
@@ -12,7 +21,7 @@ export function FilterPanel() {
     const toggleExpand = () => {
         setExpanded(!isExpanded);
     };
-
+    const minDate= (getCurrentDate("-"));
     const [selected, setSelected] = useState(galOpen)
     const {
         register,
@@ -42,14 +51,15 @@ export function FilterPanel() {
            <form  onSubmit={handleSubmit(onSubmit)} className={styles.filterForm} style={{ height: isExpanded ? "83px" : "0px" }}>
                 <label className={styles.filterItem}>
                     с
-                    <input type='date' className={styles.dateItem} autoComplete="off"
+                    <input type='date' className={styles.dateItem} autoComplete="off"  min={minDate}
                      {...register("dateStart")}                       
                         />
                 </label>
                 <label className={styles.filterItem}>
                     по
                     <input type='date' className={styles.dateItem} autoComplete="off"
-                     {...register("dateEnd")}
+                     {...register("dateEnd")
+                        }
                         />
                 </label>
                 <label className={styles.filterItem}>
@@ -121,13 +131,13 @@ export function FilterPanel() {
                     <p className={styles.scndText}>Коробка передач</p>
                     <div className={styles.btnsRadio}>
                         <label className={styles.filterItem}>
-                            <input type="checkbox" value="Механическая" className={styles.checkboxItem}
+                            <input type="checkbox" value="Механическая" className={styles.checkboxItem} defaultChecked={true}
                             {...register("carGear")}
                                 />
                             <p className={styles.radioText} >Механическая</p>
                         </label>
                         <label className={styles.filterItem}>
-                            <input type="checkbox" value="Автоматическая" className={styles.checkboxItem}
+                            <input type="checkbox" value="Автоматическая" className={styles.checkboxItem} defaultChecked={true}
                             {...register("carGear")}
                                 />
                             <p className={styles.radioText}>Автоматическая</p>
