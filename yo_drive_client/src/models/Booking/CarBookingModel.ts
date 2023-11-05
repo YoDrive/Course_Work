@@ -7,4 +7,5 @@ export interface CarBookingModel {
     gearbox: string;
     class: string;
     price: string;
+    address: string;
 }

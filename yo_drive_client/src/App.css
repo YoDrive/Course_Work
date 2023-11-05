@@ -62,3 +62,46 @@ ul li {
   align-items: center;
   transform: scale(0.9) translateY(70px) !important;
 }
+
+.rdrCalendarWrapper {
+  background-color: transparent !important;
+}
+
+.rdrDateDisplayWrapper {
+  display: none;
+}
+
+.rdrCalendarWrapper, .rdrMonth{
+  width: 290px !important;
+  height: 308px !important;
+}
+
+.rdrDayToday .rdrDayNumber span:after  {
+  background: #212528 !important;
+}
+
+.rdrInRange, .rdrStartEdge, .rdrEndEdge {
+  background-color: #212528 !important;
+}
+
+.rdrDayStartPreview, .rdrDayEndPreview, .rdrDayInPreview{
+  color: #212528 !important;
+}
+
+.rdrNextPrevButton, .rdrPprevButton {
+  background: transparent !important;
+  border: 1px solid #212528  !important;
+}
+
+.rdrNextButton i {
+  margin: 0 0 0 6px !important;
+  border-color: transparent transparent transparent #212528 !important;
+}
+
+.rdrPprevButton i {
+  border-color: transparent #212528 transparent transparent !important; 
+}
+
+.rdrMonthAndYearWrapper {
+  padding-top: 13px !important;
+}
