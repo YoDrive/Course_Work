@@ -11,7 +11,9 @@ public class CarClass
     [Required]
     [MaxLength(50)]
     public string ClassName { get; set; }
+    [Required]
+    public bool IsDeleted { get; set; }
     
     [InverseProperty("CarClass")]
-    public ICollection<Car>? Cars { get; set; }
+    public virtual ICollection<Car>? Cars { get; set; }
 }

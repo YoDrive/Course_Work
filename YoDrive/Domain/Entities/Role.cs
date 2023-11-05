@@ -15,5 +15,5 @@ public class Role
     
     [JsonIgnore]
     [InverseProperty("Role")]
-    public ICollection<User>? Users { get; set; }
+    public virtual ICollection<User>? Users { get; set; }
 }

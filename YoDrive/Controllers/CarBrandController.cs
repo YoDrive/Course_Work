@@ -30,7 +30,7 @@ public class CarBrandController : ControllerBase
     /// Получение всех марок
     /// </summary>
     /// <returns></returns>
-    [HttpGet("GetBrands"), Authorize(Roles = "Admin")]
+    [HttpGet("GetBrands")] //, Authorize(Roles = "Admin")
     public async Task<IActionResult> GetBrands()
     {
         try
@@ -41,7 +41,7 @@ public class CarBrandController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest($"Произошла непредвиденная ошибка сервера\n{e.Message}");
+            return BadRequest($"{e.Message}");
         }
     }
 
@@ -65,7 +65,7 @@ public class CarBrandController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest($"Произошла непредвиденная ошибка сервера\n{e.Message}");
+            return BadRequest($"{e.Message}");
         }
     }
 
@@ -88,12 +88,12 @@ public class CarBrandController : ControllerBase
     {
         try
         {
-            var response = _repository.UpdateCarBrand(dto);
+            var response = await _repository.UpdateCarBrand(dto);
             return Ok(response);
         }
         catch (Exception e)
         {
-            return BadRequest($"Произошла непредвиденная ошибка сервера\n{e.Message}");
+            return BadRequest($"{e.Message}");
         }
     }
 
@@ -102,7 +102,7 @@ public class CarBrandController : ControllerBase
     {
         try
         {
-            _repository.DeleteCarBrand(id);
+            await _repository.DeleteCarBrand(id);
             return Ok();
         }
         catch (Exception e)

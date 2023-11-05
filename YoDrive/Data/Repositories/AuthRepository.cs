@@ -15,12 +15,11 @@ public class AuthRepository : IAuthRepository
         _db = db;
         _mapper = mapper;
     }
-
-
+    
     public async Task<UserReadDto> Authorization(UserLoginRequestDto dto)
     {
         var user = await _db.User.FirstOrDefaultAsync(_=>_.Email == dto.Email && _.Password == dto.Password);
-
+        
         return _mapper.Map<UserReadDto>(user);
     }
 }
