@@ -17,6 +17,7 @@
     "mobx": "^6.10.2",
     "mobx-react-lite": "^4.0.5",
     "react": "^18.2.0",
+    "react-date-range": "^1.4.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-router-dom": "^6.16.0",
@@ -50,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-date-range": "^1.4.7",
     "@types/react-router-dom": "^5.3.3"
   }
 }
