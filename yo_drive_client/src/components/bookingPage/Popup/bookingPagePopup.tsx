@@ -28,7 +28,7 @@ const Popup: FunctionComponent<PopupProps> = (props) => {
 
     try {
       console.log(bookingData)
-      const response = await axios.post("/api/bookings", bookingData); // Здесь предполагается, что у вас есть маршрут на сервере для обработки бронирования
+      const response = await axios.post("api/rent/createRent", bookingData); // Здесь предполагается, что у вас есть маршрут на сервере для обработки бронирования
 
       if (response.status === 200) {
         console.log("Бронирование успешно отправлено.");
