@@ -144,6 +144,7 @@ namespace YoDrive.Migrations
                     model_id = table.Column<int>(type: "integer", nullable: false, comment: "ID модели автомобиля"),
                     class_id = table.Column<int>(type: "integer", nullable: false, comment: "ID класса автомобиля"),
                     filial_id = table.Column<int>(type: "integer", nullable: false, comment: "ID филиала автомобиля"),
+                    year = table.Column<int>(type: "integer", nullable: false, comment: "Год выпуска"),
                     state_number = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false, comment: "Государственный номер автомобиля"),
                     gear_box = table.Column<short>(type: "smallint", nullable: false, comment: "Тип коробки передач"),
                     cost_day = table.Column<decimal>(type: "money", nullable: false, comment: "Стоимость аренды в день"),

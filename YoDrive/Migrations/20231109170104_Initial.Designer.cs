@@ -12,8 +12,8 @@ using YoDrive.Domain.Data;
 namespace YoDrive.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231101210309_AddCarYear")]
-    partial class AddCarYear
+    [Migration("20231109170104_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
