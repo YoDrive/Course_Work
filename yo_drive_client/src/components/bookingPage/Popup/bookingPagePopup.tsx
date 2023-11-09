@@ -1,8 +1,10 @@
-import React, { FunctionComponent, useState } from "react";
+import React, {FunctionComponent, useEffect, useState} from "react";
 import styles from "./bookingPagePopup.module.css"
 import { CarBookingModel } from '../../../models/Booking/CarBookingModel';
 import axios from "axios"; 
 import { DateRange } from 'react-date-range';
+import {BookingAdd} from "../../../models/Booking/BookingAddModel";
+import BookingService from "../../../services/BookingService";
 
 
 interface PopupProps {
@@ -18,9 +20,9 @@ const Popup: FunctionComponent<PopupProps> = (props) => {
   const { car, isOpen, handleClose, content, selectedDate, rentCost } = props;
 
   const handleBooking = async () => {
-    const bookingData = {
+    const bookingData : BookingAdd = {
       userId: 1,
-      carId: car.id,
+      carId: car.carId,
       startDate: selectedDate[0].startDate,
       endDate: selectedDate[0].endDate,
       rentCost: rentCost
@@ -28,9 +30,9 @@ const Popup: FunctionComponent<PopupProps> = (props) => {
 
     try {
       console.log(bookingData)
-      const response = await axios.post("api/rent/createRent", bookingData); // Здесь предполагается, что у вас есть маршрут на сервере для обработки бронирования
+      const response = await BookingService.booking(bookingData);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log("Бронирование успешно отправлено.");
       } else {
         console.error("Ошибка при отправке бронирования на сервер.");
