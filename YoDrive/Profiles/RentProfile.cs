@@ -16,7 +16,6 @@ public class RentProfile : Profile
             .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
             .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
             .ForMember(dest => dest.RentCost, opt => opt.MapFrom(src => src.RentCost))
-            .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => src.IsDeleted))
             .ForMember(dest => dest.Feedback, opt => opt.MapFrom(src => src.Feedback))
             .ReverseMap();
         CreateMap<RentAddDto, RentReadDto>().ReverseMap();
