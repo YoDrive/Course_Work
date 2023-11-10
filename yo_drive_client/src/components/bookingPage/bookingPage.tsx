@@ -31,7 +31,7 @@ export function BookingPage() {
                 setCars(response.data);
             } catch (error) {
                 // Чтобы не включать бек
-                setCars(cars?.concat(testModels));
+                setCars(testModels);
                 console.error('Error fetching cars:', error);
             }
         }
