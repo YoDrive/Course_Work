@@ -3,11 +3,13 @@ import styles from './office.module.css';
 import User from '../../../assets/user.svg';
 import { Story } from './story';
 import { Data } from './data';
+import {useNavigate} from "react-router-dom";
 
 export function Office() {
+    const navigate = useNavigate();
     const[data, setData] = useState(true);
     const[story, setStory] = useState(false);
-    const dateHandler = () =>{
+    const dataHandler = () =>{
         setData(true);
         setStory(false);
     }
@@ -15,6 +17,10 @@ export function Office() {
         setData(false);
         setStory(true);
     }
+
+    const handleNavigation = (path: string) => {
+        navigate(path);
+    };
 
     return (
         <div className={styles.container}>
@@ -26,9 +32,9 @@ export function Office() {
                             <p className={styles.headName}>Фамилия Имя Oтчество</p>
                         </div>
                         <div className={styles.menuButtons}>
-                            <button onClick={dateHandler} className={styles.menuButton}>Мои данные</button>
+                            <button onClick={dataHandler} className={styles.menuButton}>Мои данные</button>
                             <button onClick={storyHandler} className={styles.menuButton}>История бронирований</button>
-                            <button  className={styles.menuButton}>Забронировать автомобиль</button>
+                            <button onClick={() => handleNavigation('/bookingPage')} className={styles.menuButton}>Забронировать автомобиль</button>
                             <button  className={styles.menuButton}>Выход</button>
                         </div>
                     </div>

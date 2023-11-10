@@ -33,12 +33,15 @@ const Popup: FunctionComponent<PopupProps> = (props) => {
       const response = await BookingService.booking(bookingData);
 
       if (response.status === 201) {
-        console.log("Бронирование успешно отправлено.");
+        console.log('Бронирование успешно отправлено.');
+        alert('Бронирование успешно отправлено.');
       } else {
-        console.error("Ошибка при отправке бронирования на сервер.");
+        console.error('Ошибка при отправке бронирования на сервер.');
+        alert('Ошибка при отправке бронирования на сервер.');
       }
     } catch (error) {
-      console.error("Произошла ошибка при отправке бронирования:", error);
+      console.error('Произошла ошибка при отправке бронирования:', error);
+      alert("Произошла ошибка при отправке бронирования: " + (error instanceof Error ? error.message : "Неизвестная ошибка"));
     }
 
     handleClose();
