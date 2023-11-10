@@ -48,16 +48,13 @@ export function BookingPage() {
                 carModelId: 1,
                 carBrand: {
                     carBrandId: 1,
-                    name: "Mercedes-Benz",
-                    isDeleted: false
+                    name: "Mercedes-Benz"
                 },
-                modelName: "G63 AMG",
-                isDeleted: false
+                modelName: "G63 AMG"
             },
             carClass: {
                 carClassId: 1,
-                className: "Седан",
-                isDeleted: false
+                className: "Седан"
             },
             filial: {
                 filialId: 1,
@@ -68,8 +65,7 @@ export function BookingPage() {
             stateNumber: "А444МР12",
             gearBox: 0,
             costDay: "20000",
-            carImage: undefined,
-            isDeleted: false
+            carImage: undefined
         },
         {
             carId: 2,
@@ -77,16 +73,13 @@ export function BookingPage() {
                 carModelId: 2,
                 carBrand: {
                     carBrandId: 2,
-                    name: "BMW",
-                    isDeleted: false
+                    name: "BMW"
                 },
-                modelName: "M8",
-                isDeleted: false
+                modelName: "M8"
             },
             carClass: {
                 carClassId: 2,
-                className: "Купе",
-                isDeleted: false
+                className: "Купе"
             },
             filial: {
                 filialId: 1,
@@ -97,8 +90,7 @@ export function BookingPage() {
             stateNumber: "Х152АВ12",
             gearBox: 0,
             costDay: "16000",
-            carImage: undefined,
-            isDeleted: false
+            carImage: undefined
         },
     ]
 
