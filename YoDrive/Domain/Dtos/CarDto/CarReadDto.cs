@@ -16,5 +16,4 @@ public class CarReadDto
     public GearBox GearBox { get; set; }
     public decimal CostDay { get; set; }
     public string? CarImage { get; set; }
-    public bool IsDeleted { get; set; }
 }

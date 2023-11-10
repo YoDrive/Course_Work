@@ -13,6 +13,5 @@ public class RentReadDto
     public DateTime StartDate {get; set; }
     public DateTime EndDate {get; set; }
     public decimal RentCost { get; set; }
-    public bool IsDeleted { get; set; }
     public FeedbackReadDto? Feedback { get; set; }
 }

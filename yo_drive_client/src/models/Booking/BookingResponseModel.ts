@@ -7,7 +7,6 @@ export interface BookingResponseModel {
     startDate: Date;
     endDate: Date;
     rentCost: number;
-    isDeleted: boolean;
     feedback?: FeedbackModel;
 }
 
@@ -17,7 +16,6 @@ export interface UserModel {
     patronymic: string;
     phoneNumber: string;
     email: string;
-    isDeleted: boolean;
 }
 
 export interface FeedbackModel {
