@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './bookingPage.module.css';
 import Header from '../header/header';
 import FilterPanel from './filterPanel/filterPanel';
-import { CarBookingModel } from '../../models/Booking/CarBookingModel';
+import {CarBookingModel, GearBoxEnum} from '../../models/Booking/CarBookingModel';
 import carr from '../../assets/car1.png'
 import Popup from './Popup/bookingPagePopup'; 
 import { DateRange } from 'react-date-range';
@@ -27,14 +27,80 @@ export function BookingPage() {
         async function fetchCars() {
             try {
                 const response = await BookingService.getAllCars();
+                console.log(response);
                 setCars(response.data);
             } catch (error) {
+                // Чтобы не включать бек
+                setCars(cars?.concat(testModels));
                 console.error('Error fetching cars:', error);
             }
         }
 
         fetchCars();
     }, []);
+
+
+    // Чтобы не включать бек
+    let testModels: CarBookingModel[] = [
+        {
+            carId: 1,
+            carModel: {
+                carModelId: 1,
+                carBrand: {
+                    carBrandId: 1,
+                    name: "Mercedes-Benz",
+                    isDeleted: false
+                },
+                modelName: "G63 AMG",
+                isDeleted: false
+            },
+            carClass: {
+                carClassId: 1,
+                className: "Седан",
+                isDeleted: false
+            },
+            filial: {
+                filialId: 1,
+                address: "ул. Луначарского",
+                phoneNumber: "+78005553535"
+            },
+            year: 2020,
+            stateNumber: "А444МР12",
+            gearBox: 0,
+            costDay: "20000",
+            carImage: undefined,
+            isDeleted: false
+        },
+        {
+            carId: 2,
+            carModel: {
+                carModelId: 2,
+                carBrand: {
+                    carBrandId: 2,
+                    name: "BMW",
+                    isDeleted: false
+                },
+                modelName: "M8",
+                isDeleted: false
+            },
+            carClass: {
+                carClassId: 2,
+                className: "Купе",
+                isDeleted: false
+            },
+            filial: {
+                filialId: 1,
+                address: "ул. Луначарского",
+                phoneNumber: "+78005553535"
+            },
+            year: 2022,
+            stateNumber: "Х152АВ12",
+            gearBox: 0,
+            costDay: "16000",
+            carImage: undefined,
+            isDeleted: false
+        },
+    ]
 
     const handleDateChange = (ranges: any) => {
     setSelectedDate([ranges.selection]);
@@ -56,13 +122,13 @@ export function BookingPage() {
 
     let listItems = cars?.map((car) =>
         <li key={car.carId} className={styles.catalogItem}>
-            <img src={car.img} width={'452px'} height={'194px'}/>
+            <img src={car.carImage} width={'452px'} height={'194px'}/>
             <div className={styles.itemConteiner}>
                 <div className={styles.catalogItemInfo}>
                     <p className={styles.carName}>{car.carModel.carBrand.name + car.carModel.modelName}</p>
                     <p className={styles.carStars}>4</p>
                     <p className={styles.carYear}>{car.year} год выпуска</p>
-                    <p className={styles.carBox}>{car.gearbox} коробка передач</p>
+                    <p className={styles.carBox}>{car.gearBox} коробка передач</p>
                     <p className={styles.carClass}>Тип кузова: {car.carClass.className}</p>
                 </div>
                 <div className={styles.itemConteinerPrice}>
@@ -71,10 +137,10 @@ export function BookingPage() {
                     <Popup car={car} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)} selectedDate={selectedDate} rentCost={daysDifference * parseFloat(car.costDay)} content={
                         <div className={styles.popupItem}>
                             <div className={styles.popupItemInfo}>
-                                <img className={styles.popupCarImg} src={car.img} width={'452px'} height={'194px'}/>
-                                <p className={styles.popupСarName}>{car.carModel.carBrand.name + car.carModel.modelName}</p>
+                                <img className={styles.popupCarImg} src={car.carImage} width={'452px'} height={'194px'}/>
+                                <p className={styles.popupСarName}>{car.carModel.carBrand.name + ' ' + car.carModel.modelName}</p>
                                 <p className={styles.popupСarYear}>{car.year} год выпуска</p>
-                                <p className={styles.popupСarBox}>{car.gearbox} коробка передач</p>
+                                <p className={styles.popupСarBox}>{car.gearBox} коробка передач</p>
                                 <p className={styles.popupСarClass}>Тип кузова: {car.carClass.className}</p>
                                 <p className={styles.popupDayCost}>Тариф: <span className={styles.popupHighlight}>{parseFloat(car.costDay).toLocaleString('ru-RU')}</span> ₽/сутки</p>
                             </div>
