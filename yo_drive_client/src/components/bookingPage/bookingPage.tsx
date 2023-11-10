@@ -120,7 +120,7 @@ export function BookingPage() {
                     <p className={styles.carName}>{car.carModel.carBrand.name + car.carModel.modelName}</p>
                     <p className={styles.carStars}>4</p>
                     <p className={styles.carYear}>{car.year} год выпуска</p>
-                    <p className={styles.carBox}>{car.gearBox} коробка передач</p>
+                    <p className={styles.carBox}>{GearBoxEnum[car.gearBox]} коробка передач</p>
                     <p className={styles.carClass}>Тип кузова: {car.carClass.className}</p>
                 </div>
                 <div className={styles.itemConteinerPrice}>
@@ -132,7 +132,7 @@ export function BookingPage() {
                                 <img className={styles.popupCarImg} src={car.carImage} width={'452px'} height={'194px'}/>
                                 <p className={styles.popupСarName}>{car.carModel.carBrand.name + ' ' + car.carModel.modelName}</p>
                                 <p className={styles.popupСarYear}>{car.year} год выпуска</p>
-                                <p className={styles.popupСarBox}>{car.gearBox} коробка передач</p>
+                                <p className={styles.popupСarBox}>{GearBoxEnum[car.gearBox]} коробка передач</p>
                                 <p className={styles.popupСarClass}>Тип кузова: {car.carClass.className}</p>
                                 <p className={styles.popupDayCost}>Тариф: <span className={styles.popupHighlight}>{parseFloat(car.costDay).toLocaleString('ru-RU')}</span> ₽/сутки</p>
                             </div>

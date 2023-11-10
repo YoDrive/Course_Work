@@ -61,6 +61,7 @@
     border: none;
     background-color: #f5f5f5;
     color: #212528;
+    cursor: pointer;
 }
 .registrationButtons{
     display: flex;
@@ -80,6 +81,7 @@
 }
 .buttonExit:hover{
     font-weight: 600;
+    cursor: pointer;
 }
 .showPas{
     font-size: 13px;
@@ -93,4 +95,8 @@
 }
 .checkbox[type='checkbox']:checked{
     accent-color: #212528;
+}
+
+.checkbox:hover {
+    cursor: pointer;
 }

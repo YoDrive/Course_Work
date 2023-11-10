@@ -60,8 +60,13 @@
     border-top: 1px solid;
     border-color: #5A5C5E;
 }
+.menuButton:hover {
+    background-color: #484a4c;
+    cursor: pointer;
+}
 .menuButton:active{
     background-color: #5A5C5E;
+    transform: translateY(2px);
 }
 
 .container {
