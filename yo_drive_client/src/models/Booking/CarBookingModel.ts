@@ -6,14 +6,14 @@ export interface CarBookingModel {
     isDeleted: boolean;
     year: number;
     stateNumber: string;
-    gearbox: GearBoxEnum;
+    gearBox: GearBoxEnum;
     costDay: string;
-    img?: string;
+    carImage?: string;
 }
 
 export enum GearBoxEnum {
-    "Автоматическая",
-    "Механическая"
+    "Автоматическая" = 0,
+    "Механическая" = 1
 }
 
 export interface CarModel {
@@ -39,5 +39,5 @@ export interface Filial {
     filialId: number;
     address: string;
     phoneNumber: string;
-    isDeleted: boolean;
+    //isDeleted: boolean;
 }
