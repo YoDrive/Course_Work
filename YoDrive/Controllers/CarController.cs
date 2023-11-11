@@ -44,10 +44,29 @@ public class CarController : ControllerBase
     }
 
     [HttpPost("CreateCar")]
-    public async Task<IActionResult> CreateCar([FromBody] CarAddDto dto)
+    public async Task<IActionResult> CreateCar([FromForm] CarAddDto dto, [FromForm] IFormFile file)
     {
         try
         {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var folderPath = Path.Combine(currentDirectory, "../yo_drive_store");
+            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(folderPath, fileName);
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            
+            if (file.Length > 0)
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+            dto.CarImage = fileName;
+            
             var response = await _repository.CreateCar(dto);
             return Created(nameof(CreateCar), response);
         }
