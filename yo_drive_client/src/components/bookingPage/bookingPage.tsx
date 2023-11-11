@@ -11,6 +11,8 @@ import 'react-date-range/dist/theme/default.css'
 import ru from 'date-fns/locale/ru';
 import { format } from 'date-fns';
 import BookingService from "../../services/BookingService";
+import { Rating , ThinRoundedStar} from '@smastrom/react-rating'
+import '@smastrom/react-rating/style.css'
 
 export function BookingPage() {
     const [openCarId, setOpenCarId] = useState<number | null>(null);
@@ -65,7 +67,8 @@ export function BookingPage() {
             stateNumber: "А444МР12",
             gearBox: 0,
             costDay: "20000",
-            carImage: undefined
+            carImage: undefined,
+            rating: 3.5
         },
         {
             carId: 2,
@@ -90,7 +93,8 @@ export function BookingPage() {
             stateNumber: "Х152АВ12",
             gearBox: 0,
             costDay: "16000",
-            carImage: undefined
+            carImage: undefined,
+            rating: 1.4
         },
     ]
 
@@ -118,7 +122,10 @@ export function BookingPage() {
             <div className={styles.itemConteiner}>
                 <div className={styles.catalogItemInfo}>
                     <p className={styles.carName}>{car.carModel.carBrand.name + car.carModel.modelName}</p>
-                    <p className={styles.carStars}>4</p>
+                    <button className={styles.carStars}>
+                        <Rating style={{ maxWidth: 100 }} readOnly value={car.rating} itemStyles={{itemShapes: ThinRoundedStar, activeFillColor: '#CCB746', inactiveFillColor: '#D9D9D9'}}/>
+                        <p className={styles.carStarsNumber}>{car.rating}</p>
+                    </button>
                     <p className={styles.carYear}>{car.year} год выпуска</p>
                     <p className={styles.carBox}>{GearBoxEnum[car.gearBox]} коробка передач</p>
                     <p className={styles.carClass}>Тип кузова: {car.carClass.className}</p>
