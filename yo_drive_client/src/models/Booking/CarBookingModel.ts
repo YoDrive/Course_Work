@@ -8,6 +8,7 @@ export interface CarBookingModel {
     gearBox: GearBoxEnum;
     costDay: string;
     carImage?: string;
+    rating: number;
 }
 
 export enum GearBoxEnum {
