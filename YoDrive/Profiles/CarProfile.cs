@@ -17,6 +17,7 @@ public class CarProfile : Profile
             .ForMember(dest => dest.CarModel, opt => opt.MapFrom(src => src.CarModel))
             .ForMember(dest => dest.CarClass, opt => opt.MapFrom(src => src.CarClass))
             .ForMember(dest => dest.Filial, opt => opt.MapFrom(src => src.Filial))
+            .ForMember(dest => dest.Rents, opt => opt.MapFrom(src => src.Rents))
             .ForMember(dest => dest.CarId, opt => opt.MapFrom(src => src.CarId))
             .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
             .ReverseMap();

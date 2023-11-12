@@ -30,7 +30,15 @@ public class CarRepository : ICarRepository
             .ThenInclude(_ => _.Feedback)
             .Include(_ => _.CarClass))
             .ToListAsync();
-        
+
+        foreach (var car in cars)
+        {
+            if (car.Rents != null && car.Rents.Any())
+            {
+                car.Rating = car.Rents.Where(_ => _.Feedback != null).Average(r => r.Feedback?.Stars ?? 0);
+            }
+        }
+
         return cars;
     }
 
@@ -46,9 +54,15 @@ public class CarRepository : ICarRepository
             .FirstOrDefaultAsync(_ => _.CarId == id); 
 
         if (car == null)
-            throw new Exception($"МАвтомобиль с Id {id} не найден");
+            throw new Exception($"Автомобиль с Id {id} не найден");
         
-        return _mapper.Map<CarReadDto>(car);
+        var response = _mapper.Map<CarReadDto>(car);
+        if (response.Rents != null && response.Rents.Any())
+        {
+            response.Rating = response.Rents.Where(_ => _.Feedback != null).Average(r => r.Feedback?.Stars ?? 0);
+        }
+
+        return response;
     }
 
     public async Task<CarReadDto> CreateCar(CarAddDto dto)
