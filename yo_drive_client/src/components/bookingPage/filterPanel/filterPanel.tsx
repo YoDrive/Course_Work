@@ -5,6 +5,7 @@ import galOpen from "../../../assets/galochkaClose.svg";
 import galClose from "../../../assets/galochkaOpen.svg"
 import lupa from "../../../assets/lupa.svg"
 import location from "../../../assets/location.svg"
+import { Filter } from '../../../models/Booking/FilterBookimgModel';
 export function getCurrentDate(separator='-'){
 
     let myCurrentDate = new Date()
@@ -17,7 +18,12 @@ export function getCurrentDate(separator='-'){
 
 export function FilterPanel() {
     const [isExpanded, setExpanded] = useState(false);
- 
+    const [minValue, setMinValue] = useState(new Date())
+
+    const setValue =(param:Date) =>{
+        setMinValue(param);
+    }
+    const minStart = minValue.toString();
     const toggleExpand = () => {
         setExpanded(!isExpanded);
     };
@@ -26,11 +32,12 @@ export function FilterPanel() {
     const {
         register,
         handleSubmit,
+        getValues
     } = useForm({
         mode: "onBlur"
     });
 
-    const onSubmit=(data:any) =>{
+    const onSubmit=(data:Filter) =>{
         console.log(data);
     }
     return (
@@ -51,13 +58,13 @@ export function FilterPanel() {
            <form  onSubmit={handleSubmit(onSubmit)} className={styles.filterForm} style={{ height: isExpanded ? "83px" : "0px" }}>
                 <label className={styles.filterItem}>
                     с
-                    <input type='date' className={styles.dateItem} autoComplete="off"  min={minDate}
-                     {...register("dateStart")}                       
+                    <input type='date' className={styles.dateItem} autoComplete="off"  min={minDate} defaultValue={minDate}
+                     {...register("dateStart")}  onSelect={() => setValue(getValues("dateStart"))}                   
                         />
                 </label>
                 <label className={styles.filterItem}>
                     по
-                    <input type='date' className={styles.dateItem} autoComplete="off"
+                    <input type='date' className={styles.dateItem} autoComplete="off" min={minDate === null ? minDate : minStart} defaultValue={minDate}
                      {...register("dateEnd")
                         }
                         />
@@ -65,21 +72,21 @@ export function FilterPanel() {
                 <label className={styles.filterItem}>
                     от
                     <input type='text' className={styles.textItem} autoComplete="off" placeholder='1000₽/сутки'
-                     {...register("costFrom")}
+                     {...register("minCostDay")}
                         />
                 </label>
                 <label className={styles.filterItem}>
                     до
                     <input type='text' className={styles.textItem} autoComplete="off" placeholder='1500₽/сутки' 
-                     {...register("costTo")}
+                     {...register("maxCostDay")}
                         />
                 </label>
                 <label className={styles.filterItem}>
                     <img className={styles.locationImg} src={location}></img>
-                    <input type='text' list="location" className={styles.dropItem} autoComplete="off" placeholder='Эшкинина 10В'
-                     {...register("location")}
+                    <input type='text' list="filialId" className={styles.dropItem} autoComplete="off" placeholder='Эшкинина 10В'
+                     {...register("filialId")}
                         />
-                    <datalist className={styles.inputList} id="location">
+                    <datalist className={styles.inputList} id="filialId">
                         <option className={styles.listItem} value="Эшкинина 10В"></option>
                         <option className={styles.listItem} value="Чехова 15"></option>
                     </datalist>
@@ -88,10 +95,10 @@ export function FilterPanel() {
                     <div >
                     <p className={styles.scndText}>Класс</p>
                     <label className={styles.filterItem}>
-                        <input type='text' list="carClass" className={styles.dropItem} placeholder='Седан' autoComplete="off"
-                        {...register("carClass")}
+                        <input type='text' list="classId" className={styles.dropItem} placeholder='Седан' autoComplete="off"
+                        {...register("classId")}
                             />
-                        <datalist className={styles.inputList} id="carClass" >
+                        <datalist className={styles.inputList} id="classId" >
                             <option className={styles.listItem} value="Внедорожник">Внедорожник</option>
                             <option className={styles.listItem} value="Лимузин">Лимузин</option>
                         </datalist>
@@ -102,10 +109,10 @@ export function FilterPanel() {
                     <div className={styles.inputBlock}>
                     <p className={styles.scndText}>Марка</p>
                     <label className={styles.filterItem}>
-                        <input type='text' list="carBrand" className={styles.dropItem} placeholder='Mercedes-Benz' autoComplete="off"
-                        {...register("carBrand")}
+                        <input type='text' list="carBrandId" className={styles.dropItem} placeholder='Mercedes-Benz' autoComplete="off"
+                        {...register("carBrandId")}
                             />
-                        <datalist className={styles.inputList} id="carBrand" >
+                        <datalist className={styles.inputList} id="carBrandId" >
                             <option className={styles.listItem} value="BMW">BMW</option>
                             <option className={styles.listItem} value="Mercedes-Benz">Mercedes-Benz</option>
                         </datalist>
@@ -116,10 +123,10 @@ export function FilterPanel() {
                     <div>
                     <p className={styles.scndText}>Модель</p>
                     <label className={styles.filterItem}>
-                        <input type='text' list="carModel" className={styles.dropItem} placeholder='E63 AMG' autoComplete="off"
-                        {...register("carModel")}
+                        <input type='text' list="modelId" className={styles.dropItem} placeholder='E63 AMG' autoComplete="off"
+                        {...register("modelId")}
                             />
-                        <datalist className={styles.inputList} id="carModel">
+                        <datalist className={styles.inputList} id="modelId">
                             <option className={styles.listItem} value="BMW">BMW</option>
                             <option className={styles.listItem} value="Mercedes-Benz">Mercedes-Benz</option>
                         </datalist>
@@ -132,13 +139,13 @@ export function FilterPanel() {
                     <div className={styles.btnsRadio}>
                         <label className={styles.filterItem}>
                             <input type="checkbox" value="Механическая" className={styles.checkboxItem} defaultChecked={true}
-                            {...register("carGear")}
+                            {...register("gearBox")}
                                 />
                             <p className={styles.radioText} >Механическая</p>
                         </label>
                         <label className={styles.filterItem}>
                             <input type="checkbox" value="Автоматическая" className={styles.checkboxItem} defaultChecked={true}
-                            {...register("carGear")}
+                            {...register("gearBox")}
                                 />
                             <p className={styles.radioText}>Автоматическая</p>
                         </label>
