@@ -1,4 +1,4 @@
-import {User} from "../models/Auth/User.model";
+import {User, UserAuth} from "../models/Auth/User.model";
 import {makeAutoObservable} from "mobx";
 import AuthService from "../services/AuthService";
 import axios from "axios";
@@ -7,7 +7,7 @@ import { API_URL } from "../instance";
 import {RegistrationModel} from "../models/Auth/Registration.model";
 
 export default class Store {
-    user = {} as User;
+    user = {} as UserAuth;
     isAuth = false;
 
     constructor() {
@@ -18,7 +18,7 @@ export default class Store {
         this.isAuth = bool;
     }
 
-    setUser(user: User) {
+    setUser(user: UserAuth) {
         this.user = user;
     }
 
@@ -51,7 +51,7 @@ export default class Store {
             const response = await AuthService.logout();
             localStorage.removeItem('token');
             this.setAuth(false);
-            this.setUser({} as User);
+            this.setUser({} as UserAuth);
         } catch (error: any) {
             console.log(error.response?.data?.message);
         }
@@ -67,5 +67,9 @@ export default class Store {
         } catch (error: any) {
             console.log(error.response?.data?.message);
         }
+    }
+
+    isAdmin() {
+        return this.isAuth && this.user.roleName === 'admin';
     }
 }

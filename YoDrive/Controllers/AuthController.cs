@@ -34,9 +34,11 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserReadDto>> Login(UserLoginRequestDto request)
+    public async Task<ActionResult<UserAuthDto>> Login(UserLoginRequestDto request)
     {
-        var dbUser = _db.User.FirstOrDefault(_ => _.Email == request.Email);
+        var dbUser = await _db.User
+            .Include(_ => _.Role)
+            .FirstOrDefaultAsync(_ => _.Email == request.Email);
         
         if (dbUser == null)
         {
@@ -50,12 +52,25 @@ public class AuthController : ControllerBase
 
         var token = CreateToken(dbUser);
         SaveToken(dbUser.UserId, token.RefreshToken);
+        
+        var response = new UserAuthDto()
+        {
+            RefreshToken = token.RefreshToken,
+            AccessToken = token.AccessToken,
+            User = new UserAuth()
+            {
+                UserId = dbUser.UserId,
+                Email = dbUser.Email,
+                RoleId = dbUser.Role.RoleId,
+                RoleName = dbUser.Role.RoleName
+            }
+        };
 
-        return Ok(token);
+        return Ok(response);
     }
 
     [HttpPost("register")]
-    public ActionResult<UserReadDto> Register(UserRegisterRequestDto request)
+    public ActionResult<UserAuthDto> Register(UserRegisterRequestDto request)
     {
         var users = _db.User.ToList();
         if (users.FirstOrDefault(_ => _.Email == request.Email) != null || users.FirstOrDefault(_ => _.PhoneNumber == request.PhoneNumber) != null)
@@ -73,9 +88,9 @@ public class AuthController : ControllerBase
             FirstName = request.FirstName,
             Surname = request.Surname,
             Patronymic = request.Patronymic,
-            RoleId = 2,
+            RoleId = 1,
             PhoneNumber = request.PhoneNumber,
-            Role = _db.Role.FirstOrDefault(_ => _.RoleId == 2)
+            Role = _db.Role.FirstOrDefault(_ => _.RoleId == 1)
         };
         
         user = newUser;
@@ -85,8 +100,20 @@ public class AuthController : ControllerBase
         
         _db.Add(newUser);
         _db.SaveChanges();
+        var response = new UserAuthDto()
+        {
+            RefreshToken = token.RefreshToken,
+            AccessToken = token.AccessToken,
+            User = new UserAuth()
+            {
+                UserId = newUser.UserId,
+                Email = newUser.Email,
+                RoleId = newUser.Role.RoleId,
+                RoleName = newUser.Role.RoleName
+            }
+        };
 
-        return Ok(token);
+        return Ok(response);
     }
 
     private JwtToken CreateToken(User user)
@@ -131,8 +158,8 @@ public class AuthController : ControllerBase
         if (tokenData != null)
         {
             tokenData.RefreshToken = refreshToken;
-            _db.Update(tokenData);
-            _db.SaveChanges();
+            _db.Token.Update(tokenData);
+            await _db.SaveChangesAsync();
             return tokenData;
         }
 

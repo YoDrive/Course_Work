@@ -11,7 +11,6 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<User, UserReadDto>()
-            .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.RoleId))
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
@@ -19,6 +18,9 @@ public class UserProfile : Profile
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
             .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.UserImage))
+            .ReverseMap();
+        
+        CreateMap<User, UserAuthDto>()
             .ReverseMap();
         
         CreateMap<User, UserRentDto>()
