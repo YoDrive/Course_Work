@@ -93,9 +93,9 @@ public class AuthController : ControllerBase
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.Email),
-            new Claim(ClaimTypes.Role, "Admin"),
-            new Claim(ClaimTypes.Role, "Client"), 
+            new Claim("Id", user.UserId.ToString()),
+            new Claim("Email", user.Email),
+            new Claim("Roles", user.Role.RoleName) 
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
@@ -108,10 +108,10 @@ public class AuthController : ControllerBase
             expires: DateTime.Now.AddDays(1),
             signingCredentials: cred
         );
-        
+    
         var refreshToken = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddDays(30),
+            expires: DateTime.Now.AddDays(3),
             signingCredentials: cred
         );
 
