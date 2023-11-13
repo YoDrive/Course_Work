@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Course_Work/static/css/main.7fc8fce6.css",
-    "main.js": "/Course_Work/static/js/main.9b555c56.js",
+    "main.css": "/Course_Work/static/css/main.fa886491.css",
+    "main.js": "/Course_Work/static/js/main.08d34304.js",
     "static/js/787.95fad893.chunk.js": "/Course_Work/static/js/787.95fad893.chunk.js",
     "static/media/backgroundImage.jpg": "/Course_Work/static/media/backgroundImage.1ac354336b62540cd4c2.jpg",
     "static/media/car1.png": "/Course_Work/static/media/car1.0b8d68aaab49e0304d74.png",
@@ -35,12 +35,12 @@
     "static/media/Vector2.svg": "/Course_Work/static/media/Vector2.61263155667ce2e800d4fba55b7aa781.svg",
     "static/media/galochkaClose.svg": "/Course_Work/static/media/galochkaClose.fba23bd074af6a760750f3724088bd66.svg",
     "static/media/galochkaOpen.svg": "/Course_Work/static/media/galochkaOpen.9430405c3d6d1c2d690ef7672beb7598.svg",
-    "main.7fc8fce6.css.map": "/Course_Work/static/css/main.7fc8fce6.css.map",
-    "main.9b555c56.js.map": "/Course_Work/static/js/main.9b555c56.js.map",
+    "main.fa886491.css.map": "/Course_Work/static/css/main.fa886491.css.map",
+    "main.08d34304.js.map": "/Course_Work/static/js/main.08d34304.js.map",
     "787.95fad893.chunk.js.map": "/Course_Work/static/js/787.95fad893.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7fc8fce6.css",
-    "static/js/main.9b555c56.js"
+    "static/css/main.fa886491.css",
+    "static/js/main.08d34304.js"
   ]
 }
