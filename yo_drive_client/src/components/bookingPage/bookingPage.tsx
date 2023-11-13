@@ -1,11 +1,9 @@
-import {useState} from 'react';
 import {useForm} from "react-hook-form";
 import React, {useEffect, useState} from 'react';
 import styles from './bookingPage.module.css';
 import Header from '../header/header';
 import FilterPanel from './filterPanel/filterPanel';
 import {CarBookingModel, GearBoxEnum} from '../../models/Booking/CarBookingModel';
-import carr from '../../assets/car1.png'
 import galOpen from "../../assets/whgaloshkaClose.svg";
 import galClose from "../../assets/whgalochkaOpen.svg"
 import rows from "../../assets/rows.svg"
@@ -24,38 +22,46 @@ export function BookingPage() {
     const [cars, setCars] = useState<CarBookingModel[] | undefined>([]);
     const [selectedDate, setSelectedDate] = useState([
         {
-          startDate: new Date(),
-          endDate: new Date(),
-          key: 'selection',
+            startDate: new Date(),
+            endDate: new Date(),
+            key: 'selection',
         },
     ]);
 
-    useEffect(() => {
-        async function fetchCars() {
-            try {
-                const response = await BookingService.getAllCars();
-                console.log(response);
-                setCars(response.data);
-            } catch (error) {
-                // Чтобы не включать бек
-                setCars(testModels);
-                console.error('Error fetching cars:', error);
-            }
-        }
-
-        fetchCars();
-    }, []);
-
-
-export function BookingPage() {
     const [selected, setSelected] = useState(galOpen)
+    const [isExpanded, setExpanded] = useState(false);
     const {
         register,
         handleSubmit,
     } = useForm({
         mode: "onBlur"
     });
-  
+
+    const handleDateChange = (ranges: any) => {
+    setSelectedDate([ranges.selection]);
+    };
+    
+    const formatDate = (date: any) => {
+        return format(date, 'dd.MM.yy');
+    };
+
+    const togglePopup = (carId: number) => {
+      if (openCarId === carId) {
+        setOpenCarId(null);
+      } else {
+        setOpenCarId(carId);
+      }
+    }
+
+    const toggleExpand = () => {
+        setExpanded(!isExpanded);
+    };
+
+    const onSubmit=(data:any) =>{
+        console.log(data);
+        toggleExpand();
+    }
+
     // Чтобы не включать бек
     let testModels: CarBookingModel[] = [
         {
@@ -112,21 +118,21 @@ export function BookingPage() {
         },
     ]
 
-    const handleDateChange = (ranges: any) => {
-    setSelectedDate([ranges.selection]);
-    };
-    
-    const formatDate = (date: any) => {
-        return format(date, 'dd.MM.yy');
-    };
+    useEffect(() => {
+        async function fetchCars() {
+            try {
+                const response = await BookingService.getAllCars();
+                console.log(response);
+                setCars(response.data);
+            } catch (error) {
+                // Чтобы не включать бек
+                setCars(testModels);
+                console.error('Error fetching cars:', error);
+            }
+        }
 
-    const togglePopup = (carId: number) => {
-      if (openCarId === carId) {
-        setOpenCarId(null);
-      } else {
-        setOpenCarId(carId);
-      }
-    }
+        fetchCars();
+    }, []);
     
     const daysDifference = Math.floor((selectedDate[0].endDate.getTime() - selectedDate[0].startDate.getTime()) / (1000 * 3600 * 24)) + 1;
 
@@ -186,16 +192,6 @@ export function BookingPage() {
         </li>
     );
 
-    const [isExpanded, setExpanded] = useState(false);
- 
-    const toggleExpand = () => {
-        setExpanded(!isExpanded);
-    };
-
-    const onSubmit=(data:any) =>{
-        console.log(data);
-        toggleExpand();
-    }
     return (
         <div className={styles.bookingPageContainer}>
             <Header/>
@@ -205,7 +201,7 @@ export function BookingPage() {
                 <div className={styles.subtitle}>
                     <div className={styles.subText}>
                         <p className={styles.subtitleText}>Автомобили </p>
-                        <p className={styles.subtitleFind}>(найдено {listItems.length}):</p>
+                        <p className={styles.subtitleFind}>(найдено {listItems?.length}):</p>
                     </div>
                     <form className={styles.subSort} onClick={() => (isExpanded === false)&&(selected === galOpen) ? setSelected(galClose) : setSelected(galOpen)}  onChange={handleSubmit(onSubmit)} >
                         <div className={styles.subSortBtn} onClick={() => toggleExpand()}>
@@ -228,8 +224,6 @@ export function BookingPage() {
                             </label>
                         </div>
                     </form>
-                    <p className={styles.subtitleText}>Автомобили </p>
-                    <p className={styles.subtitleFind}>(найдено {listItems === undefined ? 0 : listItems.length}):</p>
                 </div>
                 <ul className={styles.catalog}>{listItems}</ul>
             </div>
