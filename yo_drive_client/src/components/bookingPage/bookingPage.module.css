@@ -1,7 +1,8 @@
 .bookingPageContainer {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
+    min-height: calc(100vh - 128px);
 }
 
 .title {
@@ -109,14 +110,14 @@
     margin-top: 17px;
 }
 
-.catalogItemInfo {
+.catalogItemInfo, .popupItemInfo {
     font-family: Montserrat;
     font-size: 16px;
     font-weight: 400;
     line-height: 20px;
 }
 
-.carName {
+.carName, .popupСarName {
     width: 353px;
     font-family: Montserrat;
     font-size: 26px;
@@ -131,6 +132,22 @@
     line-height: 29px;
 }
 
+.carStars {
+    display: flex;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.carStarsNumber {
+    margin-left: 7px;
+    color: #212528;
+}
+
 .carButton {
     width: 247px;
     height: 38px;
@@ -142,13 +159,64 @@
     font-size: 16px;
     font-weight: 600;
     line-height: 20px;
+    cursor: pointer;
 }
 
 .carStars {
     margin: 6px 0 3px 0;
 }
 
-.carYear, .carBox, .carClass {
+.carYear, .carBox, .carClass, .popupСarYear, .popupСarBox, .popupСarClass, .popupDayCost {
     margin-top: 9px;
     color: #212528;
+}
+
+.popupItem {
+    display: flex;
+    justify-content: space-between;
+}
+
+.popupCarImg {
+    margin-top: 60px;
+}
+
+.popupСarName {
+    margin: 47px 0 14px 0;
+}
+
+.popupDateRangeText, .popupDateRange, .popupSumCost, .popupSumCost {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.popupBookingInfo {
+    margin-left: 10px;
+}
+
+.popupDateRange {
+    margin-top: 4px;
+}
+
+.popupHighlight {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.popupCarAdress {
+    margin-top: 10px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.popupSumCost {
+    margin: 15px 0;
+}
+
+.popupHighlightCost {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 24px;
 }

@@ -89,6 +89,16 @@
     color: #D9D9D9;
     border: none;
 }
+
+.formButton:hover {
+    background-color: #484a4c;
+    cursor: pointer;
+}
+
+.formButton:active {
+    background-color: #5A5C5E;
+}
+
 .imgForm{
     margin-right: 5px;
 }

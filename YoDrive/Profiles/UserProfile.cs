@@ -19,7 +19,6 @@ public class UserProfile : Profile
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
             .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.UserImage))
-            .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => src.IsDeleted))
             .ReverseMap();
         
         CreateMap<User, UserRentDto>()
@@ -28,7 +27,6 @@ public class UserProfile : Profile
             .ForMember(dest => dest.Patronymic, opt => opt.MapFrom(src => src.Patronymic))
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-            .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => src.IsDeleted))
             .ReverseMap();
         
         CreateMap<Role, RoleDto>();
