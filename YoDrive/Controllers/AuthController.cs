@@ -88,9 +88,9 @@ public class AuthController : ControllerBase
             FirstName = request.FirstName,
             Surname = request.Surname,
             Patronymic = request.Patronymic,
-            RoleId = 1,
+            RoleId = 2,
             PhoneNumber = request.PhoneNumber,
-            Role = _db.Role.FirstOrDefault(_ => _.RoleId == 1)
+            Role = _db.Role.FirstOrDefault(_ => _.RoleId == 2)
         };
         
         user = newUser;
