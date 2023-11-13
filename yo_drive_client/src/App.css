@@ -106,7 +106,8 @@ ul li {
   padding-top: 13px !important;
 }
 
-.rr--hf-svg-off, .rr--hf-svg-on {
+/* если перестанут работать пусть будет пока */
+/* .rr--hf-svg-off, .rr--hf-svg-on {
   stroke: #CCB746 !important;
   stroke-width: 1 !important;
-}
+} */
