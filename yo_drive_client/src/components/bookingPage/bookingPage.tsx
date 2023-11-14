@@ -212,13 +212,13 @@ export function BookingPage() {
                         <div className={styles.dropDown} style={{ height: isExpanded ? "100%" : "0px" }}>
                             <label className={styles.dropMenu}>
                                 <input type="radio" value="По рейтингу" className={styles.dropBtn} 
-                                {...register("sortType")}
+                                {...register("sortType")}  onClick={()=> toggleExpand()}
                                     />
                                 <p className={styles.btnText}>По рейтингу</p>
                             </label>
                             <label className={styles.dropMenu}>
                                 <input type="radio" value="По цене" className={styles.dropBtn} 
-                                {...register("sortType")}
+                                {...register("sortType")} onClick={()=> toggleExpand()}
                                     />
                                 <p className={styles.btnText}>По цене</p>
                             </label>

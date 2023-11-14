@@ -1,7 +1,4 @@
-enum GearBoxEnum{
-    automat="Автоматическая",
-    mechanic="Механическая"
-}
+import { GearBoxEnum } from "./CarBookingModel";
 export interface Filter{
     dateStart?: Date;
     dateEnd?: Date;
