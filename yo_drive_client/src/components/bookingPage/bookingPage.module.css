@@ -172,3 +172,43 @@
     font-weight: 500;
     line-height: 24px;
 }
+
+/* попап отзывов */
+
+.totalRating {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 10px;
+    font-family: Montserrat;
+}
+
+.totalRatingNum {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 40px;
+}
+
+.totalRatingStars {
+    margin: 0 15px;
+}
+
+.totalRatingText {
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.starRatingChartContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 23px 0 25px 0;
+}
+
+.starRatingChart {
+    display: flex;
+    flex-direction: column;
+    width: 372px;
+    height: 138px;
+    gap: 2px;
+}
