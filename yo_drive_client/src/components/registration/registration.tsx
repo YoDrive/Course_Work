@@ -18,14 +18,14 @@ export function Registration() {
         mode: "onBlur"
     });
 
-    const onSubmit: SubmitHandler<RegistrationModel> = async (data) => {
-        await store.registration(data);
-        handleNavigation('/lkClient');
-    }
-
     const handleNavigation = (path: string) => {
         navigate(path);
     };
+
+    const onSubmit: SubmitHandler<RegistrationModel> = async (data) => {
+        await store.registration(data);
+        store.isAdmin() ? handleNavigation('/lkAdmin') : handleNavigation('/lkClient');
+    }
 
     return (
         <div className={styles.container}>

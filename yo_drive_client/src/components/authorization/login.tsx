@@ -24,7 +24,7 @@ export function LoginPage() {
     const onSubmit: SubmitHandler<User> = async (data) => {
         try {
             await store.login(data);
-            handleNavigation('/lkClient');
+            store.isAdmin() ? handleNavigation('/lkAdmin') : handleNavigation('/lkClient');
         }
         catch (error) {
             if (error instanceof Error) {
