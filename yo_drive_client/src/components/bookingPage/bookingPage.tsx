@@ -1,9 +1,12 @@
+import {useForm} from "react-hook-form";
 import React, {useEffect, useState} from 'react';
 import styles from './bookingPage.module.css';
 import Header from '../header/header';
 import FilterPanel from './filterPanel/filterPanel';
 import {CarBookingModel, GearBoxEnum} from '../../models/Booking/CarBookingModel';
-import carr from '../../assets/car1.png'
+import galOpen from "../../assets/whgaloshkaClose.svg";
+import galClose from "../../assets/whgalochkaOpen.svg"
+import rows from "../../assets/rows.svg"
 import Popup from './Popup/bookingPagePopup'; 
 import FeedbackPopup from './Popup/bookingPageFeedbackPopup'
 import { DateRange } from 'react-date-range';
@@ -21,28 +24,37 @@ export function BookingPage() {
     const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState([
         {
-          startDate: new Date(),
-          endDate: new Date(),
-          key: 'selection',
+            startDate: new Date(),
+            endDate: new Date(),
+            key: 'selection',
         },
     ]);
 
-    useEffect(() => {
-        async function fetchCars() {
-            try {
-                const response = await BookingService.getAllCars();
-                console.log(response);
-                setCars(response.data);
-            } catch (error) {
-                // Чтобы не включать бек
-                setCars(testModels);
-                console.error('Error fetching cars:', error);
-            }
-        }
+    const [selected, setSelected] = useState(galOpen)
+    const [isExpanded, setExpanded] = useState(false);
+    const {
+        register,
+        handleSubmit,
+    } = useForm({
+        mode: "onBlur"
+    });
 
-        fetchCars();
-    }, []);
+    const handleDateChange = (ranges: any) => {
+    setSelectedDate([ranges.selection]);
+    };
+    
+    const formatDate = (date: any) => {
+        return format(date, 'dd.MM.yy');
+    };
 
+    const toggleExpand = () => {
+        setExpanded(!isExpanded);
+    };
+
+    const onSubmit=(data:any) =>{
+        console.log(data);
+        toggleExpand();
+    }
 
     // Чтобы не включать бек
     let testModels: CarBookingModel[] = [
@@ -152,14 +164,21 @@ export function BookingPage() {
         }
     ]
 
-    const handleDateChange = (ranges: any) => {
-    setSelectedDate([ranges.selection]);
-    };
-    
-    const formatDate = (date: any) => {
-        return format(date, 'dd.MM.yy');
-    };
+    useEffect(() => {
+        async function fetchCars() {
+            try {
+                const response = await BookingService.getAllCars();
+                console.log(response);
+                setCars(response.data);
+            } catch (error) {
+                // Чтобы не включать бек
+                setCars(testModels);
+                console.error('Error fetching cars:', error);
+            }
+        }
 
+        fetchCars();
+    }, []);
     const togglePopup = (carId: number) => {
       if (openCarId === carId) {
         setOpenCarId(null);
@@ -241,8 +260,31 @@ export function BookingPage() {
             <div className={styles.catalogContainer}>
                 <FilterPanel/>
                 <div className={styles.subtitle}>
-                    <p className={styles.subtitleText}>Автомобили </p>
-                    <p className={styles.subtitleFind}>(найдено {listItems === undefined ? 0 : listItems.length}):</p>
+                    <div className={styles.subText}>
+                        <p className={styles.subtitleText}>Автомобили </p>
+                        <p className={styles.subtitleFind}>(найдено {listItems?.length}):</p>
+                    </div>
+                    <form className={styles.subSort} onClick={() => (isExpanded === false)&&(selected === galOpen) ? setSelected(galClose) : setSelected(galOpen)}  onChange={handleSubmit(onSubmit)} >
+                        <div className={styles.subSortBtn} onClick={() => toggleExpand()}>
+                            <img className={styles.sortGal} src={selected}></img>
+                            <p className={styles.sortText}>Сортировка</p>
+                            <img className={styles.sortRows} src={rows}></img>
+                        </div>
+                        <div className={styles.dropDown} style={{ height: isExpanded ? "100%" : "0px" }}>
+                            <label className={styles.dropMenu}>
+                                <input type="radio" value="По рейтингу" className={styles.dropBtn} 
+                                {...register("sortType")}  onClick={()=> toggleExpand()}
+                                    />
+                                <p className={styles.btnText}>По рейтингу</p>
+                            </label>
+                            <label className={styles.dropMenu}>
+                                <input type="radio" value="По цене" className={styles.dropBtn} 
+                                {...register("sortType")} onClick={()=> toggleExpand()}
+                                    />
+                                <p className={styles.btnText}>По цене</p>
+                            </label>
+                        </div>
+                    </form>
                 </div>
                 <ul className={styles.catalog}>{listItems}</ul>
             </div>

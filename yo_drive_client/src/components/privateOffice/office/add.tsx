@@ -1,8 +1,19 @@
+import {useRef, useState} from 'react';
 import styles from "./add.module.css"
 import space from "../../../assets/space.svg"
-import { useForm } from "react-hook-form"
+import { useForm} from "react-hook-form"
 
 export function Add(){
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const [image, setImage] = useState()
+
+    const handleImageClick = () =>{
+        inputRef.current?.focus();
+    }
+    const handleImageChange = (event:any) =>{
+        const file = event.target.files[0];
+        setImage(file);
+    }
     const {
         register,
         handleSubmit,
@@ -11,21 +22,19 @@ export function Add(){
     });
 
     const onSubmit = (data: any) =>{
-        console.log("Request data:");
         console.log(data);
-        reset()
     }
     return(
         <div className={styles.addBlock}>
             <form className={styles.addForm} onSubmit={handleSubmit(onSubmit)}>
-                <div className={styles.blockImg}>
+                <div className={styles.blockImg} onClick={handleImageClick}>
                     <div className={styles.imgSpace}>
-                        <img className={styles.spaceIcon} src={space}></img>
+                        {image ? <img src={URL.createObjectURL(image)} style={{width: "100%", height:"100%", objectFit:"contain"}} />:<img className={styles.spaceIcon} src={space}></img>}
                     </div>
-                    <input type="file" accept=".jpg,.jpeg,.png" id="Image" className={styles.inputImg}
+                    <input type="file" accept=".jpg,.jpeg,.png" id="Image" className={styles.inputImg} 
                            {
                                ...register("carImage")
-                           }/>
+                           } ref={inputRef} onChange={handleImageChange} />
                     <label htmlFor="Image" className={styles.imgItem}>Загрузить изображение</label>
                 </div>
                 <div className={styles.blockInfo}>

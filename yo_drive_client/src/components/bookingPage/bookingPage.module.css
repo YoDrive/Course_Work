@@ -23,12 +23,16 @@
 .subtitle {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    width: 1160px;
+    justify-content: space-between;
     margin: 57px 0 37px 0;
     font-family: Montserrat;
     color: #FFFFFF;
 }
-
+.subText{
+    display: flex;
+    flex-direction: row;
+}
 .subtitleText {
     font-size: 36px;
     font-weight: 600;
@@ -36,12 +40,56 @@
 }
 
 .subtitleFind {
-    padding: 4px 0 0 12px;
+    padding: 11px 0 0 12px;
     font-size: 26px;
     font-weight: 300;
     line-height: 32px;
 }
-
+.subSort{
+    display: flex;
+    flex-direction: column;
+}
+.subSortBtn{
+    display: flex;
+    flex-direction: row;
+    font-size: 26px;
+    font-weight: 300;
+    cursor: pointer;
+}
+.dropDown{
+    margin-top: 50px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    transition-property: height;
+    transition-duration: 250ms;
+    overflow: hidden;
+    height: 100%;
+}
+.dropMenu{
+    width: 219px;
+    background-color: #212528;
+    color: #F5F5F5;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 300;
+    height: 45px;
+    border: none;
+    text-align: left;
+    padding-left: 31px;
+}
+.dropBtn{
+    display: none;
+}
+.btnText{
+    padding-top: 7px;
+}
+.sortText{
+    padding: 10px 6px 0px 6px;
+}
+.sortGal,.sortRows{
+    padding-top: 12px;
+}
 .catalogItem {
     display: flex;
     justify-content: space-around;
