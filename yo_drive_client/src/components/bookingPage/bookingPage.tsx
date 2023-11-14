@@ -15,8 +15,7 @@ import 'react-date-range/dist/theme/default.css'
 import ru from 'date-fns/locale/ru';
 import { format } from 'date-fns';
 import BookingService from "../../services/BookingService";
-import { Rating , ThinRoundedStar} from '@smastrom/react-rating'
-import '@smastrom/react-rating/style.css'
+import { Rating } from 'react-simple-star-rating';
 
 export function BookingPage() {
     const [openCarId, setOpenCarId] = useState<number | null>(null);
@@ -200,12 +199,30 @@ export function BookingPage() {
                 <div className={styles.catalogItemInfo}>
                     <p className={styles.carName}>{car.carModel.carBrand.name + car.carModel.modelName}</p>
                     <button className={styles.carStars} onClick={() => toggleFeedbackPopup()}>
-                        <Rating style={{ maxWidth: 100 }} readOnly value={car.rating} itemStyles={{itemShapes: ThinRoundedStar, activeFillColor: '#CCB746', inactiveFillColor: '#D9D9D9', itemStrokeWidth: 1, inactiveStrokeColor:'#CCB746', activeStrokeColor: '#CCB746'}}/>
+                        <Rating size={22} readonly initialValue={car.rating} allowFraction fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                         <p className={styles.carStarsNumber}>{car.rating}</p>
                     </button>
                     <FeedbackPopup isOpen={feedbackPopupOpen} handleClose={toggleFeedbackPopup} content={
                     <div>
-                 
+                        <div className={styles.totalRating}>
+                            <p className={styles.totalRatingNum}>4.0</p>
+                            <Rating className={styles.totalRatingStars} size={32} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                            <p className={styles.totalRatingText}>на основании 5 оценок</p>
+                        </div>
+                        <div className={styles.starRatingChartContainer}>
+                            <div className={styles.starRatingChart}>
+                                <Rating size={23} readonly initialValue={5} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                <Rating size={23} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                <Rating size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                <Rating size={23} readonly initialValue={2} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                <Rating size={23} readonly initialValue={1} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                            </div>
+                            <img className={styles.starRatingImg} src={car.carImage} width={'345px'} height={'147px'}/>
+                        </div>
+                        <div className={styles.rewiew}>
+                            <div className={styles.rewiewSort}>
+                            </div>           
+                        </div>
                     </div>} />
                     <p className={styles.carYear}>{car.year} год выпуска</p>
                     <p className={styles.carBox}>{GearBoxEnum[car.gearBox]} коробка передач</p>
