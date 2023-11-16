@@ -149,13 +149,10 @@
     flex-direction: row;
     padding-left: 5px;
 }
-.checkboxItem[type='checkbox']{
+.checkboxItem[type='radio']{
     margin-top: 2px;
     accent-color: #212528;
     color: #D9D9D9;
-}
-.checkboxItem[type='checkbox']:checked{
-    background-color: #212528;
 }
 .inputBlock{
     margin-left: 6px;
