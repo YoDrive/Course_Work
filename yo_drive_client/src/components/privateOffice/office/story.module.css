@@ -102,3 +102,80 @@
 .rewiev_icon:hover{
     cursor: pointer;
 }
+.popup{
+    width: 720px;
+    height: 328px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.popupHead{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.popupText{
+    display: flex;
+    flex-direction: column;
+}
+.textItems{
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    margin-top: 7px;
+}
+.itemOne{
+    font-weight: 600;
+    margin-right: 5px;
+}
+.formInput{
+    max-width: 720px;
+    max-height: 130px;
+    width: 720px;
+    height: 130px;
+    margin-top: 10px;
+    font-family: Montserrat;
+    padding: 5px 5px 5px 5px;
+}
+.popUpBtns{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.btnReset{
+    color: #212528;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    background-color: transparent;
+    border: none;
+    width: 150px;
+}
+.btnReset:hover{
+    font-weight: 600;
+}
+.btnSubmit{
+    display: flex;
+    width: 276px;
+    padding: 7px 62px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #212528;
+    color: #f5f5f5;
+    font-family: Montserrat;
+    font-size: 18px;
+    border: solid;
+    border-width: 1px;
+    border-color: transparent;
+}
+.btnSubmit:hover{
+    background-color: #d9d9d9;
+    color: #212528;
+    border: solid;
+    border-width: 1px;
+    border-color: #212528;
+}

@@ -197,7 +197,7 @@ export function BookingPage() {
             <img src={car.carImage} width={'452px'} height={'194px'}/>
             <div className={styles.itemConteiner}>
                 <div className={styles.catalogItemInfo}>
-                    <p className={styles.carName}>{car.carModel.carBrand.name + car.carModel.modelName}</p>
+                    <p className={styles.carName}>{car.carModel.carBrand.name + " " + car.carModel.modelName}</p>
                     <button className={styles.carStars} onClick={() => toggleFeedbackPopup()}>
                         <Rating size={22} readonly initialValue={car.rating} allowFraction fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                         <p className={styles.carStarsNumber}>{car.rating}</p>

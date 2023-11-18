@@ -1,0 +1,144 @@
+.filterBox{
+    position: absolute;
+    background-color: #d9d9d9;
+    width: 937px;
+    height: 162px;
+    margin-top: 144px;
+    z-index: 2;
+    border: solid;
+    border-color: #212528;
+    border-width: 1px;
+    display: flex;
+    flex-direction: column;
+}
+.filterItem{
+    height: 25px;
+    display: flex;
+    flex-direction: row;
+    color: #000;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-right: 6px;
+}
+
+.dateItem,.textItem,.dropItem{
+    width: 165px;
+    height: 25px;
+    background-color: transparent;
+    border-radius: 2px;
+    border: 1px solid #212528;
+    font-family: Montserrat;
+    font-size: 16px;
+    padding-left: 8px;
+    margin-left: 12px ;
+}
+.dateItem::backdrop{
+    border-radius: 2px;
+    border: 1px solid #212528;
+}
+.dateItem::-webkit-calendar-picker-indicator {
+    color: transparent;
+    opacity: 1;
+    background: url(../../../assets/calendar.svg);
+    padding-bottom: 2px;
+    padding-left: 5px;
+    cursor: pointer;
+}
+.dropItem{
+    background: url("../../../assets/galochkaClose.svg") 135px  no-repeat;
+}
+.dropItem:focus{
+    background: url("../../../assets/galochkaOpen.svg") 135px  no-repeat;
+}
+.dropItem::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
+.toggleButton{
+    display: flex;
+    flex-direction: row;
+    font-family: Montserrat;
+    font-size: 22px;
+    font-weight: 600;
+    color: #000000;
+    border: none;
+    background-color: transparent;
+    width: 230px;
+    height: 27px;
+    justify-content: space-between;
+}
+.toggleButton:hover{
+    cursor: pointer;
+}
+.imgToggle{
+    margin-top: 9px;
+}
+.formButton{
+    justify-content: right;
+    width: 165px;
+    height: 30px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #212528;
+    color: #D9D9D9;
+    border: none;
+    margin-top: 8px;
+    margin-left: auto;
+    margin-right: 42px;
+}
+
+.formButton:hover {
+    background-color: #484a4c;
+    cursor: pointer;
+}
+
+.formButton:active {
+    background-color: #5A5C5E;
+}
+
+.imgForm{
+    margin-right: 5px;
+}
+.countForm{
+    font-weight: 300;
+    font-size: 14px;
+    padding: 8px 0 0 5px;
+}
+.filterForm{
+    margin-top: 15px;
+    margin-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 920px;
+    justify-content: space-between; 
+    transition-property: height;
+    transition-duration: 250ms;
+    overflow: hidden;
+    margin-bottom: 2px;
+    padding-right: 25px;
+} 
+.locationImg{
+    padding-bottom: 3px;
+}
+.filterScnd{
+    padding-left: 13px;
+    padding-right: 5px;
+}
+.scndText{
+    font-weight: 600;
+    font-size: 13px;
+    padding-left: 14px;
+    color: #212528;
+    text-align: left;
+
+}
+.inputBlock{
+    margin-left: 6px;
+}
+.scndLineBlock{
+    margin: 12px 0 0 6px;
+}

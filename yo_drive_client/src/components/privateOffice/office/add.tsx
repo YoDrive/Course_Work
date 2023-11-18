@@ -18,10 +18,20 @@ export function Add(){
     const {
         register,
         handleSubmit,
-        reset,
+        resetField,
         formState: {errors}
     } = useForm<CarAdd>({
     });
+    const resFields = ()=>{
+        resetField("carImage");
+        resetField("carModel.carBrand.name");
+        resetField("carModel.modelName");
+        resetField("year");
+        resetField("gearBox");
+        resetField("carClass");
+        resetField("costDay");
+        resetField("filial");
+    }
 
     const onSubmit = (data: CarAdd) =>{
         console.log(data);
@@ -184,7 +194,7 @@ export function Add(){
                         </datalist>
                     </div>
                     <div className={styles.infoButtons}>
-                        <input className={styles.buttonCancel} type="button" value="Отмена"></input>
+                        <input className={styles.buttonCancel} type="button" onClick={resFields} value="Отмена"></input>
                         <input onClick={handleSubmit(onSubmit)} type="submit" className={styles.buttonSave}
                                value="Сохранить"></input>
                     </div>

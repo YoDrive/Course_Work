@@ -118,7 +118,7 @@ export function FilterPanel() {
                 </label>
                 <div className={styles.filterScnd}>
                     <div >
-                    <p className={styles.scndText}>Класс</p>
+                    <p className={styles.scndText}>Тип кузова</p>
                     <label className={styles.filterItem}>
                         <input type='text' list="classId" className={styles.dropItem} placeholder='Седан' autoComplete="off"
                         {...register("classId")}  onChangeCapture={handleInputChange} 
