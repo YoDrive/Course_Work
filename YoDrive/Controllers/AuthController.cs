@@ -10,6 +10,7 @@ using YoDrive.Domain.AuthDto;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Interfaces;
 using YoDrive.Domain.Data.Repositories;
+using YoDrive.Domain.Enums;
 using YoDrive.Domain.Models;
 
 namespace YoDrive.Controllers;
@@ -88,9 +89,9 @@ public class AuthController : ControllerBase
             FirstName = request.FirstName,
             Surname = request.Surname,
             Patronymic = request.Patronymic,
-            RoleId = 2,
+            RoleId = (int)RolesEnum.Client,
             PhoneNumber = request.PhoneNumber,
-            Role = _db.Role.FirstOrDefault(_ => _.RoleId == 2)
+            Role = _db.Role.FirstOrDefault(_ => _.RoleId == (int)RolesEnum.Client)
         };
         
         user = newUser;
