@@ -6,7 +6,7 @@ import { CarBookingModel } from '../../../models/Swiper/CarSwiperModel';
 import styles from './autopark.module.css';
 import car from '../../../assets/car1.png';
 import car2 from '../../../assets/car2.png';
-import car3 from '../../../assets/car3.png';
+import priora from '../../../assets/priora.png';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
@@ -21,8 +21,8 @@ let cars: CarBookingModel[] =
     },
     {
         id: 2,
-        img: car3,
-        name: 'dkjkf'
+        img: priora,
+        name: 'Lada Priora'
     },
     {
         id: 3,

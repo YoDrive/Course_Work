@@ -1,9 +1,12 @@
+import {useForm} from "react-hook-form";
 import React, {useEffect, useState} from 'react';
 import styles from './bookingPage.module.css';
 import Header from '../header/header';
 import FilterPanel from './filterPanel/filterPanel';
 import {CarBookingModel, GearBoxEnum} from '../../models/Booking/CarBookingModel';
-import carr from '../../assets/car1.png'
+import galOpen from "../../assets/whgaloshkaClose.svg";
+import galClose from "../../assets/whgalochkaOpen.svg"
+import rows from "../../assets/rows.svg"
 import Popup from './Popup/bookingPagePopup'; 
 import FeedbackPopup from './Popup/bookingPageFeedbackPopup'
 import { DateRange } from 'react-date-range';
@@ -12,8 +15,7 @@ import 'react-date-range/dist/theme/default.css'
 import ru from 'date-fns/locale/ru';
 import { format } from 'date-fns';
 import BookingService from "../../services/BookingService";
-import { Rating , ThinRoundedStar} from '@smastrom/react-rating'
-import '@smastrom/react-rating/style.css'
+import { Rating } from 'react-simple-star-rating';
 
 export function BookingPage() {
     const [openCarId, setOpenCarId] = useState<number | null>(null);
@@ -21,28 +23,37 @@ export function BookingPage() {
     const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState([
         {
-          startDate: new Date(),
-          endDate: new Date(),
-          key: 'selection',
+            startDate: new Date(),
+            endDate: new Date(),
+            key: 'selection',
         },
     ]);
 
-    useEffect(() => {
-        async function fetchCars() {
-            try {
-                const response = await BookingService.getAllCars();
-                console.log(response);
-                setCars(response.data);
-            } catch (error) {
-                // Чтобы не включать бек
-                setCars(testModels);
-                console.error('Error fetching cars:', error);
-            }
-        }
+    const [selected, setSelected] = useState(galOpen)
+    const [isExpanded, setExpanded] = useState(false);
+    const {
+        register,
+        handleSubmit,
+    } = useForm({
+        mode: "onBlur"
+    });
 
-        fetchCars();
-    }, []);
+    const handleDateChange = (ranges: any) => {
+    setSelectedDate([ranges.selection]);
+    };
+    
+    const formatDate = (date: any) => {
+        return format(date, 'dd.MM.yy');
+    };
 
+    const toggleExpand = () => {
+        setExpanded(!isExpanded);
+    };
+
+    const onSubmit=(data:any) =>{
+        console.log(data);
+        toggleExpand();
+    }
 
     // Чтобы не включать бек
     let testModels: CarBookingModel[] = [
@@ -152,14 +163,21 @@ export function BookingPage() {
         }
     ]
 
-    const handleDateChange = (ranges: any) => {
-    setSelectedDate([ranges.selection]);
-    };
-    
-    const formatDate = (date: any) => {
-        return format(date, 'dd.MM.yy');
-    };
+    useEffect(() => {
+        async function fetchCars() {
+            try {
+                const response = await BookingService.getAllCars();
+                console.log(response);
+                setCars(response.data);
+            } catch (error) {
+                // Чтобы не включать бек
+                setCars(testModels);
+                console.error('Error fetching cars:', error);
+            }
+        }
 
+        fetchCars();
+    }, []);
     const togglePopup = (carId: number) => {
       if (openCarId === carId) {
         setOpenCarId(null);
@@ -181,12 +199,30 @@ export function BookingPage() {
                 <div className={styles.catalogItemInfo}>
                     <p className={styles.carName}>{car.carModel.carBrand.name + car.carModel.modelName}</p>
                     <button className={styles.carStars} onClick={() => toggleFeedbackPopup()}>
-                        <Rating style={{ maxWidth: 100 }} readOnly value={car.rating} itemStyles={{itemShapes: ThinRoundedStar, activeFillColor: '#CCB746', inactiveFillColor: '#D9D9D9', itemStrokeWidth: 1, inactiveStrokeColor:'#CCB746', activeStrokeColor: '#CCB746'}}/>
+                        <Rating size={22} readonly initialValue={car.rating} allowFraction fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                         <p className={styles.carStarsNumber}>{car.rating}</p>
                     </button>
                     <FeedbackPopup isOpen={feedbackPopupOpen} handleClose={toggleFeedbackPopup} content={
                     <div>
-                 
+                        <div className={styles.totalRating}>
+                            <p className={styles.totalRatingNum}>4.0</p>
+                            <Rating className={styles.totalRatingStars} size={32} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                            <p className={styles.totalRatingText}>на основании 5 оценок</p>
+                        </div>
+                        <div className={styles.starRatingChartContainer}>
+                            <div className={styles.starRatingChart}>
+                                <Rating size={23} readonly initialValue={5} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                <Rating size={23} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                <Rating size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                <Rating size={23} readonly initialValue={2} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                <Rating size={23} readonly initialValue={1} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                            </div>
+                            <img className={styles.starRatingImg} src={car.carImage} width={'345px'} height={'147px'}/>
+                        </div>
+                        <div className={styles.rewiew}>
+                            <div className={styles.rewiewSort}>
+                            </div>           
+                        </div>
                     </div>} />
                     <p className={styles.carYear}>{car.year} год выпуска</p>
                     <p className={styles.carBox}>{GearBoxEnum[car.gearBox]} коробка передач</p>
@@ -241,8 +277,31 @@ export function BookingPage() {
             <div className={styles.catalogContainer}>
                 <FilterPanel/>
                 <div className={styles.subtitle}>
-                    <p className={styles.subtitleText}>Автомобили </p>
-                    <p className={styles.subtitleFind}>(найдено {listItems === undefined ? 0 : listItems.length}):</p>
+                    <div className={styles.subText}>
+                        <p className={styles.subtitleText}>Автомобили </p>
+                        <p className={styles.subtitleFind}>(найдено {listItems?.length}):</p>
+                    </div>
+                    <form className={styles.subSort} onClick={() => (isExpanded === false)&&(selected === galOpen) ? setSelected(galClose) : setSelected(galOpen)}  onChange={handleSubmit(onSubmit)} >
+                        <div className={styles.subSortBtn} onClick={() => toggleExpand()}>
+                            <img className={styles.sortGal} src={selected}></img>
+                            <p className={styles.sortText}>Сортировка</p>
+                            <img className={styles.sortRows} src={rows}></img>
+                        </div>
+                        <div className={styles.dropDown} style={{ height: isExpanded ? "100%" : "0px" }}>
+                            <label className={styles.dropMenu}>
+                                <input type="radio" value="По рейтингу" className={styles.dropBtn} 
+                                {...register("sortType")}  onClick={()=> toggleExpand()}
+                                    />
+                                <p className={styles.btnText}>По рейтингу</p>
+                            </label>
+                            <label className={styles.dropMenu}>
+                                <input type="radio" value="По цене" className={styles.dropBtn} 
+                                {...register("sortType")} onClick={()=> toggleExpand()}
+                                    />
+                                <p className={styles.btnText}>По цене</p>
+                            </label>
+                        </div>
+                    </form>
                 </div>
                 <ul className={styles.catalog}>{listItems}</ul>
             </div>
