@@ -48,8 +48,7 @@ export function Prewiev(){
                             <Rating size={18} readonly initialValue={car.rating} allowFraction fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                             <p className={styles.carStarsNumber}>{car.rating}</p>
                         </div>
-                        {/*TODO: Переделать на поле, пока думаю как*/}
-                        <p className={styles.rewievQuantity}>5 отзывов</p>
+                        <p className={styles.rewievQuantity}>{car.feedbackCount} отзывов</p>
                     </div>
                     <p className={styles.infoYear}>{car.year} года выпуска</p>
                     <p className={styles.infoGearbox}>{GearBoxEnum[car.gearBox]} коробка передач</p>

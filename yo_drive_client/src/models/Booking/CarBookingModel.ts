@@ -4,7 +4,7 @@ export interface CarBookingModel {
     carClass: CarClass;
     filial: Filial;
     year: number;
-    stateNumber: string;
+    feedbackCount: number;
     gearBox: GearBoxEnum;
     costDay: string;
     carImage?: string;

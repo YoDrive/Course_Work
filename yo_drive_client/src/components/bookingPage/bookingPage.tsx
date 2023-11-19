@@ -77,7 +77,7 @@ export function BookingPage() {
                 phoneNumber: "+78005553535"
             },
             year: 2020,
-            stateNumber: "А444МР12",
+            feedbackCount: 4,
             gearBox: 0,
             costDay: "20000",
             carImage: undefined,
@@ -103,7 +103,7 @@ export function BookingPage() {
                 phoneNumber: "+78005553535"
             },
             year: 2022,
-            stateNumber: "Х152АВ12",
+            feedbackCount: 5,
             gearBox: 0,
             costDay: "16000",
             carImage: undefined,
@@ -129,7 +129,7 @@ export function BookingPage() {
                 phoneNumber: "+78005553535"
             },
             year: 2022,
-            stateNumber: "Х162АВ12",
+            feedbackCount: 6,
             gearBox: 0,
             costDay: "16000",
             carImage: undefined,
@@ -155,7 +155,7 @@ export function BookingPage() {
                 phoneNumber: "+78005553535"
             },
             year: 2022,
-            stateNumber: "Х662АВ12",
+            feedbackCount: 10,
             gearBox: 0,
             costDay: "16000",
             carImage: undefined,
@@ -207,8 +207,7 @@ export function BookingPage() {
                         <div className={styles.totalRating}>
                             <p className={styles.totalRatingNum}>4.0</p>
                             <Rating className={styles.totalRatingStars} size={32} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                            {/*TODO: брать из модели*/}
-                            <p className={styles.totalRatingText}>на основании 5 оценок</p>
+                            <p className={styles.totalRatingText}>на основании {car.feedbackCount} оценок</p>
                         </div>
                         <div className={styles.starRatingChartContainer}>
                             <div className={styles.starRatingChart}>

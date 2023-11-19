@@ -9,7 +9,6 @@ public class CarUpdateDto
     public int ClassId { get; set; }
     public int FilialId { get; set; }
     public int Year { get; set; }
-    public string StateNumber { get; set; }
     public GearBox GearBox { get; set; }
     public decimal CostDay { get; set; }
     public string? CarImage { get; set; }

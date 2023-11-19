@@ -68,39 +68,9 @@ public class CarRepository : ICarRepository
 
     public async Task<CarReadDto> CreateCar(CarAddDto dto)
     {
-        var entity = _db.Car
-            .FirstOrDefault(_ => _.StateNumber.ToLower() == dto.StateNumber.ToLower());
-        
-        if (entity != null)
-        {
-            if (entity.IsDeleted)
-            {
-                entity.IsDeleted = false;
-                entity.CarImage = dto.CarImage;
-                entity.ClassId = dto.ClassId;
-                entity.FilialId = dto.FilialId;
-                entity.ModelId = dto.ModelId;
-                entity.CostDay = dto.CostDay;
-                entity.Year = dto.Year;
-                entity.GearBox = dto.GearBox;
-                entity.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
-                                  throw new Exception("Модель не найдена");
-                entity.CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ??
-                                  throw new Exception("Класс не найден");
-                entity.Filial = _db.Filial.FirstOrDefault(filial => filial.FilialId == dto.FilialId) ??
-                                throw new Exception("Филиал не найден");
-                _db.Car.Update(entity);
-                await _db.SaveChangesAsync();
-                return _mapper.Map<CarReadDto>(entity);
-            }
-
-            throw new DuplicateNameException($"Автомобиль с гос. номером {dto.StateNumber} уже существует");
-        }
-
-        entity = new Car()
+        var entity = new Car()
         {
             IsDeleted = false,
-            StateNumber = dto.StateNumber,
             CarImage = dto.CarImage,
             ClassId = dto.ClassId,
             FilialId = dto.FilialId,
@@ -124,13 +94,7 @@ public class CarRepository : ICarRepository
         var car = _db.Car.FirstOrDefault(_ => _.CarId == dto.CarId);
 
         if (car == null)
-            throw new KeyNotFoundException();
-
-        if (_db.Car.FirstOrDefault(_ => _.StateNumber.ToLower() == dto.StateNumber.ToLower() 
-                                        && _.CarId != dto.CarId) != null)
-        {
-            throw new Exception($"Автомобиль с гос. номером '{dto.StateNumber}' уже существует");   
-        }
+            throw new KeyNotFoundException($"Автомобиль с Id {dto.CarId} не найден");
 
         car.IsDeleted = false;
         car.CarImage = dto.CarImage;
