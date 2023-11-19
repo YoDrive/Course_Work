@@ -132,12 +132,6 @@ public class AppDbContext : DbContext
                 .HasColumnName("year")
                 .HasComment("Год выпуска");
 
-            entity.Property(e => e.StateNumber)
-                .IsRequired()
-                .HasMaxLength(12)
-                .HasColumnName("state_number")
-                .HasComment("Государственный номер автомобиля");
-
             entity.Property(e => e.GearBox)
                 .IsRequired()
                 .HasColumnName("gear_box")

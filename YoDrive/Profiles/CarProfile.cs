@@ -20,6 +20,7 @@ public class CarProfile : Profile
             .ForMember(dest => dest.Rents, opt => opt.MapFrom(src => src.Rents))
             .ForMember(dest => dest.CarId, opt => opt.MapFrom(src => src.CarId))
             .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
+            .ForMember(dest => dest.FeedbackCount, opt => opt.MapFrom(src => src.Rents.Where(_ => _.Feedback != null && _.Feedback.IsDeleted == false).Count()))
             .ReverseMap();
         CreateMap<CarAddDto, CarReadDto>().ReverseMap();
     }
