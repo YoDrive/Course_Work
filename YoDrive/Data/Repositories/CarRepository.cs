@@ -34,9 +34,13 @@ public class CarRepository : ICarRepository
 
         foreach (var car in cars)
         {
-            if (car.Rents != null && car.Rents.Any())
+            if (car.Rents != null && car.Rents.Any(r => r.Feedback != null))
             {
-                car.Rating = car.Rents.Where(_ => _.Feedback != null).Average(r => r.Feedback?.Stars ?? 0);
+                car.Rating = car.Rents.Where(r => r.Feedback != null).Average(r => r.Feedback.Stars);
+            }
+            else
+            {
+                car.Rating = 0;
             }
         }
 
