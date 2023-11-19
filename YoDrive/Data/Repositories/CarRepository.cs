@@ -23,6 +23,7 @@ public class CarRepository : ICarRepository
     public async Task<IEnumerable<CarReadDto>> GetAllCars()
     {
         var cars = await _mapper.ProjectTo<CarReadDto>(_db.Car
+            .Where(_ => !_.IsDeleted)
             .Include(_ => _.CarModel)
             .ThenInclude(_ => _.CarBrand)
             .Include(_ => _.Filial)

@@ -134,6 +134,7 @@
 
 .carStars {
     display: flex;
+    margin: 6px 0 3px 0;
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -160,10 +161,6 @@
     font-weight: 600;
     line-height: 20px;
     cursor: pointer;
-}
-
-.carStars {
-    margin: 6px 0 3px 0;
 }
 
 .carYear, .carBox, .carClass, .popupСarYear, .popupСarBox, .popupСarClass, .popupDayCost {

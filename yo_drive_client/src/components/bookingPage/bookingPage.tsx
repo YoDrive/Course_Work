@@ -207,6 +207,7 @@ export function BookingPage() {
                         <div className={styles.totalRating}>
                             <p className={styles.totalRatingNum}>4.0</p>
                             <Rating className={styles.totalRatingStars} size={32} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                            {/*TODO: брать из модели*/}
                             <p className={styles.totalRatingText}>на основании 5 оценок</p>
                         </div>
                         <div className={styles.starRatingChartContainer}>

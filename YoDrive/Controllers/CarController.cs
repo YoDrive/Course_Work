@@ -90,7 +90,7 @@ public class CarController : ControllerBase
         }
     }
 
-    [HttpDelete("DeleteCar")]
+    [HttpDelete("[action]/{id}")]
     public async Task<IActionResult> DeleteCar(int id)
     {
         try
