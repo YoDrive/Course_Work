@@ -28,7 +28,7 @@ export function Editor(){
     const addFunc = () =>{
         addHandler();
         filterHandler();
-        pUpFilterHandler();
+        setPUpFilter(false);
     }
     return(
         <div className={styles.info}>

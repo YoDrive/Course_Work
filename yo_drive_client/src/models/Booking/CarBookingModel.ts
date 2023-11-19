@@ -1,3 +1,4 @@
+import { GearBoxEnum } from "./../CarModel";
 export interface CarBookingModel {
     carId: number;
     carModel: CarModel;
@@ -11,10 +12,7 @@ export interface CarBookingModel {
     rating: number;
 }
 
-export enum GearBoxEnum {
-    "Автоматическая" = 0,
-    "Механическая" = 1
-}
+
 
 export interface CarModel {
     carModelId: number;

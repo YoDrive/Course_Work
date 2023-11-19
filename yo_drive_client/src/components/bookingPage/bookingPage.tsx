@@ -3,7 +3,8 @@ import React, {useEffect, useState} from 'react';
 import styles from './bookingPage.module.css';
 import Header from '../header/header';
 import FilterPanel from './filterPanel/filterPanel';
-import {CarBookingModel, GearBoxEnum} from '../../models/Booking/CarBookingModel';
+import {CarBookingModel} from '../../models/Booking/CarBookingModel';
+import { GearBoxEnum } from "../../models/CarModel";
 import galOpen from "../../assets/whgaloshkaClose.svg";
 import galClose from "../../assets/whgalochkaOpen.svg"
 import rows from "../../assets/rows.svg"

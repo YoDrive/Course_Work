@@ -53,7 +53,7 @@ export function Add(){
                                 )} ref={inputRef} onChange={handleImageChange} />
                             
                         <label htmlFor="Image" className={styles.imgItem}>Загрузить изображение</label>
-                        {/* <div style={{height: 13, width: 2}}>
+                        {/* <div  className={styles.error}>
                             {errors?.carImage && <p className={styles.itemError}>{errors?.carImage.message}</p>}
                         </div> */}
                     </div>
@@ -72,7 +72,7 @@ export function Add(){
                             <option className={styles.listItem} value="Mercedes-Benz">Mercedes-Benz</option>
                             <option className={styles.listItem} value="BMW">BMW</option>
                         </datalist>
-                        <div style={{height: 13, width: 2}}>
+                        <div className={styles.error}>
                             {errors?.carModel?.carBrand?.name && <p className={styles.itemError}>{errors?.carModel?.carBrand.name.message}</p>}
                         </div>
                         </div>
@@ -90,7 +90,7 @@ export function Add(){
                             <option className={styles.listItem} value="G63 AMG">G63 AMG</option>
                             <option className={styles.listItem} value="X5">X5</option>
                         </datalist>
-                        <div style={{height: 13, width: 2}}>
+                        <div className={styles.error}>
                             {errors?.carModel?.modelName && <p className={styles.itemError}>{errors?.carModel?.modelName.message}</p>}
                         </div>
                         </div>
@@ -112,7 +112,7 @@ export function Add(){
                             <option className={styles.listItem} value="2020">2020</option>
                             <option className={styles.listItem} value="2023">2023</option>
                         </datalist>
-                        <div style={{height: 13, width: 2}}>
+                        <div className={styles.error}>
                             {errors?.year && <p className={styles.itemError}>{errors?.year.message}</p>}
                         </div>
                         </div>
@@ -134,7 +134,7 @@ export function Add(){
                             <option className={styles.listItem} value="АКПП">АКПП</option>
                             <option className={styles.listItem} value="МКПП">МКПП</option>
                         </datalist>
-                        <div style={{height: 13, width: 2}}>
+                        <div className={styles.error}>
                             {errors?.gearBox && <p className={styles.itemError}>{errors?.gearBox.message}</p>}
                         </div>
                         </div>
@@ -148,7 +148,7 @@ export function Add(){
                             })
                         }
                         />
-                        <div style={{height: 13, width: 2}}>
+                        <div className={styles.error}>
                             {errors?.carClass && <p className={styles.itemError}>{errors?.carClass.message}</p>}
                         </div>
                         </div>
@@ -170,7 +170,7 @@ export function Add(){
                             })
                         }
                         />
-                        <div style={{height: 13, width: 2}}>
+                        <div className={styles.error}>
                             {errors?.costDay && <p className={styles.itemError}>{errors?.costDay.message}</p>}
                         </div>
                         </div>
@@ -184,7 +184,7 @@ export function Add(){
                             })
                         }
                         />
-                        <div style={{height: 13, width: 2}}>
+                        <div className={styles.error}>
                             {errors?.filial && <p className={styles.itemError}>{errors?.filial.message}</p>}
                         </div>
                         </div>

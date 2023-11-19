@@ -176,3 +176,7 @@
      display: flex;
      flex-direction: row;
 }
+.error{
+     height: 13px;
+     width: 2px
+}

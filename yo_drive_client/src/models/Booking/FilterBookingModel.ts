@@ -1,4 +1,4 @@
-import { GearBoxEnum } from "./CarBookingModel";
+import { GearBoxEnum } from "./../CarModel";
 export interface Filter{
     dateStart?: Date;
     dateEnd?: Date;
