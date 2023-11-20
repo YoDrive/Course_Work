@@ -162,7 +162,7 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
         <p className={styles.blockText_second}>{booking.car.costDay}₽/сутки</p>
         <p className={styles.blockText_third}>{booking.rentCost}₽</p>
         <p className={styles.blockText_fourth}>{booking.startDate.toLocaleDateString()} - {booking.endDate.toLocaleDateString()}</p>
-        <p className={styles.blockText_rewiev }>
+        <div className={styles.blockText_rewiev}>
         <img className={styles.rewiev_star} src={star}></img>
         <p className={styles.rewiev_digit}>{booking.car.rating.toFixed(1)}</p>
         <img className={styles.rewiev_icon} src={rewiev} onClick={()=>toggleFeedbackPopup()}></img>
@@ -192,7 +192,7 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
             </div> 
           </div>
         }/>
-        </p>  
+        </div>  
     </li>
     )
     return(
