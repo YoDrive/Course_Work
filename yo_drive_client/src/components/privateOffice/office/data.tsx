@@ -1,5 +1,12 @@
+import React, { useState} from 'react';
 import styles from './office.module.css';
+//import { User } from '../../../models/Auth/User.model';
 export function Data(){
+   // let testModels: BookingResponseModel[] = []
+    const [form, setForm] = useState(false);
+    const setUserForm =()=>{
+        setForm(!form)
+    }
     return(
         <div className={styles.info}>
             <h1 className={styles.infoHeader}>Мои данные</h1>

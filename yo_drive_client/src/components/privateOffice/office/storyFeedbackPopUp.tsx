@@ -1,13 +1,15 @@
 import React, {FunctionComponent} from "react";
 import styles from "../office/storyFeedbackPopUp.module.css"
-interface PopupProps {
+import { BookingResponseModel } from "../../../models/Booking/BookingResponseModel";
+interface FeedbackPopupProps {
     handleClose: () => void;
     content: React.ReactNode;
     isOpen: boolean;
+    booking:BookingResponseModel
   }
   
-  const storyFeedbackPopup: FunctionComponent<PopupProps> = (props) => {
-    const {isOpen, handleClose, content} = props;
+  const storyFeedbackPopup: FunctionComponent<FeedbackPopupProps> = (props) => {
+    const {isOpen, handleClose, content, booking} = props;
    
   
     return (   

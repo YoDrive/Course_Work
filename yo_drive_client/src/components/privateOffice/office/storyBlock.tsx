@@ -20,15 +20,19 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
     } = useForm({
         mode: "onBlur"
     });
-    const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
+    const [openBookingId, setOpenBookingId] = useState<number | null>(null);
   
-    const toggleFeedbackPopup = () => {
-        setFeedbackPopupOpen(!feedbackPopupOpen);
-    };    
+    const toggleFeedbackPopup = (bookingId: number) => {
+        if (openBookingId === bookingId) {
+          setOpenBookingId(null);
+        } else {
+          setOpenBookingId(bookingId);
+        }
+      }   
     const onSubmit=(data:any) =>{
         console.log(data);
     }
-    const [bookings, setBookings] = useState<BookingResponseModel[] | undefined>([]);
+    //const [bookings, setBookings] = useState<BookingResponseModel[] | undefined>([]);
     //врменные даты
     const data1 = new Date(2023,11,11);
     const data2 = new Date(2023,11,29);
@@ -163,16 +167,18 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
         <p className={styles.blockText_third}>{booking.rentCost}₽</p>
         <p className={styles.blockText_fourth}>{booking.startDate.toLocaleDateString()} - {booking.endDate.toLocaleDateString()}</p>
         <div className={styles.blockText_rewiev}>
-        <img className={styles.rewiev_star} src={star}></img>
-        <p className={styles.rewiev_digit}>{booking.car.rating.toFixed(1)}</p>
-        <img className={styles.rewiev_icon} src={rewiev} onClick={()=>toggleFeedbackPopup()}></img>
-        <StoryFeedbackPopup handleClose={toggleFeedbackPopup} isOpen={feedbackPopupOpen} content={
+            <img className={styles.rewiev_star} src={star}></img>
+            <p className={styles.rewiev_digit}>{booking.car.rating.toFixed(1)}</p>
+            <img className={styles.rewiev_icon} src={rewiev} onClick={()=>toggleFeedbackPopup(booking.rentId)}></img>
+        </div>
+        <div>
+        <StoryFeedbackPopup booking={booking} handleClose={()=>toggleFeedbackPopup(booking.rentId)} isOpen={openBookingId === booking.rentId} content={
         <div className={styles.popup}>
           <div className={styles.popupHead}>
             <div className={styles.popupText}>
                 <div className={styles.textItems}>
                     <p className={styles.itemOne}>Автомобиль: </p>
-                    <p className={styles.itemSecond}> {booking.car.carModel.carBrand.name} {booking.car.carModel.modelName}</p>
+                    <p className={styles.itemSecond}>{booking.car.carModel.carBrand.name} {booking.car.carModel.modelName}</p>
                 </div>
                 <div className={styles.textItems}>
                     <p className={styles.itemOne}>Дата:</p>
@@ -182,6 +188,7 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
             <div className={styles.popupRating}>
             </div>
           </div>
+          
             <form className={styles.popUpForm} onSubmit={handleSubmit(onSubmit)}>
                 <textarea  className={styles.formInput} placeholder='Оставить отзыв...'
                 {...register("feedback")}/>
@@ -190,9 +197,10 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
                 <button className={styles.btnReset} onClick={resField}>Отменить</button>
                 <button className={styles.btnSubmit} onClick={handleSubmit(onSubmit)}>Оставить отзыв</button>
             </div> 
+            
           </div>
         }/>
-        </div>  
+        </div> 
     </li>
     )
     return(
