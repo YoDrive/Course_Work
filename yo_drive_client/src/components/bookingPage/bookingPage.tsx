@@ -7,6 +7,9 @@ import {CarBookingModel, GearBoxEnum} from '../../models/Booking/CarBookingModel
 import galOpen from "../../assets/whgaloshkaClose.svg";
 import galClose from "../../assets/whgalochkaOpen.svg"
 import rows from "../../assets/rows.svg"
+import rowsPopup from "../../assets/rowsPopu.svg";
+import popupGalOpen from "../../assets/popupSort.svg"
+import popupGalClose from "../../assets/popupSortClose.svg"
 import Popup from './Popup/bookingPagePopup'; 
 import FeedbackPopup from './Popup/bookingPageFeedbackPopup'
 import { DateRange } from 'react-date-range';
@@ -29,8 +32,11 @@ export function BookingPage() {
         },
     ]);
 
-    const [selected, setSelected] = useState(galOpen)
+    const [selected, setSelected] = useState(galOpen);
+    const [selectedSort, setSelectedSort] = useState(popupGalOpen);
     const [isExpanded, setExpanded] = useState(false);
+    const [isPopupListExpanded, setPopupListExpanded] = useState(false);
+    const [selectedSortTextPopup, setSelectedSortTextPopup] = useState('Сортировка');
     const {
         register,
         handleSubmit,
@@ -50,10 +56,37 @@ export function BookingPage() {
         setExpanded(!isExpanded);
     };
 
+    const togglePopupListExpand = () => {
+        setPopupListExpanded(!isPopupListExpanded);
+    };
+
     const onSubmit=(data:any) =>{
         console.log(data);
         toggleExpand();
-    }
+    };
+
+    const onSubmitPopupList = (data: any) => {
+        console.log(data);
+        switch (data.sortType) {
+            case 'rating':
+              setSelectedSortTextPopup('По рейтингу');
+              break;
+            case 'date':
+              setSelectedSortTextPopup('По дате');
+              break;
+            default:
+              setSelectedSortTextPopup('Сортировка');
+              break;
+          }
+        setPopupListExpanded(false);
+    };
+
+    const sortOptions = [
+        { label: 'По умолчанию', value: 'startState'},
+        { label: 'По рейтингу', value: 'rating' },
+        { label: 'По дате', value: 'date' },
+    ];
+    
 
     // Чтобы не включать бек
     let testModels: CarBookingModel[] = [
@@ -178,6 +211,7 @@ export function BookingPage() {
 
         fetchCars();
     }, []);
+
     const togglePopup = (carId: number) => {
       if (openCarId === carId) {
         setOpenCarId(null);
@@ -205,23 +239,85 @@ export function BookingPage() {
                     <FeedbackPopup isOpen={feedbackPopupOpen} handleClose={toggleFeedbackPopup} content={
                     <div>
                         <div className={styles.totalRating}>
-                            <p className={styles.totalRatingNum}>4.0</p>
+                            <p className={styles.totalRatingNum}>4.1</p>
                             <Rating className={styles.totalRatingStars} size={32} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                            <p className={styles.totalRatingText}>на основании 5 оценок</p>
+                            <p className={styles.totalRatingText}>на основании 10 оценок</p>
                         </div>
                         <div className={styles.starRatingChartContainer}>
                             <div className={styles.starRatingChart}>
-                                <Rating size={23} readonly initialValue={5} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                                <Rating size={23} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                                <Rating size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                                <Rating size={23} readonly initialValue={2} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                                <Rating size={23} readonly initialValue={1} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                <div className={styles.starRatingContainer}>
+                                    <Rating size={23} readonly initialValue={5} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                    <input type="range" min="0" max="10" value="5" readOnly/>
+                                    <p className={styles.starRatingNum}>5</p>
+                                </div>
+                                <div className={styles.starRatingContainer}>
+                                    <Rating size={23} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                    <input type="range" min="0" max="10" value="3" readOnly/>
+                                    <p className={styles.starRatingNum}>3</p>
+                                </div>
+                                <div className={styles.starRatingContainer}>
+                                    <Rating size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                    <input type="range" min="0" max="10" value="1" readOnly/>
+                                    <p className={styles.starRatingNum}>1</p>
+                                </div>
+                                <div className={styles.starRatingContainer}>
+                                    <Rating size={23} readonly initialValue={2} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                    <input type="range" min="0" max="10" value="0" readOnly/>
+                                    <p className={styles.starRatingNum}>0</p>
+                                </div>
+                                <div className={styles.starRatingContainer}>
+                                    <Rating size={23} readonly initialValue={1} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                    <input type="range" min="0" max="10" value="1" readOnly/>
+                                    <p className={styles.starRatingNum}>1</p>
+                                </div>
                             </div>
                             <img className={styles.starRatingImg} src={car.carImage} width={'345px'} height={'147px'}/>
                         </div>
                         <div className={styles.rewiew}>
-                            <div className={styles.rewiewSort}>
-                            </div>           
+                            <form className={styles.rewiewSort} onClick={() => (isPopupListExpanded === false)&&(selectedSort === popupGalOpen) ? setSelectedSort(popupGalClose) : setSelectedSort(popupGalOpen)}  onChange={handleSubmit(onSubmitPopupList)}>
+                                <div className={styles.rewiewSubSortBtn} onClick={() => togglePopupListExpand()}>
+                                    <img className={styles.rewiewSortGal} src={selectedSort} alt="Sorting options" />
+                                    <p className={styles.rewiewSortText}>{selectedSortTextPopup}</p>
+                                    <img className={styles.rewiewSortRows} src={rowsPopup} alt="Sort rows" />
+                                </div>
+                                <div className={styles.dropDownPopup} style={{ height: isPopupListExpanded ? 'auto' : '0px', border: isPopupListExpanded ? 'solid 1px #212528' : 'none'}}>
+                                {sortOptions.map((option) => (
+                                    <label key={option.value} className={styles.dropMenuPopup}>
+                                    <input
+                                        type="radio"
+                                        value={option.value}
+                                        className={styles.dropBtnPopup}
+                                        {...register('sortType')}
+                                    />
+                                    <p className={styles.btnTextPopup}>{option.label}</p>
+                                    </label>
+                                ))}
+                                </div>
+                            </form>
+                            <div className={styles.rewiewCard}>
+                                <div className={styles.rewiewData}>
+                                    <p className={styles.rewiewName}>Александр Т.</p>
+                                    <Rating className={styles.rewiewStars} size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                    <p className={styles.rewiewDate}>22 сентября 2023г.</p>
+                                </div>
+                                <p className={styles.rewiewText}>Покатался на новом гелике G63 AMG, погонял недельку, Покатался на новом гелике G63 AMG, погонял недельку, радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!</p>
+                            </div> 
+                            <div className={styles.rewiewCard}>
+                                <div className={styles.rewiewData}>
+                                    <p className={styles.rewiewName}>Александр Т.</p>
+                                    <Rating className={styles.rewiewStars} size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                    <p className={styles.rewiewDate}>22 сентября 2023г.</p>
+                                </div>
+                                <p className={styles.rewiewText}>Покатался на новом гелике G63 AMG, погонял недельку, Покатался на новом гелике G63 AMG, погонял недельку, радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!</p>
+                            </div>    
+                            <div className={styles.rewiewCard}>
+                                <div className={styles.rewiewData}>
+                                    <p className={styles.rewiewName}>Александр Т.</p>
+                                    <Rating className={styles.rewiewStars} size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+                                    <p className={styles.rewiewDate}>22 сентября 2023г.</p>
+                                </div>
+                                <p className={styles.rewiewText}>Покатался на новом гелике G63 AMG, погонял недельку, Покатался на новом гелике G63 AMG, погонял недельку, радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!</p>
+                            </div>              
                         </div>
                     </div>} />
                     <p className={styles.carYear}>{car.year} год выпуска</p>
