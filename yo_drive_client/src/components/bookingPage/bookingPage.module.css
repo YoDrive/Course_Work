@@ -376,8 +376,10 @@
 
 .rewiewText {
     height: 40px;
-    overflow: scroll;
+    width: 690px;
+    overflow: auto;
     margin-top: 12px;
+    padding-right: 2px;
 }
 
 input[type='range'] {
