@@ -3,9 +3,10 @@ import rewiev from '../../../assets/rewiev.svg'
 import stars from '../../../assets/stars.svg'
 import trash from '../../../assets/trash.svg'
 import React, {useEffect, useState} from "react";
-import {CarBookingModel, GearBoxEnum} from "../../../models/Booking/CarBookingModel";
+import {CarBookingModel} from "../../../models/Booking/CarBookingModel";
 import CarService, {fetchCars} from "../../../services/CarService";
 import {Rating} from "react-simple-star-rating";
+import {GearBoxEnum} from "../../../models/CarModel";
 
 export function Prewiev(){
     const [cars, setCars] = useState<CarBookingModel[] | undefined>([]);
