@@ -29,10 +29,12 @@
     font-family: Montserrat;
     color: #FFFFFF;
 }
-.subText{
+
+.subText {
     display: flex;
     flex-direction: row;
 }
+
 .subtitleText {
     font-size: 36px;
     font-weight: 600;
@@ -45,18 +47,21 @@
     font-weight: 300;
     line-height: 32px;
 }
-.subSort{
+
+.subSort {
     display: flex;
     flex-direction: column;
 }
-.subSortBtn{
+
+.subSortBtn {
     display: flex;
     flex-direction: row;
     font-size: 26px;
     font-weight: 300;
     cursor: pointer;
 }
-.dropDown{
+
+.dropDown {
     margin-top: 50px;
     position: absolute;
     display: flex;
@@ -66,7 +71,8 @@
     overflow: hidden;
     height: 100%;
 }
-.dropMenu{
+
+.dropMenu {
     width: 219px;
     background-color: #212528;
     color: #F5F5F5;
@@ -78,18 +84,23 @@
     text-align: left;
     padding-left: 31px;
 }
-.dropBtn{
+
+.dropBtn {
     display: none;
 }
-.btnText{
+
+.btnText {
     padding-top: 7px;
 }
-.sortText{
+
+.sortText {
     padding: 10px 6px 0px 6px;
 }
-.sortGal,.sortRows{
+
+.sortGal, .sortRows {
     padding-top: 12px;
 }
+
 .catalogItem {
     display: flex;
     justify-content: space-around;
@@ -99,6 +110,7 @@
     background-color: #D9D9D9;
     border-radius: 2px;
 }
+
 .itemConteiner {
     width: 464px;
 }
@@ -256,4 +268,137 @@
     width: 372px;
     height: 138px;
     gap: 2px;
+}
+
+.starRatingContainer {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.starRatingNum {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 11px;
+    height: 11px;
+}
+
+.rewiewSort {
+    display: flex;
+    flex-direction: column;
+}
+
+.rewiewSubSortBtn {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #212528;
+}
+
+.rewiewSortGal {
+    margin-top: 4px;
+}
+
+.rewiewSortText {
+    margin-left: 14px;
+    width: 140px;
+}
+
+.dropDownPopup {
+    position: absolute;
+    display: flex;
+    margin-top: 26px;
+    flex-direction: column;
+    transition-property: height;
+    transition-duration: 150ms;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.dropMenuPopup {
+    text-align: left;
+    padding-left: 31px;
+    width: 191px;
+    height: 36px;
+    border: none;
+    font-size: 18px;
+    font-weight: 300;
+    color: #212528;
+    background-color: #D9D9D9;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.dropMenuPopup:hover {
+    background-color: #9f9e9e;
+}
+.dropBtnPopup {
+    display: none;
+}
+
+.btnTextPopup {
+    padding-top: 7px;
+}
+
+.rewiewCard {
+    margin-top: 18px;
+    padding: 17px 20px;
+    width: 739px;
+    height: 120px;
+    background-color: #212528;
+    color: #FFFFFF;
+}
+
+.rewiewName {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    width: 145px;
+}
+
+.rewiewStars {
+    margin: 0 27px;
+}
+
+.rewiewDate {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.rewiewData {
+    display: flex;
+    align-items: center;
+}
+
+.rewiewText {
+    height: 40px;
+    width: 690px;
+    overflow: auto;
+    margin-top: 12px;
+    padding-right: 2px;
+}
+
+input[type='range'] {
+    overflow: hidden;
+    width: 182px;
+    -webkit-appearance: none;
+    background-color: #9FA1A3;
+}
+  
+input[type='range']::-webkit-slider-runnable-track {
+height: 2px;
+-webkit-appearance: none;
+}
+  
+input[type='range']::-webkit-slider-thumb {
+width: 0px;
+-webkit-appearance: none;
+height: 1px;
+cursor: ew-resize;
+background: #5A5C5E;
+box-shadow: -91px 0 0 91px #5A5C5E;
 }

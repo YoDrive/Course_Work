@@ -63,11 +63,11 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
                     phoneNumber: "+78005553535"
                 },
                 year: 2020,
-                stateNumber: "",
                 gearBox: 0,
                 carImage: undefined,
                 costDay: "2300",
-                rating: 5.0
+                rating: 5.0,
+                feedbackCount: 5
             },
             startDate: data1,
             endDate: data2,
@@ -103,11 +103,11 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
                     phoneNumber: "+78005553535"
                 },
                 year: 2020,
-                stateNumber: "",
                 gearBox: 0,
                 carImage: undefined,
                 costDay: "2400",
-                rating: 4.9
+                rating: 4.9,
+                feedbackCount: 5
             },
             startDate: data1,
             endDate: data2,
@@ -143,11 +143,11 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
                     phoneNumber: "+78005553535"
                 },
                 year: 2020,
-                stateNumber: "",
                 gearBox: 0,
                 carImage: undefined,
                 costDay: "1000400",
-                rating: 4.9
+                rating: 4.9,
+                feedbackCount: 5
             },
             startDate: data1,
             endDate: data2,
