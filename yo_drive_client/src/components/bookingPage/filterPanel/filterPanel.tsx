@@ -17,7 +17,7 @@ export function getCurrentDate(separator='-'){
     }
 
 export function FilterPanel() {
-    const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = useState(1);
     const handleInputChange = (event:any) => {
         const inputValue = event.target.value.trim();
         const wasEmpty = inputValue === '';
@@ -118,7 +118,7 @@ export function FilterPanel() {
                 </label>
                 <div className={styles.filterScnd}>
                     <div >
-                    <p className={styles.scndText}>Класс</p>
+                    <p className={styles.scndText}>Тип кузова</p>
                     <label className={styles.filterItem}>
                         <input type='text' list="classId" className={styles.dropItem} placeholder='Седан' autoComplete="off"
                         {...register("classId")}  onChangeCapture={handleInputChange} 
@@ -163,16 +163,22 @@ export function FilterPanel() {
                     <p className={styles.scndText}>Коробка передач</p>
                     <div className={styles.btnsRadio} >
                         <label className={styles.filterItem}>
-                            <input type="checkbox" value="Механическая" className={styles.checkboxItem} defaultChecked={true}
+                            <input type="radio" value="Механическая" className={styles.checkboxItem} defaultChecked={true}
                             {...register("gearBox")}
                                 />
                             <p className={styles.radioText} >Механическая</p>
                         </label>
                         <label className={styles.filterItem}>
-                            <input type="checkbox" value="Автоматическая" className={styles.checkboxItem} defaultChecked={true}
+                            <input type="radio" value="Автоматическая" className={styles.checkboxItem} defaultChecked={true}
                             {...register("gearBox")}
                                 />
                             <p className={styles.radioText}>Автоматическая</p>
+                        </label>
+                        <label className={styles.filterItem}>
+                            <input type="radio" value="Все" className={styles.checkboxItem} defaultChecked={true}
+                            {...register("gearBox")}
+                                />
+                            <p className={styles.radioText}>Все</p>
                         </label>
                     </div>
                     </div>

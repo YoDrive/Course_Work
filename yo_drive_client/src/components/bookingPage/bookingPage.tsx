@@ -3,7 +3,8 @@ import React, {useEffect, useState} from 'react';
 import styles from './bookingPage.module.css';
 import Header from '../header/header';
 import FilterPanel from './filterPanel/filterPanel';
-import {CarBookingModel, GearBoxEnum} from '../../models/Booking/CarBookingModel';
+import {CarBookingModel} from '../../models/Booking/CarBookingModel';
+import { GearBoxEnum } from "../../models/CarModel";
 import galOpen from "../../assets/whgaloshkaClose.svg";
 import galClose from "../../assets/whgalochkaOpen.svg"
 import rows from "../../assets/rows.svg"
@@ -110,7 +111,7 @@ export function BookingPage() {
                 phoneNumber: "+78005553535"
             },
             year: 2020,
-            stateNumber: "А444МР12",
+            feedbackCount: 4,
             gearBox: 0,
             costDay: "20000",
             carImage: undefined,
@@ -136,7 +137,7 @@ export function BookingPage() {
                 phoneNumber: "+78005553535"
             },
             year: 2022,
-            stateNumber: "Х152АВ12",
+            feedbackCount: 5,
             gearBox: 0,
             costDay: "16000",
             carImage: undefined,
@@ -162,7 +163,7 @@ export function BookingPage() {
                 phoneNumber: "+78005553535"
             },
             year: 2022,
-            stateNumber: "Х162АВ12",
+            feedbackCount: 6,
             gearBox: 0,
             costDay: "16000",
             carImage: undefined,
@@ -188,7 +189,7 @@ export function BookingPage() {
                 phoneNumber: "+78005553535"
             },
             year: 2022,
-            stateNumber: "Х662АВ12",
+            feedbackCount: 10,
             gearBox: 0,
             costDay: "16000",
             carImage: undefined,
@@ -231,7 +232,7 @@ export function BookingPage() {
             <img src={car.carImage} width={'452px'} height={'194px'}/>
             <div className={styles.itemConteiner}>
                 <div className={styles.catalogItemInfo}>
-                    <p className={styles.carName}>{car.carModel.carBrand.name + car.carModel.modelName}</p>
+                    <p className={styles.carName}>{car.carModel.carBrand.name + " " + car.carModel.modelName}</p>
                     <button className={styles.carStars} onClick={() => toggleFeedbackPopup()}>
                         <Rating size={22} readonly initialValue={car.rating} allowFraction fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                         <p className={styles.carStarsNumber}>{car.rating}</p>
@@ -241,7 +242,7 @@ export function BookingPage() {
                         <div className={styles.totalRating}>
                             <p className={styles.totalRatingNum}>4.1</p>
                             <Rating className={styles.totalRatingStars} size={32} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                            <p className={styles.totalRatingText}>на основании 10 оценок</p>
+                            <p className={styles.totalRatingText}>на основании {car.feedbackCount} оценок</p>
                         </div>
                         <div className={styles.starRatingChartContainer}>
                             <div className={styles.starRatingChart}>

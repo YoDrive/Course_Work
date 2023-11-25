@@ -24,9 +24,6 @@ public class Car
     [Required]
     public int Year { get; set; }
     [Required]
-    [MaxLength(12)]
-    public string StateNumber { get; set; }
-    [Required]
     [Column(TypeName="smallint")]
     public GearBox GearBox { get; set; }
     [Required]

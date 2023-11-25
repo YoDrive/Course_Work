@@ -1,6 +1,6 @@
 .addBlock{
      width: 937px;
-     height: 335px;
+     height: 385px;
      margin-top: 34px;
      background-color: #d9d9d9; 
      display: flex;
@@ -12,7 +12,7 @@
 }
 .imgSpace{
      width: 273px;
-     height: 238px;
+     height: 277px;
      border: solid;
      border-color: #212528;
      border-width: 1px;
@@ -24,7 +24,7 @@
      flex-direction: row;
 }
 .spaceIcon{
-     margin-top: 58px;
+     margin-top: 80px;
 }
 .blockInfo{
      margin: 22px 0 0 69px;
@@ -150,4 +150,33 @@
 }
 .itemInputPrice:focus{
      background: none;
+}
+.itemInputFilial{
+     width: 200px;
+     height: 28px;
+     background-color: transparent;
+     border: none;
+     border-bottom: solid;
+     border-width: 1px;
+     border-color: #212528;
+     font-family: Montserrat;
+     font-size: 18px;
+     font-weight: 300;
+     padding-left: 16px;
+     background: none;
+     margin-top: 3px;
+     margin-right: 5px;
+}
+.itemError{
+     font-family: Montserrat;
+     font-size: 24px;
+     color: #b42121;
+}
+.itemInp{
+     display: flex;
+     flex-direction: row;
+}
+.error{
+     height: 13px;
+     width: 2px
 }

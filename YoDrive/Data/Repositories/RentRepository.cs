@@ -77,6 +77,9 @@ public class RentRepository : IRentRepository
                               && _.EndDate > dto.StartDate))
             throw new Exception($"Невозможно забронировать автомобиль");
 
+        if (dto.StartDate < DateTime.Today)
+            throw new Exception($"Невозможно забронировать автомобиль");
+
         var response = new Rent()
         {
             UserId = dto.UserId,

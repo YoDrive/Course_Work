@@ -20,9 +20,7 @@ export function Story(){
                     <p className={styles.storyHeader_date}>Дата</p>
                     <p className={styles.storyHeader_rewiev}>Отзывы</p>
                 </div>
-                <ul className={styles.storyBlocks}>
-                    <StoryBlock/>
-                </ul>
+                <StoryBlock/>
             </div>
          </div>
     )

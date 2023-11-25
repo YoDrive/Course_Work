@@ -1,18 +1,14 @@
-import { GearBoxEnum } from "./../CarModel";
-export interface CarBookingModel {
+import { GearBoxEnum } from "../CarModel";
+export interface CarAdd {
     carId: number;
     carModel: CarModel;
     carClass: CarClass;
     filial: Filial;
     year: number;
-    feedbackCount: number;
     gearBox: GearBoxEnum;
     costDay: string;
-    carImage?: string;
-    rating: number;
+    carImage?: Object;
 }
-
-
 
 export interface CarModel {
     carModelId: number;
