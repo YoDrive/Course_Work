@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Course_Work/static/css/main.528659ff.css",
-    "main.js": "/Course_Work/static/js/main.90ad943f.js",
+    "main.css": "/Course_Work/static/css/main.24e4319a.css",
+    "main.js": "/Course_Work/static/js/main.e8fcf57c.js",
     "static/js/787.95fad893.chunk.js": "/Course_Work/static/js/787.95fad893.chunk.js",
     "static/media/backgroundImage.jpg": "/Course_Work/static/media/backgroundImage.1ac354336b62540cd4c2.jpg",
     "static/media/priora.png": "/Course_Work/static/media/priora.1bd1841420933d163e57.png",
@@ -20,6 +20,7 @@
     "static/media/user.svg": "/Course_Work/static/media/user.bcd26ef9eb539793512c8b5c2d9ba50c.svg",
     "static/media/yt.svg": "/Course_Work/static/media/yt.29753ca8dbaa83453cd3412590ccd832.svg",
     "static/media/rows.svg": "/Course_Work/static/media/rows.fe9e7a35e19851f72ce4a46bb26a94af.svg",
+    "static/media/rowsPopu.svg": "/Course_Work/static/media/rowsPopu.dbe9c962ea5b44adead31bdbcd5ff8c1.svg",
     "static/media/location.svg": "/Course_Work/static/media/location.43bc1cda0ef2b5b382f5dffa8de2abf3.svg",
     "static/media/mark.svg": "/Course_Work/static/media/mark.6fbb3f02b3f633bcd6212cc61ccff2f5.svg",
     "static/media/inst.svg": "/Course_Work/static/media/inst.d36d711d0659cd4d1d2343e49e04a345.svg",
@@ -31,17 +32,20 @@
     "static/media/lupa.svg": "/Course_Work/static/media/lupa.9929b26b99403b619ef8e8cb98f4b22d.svg",
     "static/media/rewiev.svg": "/Course_Work/static/media/rewiev.b09412158e3be878af5ac02bc2f7dced.svg",
     "static/media/star.svg": "/Course_Work/static/media/star.9e7d5b0849236a7be56c84486d5eabcb.svg",
+    "static/media/Vector21.svg": "/Course_Work/static/media/Vector21.d2d58784a14e64ce5cfa7296607f07d9.svg",
+    "static/media/Vector2.svg": "/Course_Work/static/media/Vector2.47ba538166472013e45dbb0dec7126df.svg",
+    "static/media/popupSortClose.svg": "/Course_Work/static/media/popupSortClose.fae5d51195a8e0dfdceeca8796925eb6.svg",
     "static/media/whgalochkaOpen.svg": "/Course_Work/static/media/whgalochkaOpen.556ad945c35bf73ab2c8e0b2eca41f64.svg",
-    "static/media/Vector2.svg": "/Course_Work/static/media/Vector2.61263155667ce2e800d4fba55b7aa781.svg",
     "static/media/whgaloshkaClose.svg": "/Course_Work/static/media/whgaloshkaClose.8118a2c9572ef9250a5769f9962b0a03.svg",
+    "static/media/popupSort.svg": "/Course_Work/static/media/popupSort.6588822019468f205443f5aa0d458465.svg",
     "static/media/galochkaClose.svg": "/Course_Work/static/media/galochkaClose.fba23bd074af6a760750f3724088bd66.svg",
     "static/media/galochkaOpen.svg": "/Course_Work/static/media/galochkaOpen.9430405c3d6d1c2d690ef7672beb7598.svg",
-    "main.528659ff.css.map": "/Course_Work/static/css/main.528659ff.css.map",
-    "main.90ad943f.js.map": "/Course_Work/static/js/main.90ad943f.js.map",
+    "main.24e4319a.css.map": "/Course_Work/static/css/main.24e4319a.css.map",
+    "main.e8fcf57c.js.map": "/Course_Work/static/js/main.e8fcf57c.js.map",
     "787.95fad893.chunk.js.map": "/Course_Work/static/js/787.95fad893.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.528659ff.css",
-    "static/js/main.90ad943f.js"
+    "static/css/main.24e4319a.css",
+    "static/js/main.e8fcf57c.js"
   ]
 }
