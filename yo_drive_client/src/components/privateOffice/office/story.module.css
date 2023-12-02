@@ -43,7 +43,7 @@
 }
 .storyHeaders{
     margin-top: 32px;
-    padding: 0 28px 0 25px;
+    padding: 0 39px 0 25px;
     display: flex;
     flex-direction: row;
     width: 935px;
@@ -61,7 +61,7 @@
     margin: 15px 3px 15px 3px;
     display: flex;
     flex-direction: row;
-    padding: 0 30px 0 22px;
+    padding: 0 0px 0 22px;
     font-family: Montserrat;
     color: #212528;
     font-size: 14px;
