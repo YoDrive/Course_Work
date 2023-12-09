@@ -2,7 +2,7 @@ import {CarBookingModel} from "./CarBookingModel";
 
 export interface BookingResponseModel {
     rentId: number;
-    user: UserModel;
+    userId: number;
     car: CarBookingModel;
     startDate: Date;
     endDate: Date;
@@ -20,7 +20,7 @@ export interface UserModel {
 
 export interface FeedbackModel {
     feedbackId: number;
-    rent: BookingResponseModel;
+    rentId: number;
     response: string;
     stars: number;
     feedbackDate: Date;

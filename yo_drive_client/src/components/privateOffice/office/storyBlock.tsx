@@ -1,14 +1,30 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import styles from './story.module.css'
 import star from '../../../assets/star.svg'
 import rewiev from '../../../assets/rewiev.svg'
 import StoryFeedbackPopup from './storyFeedbackPopUp'
-import { useForm} from "react-hook-form"
-import { BookingResponseModel } from '../../../models/Booking/BookingResponseModel'
+import {useForm} from "react-hook-form"
+import {BookingResponseModel} from '../../../models/Booking/BookingResponseModel'
+import RentService from "../../../services/RentService";
 
- export function StoryBlock(){
-    const resField =() =>{
-        if(getValues("feedback") != null){
+export function StoryBlock() {
+    const [rents, setRents] = useState<BookingResponseModel[] | undefined>([]);
+
+    useEffect(() => {
+        async function fetchCars() {
+            try {
+                const response = await RentService.GetUserRents(1);
+                setRents(response.data);
+            } catch (error) {
+                console.error('Error fetching cars:', error);
+            }
+        }
+
+        fetchCars();
+    }, []);
+
+    const resField = () => {
+        if (getValues("feedback") != null) {
             resetField("feedback")
         }
     };
@@ -21,188 +37,65 @@ import { BookingResponseModel } from '../../../models/Booking/BookingResponseMod
         mode: "onBlur"
     });
     const [openBookingId, setOpenBookingId] = useState<number | null>(null);
-  
+
     const toggleFeedbackPopup = (bookingId: number) => {
         if (openBookingId === bookingId) {
-          setOpenBookingId(null);
+            setOpenBookingId(null);
         } else {
-          setOpenBookingId(bookingId);
+            setOpenBookingId(bookingId);
         }
-      }   
-    const onSubmit=(data:any) =>{
+    }
+    const onSubmit = (data: any) => {
         console.log(data);
     }
-    //const [bookings, setBookings] = useState<BookingResponseModel[] | undefined>([]);
-    //врменные даты
-    const data1 = new Date(2023,11,11);
-    const data2 = new Date(2023,11,29);
-    //шобы бэк не врубать
-    let testModels: BookingResponseModel[] = [
-        {
-            rentId: 1,
-            user:{
-                firstName: "",
-                surname: "string",
-                patronymic: "string",
-                phoneNumber: "string",
-                email: "string"
-            },
-            car: {
-                carId: 1,
-                carModel:{
-                    carBrand:{
-                        carBrandId: 1,
-                        name:"Mercedes-Benz"
-                    },
-                    carModelId: 1,
-                    modelName: "G63 AMG"
-                },
-                carClass:{
-                    carClassId: 1,
-                    className: "внедорожник"
-                },
-                filial:{
-                    filialId: 1,
-                    address: "ул. Луначарского",
-                    phoneNumber: "+78005553535"
-                },
-                year: 2020,
-                gearBox: 0,
-                carImage: undefined,
-                costDay: "2300",
-                rating: 5.0,
-                feedbackCount: 5
-            },
-            startDate: data1,
-            endDate: data2,
-            rentCost: 220000,
-            feedback:undefined
-        },
-        {
-            rentId: 2,
-            user:{
-                firstName: "",
-                surname: "string",
-                patronymic: "string",
-                phoneNumber: "string",
-                email: "string"
-            },
-            car: {
-                carId: 1,
-                carModel:{
-                    carBrand:{
-                        carBrandId: 2,
-                        name:"Lada"
-                    },
-                    carModelId: 1,
-                    modelName: "Priora"
-                },
-                carClass:{
-                    carClassId: 1,
-                    className: "внедорожник"
-                },
-                filial:{
-                    filialId: 1,
-                    address: "ул. Луначарского",
-                    phoneNumber: "+78005553535"
-                },
-                year: 2020,
-                gearBox: 0,
-                carImage: undefined,
-                costDay: "2400",
-                rating: 4.9,
-                feedbackCount: 5
-            },
-            startDate: data1,
-            endDate: data2,
-            rentCost: 220000,
-            feedback:undefined
-        },
-        {
-            rentId: 3,
-            user:{
-                firstName: "",
-                surname: "string",
-                patronymic: "string",
-                phoneNumber: "string",
-                email: "string"
-            },
-            car: {
-                carId: 1,
-                carModel:{
-                    carBrand:{
-                        carBrandId: 2,
-                        name:"Renault"
-                    },
-                    carModelId: 1,
-                    modelName: "Logan"
-                },
-                carClass:{
-                    carClassId: 1,
-                    className: "внедорожник"
-                },
-                filial:{
-                    filialId: 1,
-                    address: "ул. Луначарского",
-                    phoneNumber: "+78005553535"
-                },
-                year: 2020,
-                gearBox: 0,
-                carImage: undefined,
-                costDay: "1000400",
-                rating: 4.9,
-                feedbackCount: 5
-            },
-            startDate: data1,
-            endDate: data2,
-            rentCost: 220000,
-            feedback:undefined
-        },
-        
-    ]
-    let listItems = testModels?.map((booking) =>
-    <li key={booking.rentId} className={styles.storyBlock}>
-        <p className={styles.blockText_first}>{booking.car.carModel.carBrand.name} {booking.car.carModel.modelName}</p>
-        <p className={styles.blockText_second}>{booking.car.costDay}₽/сутки</p>
-        <p className={styles.blockText_third}>{booking.rentCost}₽</p>
-        <p className={styles.blockText_fourth}>{booking.startDate.toLocaleDateString()} - {booking.endDate.toLocaleDateString()}</p>
-        <div className={styles.blockText_rewiev}>
-            <img className={styles.rewiev_star} src={star}></img>
-            <p className={styles.rewiev_digit}>{booking.car.rating.toFixed(1)}</p>
-            <img className={styles.rewiev_icon} src={rewiev} onClick={()=>toggleFeedbackPopup(booking.rentId)}></img>
-        </div>
-        <div>
-        <StoryFeedbackPopup booking={booking} handleClose={()=>toggleFeedbackPopup(booking.rentId)} isOpen={openBookingId === booking.rentId} content={
-        <div className={styles.popup}>
-          <div className={styles.popupHead}>
-            <div className={styles.popupText}>
-                <div className={styles.textItems}>
-                    <p className={styles.itemOne}>Автомобиль: </p>
-                    <p className={styles.itemSecond}>{booking.car.carModel.carBrand.name} {booking.car.carModel.modelName}</p>
-                </div>
-                <div className={styles.textItems}>
-                    <p className={styles.itemOne}>Дата:</p>
-                    <p className={styles.itemSecond}>{booking.startDate.toLocaleDateString()} - {booking.endDate.toLocaleDateString()}</p>
-                </div>
+
+    let listItems = rents?.map((rent) =>
+        <li key={rent.rentId} className={styles.storyBlock}>
+            <p className={styles.blockText_first}>{rent.car.carModel.carBrand.name + ' ' + rent.car.carModel.modelName}</p>
+            <p className={styles.blockText_second}>{rent.car.costDay}₽/сутки</p>
+            <p className={styles.blockText_third}>{rent.rentCost}₽</p>
+            <p className={styles.blockText_fourth}>{ new Date(rent.startDate).toLocaleDateString('ru-RU') } - { new Date(rent.endDate).toLocaleDateString('ru-RU') }</p>
+            <div className={styles.blockText_rewiev}>
+                <img className={styles.rewiev_star} src={star}></img>
+                <p className={styles.rewiev_digit}>{rent.car.rating.toFixed(1)}</p>
+                <img className={styles.rewiev_icon} src={rewiev}
+                     onClick={() => toggleFeedbackPopup(rent.rentId)}></img>
             </div>
-            <div className={styles.popupRating}>
+            <div>
+                <StoryFeedbackPopup booking={rent} handleClose={() => toggleFeedbackPopup(rent.rentId)}
+                                    isOpen={openBookingId === rent.rentId} content={
+                    <div className={styles.popup}>
+                        <div className={styles.popupHead}>
+                            <div className={styles.popupText}>
+                                <div className={styles.textItems}>
+                                    <p className={styles.itemOne}>Автомобиль: </p>
+                                    <p className={styles.itemSecond}>{rent.car.carModel.carBrand.name + ' ' + rent.car.carModel.modelName}</p>
+                                </div>
+                                <div className={styles.textItems}>
+                                    <p className={styles.itemOne}>Дата:</p>
+                                    <p className={styles.itemSecond}>{ new Date(rent.startDate).toLocaleDateString('ru-RU') } - { new Date(rent.endDate).toLocaleDateString('ru-RU') }</p>
+                                </div>
+                            </div>
+                            <div className={styles.popupRating}>
+                            </div>
+                        </div>
+
+                        <form className={styles.popUpForm} onSubmit={handleSubmit(onSubmit)}>
+                <textarea className={styles.formInput} placeholder='Оставить отзыв...'
+                          {...register("feedback")}/>
+                        </form>
+                        <div className={styles.popUpBtns}>
+                            <button className={styles.btnReset} onClick={resField}>Отменить</button>
+                            <button className={styles.btnSubmit} onClick={handleSubmit(onSubmit)}>Оставить отзыв
+                            </button>
+                        </div>
+
+                    </div>
+                }/>
             </div>
-          </div>
-          
-            <form className={styles.popUpForm} onSubmit={handleSubmit(onSubmit)}>
-                <textarea  className={styles.formInput} placeholder='Оставить отзыв...'
-                {...register("feedback")}/>
-            </form>
-            <div className={styles.popUpBtns}>
-                <button className={styles.btnReset} onClick={resField}>Отменить</button>
-                <button className={styles.btnSubmit} onClick={handleSubmit(onSubmit)}>Оставить отзыв</button>
-            </div> 
-            
-          </div>
-        }/>
-        </div> 
-    </li>
+        </li>
     )
-    return(
+    return (
         <ul className={styles.listItems}>{listItems}</ul>
-    )}
+    )
+}

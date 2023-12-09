@@ -42,7 +42,7 @@ public class RentController : ControllerBase
         }
     }
 
-    [HttpGet("GetUserRents")]
+    [HttpGet("GetUserRents/{userId}")]
     public async Task<IActionResult> GetUserRents(int userId)
     {
         try

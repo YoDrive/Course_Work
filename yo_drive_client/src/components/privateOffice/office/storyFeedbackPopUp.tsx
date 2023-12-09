@@ -5,12 +5,11 @@ interface FeedbackPopupProps {
     handleClose: () => void;
     content: React.ReactNode;
     isOpen: boolean;
-    booking:BookingResponseModel
+    booking: BookingResponseModel
   }
   
   const storyFeedbackPopup: FunctionComponent<FeedbackPopupProps> = (props) => {
     const {isOpen, handleClose, content, booking} = props;
-   
   
     return (   
         <div className={styles.popupBox} style={{ display: isOpen ? "block" : "none" }}>

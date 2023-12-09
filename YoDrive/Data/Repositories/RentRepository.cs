@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using YoDrive.Domain.Data.Interfaces;
+using YoDrive.Domain.Dtos.CarDto;
 using YoDrive.Domain.Dtos.RentDto;
 using YoDrive.Domain.Models;
 
@@ -43,16 +44,29 @@ public class RentRepository : IRentRepository
 
     public async Task<IEnumerable<RentReadDto>> GetUserRents(int userId)
     {
-        var car = _db.User.FirstOrDefault(_ => _.UserId == userId);
-        if (car == null)
+        var user = _db.User.FirstOrDefault(_ => _.UserId == userId);
+        if (user == null)
             throw new Exception($"Пользователь с Id {userId} не найден");
         
-        var carFeedbacks = _db.Rent
+        var rents = _db.Rent
             .Include(_ => _.Feedback)
             .Include(_ => _.Car)
             .Where(_ => _.UserId == userId);
 
-        var response = await _mapper.ProjectTo<RentReadDto>(carFeedbacks).ToListAsync();
+        var response = await _mapper.ProjectTo<RentReadDto>(rents).ToListAsync();
+        
+        foreach (var rent in response)
+        {
+            var car = _mapper.Map<CarReadDto>(rent.Car);
+            if (car.Rents != null && car.Rents.Any(r => r.Feedback != null))
+            {
+                rent.Car.Rating = car.Rents.Where(r => r.Feedback != null).Average(r => r.Feedback.Stars);
+            }
+            else
+            {
+                rent.Car.Rating = 0;
+            }
+        }
 
         return response;
     }
