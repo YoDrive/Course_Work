@@ -49,6 +49,16 @@ public class CarRepository : ICarRepository
         return cars;
     }
 
+    public async Task<List<CarMinDto>> GetAutopark()
+    {
+        var cars = await _mapper.ProjectTo<CarMinDto>(_db.Car.Where(_ => _.CarImage != null && _.IsDeleted == false)).ToListAsync();
+        foreach (var car in cars)
+        {
+            car.Image = ImageHelper.GetImage(car.CarImage);
+        }
+        return cars;
+    }
+
     public async Task<CarReadDto> GetCarById(int id)
     {
         var car = await _db.Car

@@ -43,6 +43,20 @@ public class CarController : ControllerBase
         }
     }
 
+    [HttpGet("GetAutopark")]
+    public async Task<IActionResult> GetOurAutopark()
+    {
+        try
+        {
+            var response = await _repository.GetAutopark();
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
     [HttpPost("CreateCar")]
     public async Task<IActionResult> CreateCar([FromForm] CarAddDto dto, [FromForm] IFormFile file)
     {

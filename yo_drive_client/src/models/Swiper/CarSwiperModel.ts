@@ -1,5 +1,6 @@
-export interface CarBookingModel {
-    id: number;
-    img: string;
+export interface CarSwiperModel {
+    carId: number;
+    carImage: string;
+    image: Uint8Array;
     name: string;
 }
