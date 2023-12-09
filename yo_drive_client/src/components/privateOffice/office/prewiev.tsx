@@ -38,7 +38,15 @@ export function Prewiev(){
 
     let listItems = cars?.map((car) =>
         <li key={car.carId} className={styles.carBlock}>
-            <img src={car.carImage} className={styles.carImg}/>
+            {car.image && (
+                <img
+                    src={`data:image/png;base64,${car.image}`}
+                    alt={`${car.carModel.modelName}`}
+                    className={styles.carImg}
+                />
+            )}
+            {/*TODO: Картинка загушка*/}
+            {!car.image && <img src={''} className={styles.carImg}/>}
             <div className={styles.carInfo}>
                 <div className={styles.infoHeader}>
                     <p className={styles.headerText}>{car.carModel.carBrand.name + ' ' + car.carModel.modelName}</p>

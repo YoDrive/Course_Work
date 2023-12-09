@@ -9,10 +9,9 @@ export interface CarBookingModel {
     gearBox: GearBoxEnum;
     costDay: string;
     carImage?: string;
+    image?: Uint8Array | null;
     rating: number;
 }
-
-
 
 export interface CarModel {
     carModelId: number;
