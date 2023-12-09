@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Course_Work/static/css/main.b530ef41.css",
-    "main.js": "/Course_Work/static/js/main.ca6aef1c.js",
+    "main.js": "/Course_Work/static/js/main.24dbe55e.js",
     "static/js/787.95fad893.chunk.js": "/Course_Work/static/js/787.95fad893.chunk.js",
     "static/media/backgroundImage.jpg": "/Course_Work/static/media/backgroundImage.1ac354336b62540cd4c2.jpg",
     "static/media/priora.png": "/Course_Work/static/media/priora.1bd1841420933d163e57.png",
@@ -41,11 +41,11 @@
     "static/media/galochkaClose.svg": "/Course_Work/static/media/galochkaClose.fba23bd074af6a760750f3724088bd66.svg",
     "static/media/galochkaOpen.svg": "/Course_Work/static/media/galochkaOpen.9430405c3d6d1c2d690ef7672beb7598.svg",
     "main.b530ef41.css.map": "/Course_Work/static/css/main.b530ef41.css.map",
-    "main.ca6aef1c.js.map": "/Course_Work/static/js/main.ca6aef1c.js.map",
+    "main.24dbe55e.js.map": "/Course_Work/static/js/main.24dbe55e.js.map",
     "787.95fad893.chunk.js.map": "/Course_Work/static/js/787.95fad893.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b530ef41.css",
-    "static/js/main.ca6aef1c.js"
+    "static/js/main.24dbe55e.js"
   ]
 }
