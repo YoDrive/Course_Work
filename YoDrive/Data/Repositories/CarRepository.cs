@@ -6,6 +6,7 @@ using YoDrive.Domain.Dtos.CarDto;
 using YoDrive.Domain.Dtos.ModelDto;
 using YoDrive.Domain.Models;
 using YoDrive.Domain.Other;
+using YoDrive.Helpers;
 
 namespace YoDrive.Domain.Data.Repositories;
 
@@ -34,6 +35,7 @@ public class CarRepository : ICarRepository
 
         foreach (var car in cars)
         {
+            car.Image = ImageHelper.GetImage(car.CarImage);
             if (car.Rents != null && car.Rents.Any(r => r.Feedback != null))
             {
                 car.Rating = car.Rents.Where(r => r.Feedback != null).Average(r => r.Feedback.Stars);
@@ -60,8 +62,10 @@ public class CarRepository : ICarRepository
 
         if (car == null)
             throw new Exception($"Автомобиль с Id {id} не найден");
-        
+
+        var image = ImageHelper.GetImage(car.CarImage);
         var response = _mapper.Map<CarReadDto>(car);
+        response.Image = image;
         if (response.Rents != null && response.Rents.Any())
         {
             response.Rating = response.Rents.Where(_ => _.Feedback != null).Average(r => r.Feedback?.Stars ?? 0);
