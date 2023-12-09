@@ -1,42 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {EffectCoverflow, Navigation} from 'swiper/modules';
-import { CarBookingModel } from '../../../models/Swiper/CarSwiperModel';
-
+import {CarSwiperModel} from '../../../models/Swiper/CarSwiperModel';
 import styles from './autopark.module.css';
-import car from '../../../assets/car1.png';
-import car2 from '../../../assets/car2.png';
-import priora from '../../../assets/priora.png';
-
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
-
-let cars: CarBookingModel[] =
-[
-    {
-        id: 1,
-        img: car,
-        name: 'Mercedes-Benz G63 AMG'
-    },
-    {
-        id: 2,
-        img: priora,
-        name: 'Lada Priora'
-    },
-    {
-        id: 3,
-        img: car,
-        name: 'KDLLK KLDA'
-    },
-    {
-        id: 4,
-        img: car2,
-        name: 'KLSKdkd LKDSKLlL'
-    }
-]
+import BookingService from "../../../services/BookingService";
 
 export function Autopark() {
+    const [cars, setCars] = useState<CarSwiperModel[]>([]);
+
+    useEffect(() => {
+        async function fetchCars() {
+            try {
+                const response = await BookingService.getAutopark();
+                setCars(response.data);
+            } catch (error) {
+                console.error('Error fetching cars:', error);
+            }
+        }
+
+        fetchCars();
+    }, []);
 
     return (
         <div className={styles.autoparkContainer}>
@@ -58,8 +44,12 @@ export function Autopark() {
                 }}
                 navigation = {true}>
                 {cars.map((car) => (
-                    <SwiperSlide key={car.id}>
-                        <img src={car.img} className={styles.img} alt="slide_image" />
+                    <SwiperSlide key={car.carId}>
+                        <img
+                            src={`data:image/png;base64,${car.image}`}
+                            alt={`${car.name}`}
+                            className={styles.img}
+                        />
                         <p className={styles.carName}>{car.name}</p>
                     </SwiperSlide>
                 ))}
