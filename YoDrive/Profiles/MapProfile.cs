@@ -60,8 +60,7 @@ public class MapProfile : Profile
             .ReverseMap();
         CreateMap<CarAddDto, CarReadDto>().ReverseMap();
         CreateMap<Car, CarMinDto>()
-            .ForMember(dest => dest.Name,
-                opt => opt.MapFrom(src => $"{src.CarModel.CarBrand.Name} {src.CarModel.ModelName}"));
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.CarModel.CarBrand.Name} {src.CarModel.ModelName}"));
 
         #endregion
 
@@ -69,9 +68,7 @@ public class MapProfile : Profile
 
         CreateMap<Feedback, FeedbackUpdateDto>().ReverseMap();
         CreateMap<FeedbackAddDto, Feedback>().ReverseMap();
-        CreateMap<Feedback, FeedbackReadDto>()
-            .ForMember(_ => _.Rent, _ => _.MapFrom(s => s.Rent))
-            .ReverseMap();
+        CreateMap<Feedback, FeedbackReadDto>().ReverseMap();
         CreateMap<FeedbackAddDto, FeedbackReadDto>().ReverseMap();
 
         #endregion
@@ -100,14 +97,7 @@ public class MapProfile : Profile
 
         CreateMap<Rent, RentUpdateDto>().ReverseMap();
         CreateMap<RentAddDto, Rent>().ReverseMap();
-        CreateMap<Rent, RentReadDto>()
-            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
-            .ForMember(dest => dest.Car, opt => opt.MapFrom(src => src.Car))
-            .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
-            .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
-            .ForMember(dest => dest.RentCost, opt => opt.MapFrom(src => src.RentCost))
-            .ForMember(dest => dest.Feedback, opt => opt.MapFrom(src => src.Feedback))
-            .ReverseMap();
+        CreateMap<Rent, RentReadDto>().ReverseMap();
         CreateMap<RentAddDto, RentReadDto>().ReverseMap();
 
         #endregion
