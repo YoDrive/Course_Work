@@ -7,6 +7,7 @@ import {CarBookingModel} from "../../../models/Booking/CarBookingModel";
 import CarService, {fetchCars} from "../../../services/CarService";
 import {Rating} from "react-simple-star-rating";
 import {GearBoxEnum} from "../../../models/CarModel";
+import emptyImageCar from '../../../assets/emptyImageCar.png';
 
 export function Prewiev(){
     const [cars, setCars] = useState<CarBookingModel[] | undefined>([]);
@@ -38,7 +39,14 @@ export function Prewiev(){
 
     let listItems = cars?.map((car) =>
         <li key={car.carId} className={styles.carBlock}>
-            <img src={car.carImage} className={styles.carImg}/>
+            {car.image && (
+                <img
+                    src={`data:image/png;base64,${car.image}`}
+                    alt={`${car.carModel.modelName}`}
+                    className={styles.carImg}
+                />
+            )}
+            {!car.image && <img src={emptyImageCar} className={styles.carImg}/>}
             <div className={styles.carInfo}>
                 <div className={styles.infoHeader}>
                     <p className={styles.headerText}>{car.carModel.carBrand.name + ' ' + car.carModel.modelName}</p>
