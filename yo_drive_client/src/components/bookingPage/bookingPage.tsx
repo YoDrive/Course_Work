@@ -20,6 +20,7 @@ import ru from 'date-fns/locale/ru';
 import { format } from 'date-fns';
 import BookingService from "../../services/BookingService";
 import { Rating } from 'react-simple-star-rating';
+import emptyImageCar from '../../assets/emptyImageCar.png';
 
 export function BookingPage() {
     const [openCarId, setOpenCarId] = useState<number | null>(null);
@@ -235,8 +236,7 @@ export function BookingPage() {
                     width={'452px'} height={'194px'}
                 />
             )}
-            {/*TODO: Картинка загушка*/}
-            {!car.image && <img src={''} width={'452px'} height={'194px'}/>}
+            {!car.image && <img src={emptyImageCar} width={'452px'} height={'194px'}/>}
             <div className={styles.itemConteiner}>
                 <div className={styles.catalogItemInfo}>
                     <p className={styles.carName}>{car.carModel.carBrand.name + " " + car.carModel.modelName}</p>
@@ -286,8 +286,7 @@ export function BookingPage() {
                                     width={'452px'} height={'194px'}
                                 />
                             )}
-                            {/*TODO: Картинка загушка*/}
-                            {!car.image && <img src={''} width={'452px'} height={'194px'}/>}
+                            {!car.image && <img src={emptyImageCar} width={'452px'} height={'194px'}/>}
                         </div>
                         <div className={styles.rewiew}>
                             <form className={styles.rewiewSort} onClick={() => (isPopupListExpanded === false)&&(selectedSort === popupGalOpen) ? setSelectedSort(popupGalClose) : setSelectedSort(popupGalOpen)}  onChange={handleSubmit(onSubmitPopupList)}>
@@ -353,8 +352,7 @@ export function BookingPage() {
                                         width={'452px'} height={'194px'}
                                     />
                                 )}
-                                {/*TODO: Картинка загушка*/}
-                                {!car.image && <img src={''} width={'452px'} height={'194px'}/>}
+                                {!car.image && <img src={emptyImageCar} width={'452px'} height={'194px'}/>}
                                 <p className={styles.popupСarName}>{car.carModel.carBrand.name + ' ' + car.carModel.modelName}</p>
                                 <p className={styles.popupСarYear}>{car.year} год выпуска</p>
                                 <p className={styles.popupСarBox}>{GearBoxEnum[car.gearBox]} коробка передач</p>

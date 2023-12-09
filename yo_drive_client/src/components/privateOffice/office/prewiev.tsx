@@ -7,6 +7,7 @@ import {CarBookingModel} from "../../../models/Booking/CarBookingModel";
 import CarService, {fetchCars} from "../../../services/CarService";
 import {Rating} from "react-simple-star-rating";
 import {GearBoxEnum} from "../../../models/CarModel";
+import emptyImageCar from '../../../assets/emptyImageCar.png';
 
 export function Prewiev(){
     const [cars, setCars] = useState<CarBookingModel[] | undefined>([]);
@@ -45,8 +46,7 @@ export function Prewiev(){
                     className={styles.carImg}
                 />
             )}
-            {/*TODO: Картинка загушка*/}
-            {!car.image && <img src={''} className={styles.carImg}/>}
+            {!car.image && <img src={emptyImageCar} className={styles.carImg}/>}
             <div className={styles.carInfo}>
                 <div className={styles.infoHeader}>
                     <p className={styles.headerText}>{car.carModel.carBrand.name + ' ' + car.carModel.modelName}</p>
