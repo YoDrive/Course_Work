@@ -163,13 +163,13 @@ export function FilterPanel() {
                     <p className={styles.scndText}>Коробка передач</p>
                     <div className={styles.btnsRadio} >
                         <label className={styles.filterItem}>
-                            <input type="radio" value="Механическая" className={styles.checkboxItem} defaultChecked={true}
+                            <input type="radio" value="Механическая" className={styles.checkboxItem} defaultChecked={false}
                             {...register("gearBox")}
                                 />
                             <p className={styles.radioText} >Механическая</p>
                         </label>
                         <label className={styles.filterItem}>
-                            <input type="radio" value="Автоматическая" className={styles.checkboxItem} defaultChecked={true}
+                            <input type="radio" value="Автоматическая" className={styles.checkboxItem} defaultChecked={false}
                             {...register("gearBox")}
                                 />
                             <p className={styles.radioText}>Автоматическая</p>

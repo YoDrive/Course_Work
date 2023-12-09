@@ -67,7 +67,7 @@ return(
                         <datalist className={styles.inputList} id="gearBox">
                             <option className={styles.listItem} value="Автоматическая">АКПП</option>
                             <option className={styles.listItem} value="Механическая">МКПП</option>
-                             <option className={styles.listItem} value="Все">Все</option>
+                            <option className={styles.listItem} value="Все">Все</option>
                         </datalist>
                         </label>
                     </div>
