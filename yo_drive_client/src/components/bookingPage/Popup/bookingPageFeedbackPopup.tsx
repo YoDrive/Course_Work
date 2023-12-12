@@ -9,6 +9,7 @@ import popupGalOpen from "../../../assets/popupSort.svg"
 import popupGalClose from "../../../assets/popupSortClose.svg"
 import {useForm} from "react-hook-form";
 import CarService from "../../../services/CarService";
+import FeedbackService from "../../../services/FeedbackService";
 
 interface PopupProps {
   handleClose: () => void;
@@ -19,10 +20,15 @@ interface PopupProps {
 const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
   const { isOpen, handleClose, carId } = props;
   const [car, setCar] = useState<CarViewModel | undefined>(undefined);
-  const [feedback, setFeedback] = useState<FeedbackModel[] | undefined>(undefined);
+  const [feedbacks, setFeedback] = useState<FeedbackModel[] | undefined>(undefined);
   const [isPopupListExpanded, setPopupListExpanded] = useState(false);
   const [selectedSortTextPopup, setSelectedSortTextPopup] = useState('Сортировка');
   const [selectedSort, setSelectedSort] = useState(popupGalOpen);
+  const fiveStarsCount = feedbacks == undefined ? 0 : feedbacks.filter(feedback => feedback.stars === 5).length;
+  const fourStarsCount = feedbacks == undefined ? 0 : feedbacks.filter(feedback => feedback.stars === 4).length;
+  const threeStarsCount = feedbacks == undefined ? 0 : feedbacks.filter(feedback => feedback.stars === 3).length;
+  const twoStarsCount = feedbacks == undefined ? 0 : feedbacks.filter(feedback => feedback.stars === 2).length;
+  const oneStarCount = feedbacks == undefined ? 0 : feedbacks.filter(feedback => feedback.stars === 1).length;
 
   useEffect(() => {
     async function fetchCar() {
@@ -37,6 +43,22 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
     // Выполняем запрос только при открытии попапа
     if (isOpen) {
       fetchCar();
+    }
+  }, [isOpen, carId]);
+
+  useEffect(() => {
+    async function fetchFeedback() {
+      try {
+        const response = await FeedbackService.getCarFeedback(carId);
+        setFeedback(response.data);
+      } catch (error) {
+        console.error('Error fetching feedbacks:', error);
+      }
+    }
+
+    // Выполняем запрос только при открытии попапа
+    if (isOpen) {
+      fetchFeedback();
     }
   }, [isOpen, carId]);
 
@@ -80,7 +102,7 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
         <p className={styles.popupTitle}>Отзывы</p>
         <div>
           <div className={styles.totalRating}>
-            <p className={styles.totalRatingNum}>4.1</p>
+            <p className={styles.totalRatingNum}>{car == undefined ? 0 : car.rating}</p>
             <Rating className={styles.totalRatingStars} size={32} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
             <p className={styles.totalRatingText}>на основании {car == undefined ? 0 : car.feedbackCount} оценок</p>
           </div>
@@ -88,28 +110,28 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
             <div className={styles.starRatingChart}>
               <div className={styles.starRatingContainer}>
                 <Rating size={23} readonly initialValue={5} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                <input type="range" min="0" max="10" value="5" readOnly/>
-                <p className={styles.starRatingNum}>5</p>
+                <input type="range" min="0" max={feedbacks == undefined ? 0 : feedbacks.length} value={fiveStarsCount} readOnly/>
+                <p className={styles.starRatingNum}>{fiveStarsCount}</p>
               </div>
               <div className={styles.starRatingContainer}>
                 <Rating size={23} readonly initialValue={4} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                <input type="range" min="0" max="10" value="3" readOnly/>
-                <p className={styles.starRatingNum}>3</p>
+                <input type="range" min="0" max={feedbacks == undefined ? 0 : feedbacks.length} value={fourStarsCount} readOnly/>
+                <p className={styles.starRatingNum}>{fourStarsCount}</p>
               </div>
               <div className={styles.starRatingContainer}>
                 <Rating size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                <input type="range" min="0" max="10" value="1" readOnly/>
-                <p className={styles.starRatingNum}>1</p>
+                <input type="range" min="0" max={feedbacks == undefined ? 0 : feedbacks.length} value={threeStarsCount} readOnly/>
+                <p className={styles.starRatingNum}>{threeStarsCount}</p>
               </div>
               <div className={styles.starRatingContainer}>
                 <Rating size={23} readonly initialValue={2} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                <input type="range" min="0" max="10" value="0" readOnly/>
-                <p className={styles.starRatingNum}>0</p>
+                <input type="range" min="0" max={feedbacks == undefined ? 0 : feedbacks.length} value={twoStarsCount} readOnly/>
+                <p className={styles.starRatingNum}>{twoStarsCount}</p>
               </div>
               <div className={styles.starRatingContainer}>
                 <Rating size={23} readonly initialValue={1} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                <input type="range" min="0" max="10" value="1" readOnly/>
-                <p className={styles.starRatingNum}>1</p>
+                <input type="range" min="0" max={feedbacks == undefined ? 0 : feedbacks.length} value={oneStarCount} readOnly/>
+                <p className={styles.starRatingNum}>{oneStarCount}</p>
               </div>
             </div>
             {car != undefined && car.image && (
