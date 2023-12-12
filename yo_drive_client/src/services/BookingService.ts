@@ -1,6 +1,6 @@
 import axiosInstance from "../instance";
 import { AxiosResponse } from 'axios'
-import {CarBookingModel} from "../models/Booking/CarBookingModel";
+import {BookingPage, CarBookingModel, CarResponsePage} from "../models/Booking/CarBookingModel";
 import {BookingAdd} from "../models/Booking/BookingAddModel";
 import {BookingResponseModel} from "../models/Booking/BookingResponseModel";
 import {CarSwiperModel} from "../models/Swiper/CarSwiperModel";
@@ -14,5 +14,9 @@ export default class BookingService {
     }
     static async booking(request: BookingAdd) : Promise<AxiosResponse<BookingResponseModel>> {
         return axiosInstance.post<BookingResponseModel>('api/rent/createRent', request);
+    }
+
+    static async getCarsByPage(request: BookingPage) : Promise<AxiosResponse<CarResponsePage>> {
+        return axiosInstance.post<CarResponsePage>('api/car/getCarsByPage', request);
     }
 }

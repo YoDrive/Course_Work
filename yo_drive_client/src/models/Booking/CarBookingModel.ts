@@ -1,4 +1,27 @@
 import { GearBoxEnum } from "./../CarModel";
+import {Filter} from "./FilterBookingModel";
+
+export interface BookingPage {
+    page: Page;
+    filter: Filter;
+    sort?: Sort;
+}
+
+export interface CarResponsePage {
+    count: number;
+    items: CarBookingModel[];
+}
+
+export interface Page {
+    pageNumber?: number;
+    pageSize: number;
+}
+
+export interface Sort {
+    dir: string;
+    field: string;
+}
+
 export interface CarBookingModel {
     carId: number;
     carModel: CarModel;

@@ -131,4 +131,18 @@ public class CarController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
+    [HttpPost("GetCarsByPage")]
+    public async Task<IActionResult> GetCarsByPage(CarRequestDto request)
+    {
+        try
+        {
+            var response = await _repository.GetCarsByPage(request);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

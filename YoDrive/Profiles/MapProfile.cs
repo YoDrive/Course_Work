@@ -9,6 +9,7 @@ using YoDrive.Domain.Dtos.FilialDto;
 using YoDrive.Domain.Dtos.ModelDto;
 using YoDrive.Domain.Dtos.RentDto;
 using YoDrive.Domain.Models;
+using YoDrive.Helpers;
 
 namespace YoDrive.Profiles;
 
@@ -46,20 +47,15 @@ public class MapProfile : Profile
 
         CreateMap<Car, CarUpdateDto>().ReverseMap();
         CreateMap<CarAddDto, Car>()
-            .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.ClassId))
-            .ForMember(dest => dest.FilialId, opt => opt.MapFrom(src => src.FilialId))
             .ReverseMap();
         CreateMap<Car, CarReadDto>()
-            .ForMember(dest => dest.CarModel, opt => opt.MapFrom(src => src.CarModel))
-            .ForMember(dest => dest.CarClass, opt => opt.MapFrom(src => src.CarClass))
-            .ForMember(dest => dest.Filial, opt => opt.MapFrom(src => src.Filial))
-            .ForMember(dest => dest.Rents, opt => opt.MapFrom(src => src.Rents))
-            .ForMember(dest => dest.CarId, opt => opt.MapFrom(src => src.CarId))
-            .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage)))
+            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => CalculateRating(src.Rents)))
             .ForMember(dest => dest.FeedbackCount, opt => opt.MapFrom(src => src.Rents.Where(_ => _.Feedback != null && _.Feedback.IsDeleted == false).Count()))
             .ReverseMap();
         CreateMap<CarAddDto, CarReadDto>().ReverseMap();
         CreateMap<Car, CarMinDto>()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage)))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.CarModel.CarBrand.Name} {src.CarModel.ModelName}"));
 
         #endregion
@@ -128,5 +124,27 @@ public class MapProfile : Profile
         CreateMap<Role, RoleDto>();
 
         #endregion
+    }
+    
+    private static double CalculateRating(ICollection<Rent>? rents)
+    {
+        if (rents == null || rents.Count == 0)
+            return 0;
+
+        double totalStars = 0;
+        int feedbackCount = 0;
+
+        foreach (var rent in rents)
+        {
+            if (rent.Feedback != null)
+            {
+                feedbackCount++;
+                totalStars += rent.Feedback.Stars;
+            }
+        }
+
+        if (feedbackCount == 0) return 0;
+        
+        return totalStars / feedbackCount;
     }
 }

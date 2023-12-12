@@ -1,5 +1,6 @@
 using System.Data;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using YoDrive.Domain.Data.Interfaces;
 using YoDrive.Domain.Dtos.CarDto;
@@ -33,29 +34,12 @@ public class CarRepository : ICarRepository
             .Include(_ => _.CarClass))
             .ToListAsync();
 
-        foreach (var car in cars)
-        {
-            car.Image = ImageHelper.GetImage(car.CarImage);
-            if (car.Rents != null && car.Rents.Any(r => r.Feedback != null))
-            {
-                car.Rating = car.Rents.Where(r => r.Feedback != null).Average(r => r.Feedback.Stars);
-            }
-            else
-            {
-                car.Rating = 0;
-            }
-        }
-
         return cars;
     }
 
     public async Task<List<CarMinDto>> GetAutopark()
     {
         var cars = await _mapper.ProjectTo<CarMinDto>(_db.Car.Where(_ => _.CarImage != null && _.IsDeleted == false)).ToListAsync();
-        foreach (var car in cars)
-        {
-            car.Image = ImageHelper.GetImage(car.CarImage);
-        }
         return cars;
     }
 
@@ -73,13 +57,7 @@ public class CarRepository : ICarRepository
         if (car == null)
             throw new Exception($"Автомобиль с Id {id} не найден");
 
-        var image = ImageHelper.GetImage(car.CarImage);
         var response = _mapper.Map<CarReadDto>(car);
-        response.Image = image;
-        if (response.Rents != null && response.Rents.Any())
-        {
-            response.Rating = response.Rents.Where(_ => _.Feedback != null).Average(r => r.Feedback?.Stars ?? 0);
-        }
 
         return response;
     }
@@ -168,5 +146,71 @@ public class CarRepository : ICarRepository
 
         var response = await _mapper.ProjectTo<CarReadDto>(cars).ToListAsync();
         return response;
+    }
+
+    public async Task<CarResponsePage> GetCarsByPage(CarRequestDto request)
+    {
+        var cars = _db.Car
+            .Include(_ => _.CarModel)
+                .ThenInclude(_ => _.CarBrand)
+            .Include(_ => _.Filial)
+            .Include(_ => _.CarClass)
+            .Include(_ => _.Rents)
+                .ThenInclude(_ => _.Feedback)
+            .IgnoreQueryFilters()
+            .Where(_ => (request.Filter.StartDate == null || _.Rents.Any(_ => _.EndDate < request.Filter.StartDate))
+                        && (request.Filter.EndDate == null || _.Rents.Any(_ => _.StartDate > request.Filter.EndDate))
+                        && (request.Filter.MinCostDay == null || request.Filter.MinCostDay <= _.CostDay)
+                        && (request.Filter.MaxCostDay == null || request.Filter.MaxCostDay >= _.CostDay)
+                        && (request.Filter.GearBox == null || request.Filter.GearBox == _.GearBox)
+                        && (request.Filter.CarBrandId == null || request.Filter.CarBrandId == _.CarModel.CarBrandId)
+                        && (request.Filter.ModelId == null || request.Filter.ModelId == _.ModelId)
+                        && (request.Filter.FilialId == null || request.Filter.FilialId == _.FilialId)
+                        && (request.Filter.ClassId == null || request.Filter.ClassId == _.ClassId))
+            .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
+            .AsEnumerable();
+
+        if (request.Sort != null)
+        {
+            switch (request.Sort.Dir)
+            {
+                case "asc":
+                    switch (request.Sort.Field)
+                    {
+                        case "Rating":
+                            cars = cars.OrderBy(_ => _.Rating == 0 ? 1 : 0).ThenBy(_ => _.Rating);
+                            break;
+                        case "CostDay":
+                            cars = cars.OrderBy(_ => _.CostDay);
+                            break;
+                    }
+                    break;
+                
+                case "desc":
+                    switch (request.Sort.Field)
+                    {
+                        case "Rating":
+                            cars = cars.OrderBy(_ => _.Rating == 0 ? 1 : 0).ThenByDescending(_ => _.Rating);
+                            break;
+                        case "CostDay":
+                            cars = cars.OrderByDescending(_ => _.CostDay);
+                            break;
+                    }
+                    break;
+            }
+        }
+        
+        var count = cars.Count();
+        
+        var response = cars.Skip((request.Page.PageNumber - 1 ?? 0) * request.Page.PageSize)
+            .Take(request.Page.PageSize).ToList();
+
+        var result = new CarResponsePage()
+        {
+            Count = count,
+            Items = response
+        };
+        
+        return result;
     }
 }
