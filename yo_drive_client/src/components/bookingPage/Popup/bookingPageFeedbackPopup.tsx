@@ -1,5 +1,7 @@
 import React, {FunctionComponent, useEffect, useState} from "react";
 import styles from "./bookingPageFeedbackPopup.module.css"
+import { format } from 'date-fns';
+import ruLocale from 'date-fns/locale/ru';
 import {CarViewModel} from "../../../models/Booking/CarBookingModel";
 import {FeedbackModel} from "../../../models/Feedback/FeedbackModel";
 import {Rating} from "react-simple-star-rating";
@@ -29,6 +31,10 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
   const threeStarsCount = feedbacks == undefined ? 0 : feedbacks.filter(feedback => feedback.stars === 3).length;
   const twoStarsCount = feedbacks == undefined ? 0 : feedbacks.filter(feedback => feedback.stars === 2).length;
   const oneStarCount = feedbacks == undefined ? 0 : feedbacks.filter(feedback => feedback.stars === 1).length;
+
+  const formattedDate = (date: Date) => {
+    return format(date, 'd MMMM yyyyг.', { locale: ruLocale });
+  };
 
   useEffect(() => {
     async function fetchCar() {
@@ -94,6 +100,18 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
     { label: 'По дате', value: 'date' },
   ];
 
+  const feedbackList = feedbacks?.map((feedback) =>
+    <li key={feedback.feedbackId} className={styles.rewiewCard}>
+      <div className={styles.rewiewData}>
+        <p className={styles.rewiewName}>Александр Т.</p>
+        <Rating className={styles.rewiewStars} size={23} readonly initialValue={feedback.stars} fillColor="#CCB746" emptyColor="#BDBCB4"/>
+        <p className={styles.rewiewDate}>{formattedDate(new Date(feedback.feedbackDate))}</p>
+      </div>
+      <p className={styles.rewiewText}>
+        {feedback.response}
+      </p>
+    </li>
+  );
 
   return (
     <div className={styles.popupBox} style={{ display: isOpen ? "block" : "none" }}>
@@ -164,30 +182,7 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                 ))}
               </div>
             </form>
-            <div className={styles.rewiewCard}>
-              <div className={styles.rewiewData}>
-                <p className={styles.rewiewName}>Александр Т.</p>
-                <Rating className={styles.rewiewStars} size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                <p className={styles.rewiewDate}>22 сентября 2023г.</p>
-              </div>
-              <p className={styles.rewiewText}>Покатался на новом гелике G63 AMG, погонял недельку, Покатался на новом гелике G63 AMG, погонял недельку, радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!</p>
-            </div>
-            <div className={styles.rewiewCard}>
-              <div className={styles.rewiewData}>
-                <p className={styles.rewiewName}>Александр Т.</p>
-                <Rating className={styles.rewiewStars} size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                <p className={styles.rewiewDate}>22 сентября 2023г.</p>
-              </div>
-              <p className={styles.rewiewText}>Покатался на новом гелике G63 AMG, погонял недельку, Покатался на новом гелике G63 AMG, погонял недельку, радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!</p>
-            </div>
-            <div className={styles.rewiewCard}>
-              <div className={styles.rewiewData}>
-                <p className={styles.rewiewName}>Александр Т.</p>
-                <Rating className={styles.rewiewStars} size={23} readonly initialValue={3} fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                <p className={styles.rewiewDate}>22 сентября 2023г.</p>
-              </div>
-              <p className={styles.rewiewText}>Покатался на новом гелике G63 AMG, погонял недельку, Покатался на новом гелике G63 AMG, погонял недельку, радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!радости полные штаны, советую! Буду брать авто в аренду теперь только тут!!!</p>
-            </div>
+            <ul>{feedbackList}</ul>
           </div>
         </div>
       </div>
