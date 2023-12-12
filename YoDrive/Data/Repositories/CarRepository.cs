@@ -150,13 +150,13 @@ public class CarRepository : ICarRepository
 
     public async Task<CarResponsePage> GetCarsByPage(CarRequestDto request)
     {
-        var cars = _db.Car.IgnoreQueryFilters()
+        var cars = _db.Car
             .Include(_ => _.CarModel)
-            .ThenInclude(_ => _.CarBrand)
+                .ThenInclude(_ => _.CarBrand)
             .Include(_ => _.Filial)
             .Include(_ => _.CarClass)
             .Include(_ => _.Rents)
-            .ThenInclude(_ => _.Feedback)
+                .ThenInclude(_ => _.Feedback)
             .IgnoreQueryFilters()
             .Where(_ => (request.Filter.StartDate == null || _.Rents.Any(_ => _.EndDate < request.Filter.StartDate))
                         && (request.Filter.EndDate == null || _.Rents.Any(_ => _.StartDate > request.Filter.EndDate))
@@ -168,7 +168,7 @@ public class CarRepository : ICarRepository
                         && (request.Filter.FilialId == null || request.Filter.FilialId == _.FilialId)
                         && (request.Filter.ClassId == null || request.Filter.ClassId == _.ClassId))
             .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
-            .AsQueryable().AsNoTracking().AsSplitQuery();
+            .AsEnumerable();
 
         if (request.Sort != null)
         {
@@ -178,7 +178,7 @@ public class CarRepository : ICarRepository
                     switch (request.Sort.Field)
                     {
                         case "Rating":
-                            cars = cars.OrderBy(_ => _.Rating);
+                            cars = cars.OrderBy(_ => _.Rating == 0 ? 1 : 0).ThenBy(_ => _.Rating);
                             break;
                         case "CostDay":
                             cars = cars.OrderBy(_ => _.CostDay);
@@ -190,7 +190,7 @@ public class CarRepository : ICarRepository
                     switch (request.Sort.Field)
                     {
                         case "Rating":
-                            cars = cars.OrderByDescending(_ => _.Rating);
+                            cars = cars.OrderBy(_ => _.Rating == 0 ? 1 : 0).ThenByDescending(_ => _.Rating);
                             break;
                         case "CostDay":
                             cars = cars.OrderByDescending(_ => _.CostDay);
@@ -199,10 +199,8 @@ public class CarRepository : ICarRepository
                     break;
             }
         }
-
-        cars = cars.AsSplitQuery();
         
-        var count = await cars.CountAsync();
+        var count = cars.Count();
         
         var response = cars.Skip((request.Page.PageNumber - 1 ?? 0) * request.Page.PageSize)
             .Take(request.Page.PageSize).ToList();
