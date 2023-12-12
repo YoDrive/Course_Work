@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useEffect, useState} from "react";
 import styles from "./bookingPagePopup.module.css"
-import { CarBookingModel } from '../../../models/Booking/CarBookingModel';
+import { CarViewModel } from '../../../models/Booking/CarBookingModel';
 import axios from "axios"; 
 import { DateRange } from 'react-date-range';
 import {BookingAdd} from "../../../models/Booking/BookingAddModel";
@@ -10,7 +10,7 @@ import BookingService from "../../../services/BookingService";
 interface PopupProps {
   handleClose: () => void;
   content: React.ReactNode;
-  car: CarBookingModel; 
+  car: CarViewModel;
   isOpen: boolean;
   selectedDate: { startDate: Date; endDate: Date; key: string; }[]; 
   rentCost: number;

@@ -38,7 +38,7 @@ public class FeedbackController : ControllerBase
         }
     }
 
-    [HttpGet("GetCarFeedbacks")]
+    [HttpGet("GetCarFeedbacks/{idCar}")]
     public async Task<IActionResult> GetCarFeedbacks(int idCar)
     {
         try

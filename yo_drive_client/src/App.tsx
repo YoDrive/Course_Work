@@ -12,12 +12,12 @@ import Registration from './components/registration/registration';
 import BookingPage from './components/bookingPage/bookingPage';
 
 function App() {
-    const {store} = useContext(Context);
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            store.checkAuth();
-        }
-    }, [])
+    // const {store} = useContext(Context);
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    //         store.checkAuth();
+    //     }
+    // }, [])
 
     return (
         <div className="App">
