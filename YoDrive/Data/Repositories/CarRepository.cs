@@ -150,7 +150,7 @@ public class CarRepository : ICarRepository
 
     public async Task<CarResponsePage> GetCarsByPage(CarRequestDto request)
     {
-        var cars = _db.Car
+        var cars = _db.Car.IgnoreQueryFilters()
             .Include(_ => _.CarModel)
             .ThenInclude(_ => _.CarBrand)
             .Include(_ => _.Filial)
@@ -168,7 +168,7 @@ public class CarRepository : ICarRepository
                         && (request.Filter.FilialId == null || request.Filter.FilialId == _.FilialId)
                         && (request.Filter.ClassId == null || request.Filter.ClassId == _.ClassId))
             .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
-            .AsEnumerable();
+            .AsQueryable().AsNoTracking().AsSplitQuery();
 
         if (request.Sort != null)
         {
@@ -199,8 +199,10 @@ public class CarRepository : ICarRepository
                     break;
             }
         }
+
+        cars = cars.AsSplitQuery();
         
-        var count = cars.Count();
+        var count = await cars.CountAsync();
         
         var response = cars.Skip((request.Page.PageNumber - 1 ?? 0) * request.Page.PageSize)
             .Take(request.Page.PageSize).ToList();
