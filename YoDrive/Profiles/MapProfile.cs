@@ -9,6 +9,7 @@ using YoDrive.Domain.Dtos.FilialDto;
 using YoDrive.Domain.Dtos.ModelDto;
 using YoDrive.Domain.Dtos.RentDto;
 using YoDrive.Domain.Models;
+using YoDrive.Helpers;
 
 namespace YoDrive.Profiles;
 
@@ -48,6 +49,7 @@ public class MapProfile : Profile
         CreateMap<CarAddDto, Car>()
             .ReverseMap();
         CreateMap<Car, CarReadDto>()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage)))
             .ForMember(dest => dest.FeedbackCount, opt => opt.MapFrom(src => src.Rents.Where(_ => _.Feedback != null && _.Feedback.IsDeleted == false).Count()))
             .ReverseMap();
         CreateMap<CarAddDto, CarReadDto>().ReverseMap();

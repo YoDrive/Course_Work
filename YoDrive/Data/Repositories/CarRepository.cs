@@ -36,7 +36,6 @@ public class CarRepository : ICarRepository
 
         foreach (var car in cars)
         {
-            car.Image = ImageHelper.GetImage(car.CarImage);
             if (car.Rents != null && car.Rents.Any(r => r.Feedback != null))
             {
                 car.Rating = car.Rents.Where(r => r.Feedback != null).Average(r => r.Feedback.Stars);
@@ -228,7 +227,6 @@ public class CarRepository : ICarRepository
         //TODO: Как то вынести в mapper и почему то не передается картинка
         foreach (var car in cars)
         {
-            car.Image = ImageHelper.GetImage(car.CarImage);
             // if (car.Rents != null && car.Rents.Any(r => r.Feedback != null && r.Feedback.Stars != null))
             // {
             //     car.Rating = car.Rents.Average(r => (double)r.Feedback.Stars);
