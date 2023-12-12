@@ -9,9 +9,10 @@ import RentService from "../../../services/RentService";
 
 export function StoryBlock() {
     const [rents, setRents] = useState<BookingResponseModel[] | undefined>([]);
+    const [openBookingId, setOpenBookingId] = useState<number | null>(null);
 
     useEffect(() => {
-        async function fetchCars() {
+        async function fetchBookings() {
             try {
                 const response = await RentService.GetUserRents(1);
                 setRents(response.data);
@@ -19,8 +20,7 @@ export function StoryBlock() {
                 console.error('Error fetching cars:', error);
             }
         }
-
-        fetchCars();
+        fetchBookings();
     }, []);
 
     const resField = () => {
@@ -36,7 +36,6 @@ export function StoryBlock() {
     } = useForm({
         mode: "onBlur"
     });
-    const [openBookingId, setOpenBookingId] = useState<number | null>(null);
 
     const toggleFeedbackPopup = (bookingId: number) => {
         if (openBookingId === bookingId) {

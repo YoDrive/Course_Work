@@ -42,8 +42,7 @@
     flex-direction: column;
 }
 .storyHeaders{
-    margin-top: 32px;
-    padding: 0 39px 0 25px;
+    padding: 32px 39px 15px 25px;
     display: flex;
     flex-direction: row;
     width: 935px;
@@ -55,13 +54,12 @@
 }
 .storyBlock{
     width: 935px;
-    height: 60px;
+    min-height: 60px;
     background-color: #d9d9d9;
-    border-radius: 2;
-    margin: 15px 3px 15px 3px;
+    border-radius: 2px;
     display: flex;
     flex-direction: row;
-    padding: 0 0px 0 22px;
+    padding: 0 0 0 22px;
     font-family: Montserrat;
     color: #212528;
     font-size: 14px;
@@ -84,7 +82,6 @@
 .blockText_rewiev,.storyHeader_rewiev{
     display: flex;
     flex-direction: row;
-    align-items: space-between;
     width: 80px;
     text-align: left;
 }
@@ -184,7 +181,9 @@
 }
 .listItems{
     display: flex;
+    overflow: auto;
     flex-direction: column;
+    row-gap: 30px;
     height: 421px;
-    width: 935px;
+    width: 946px;
 }
