@@ -69,6 +69,7 @@
 
 .popupItem {
   display: flex;
+  padding-top: 6px;
   justify-content: space-between;
 }
 
@@ -80,7 +81,7 @@
   margin: 47px 0 14px 0;
 }
 
-.popupDateRangeText, .popupDateRange, .popupSumCost, .popupSumCost {
+.popupDateRangeText, .popupDateRange, .popupSumCost {
   font-family: Montserrat;
   font-size: 16px;
   font-weight: 400;
@@ -122,6 +123,7 @@
 .popupItemInfo {
   font-family: Montserrat;
   font-size: 16px;
+  padding-top: 30px;
   font-weight: 400;
   line-height: 20px;
 }
