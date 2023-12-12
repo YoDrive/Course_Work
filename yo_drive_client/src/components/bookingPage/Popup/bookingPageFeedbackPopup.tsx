@@ -103,7 +103,7 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
   const feedbackList = feedbacks?.map((feedback) =>
     <li key={feedback.feedbackId} className={styles.rewiewCard}>
       <div className={styles.rewiewData}>
-        <p className={styles.rewiewName}>Александр Т.</p>
+        <p className={styles.rewiewName}>{feedback.userName}</p>
         <Rating className={styles.rewiewStars} size={23} readonly initialValue={feedback.stars} fillColor="#CCB746" emptyColor="#BDBCB4"/>
         <p className={styles.rewiewDate}>{formattedDate(new Date(feedback.feedbackDate))}</p>
       </div>

@@ -64,7 +64,9 @@ public class MapProfile : Profile
 
         CreateMap<Feedback, FeedbackUpdateDto>().ReverseMap();
         CreateMap<FeedbackAddDto, Feedback>().ReverseMap();
-        CreateMap<Feedback, FeedbackReadDto>().ReverseMap();
+        CreateMap<Feedback, FeedbackReadDto>()
+            .ForMember(_ => _.UserName, n => n.MapFrom(_ => $"{_.Rent.User.FirstName} {_.Rent.User.Surname[0]}."))
+            .ReverseMap();
         CreateMap<FeedbackAddDto, FeedbackReadDto>().ReverseMap();
 
         #endregion
