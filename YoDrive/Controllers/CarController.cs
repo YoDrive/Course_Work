@@ -29,7 +29,7 @@ public class CarController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("GetCar")]
+    [HttpGet("GetCar/{id}")]
     public async Task<IActionResult> GetCar(int id)
     {
         try

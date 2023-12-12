@@ -25,6 +25,7 @@ export function BookingPage() {
     const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
     const [selected, setSelected] = useState(galOpen);
     const [isExpanded, setExpanded] = useState(false);
+    const [openCarIds, setOpenCarIds] = useState<{ [carId: number]: boolean }>({});
     const [selectedDate, setSelectedDate] = useState([
         {
             startDate: new Date(),
@@ -56,122 +57,12 @@ export function BookingPage() {
         toggleExpand();
     };
 
-    // Чтобы не включать бек
-    let testModels: CarViewModel[] = [
-        {
-            carId: 1,
-            carModel: {
-                carModelId: 1,
-                carBrand: {
-                    carBrandId: 1,
-                    name: "Mercedes-Benz"
-                },
-                modelName: "G63 AMG"
-            },
-            carClass: {
-                carClassId: 1,
-                className: "Седан"
-            },
-            filial: {
-                filialId: 1,
-                address: "ул. Луначарского",
-                phoneNumber: "+78005553535"
-            },
-            year: 2020,
-            feedbackCount: 4,
-            gearBox: 0,
-            costDay: "20000",
-            carImage: undefined,
-            rating: 3.5
-        },
-        {
-            carId: 2,
-            carModel: {
-                carModelId: 2,
-                carBrand: {
-                    carBrandId: 2,
-                    name: "BMW"
-                },
-                modelName: "M8"
-            },
-            carClass: {
-                carClassId: 2,
-                className: "Купе"
-            },
-            filial: {
-                filialId: 1,
-                address: "ул. Луначарского",
-                phoneNumber: "+78005553535"
-            },
-            year: 2022,
-            feedbackCount: 5,
-            gearBox: 0,
-            costDay: "16000",
-            carImage: undefined,
-            rating: 1.4
-        },
-        {
-            carId: 3,
-            carModel: {
-                carModelId: 2,
-                carBrand: {
-                    carBrandId: 2,
-                    name: "BMW"
-                },
-                modelName: "M8"
-            },
-            carClass: {
-                carClassId: 2,
-                className: "Купе"
-            },
-            filial: {
-                filialId: 1,
-                address: "ул. Луначарского",
-                phoneNumber: "+78005553535"
-            },
-            year: 2022,
-            feedbackCount: 6,
-            gearBox: 0,
-            costDay: "16000",
-            carImage: undefined,
-            rating: 1.8
-        },
-        {
-            carId: 4,
-            carModel: {
-                carModelId: 2,
-                carBrand: {
-                    carBrandId: 2,
-                    name: "BMW"
-                },
-                modelName: "M8"
-            },
-            carClass: {
-                carClassId: 2,
-                className: "Купе"
-            },
-            filial: {
-                filialId: 1,
-                address: "ул. Луначарского",
-                phoneNumber: "+78005553535"
-            },
-            year: 2022,
-            feedbackCount: 10,
-            gearBox: 0,
-            costDay: "16000",
-            carImage: undefined,
-            rating: 3.8
-        }
-    ]
-
     useEffect(() => {
         async function fetchCars() {
             try {
                 const response = await BookingService.getAllCars();
                 setCars(response.data);
             } catch (error) {
-                // Чтобы не включать бек
-                setCars(testModels);
                 console.error('Error fetching cars:', error);
             }
         }
@@ -187,8 +78,11 @@ export function BookingPage() {
       }
     }
 
-    const toggleFeedbackPopup = () => {
-        setFeedbackPopupOpen(!feedbackPopupOpen);
+    const toggleFeedbackPopup = (carId: number) => {
+        setOpenCarIds((prevOpenCarIds) => {
+            const isOpen = prevOpenCarIds[carId];
+            return { ...prevOpenCarIds, [carId]: !isOpen };
+        });
     };
     
     const daysDifference = Math.floor((selectedDate[0].endDate.getTime() - selectedDate[0].startDate.getTime()) / (1000 * 3600 * 24)) + 1;
@@ -206,11 +100,11 @@ export function BookingPage() {
             <div className={styles.itemConteiner}>
                 <div className={styles.catalogItemInfo}>
                     <p className={styles.carName}>{car.carModel.carBrand.name + " " + car.carModel.modelName}</p>
-                    <button className={styles.carStars} onClick={() => toggleFeedbackPopup()}>
+                    <button className={styles.carStars} onClick={() => toggleFeedbackPopup(car.carId)}>
                         <Rating size={22} readonly initialValue={car.rating} allowFraction fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                         <p className={styles.carStarsNumber}>{car.rating}</p>
                     </button>
-                    <FeedbackPopup isOpen={feedbackPopupOpen} handleClose={toggleFeedbackPopup} carId={car.carId} />
+                    <FeedbackPopup isOpen={openCarIds[car.carId] || false} handleClose={() => toggleFeedbackPopup(car.carId)} carId={car.carId} />
                     <p className={styles.carYear}>{car.year} год выпуска</p>
                     <p className={styles.carBox}>{GearBoxEnum[car.gearBox]} коробка передач</p>
                     <p className={styles.carClass}>Тип кузова: {car.carClass.className}</p>

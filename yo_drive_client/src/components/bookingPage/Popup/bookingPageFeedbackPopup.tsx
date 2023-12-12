@@ -4,7 +4,6 @@ import {CarViewModel} from "../../../models/Booking/CarBookingModel";
 import {FeedbackModel} from "../../../models/Feedback/FeedbackModel";
 import {Rating} from "react-simple-star-rating";
 import emptyImageCar from "../../../assets/emptyImageCar.png";
-import BookingService from "../../../services/BookingService";
 import rowsPopup from "../../../assets/rowsPopu.svg";
 import popupGalOpen from "../../../assets/popupSort.svg"
 import popupGalClose from "../../../assets/popupSortClose.svg"
@@ -35,8 +34,11 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
       }
     }
 
-    fetchCar();
-  });
+    // Выполняем запрос только при открытии попапа
+    if (isOpen) {
+      fetchCar();
+    }
+  }, [isOpen, carId]);
 
   const togglePopupListExpand = () => {
     setPopupListExpanded(!isPopupListExpanded);
