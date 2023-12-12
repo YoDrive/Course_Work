@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Course_Work/static/css/main.4c7168cc.css",
-    "main.js": "/Course_Work/static/js/main.b02e4f25.js",
+    "main.css": "/Course_Work/static/css/main.9a5e15db.css",
+    "main.js": "/Course_Work/static/js/main.fd973d1f.js",
     "static/js/787.95fad893.chunk.js": "/Course_Work/static/js/787.95fad893.chunk.js",
     "static/media/backgroundImage.jpg": "/Course_Work/static/media/backgroundImage.1ac354336b62540cd4c2.jpg",
     "static/media/firstImage.svg": "/Course_Work/static/media/firstImage.5c65b12db1c542b83a1541ae3574bbb6.svg",
@@ -37,12 +37,12 @@
     "static/media/popupSort.svg": "/Course_Work/static/media/popupSort.6588822019468f205443f5aa0d458465.svg",
     "static/media/galochkaClose.svg": "/Course_Work/static/media/galochkaClose.fba23bd074af6a760750f3724088bd66.svg",
     "static/media/galochkaOpen.svg": "/Course_Work/static/media/galochkaOpen.9430405c3d6d1c2d690ef7672beb7598.svg",
-    "main.4c7168cc.css.map": "/Course_Work/static/css/main.4c7168cc.css.map",
-    "main.b02e4f25.js.map": "/Course_Work/static/js/main.b02e4f25.js.map",
+    "main.9a5e15db.css.map": "/Course_Work/static/css/main.9a5e15db.css.map",
+    "main.fd973d1f.js.map": "/Course_Work/static/js/main.fd973d1f.js.map",
     "787.95fad893.chunk.js.map": "/Course_Work/static/js/787.95fad893.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4c7168cc.css",
-    "static/js/main.b02e4f25.js"
+    "static/css/main.9a5e15db.css",
+    "static/js/main.fd973d1f.js"
   ]
 }
