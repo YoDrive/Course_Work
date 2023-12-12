@@ -283,7 +283,7 @@ export function BookingPage() {
                                 <img
                                     src={`data:image/png;base64,${car.image}`}
                                     alt={`${car.carModel.modelName}`}
-                                    width={'452px'} height={'194px'}
+                                    width={'345px'} height={'147px'}
                                 />
                             )}
                             {!car.image && <img src={emptyImageCar} width={'452px'} height={'194px'}/>}
