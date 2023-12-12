@@ -9,7 +9,7 @@ export interface BookingPage {
 
 export interface CarResponsePage {
     count: number;
-    items: CarBookingModel[];
+    items: CarViewModel[];
 }
 
 export interface Page {
@@ -22,7 +22,7 @@ export interface Sort {
     field: string;
 }
 
-export interface CarBookingModel {
+export interface CarViewModel {
     carId: number;
     carModel: CarModel;
     carClass: CarClass;

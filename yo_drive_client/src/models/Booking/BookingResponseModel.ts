@@ -1,9 +1,9 @@
-import {CarBookingModel} from "./CarBookingModel";
+import {CarViewModel} from "./CarBookingModel";
 
 export interface BookingResponseModel {
     rentId: number;
     userId: number;
-    car: CarBookingModel;
+    car: CarViewModel;
     startDate: Date;
     endDate: Date;
     rentCost: number;

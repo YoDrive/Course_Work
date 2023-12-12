@@ -57,17 +57,17 @@ export default class Store {
         }
     }
 
-    async checkAuth() {
-        try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
-            console.log(response);
-            localStorage.setItem('token', response.data.accessToken);
-            this.setAuth(true);
-            this.setUser(response.data.user);
-        } catch (error: any) {
-            console.log(error.response?.data?.message);
-        }
-    }
+    // async checkAuth() {
+    //     try {
+    //         const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
+    //         console.log(response);
+    //         localStorage.setItem('token', response.data.accessToken);
+    //         this.setAuth(true);
+    //         this.setUser(response.data.user);
+    //     } catch (error: any) {
+    //         console.log(error.response?.data?.message);
+    //     }
+    // }
 
     isAdmin() {
         return this.isAuth && this.user.roleName === 'admin';

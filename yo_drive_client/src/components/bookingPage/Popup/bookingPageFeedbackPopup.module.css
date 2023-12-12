@@ -40,3 +40,176 @@
   font-size: 18px;
   font-weight: 600;
 }
+
+/* попап отзывов */
+
+.totalRating {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 10px;
+  font-family: Montserrat;
+}
+
+.totalRatingNum {
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 40px;
+}
+
+.totalRatingStars {
+  margin: 0 15px;
+}
+
+.totalRatingText {
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.starRatingChartContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 23px 0 25px 0;
+}
+
+.starRatingChart {
+  display: flex;
+  flex-direction: column;
+  width: 372px;
+  height: 138px;
+  gap: 2px;
+}
+
+.starRatingContainer {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.starRatingNum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 11px;
+  height: 11px;
+}
+
+.rewiewSort {
+  display: flex;
+  flex-direction: column;
+}
+
+.rewiewSubSortBtn {
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #212528;
+}
+
+.rewiewSortGal {
+  margin-top: 4px;
+}
+
+.rewiewSortText {
+  margin-left: 14px;
+  width: 140px;
+}
+
+.dropDownPopup {
+  position: absolute;
+  display: flex;
+  margin-top: 26px;
+  flex-direction: column;
+  transition-property: height;
+  transition-duration: 150ms;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.dropMenuPopup {
+  text-align: left;
+  padding-left: 31px;
+  width: 191px;
+  height: 36px;
+  border: none;
+  font-size: 18px;
+  font-weight: 300;
+  color: #212528;
+  background-color: #D9D9D9;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.dropMenuPopup:hover {
+  background-color: #9f9e9e;
+}
+.dropBtnPopup {
+  display: none;
+}
+
+.btnTextPopup {
+  padding-top: 7px;
+}
+
+.rewiewCard {
+  margin-top: 18px;
+  padding: 17px 20px;
+  width: 739px;
+  height: 120px;
+  background-color: #212528;
+  color: #FFFFFF;
+}
+
+.rewiewName {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  width: 145px;
+}
+
+.rewiewStars {
+  margin: 0 27px;
+}
+
+.rewiewDate {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.rewiewData {
+  display: flex;
+  align-items: center;
+}
+
+.rewiewText {
+  height: 40px;
+  width: 690px;
+  overflow: auto;
+  margin-top: 12px;
+  padding-right: 2px;
+}
+
+input[type='range'] {
+  overflow: hidden;
+  width: 182px;
+  -webkit-appearance: none;
+  background-color: #9FA1A3;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  height: 2px;
+  -webkit-appearance: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  width: 0px;
+  -webkit-appearance: none;
+  height: 1px;
+  cursor: ew-resize;
+  background: #5A5C5E;
+  box-shadow: -91px 0 0 91px #5A5C5E;
+}
