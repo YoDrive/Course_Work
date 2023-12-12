@@ -29,6 +29,14 @@
     line-height: 51px;
 }
 
+.popupСarName {
+  width: 353px;
+  font-family: Montserrat;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
 .popupClose {
   display: flex;
   justify-content: flex-end;
@@ -111,3 +119,14 @@
   line-height: 24px;
 }
 
+.popupItemInfo {
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.popupСarYear, .popupСarBox, .popupСarClass, .popupDayCost {
+  margin-top: 9px;
+  color: #212528;
+}
