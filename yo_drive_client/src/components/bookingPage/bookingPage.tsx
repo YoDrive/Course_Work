@@ -10,7 +10,7 @@ import rows from "../../assets/rows.svg"
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'
 import BookingService from "../../services/BookingService";
-import CarCard from "./CarCard/сarCard";
+import CarCard from "./carCard/сarCard";
 
 export function BookingPage() {
     const [cars, setCars] = useState<CarViewModel[] | undefined>([]);

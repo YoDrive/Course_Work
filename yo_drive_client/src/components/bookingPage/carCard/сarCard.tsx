@@ -3,9 +3,9 @@ import {CarViewModel} from "../../../models/Booking/CarBookingModel";
 import emptyImageCar from "../../../assets/emptyImageCar.png";
 import styles from "./сarCard.module.css";
 import {Rating} from "react-simple-star-rating";
-import FeedbackPopup from "../Popup/bookingPageFeedbackPopup";
+import FeedbackPopup from "../popup/bookingPageFeedbackPopup";
 import {GearBoxEnum} from "../../../models/CarModel";
-import BookingPopup from "../Popup/bookingPagePopup";
+import BookingPopup from "../popup/bookingPagePopup";
 
 interface CarCardProps {
     car: CarViewModel;
