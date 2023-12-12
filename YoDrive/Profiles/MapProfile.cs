@@ -50,10 +50,12 @@ public class MapProfile : Profile
             .ReverseMap();
         CreateMap<Car, CarReadDto>()
             .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage)))
+            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => CalculateRating(src.Rents)))
             .ForMember(dest => dest.FeedbackCount, opt => opt.MapFrom(src => src.Rents.Where(_ => _.Feedback != null && _.Feedback.IsDeleted == false).Count()))
             .ReverseMap();
         CreateMap<CarAddDto, CarReadDto>().ReverseMap();
         CreateMap<Car, CarMinDto>()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage)))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.CarModel.CarBrand.Name} {src.CarModel.ModelName}"));
 
         #endregion
@@ -122,5 +124,27 @@ public class MapProfile : Profile
         CreateMap<Role, RoleDto>();
 
         #endregion
+    }
+    
+    private static double CalculateRating(ICollection<Rent>? rents)
+    {
+        if (rents == null || rents.Count == 0)
+            return 0;
+
+        double totalStars = 0;
+        int feedbackCount = 0;
+
+        foreach (var rent in rents)
+        {
+            if (rent.Feedback != null)
+            {
+                feedbackCount++;
+                totalStars += rent.Feedback.Stars;
+            }
+        }
+
+        if (feedbackCount == 0) return 0;
+        
+        return totalStars / feedbackCount;
     }
 }

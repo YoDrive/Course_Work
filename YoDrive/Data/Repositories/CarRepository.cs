@@ -34,28 +34,12 @@ public class CarRepository : ICarRepository
             .Include(_ => _.CarClass))
             .ToListAsync();
 
-        foreach (var car in cars)
-        {
-            if (car.Rents != null && car.Rents.Any(r => r.Feedback != null))
-            {
-                car.Rating = car.Rents.Where(r => r.Feedback != null).Average(r => r.Feedback.Stars);
-            }
-            else
-            {
-                car.Rating = 0;
-            }
-        }
-
         return cars;
     }
 
     public async Task<List<CarMinDto>> GetAutopark()
     {
         var cars = await _mapper.ProjectTo<CarMinDto>(_db.Car.Where(_ => _.CarImage != null && _.IsDeleted == false)).ToListAsync();
-        foreach (var car in cars)
-        {
-            car.Image = ImageHelper.GetImage(car.CarImage);
-        }
         return cars;
     }
 
@@ -73,13 +57,7 @@ public class CarRepository : ICarRepository
         if (car == null)
             throw new Exception($"Автомобиль с Id {id} не найден");
 
-        var image = ImageHelper.GetImage(car.CarImage);
         var response = _mapper.Map<CarReadDto>(car);
-        response.Image = image;
-        if (response.Rents != null && response.Rents.Any())
-        {
-            response.Rating = response.Rents.Where(_ => _.Feedback != null).Average(r => r.Feedback?.Stars ?? 0);
-        }
 
         return response;
     }
@@ -223,19 +201,6 @@ public class CarRepository : ICarRepository
         }
         
         var count = cars.Count();
-        
-        //TODO: Как то вынести в mapper и почему то не передается картинка
-        foreach (var car in cars)
-        {
-            // if (car.Rents != null && car.Rents.Any(r => r.Feedback != null && r.Feedback.Stars != null))
-            // {
-            //     car.Rating = car.Rents.Average(r => (double)r.Feedback.Stars);
-            // }
-            // else
-            // {
-            //     car.Rating = 0;
-            // }
-        }
         
         var response = cars.Skip((request.Page.PageNumber - 1 ?? 0) * request.Page.PageSize)
             .Take(request.Page.PageSize).ToList();
