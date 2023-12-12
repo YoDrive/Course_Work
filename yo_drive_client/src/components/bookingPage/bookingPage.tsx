@@ -8,13 +8,10 @@ import { GearBoxEnum } from "../../models/CarModel";
 import galOpen from "../../assets/whgaloshkaClose.svg";
 import galClose from "../../assets/whgalochkaOpen.svg"
 import rows from "../../assets/rows.svg"
-import Popup from './Popup/bookingPagePopup'; 
+import BookingPopup from './Popup/bookingPagePopup';
 import FeedbackPopup from './Popup/bookingPageFeedbackPopup'
-import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'
-import ru from 'date-fns/locale/ru';
-import { format } from 'date-fns';
 import BookingService from "../../services/BookingService";
 import { Rating } from 'react-simple-star-rating';
 import emptyImageCar from '../../assets/emptyImageCar.png';
@@ -22,35 +19,16 @@ import emptyImageCar from '../../assets/emptyImageCar.png';
 export function BookingPage() {
     const [openCarId, setOpenCarId] = useState<number | null>(null);
     const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
-    const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
     const [selected, setSelected] = useState(galOpen);
     const [isExpanded, setExpanded] = useState(false);
     const [openCarIds, setOpenCarIds] = useState<{ [carId: number]: boolean }>({});
-    const [selectedDate, setSelectedDate] = useState([
-        {
-            startDate: new Date(),
-            endDate: new Date(),
-            key: 'selection',
-        },
-    ]);
+
     const {
         register,
         handleSubmit,
     } = useForm({
         mode: "onBlur"
     });
-
-    const handleDateChange = (ranges: any) => {
-        setSelectedDate([ranges.selection]);
-    };
-    
-    const formatDate = (date: any) => {
-        return format(date, 'dd.MM.yy');
-    };
-
-    const toggleExpand = () => {
-        setExpanded(!isExpanded);
-    };
 
     const onSubmit=(data:any) =>{
         console.log(data);
@@ -78,14 +56,16 @@ export function BookingPage() {
       }
     }
 
+    const toggleExpand = () => {
+        setExpanded(!isExpanded);
+    };
+
     const toggleFeedbackPopup = (carId: number) => {
         setOpenCarIds((prevOpenCarIds) => {
             const isOpen = prevOpenCarIds[carId];
             return { ...prevOpenCarIds, [carId]: !isOpen };
         });
     };
-    
-    const daysDifference = Math.floor((selectedDate[0].endDate.getTime() - selectedDate[0].startDate.getTime()) / (1000 * 3600 * 24)) + 1;
 
     let listItems = cars?.map((car) =>
         <li key={car.carId} className={styles.catalogItem}>
@@ -110,49 +90,9 @@ export function BookingPage() {
                     <p className={styles.carClass}>Тип кузова: {car.carClass.className}</p>
                 </div>
                 <div className={styles.itemConteinerPrice}>
-                    <p className={styles.carPrice}>{parseFloat(car.costDay).toLocaleString('ru-RU')}₽/сутки</p>
+                    <p className={styles.carPrice}>{car.costDay.toLocaleString('ru-RU')}₽/сутки</p>
                     <button className={styles.carButton} onClick={() => togglePopup(car.carId)}>Забронировать</button>
-                    <Popup car={car} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)} selectedDate={selectedDate} rentCost={daysDifference * parseFloat(car.costDay)} content={
-                        <div className={styles.popupItem}>
-                            <div className={styles.popupItemInfo}>
-                                {car.image && (
-                                    <img
-                                        src={`data:image/png;base64,${car.image}`}
-                                        alt={`${car.carModel.modelName}`}
-                                        width={'452px'} height={'194px'}
-                                    />
-                                )}
-                                {!car.image && <img src={emptyImageCar} width={'452px'} height={'194px'}/>}
-                                <p className={styles.popupСarName}>{car.carModel.carBrand.name + ' ' + car.carModel.modelName}</p>
-                                <p className={styles.popupСarYear}>{car.year} год выпуска</p>
-                                <p className={styles.popupСarBox}>{GearBoxEnum[car.gearBox]} коробка передач</p>
-                                <p className={styles.popupСarClass}>Тип кузова: {car.carClass.className}</p>
-                                <p className={styles.popupDayCost}>Тариф: <span className={styles.popupHighlight}>{parseFloat(car.costDay).toLocaleString('ru-RU')}</span> ₽/сутки</p>
-                            </div>
-                            <div>
-                                <DateRange
-                                    ranges={selectedDate}
-                                    onChange={handleDateChange}
-                                    editableDateInputs={true}
-                                    moveRangeOnFirstSelection={false}
-                                    locale={ru}
-                                />
-                                <div className={styles.popupBookingInfo}>
-                                    <p className={styles.popupDateRangeText}>Срок бронирования: </p>
-                                    <p className={styles.popupDateRange}>
-                                        <span className={styles.popupHighlight}>
-                                        {formatDate(selectedDate[0].startDate) === formatDate(selectedDate[0].endDate)
-                                            ? `${formatDate(selectedDate[0].startDate)}`
-                                            : `${formatDate(selectedDate[0].startDate)} - ${formatDate(selectedDate[0].endDate)}`
-                                        }
-                                        </span>
-                                    </p>
-                                    <p className={styles.popupCarAdress}>{car.filial.address}</p>
-                                    <p className={styles.popupSumCost}>Итого: <span className={styles.popupHighlightCost}>{(daysDifference * parseFloat(car.costDay)).toLocaleString('ru-RU')}</span> ₽</p>
-                                </div>
-                            </div>
-                        </div>
-                    } />
+                    <BookingPopup carId={car.carId} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)} />
                 </div>
             </div>
         </li>
