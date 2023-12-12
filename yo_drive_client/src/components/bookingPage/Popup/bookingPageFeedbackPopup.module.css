@@ -158,7 +158,8 @@
   margin-top: 18px;
   padding: 17px 20px;
   width: 739px;
-  height: 120px;
+  min-height: 120px;
+  max-height: 280px;
   background-color: #212528;
   color: #FFFFFF;
 }
@@ -186,7 +187,8 @@
 }
 
 .rewiewText {
-  height: 40px;
+  min-height: 40px;
+  max-height: 200px;
   width: 690px;
   overflow: auto;
   margin-top: 12px;
