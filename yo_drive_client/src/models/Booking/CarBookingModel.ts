@@ -30,7 +30,7 @@ export interface CarViewModel {
     year: number;
     feedbackCount: number;
     gearBox: GearBoxEnum;
-    costDay: string;
+    costDay: number;
     carImage?: string;
     image?: Uint8Array | null;
     rating: number;
