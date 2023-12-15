@@ -39,7 +39,7 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-      - name: Установка инструментов EF Core
+      - name: Install EF Core Tools
         run: dotnet tool install --global dotnet-ef
       - name: Apply Migrations to PostgreSQL
         run: |
