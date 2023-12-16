@@ -1,7 +1,15 @@
 import styles from "./filterPopUp.module.css"
 import {useForm} from 'react-hook-form'
 import location from "../../../assets/location.svg"
+import React, {useEffect, useState} from "react";
+import {CarBrand, CarClass, CarModel, Filial} from "../../../models/Booking/CarBookingModel";
+import FilterService from "../../../services/FilterService";
+
 export function FilterPopUp(){
+    const [models, setModels] = useState<CarModel[] | undefined>();
+    const [brands, setBrands] = useState<CarBrand[] | undefined>();
+    const [classes, setClasses] = useState<CarClass[] | undefined>();
+    const [filials, setfilials] = useState<Filial[] | undefined>();
     const {
         register,
         handleSubmit,
@@ -12,6 +20,50 @@ export function FilterPopUp(){
     const onSubmit=(data:any) =>{
         console.log(data)
     }
+
+    useEffect(() => {
+        async function fetchFilters() {
+            try {
+                const responseModel = await FilterService.GetModels();
+                setModels(responseModel.data);
+                const responseBrand = await FilterService.GetBrands();
+                setBrands(responseBrand.data);
+                const responseClass = await FilterService.GetClasses();
+                setClasses(responseClass.data);
+                const responseFilial = await FilterService.GetFilials();
+                setfilials(responseFilial.data);
+            } catch (error) {
+                console.error('Error fetching filters:', error);
+            }
+        }
+
+        fetchFilters();
+    }, []);
+
+    const filialsView = filials
+        ? filials.map((filial, index) => (
+            <option key={index} className={styles.listItem} value={filial.address}></option>
+        ))
+        : null;
+
+    const modelsView = models
+        ? models.map((model, index) => (
+            <option key={index} className={styles.listItem} value={model.modelName}></option>
+        ))
+        : null;
+
+    const brandsView = brands
+        ? brands.map((brand, index) => (
+            <option key={index} className={styles.listItem} value={brand.name}></option>
+        ))
+        : null;
+
+    const classesView = classes
+        ? classes.map((classModel, index) => (
+            <option key={index} className={styles.listItem} value={classModel.className}></option>
+        ))
+        : null;
+
 return(
     <div className={styles.filterBox}>
          <form  onSubmit={handleSubmit(onSubmit)} className={styles.filterForm} >
@@ -23,8 +75,7 @@ return(
                         {...register("carBrandId")} 
                             />
                         <datalist className={styles.inputList} id="carBrandId" >
-                            <option className={styles.listItem} value="BMW">BMW</option>
-                            <option className={styles.listItem} value="Mercedes-Benz">Mercedes-Benz</option>
+                            {brandsView}
                         </datalist>
                     </label>
                     </div>
@@ -37,8 +88,7 @@ return(
                         {...register("modelId")}
                             />
                         <datalist className={styles.inputList} id="modelId">
-                            <option className={styles.listItem} value="BMW">BMW</option>
-                            <option className={styles.listItem} value="Mercedes-Benz">Mercedes-Benz</option>
+                            {modelsView}
                         </datalist>
                     </label>
                     </div>
@@ -51,8 +101,7 @@ return(
                         {...register("classId")}
                             />
                         <datalist className={styles.inputList} id="classId" >
-                            <option className={styles.listItem} value="Внедорожник">Внедорожник</option>
-                            <option className={styles.listItem} value="Лимузин">Лимузин</option>
+                            {classesView}
                         </datalist>
                     </label>
                     </div>
@@ -114,8 +163,7 @@ return(
                             {...register("filial")}
                                 />
                         <datalist className={styles.inputList} id="filial">
-                            <option className={styles.listItem} value="Эшкинина 10В">Эшкинина 10В</option>
-                            <option className={styles.listItem} value="Чехова 15">Чехова 15</option>
+                            {filialsView}
                         </datalist>
                         </label>
                     </div>

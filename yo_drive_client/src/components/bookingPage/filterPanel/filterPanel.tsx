@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
 import styles from './filterPanel.module.css';
 import galOpen from "../../../assets/galochkaClose.svg";
@@ -6,6 +6,9 @@ import galClose from "../../../assets/galochkaOpen.svg"
 import lupa from "../../../assets/lupa.svg"
 import location from "../../../assets/location.svg"
 import { Filter } from '../../../models/Booking/FilterBookingModel';
+import {CarBrand, CarModel, CarClass, Filial} from "../../../models/Booking/CarBookingModel";
+import BookingService from "../../../services/BookingService";
+import FilterService from "../../../services/FilterService";
 export function getCurrentDate(separator='-'){
 
     let myCurrentDate = new Date()
@@ -18,6 +21,33 @@ export function getCurrentDate(separator='-'){
 
 export function FilterPanel() {
     const [counter, setCounter] = useState(1);
+    const [isExpanded, setExpanded] = useState(false);
+    const [minValue, setMinValue] = useState(new Date());
+    const [selected, setSelected] = useState(galOpen);
+    const [models, setModels] = useState<CarModel[] | undefined>();
+    const [brands, setBrands] = useState<CarBrand[] | undefined>();
+    const [classes, setClasses] = useState<CarClass[] | undefined>();
+    const [filials, setfilials] = useState<Filial[] | undefined>();
+
+    useEffect(() => {
+        async function fetchFilters() {
+            try {
+                const responseModel = await FilterService.GetModels();
+                setModels(responseModel.data);
+                const responseBrand = await FilterService.GetBrands();
+                setBrands(responseBrand.data);
+                const responseClass = await FilterService.GetClasses();
+                setClasses(responseClass.data);
+                const responseFilial = await FilterService.GetFilials();
+                setfilials(responseFilial.data);
+            } catch (error) {
+                console.error('Error fetching filters:', error);
+            }
+        }
+
+        fetchFilters();
+    }, []);
+
     const handleInputChange = (event:any) => {
         const inputValue = event.target.value.trim();
         const wasEmpty = inputValue === '';
@@ -31,8 +61,6 @@ export function FilterPanel() {
         
         event.target.dataset.prevValue = inputValue;
     };
-    const [isExpanded, setExpanded] = useState(false);
-    const [minValue, setMinValue] = useState(new Date())
 
     const setValue =(param:Date) =>{
         setMinValue(param);
@@ -42,7 +70,7 @@ export function FilterPanel() {
         setExpanded(!isExpanded);
     };
     const minDate= (getCurrentDate("-"));
-    const [selected, setSelected] = useState(galOpen)
+
     const {
         register,
         handleSubmit,
@@ -66,6 +94,32 @@ export function FilterPanel() {
         checkDate();
         console.log(data);
     }
+
+    const filialsView = filials
+        ? filials.map((filial, index) => (
+            <option key={index} className={styles.listItem} value={filial.address}></option>
+        ))
+        : null;
+
+    const modelsView = models
+        ? models.map((model, index) => (
+            <option key={index} className={styles.listItem} value={model.modelName}></option>
+        ))
+        : null;
+
+    const brandsView = brands
+        ? brands.map((brand, index) => (
+            <option key={index} className={styles.listItem} value={brand.name}></option>
+        ))
+        : null;
+
+    const classesView = classes
+        ? classes.map((classModel, index) => (
+            <option key={index} className={styles.listItem} value={classModel.className}></option>
+        ))
+        : null;
+
+
     return (
         <div className={styles.container}>
             <div className={styles.formHead}>
@@ -112,8 +166,7 @@ export function FilterPanel() {
                      {...register("filialId")}  onChangeCapture={handleInputChange} 
                         />
                     <datalist className={styles.inputList} id="filialId">
-                        <option className={styles.listItem} value="Эшкинина 10В"></option>
-                        <option className={styles.listItem} value="Чехова 15"></option>
+                        {filialsView}
                     </datalist>
                 </label>
                 <div className={styles.filterScnd}>
@@ -124,8 +177,7 @@ export function FilterPanel() {
                         {...register("classId")}  onChangeCapture={handleInputChange} 
                             />
                         <datalist className={styles.inputList} id="classId" >
-                            <option className={styles.listItem} value="Внедорожник">Внедорожник</option>
-                            <option className={styles.listItem} value="Лимузин">Лимузин</option>
+                            {classesView}
                         </datalist>
                     </label>
                     </div>
@@ -138,8 +190,7 @@ export function FilterPanel() {
                         {...register("carBrandId")}  onChangeCapture={handleInputChange} 
                             />
                         <datalist className={styles.inputList} id="carBrandId" >
-                            <option className={styles.listItem} value="BMW">BMW</option>
-                            <option className={styles.listItem} value="Mercedes-Benz">Mercedes-Benz</option>
+                            {brandsView}
                         </datalist>
                     </label>
                     </div>
@@ -152,8 +203,7 @@ export function FilterPanel() {
                         {...register("modelId")}  onChangeCapture={handleInputChange} 
                             />
                         <datalist className={styles.inputList} id="modelId">
-                            <option className={styles.listItem} value="BMW">BMW</option>
-                            <option className={styles.listItem} value="Mercedes-Benz">Mercedes-Benz</option>
+                            {modelsView}
                         </datalist>
                     </label>
                     </div>
