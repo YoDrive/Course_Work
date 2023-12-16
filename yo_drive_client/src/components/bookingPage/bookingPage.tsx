@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './bookingPage.module.css';
 import Header from '../header/header';
 import FilterPanel from './filterPanel/filterPanel';
-import {CarViewModel} from '../../models/Booking/CarBookingModel';
+import {BookingPageModel, CarResponsePage, CarViewModel} from '../../models/Booking/CarBookingModel';
 import galOpen from "../../assets/whgaloshkaClose.svg";
 import galClose from "../../assets/whgalochkaOpen.svg"
 import rows from "../../assets/rows.svg"
@@ -11,11 +11,15 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css'
 import BookingService from "../../services/BookingService";
 import CarCard from "./carCard/сarCard";
+import Paginator from "./paginator/paginator";
 
 export function BookingPage() {
-    const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
+    const [cars, setCars] = useState<CarResponsePage | undefined>();
+    const [carsCout, setCarsCount] = useState<number>(0);
     const [selected, setSelected] = useState(galOpen);
     const [isExpanded, setExpanded] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState<number>(0);
 
     const {
         register,
@@ -25,28 +29,48 @@ export function BookingPage() {
     });
 
     const onSubmit=(data:any) =>{
-        console.log(data);
         toggleExpand();
     };
 
-    useEffect(() => {
-        async function fetchCars() {
-            try {
-                const response = await BookingService.getAllCars();
-                setCars(response.data);
-            } catch (error) {
-                console.error('Error fetching cars:', error);
-            }
-        }
+    const fetchData = async () => {
+        try {
+            const bookingPageModel: BookingPageModel = {
+                page: {
+                    pageNumber: currentPage,
+                    pageSize: 10,
+                },
+                filter: {
+                    // Заполните поля фильтра в соответствии с вашей логикой
+                },
+                sort: {
+                    dir: 'asc', // Например, по умолчанию сортировка по возрастанию
+                    field: 'fieldName', // Например, поле, по которому сортируем
+                },
+            };
 
-        fetchCars();
-    }, []);
+            const response = await BookingService.getCarsByPage(bookingPageModel);
+            setCars(response.data);
+            setCarsCount(response.data.count)
+            let totalPages = response.data.count / 10 == 0 ? response.data.count / 10 : (response.data.count / 10) + 1;
+            setTotalPages(totalPages);
+        } catch (error) {
+            console.error('Error fetching cars:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [currentPage]);
 
     const toggleExpand = () => {
         setExpanded(!isExpanded);
     };
 
-    let listItems = cars?.map((car) =>
+    const handlePageChange = (newPage: number) => {
+        setCurrentPage(newPage);
+    };
+
+    let listItems = cars?.items.map((car) =>
         <li key={car.carId} className={styles.catalogItem}>
             <CarCard car={car}/>
         </li>
@@ -61,7 +85,7 @@ export function BookingPage() {
                 <div className={styles.subtitle}>
                     <div className={styles.subText}>
                         <p className={styles.subtitleText}>Автомобили </p>
-                        <p className={styles.subtitleFind}>(найдено {listItems?.length}):</p>
+                        <p className={styles.subtitleFind}>(найдено {carsCout}):</p>
                     </div>
                     <form className={styles.subSort} onClick={() => (isExpanded === false)&&(selected === galOpen) ? setSelected(galClose) : setSelected(galOpen)}  onChange={handleSubmit(onSubmit)} >
                         <div className={styles.subSortBtn} onClick={() => toggleExpand()}>
@@ -86,6 +110,7 @@ export function BookingPage() {
                     </form>
                 </div>
                 <ul className={styles.catalog}>{listItems}</ul>
+                <Paginator currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
             </div>
         </div>
     );

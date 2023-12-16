@@ -1,7 +1,7 @@
 import { GearBoxEnum } from "./../CarModel";
 import {Filter} from "./FilterBookingModel";
 
-export interface BookingPage {
+export interface BookingPageModel {
     page: Page;
     filter: Filter;
     sort?: Sort;
