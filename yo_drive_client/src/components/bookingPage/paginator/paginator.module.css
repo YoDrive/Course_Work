@@ -1,0 +1,15 @@
+.paginatorContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrowButton {
+    font-size: 16px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.activePage {
+    font-weight: bold;
+}
