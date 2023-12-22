@@ -139,10 +139,10 @@ public class CarRepository : ICarRepository
                         && (request.MinCostDay == null || request.MinCostDay <= _.CostDay)
                         && (request.MaxCostDay == null || request.MaxCostDay >= _.CostDay)
                         && (request.GearBox == null || request.GearBox == _.GearBox)
-                        && (request.CarBrandId == null || request.CarBrandId == _.CarModel.CarBrandId)
-                        && (request.ModelId == null || request.ModelId == _.ModelId)
-                        && (request.FilialId == null || request.FilialId == _.FilialId)
-                        && (request.ClassId == null || request.ClassId == _.ClassId));
+                        && (request.CarBrandId == null || request.CarBrandId.Contains(_.CarModel.CarBrandId))
+                        && (request.ModelId == null || request.ModelId.Contains(_.ModelId))
+                        && (request.FilialId == null || request.FilialId.Contains(_.FilialId))
+                        && (request.ClassId == null || request.ClassId.Contains(_.ClassId)));
 
         var response = await _mapper.ProjectTo<CarReadDto>(cars).ToListAsync();
         return response;
@@ -163,10 +163,10 @@ public class CarRepository : ICarRepository
                         && (request.Filter.MinCostDay == null || request.Filter.MinCostDay <= _.CostDay)
                         && (request.Filter.MaxCostDay == null || request.Filter.MaxCostDay >= _.CostDay)
                         && (request.Filter.GearBox == null || request.Filter.GearBox == _.GearBox)
-                        && (request.Filter.CarBrandId == null || request.Filter.CarBrandId == _.CarModel.CarBrandId)
-                        && (request.Filter.ModelId == null || request.Filter.ModelId == _.ModelId)
-                        && (request.Filter.FilialId == null || request.Filter.FilialId == _.FilialId)
-                        && (request.Filter.ClassId == null || request.Filter.ClassId == _.ClassId))
+                        && (request.Filter.CarBrandId == null || request.Filter.CarBrandId.Contains(_.CarModel.CarBrandId))
+                        && (request.Filter.ModelId == null || request.Filter.ModelId.Contains(_.ModelId))
+                        && (request.Filter.FilialId == null || request.Filter.FilialId.Contains(_.FilialId))
+                        && (request.Filter.ClassId == null || request.Filter.ClassId.Contains(_.ClassId)))
             .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
             .AsEnumerable();
 
