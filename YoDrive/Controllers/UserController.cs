@@ -22,7 +22,7 @@ public class UserController : ControllerBase
         _repository = new UserRepository(_db, _mapper);
     }
 
-    [HttpPut("UpdateUserPhoto")]
+    [HttpPut("UpdateUserPhoto/{id}")]
     public async Task<IActionResult> UpdateUserPhoto(int id, [FromForm] IFormFile file)
     {
         try
