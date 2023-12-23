@@ -65,7 +65,7 @@ public class CarRepository : ICarRepository
     public async Task<CarReadDto> CreateCar(CarAddDto dto, IFormFile file)
     {
         var currentDirectory = Directory.GetCurrentDirectory();
-        var folderPath = Path.Combine(currentDirectory, "../yo_drive_store");
+        var folderPath = Path.Combine(currentDirectory, "../yo_drive_store/Cars");
         var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
         var filePath = Path.Combine(folderPath, fileName);
 

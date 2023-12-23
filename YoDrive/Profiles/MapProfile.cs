@@ -8,6 +8,7 @@ using YoDrive.Domain.Dtos.FeedbackDto;
 using YoDrive.Domain.Dtos.FilialDto;
 using YoDrive.Domain.Dtos.ModelDto;
 using YoDrive.Domain.Dtos.RentDto;
+using YoDrive.Domain.Dtos.UserDto;
 using YoDrive.Domain.Models;
 using YoDrive.Helpers;
 
@@ -110,7 +111,10 @@ public class MapProfile : Profile
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
             .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.UserImage))
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.UserImage, "Users")))
             .ReverseMap();
+
+        CreateMap<User, UserUpdateInfoDto>().ReverseMap();
         
         CreateMap<User, UserAuthDto>()
             .ReverseMap();
