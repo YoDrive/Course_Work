@@ -14,9 +14,8 @@ public static class ImageHelper
             var filePath = Path.Combine(folderPath, imageName);
 
             if (File.Exists(filePath))
-            {
                 return File.ReadAllBytes(filePath);
-            }
+            
             return null;
         }
         catch (Exception e)
