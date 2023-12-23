@@ -62,8 +62,27 @@ public class CarRepository : ICarRepository
         return response;
     }
 
-    public async Task<CarReadDto> CreateCar(CarAddDto dto)
+    public async Task<CarReadDto> CreateCar(CarAddDto dto, IFormFile file)
     {
+        var currentDirectory = Directory.GetCurrentDirectory();
+        var folderPath = Path.Combine(currentDirectory, "../yo_drive_store");
+        var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        var filePath = Path.Combine(folderPath, fileName);
+
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+            
+        if (file.Length > 0)
+        {
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+        }
+        dto.CarImage = fileName;
+        
         var entity = new Car()
         {
             IsDeleted = false,

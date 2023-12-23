@@ -49,13 +49,13 @@ public class MapProfile : Profile
         CreateMap<CarAddDto, Car>()
             .ReverseMap();
         CreateMap<Car, CarReadDto>()
-            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage)))
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage, "Cars")))
             .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => CalculateRating(src.Rents)))
             .ForMember(dest => dest.FeedbackCount, opt => opt.MapFrom(src => src.Rents.Where(_ => _.Feedback != null && _.Feedback.IsDeleted == false).Count()))
             .ReverseMap();
         CreateMap<CarAddDto, CarReadDto>().ReverseMap();
         CreateMap<Car, CarMinDto>()
-            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage)))
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage, "Cars")))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.CarModel.CarBrand.Name} {src.CarModel.ModelName}"));
 
         #endregion
