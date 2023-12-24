@@ -1,6 +1,6 @@
 import {AxiosResponse} from "axios/index";
 import axiosInstance from "../instance";
-import {CarViewModel} from "../models/Booking/CarBookingModel";
+import {CarBrand, CarViewModel} from "../models/Booking/CarBookingModel";
 
 export default class CarService {
     static async DeleteCar(carId: number): Promise<AxiosResponse<boolean>> {
@@ -19,6 +19,14 @@ export default class CarService {
 export async function fetchCars() {
     try {
         const response = await axiosInstance.get<CarViewModel[]>('/api/car/getCars');
+        return response.data;
+    } catch (error) {
+        throw new Error('Ошибка сервера.');
+    }
+}
+export async function getCarBrands(){
+    try {
+        const response = await axiosInstance.get<CarBrand[]>('api/CarBrand/GetBrands');
         return response.data;
     } catch (error) {
         throw new Error('Ошибка сервера.');

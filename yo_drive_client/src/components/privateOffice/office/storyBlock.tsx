@@ -6,11 +6,17 @@ import StoryFeedbackPopup from './storyFeedbackPopUp'
 import {useForm} from "react-hook-form"
 import {BookingResponseModel} from '../../../models/Booking/BookingResponseModel'
 import RentService from "../../../services/RentService";
+import { Rating } from 'react-simple-star-rating';
 
 export function StoryBlock() {
     const [rents, setRents] = useState<BookingResponseModel[] | undefined>([]);
     const [openBookingId, setOpenBookingId] = useState<number | null>(null);
 
+    const [rating, setRating] = useState(0);
+
+    const handleRating = (rate: number) => {
+        setRating(rate)
+    }; 
     useEffect(() => {
         async function fetchBookings() {
             try {
@@ -40,8 +46,10 @@ export function StoryBlock() {
     const toggleFeedbackPopup = (bookingId: number) => {
         if (openBookingId === bookingId) {
             setOpenBookingId(null);
+            setRating(0);
         } else {
             setOpenBookingId(bookingId);
+            setRating(0);
         }
     }
     const onSubmit = (data: any) => {
@@ -75,8 +83,8 @@ export function StoryBlock() {
                                     <p className={styles.itemSecond}>{ new Date(rent.startDate).toLocaleDateString('ru-RU') } - { new Date(rent.endDate).toLocaleDateString('ru-RU') }</p>
                                 </div>
                             </div>
-                            <div className={styles.popupRating}>
-                            </div>
+                    
+                <Rating className={styles.starRating} initialValue={rating} onClick={handleRating} size={36} fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                         </div>
 
                         <form className={styles.popUpForm} onSubmit={handleSubmit(onSubmit)}>

@@ -111,8 +111,9 @@
 }
 .popupHead{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-top: 20px;
+    justify-content: space-between;
 }
 .popupText{
     display: flex;
@@ -186,4 +187,22 @@
     row-gap: 30px;
     height: 421px;
     width: 946px;
+}
+.popupRating{
+    display: flex;
+    flex-direction: row;
+    margin: 8px 25px 0 0px;
+}
+.ratingInput{
+    background-color: transparent;
+    border: none;
+    font-family: Montserrat;
+    color: #212528;
+    font-size: 24px;
+    width: 50px;
+    height: 30px;
+    margin-top: 5px;
+}
+.starRating{
+    margin-left: 10px;
 }
