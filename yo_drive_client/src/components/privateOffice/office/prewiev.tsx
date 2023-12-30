@@ -2,8 +2,8 @@ import styles from './prewiev.module.css'
 import rewiev from '../../../assets/rewiev.svg'
 import trash from '../../../assets/trash.svg'
 import React, {useEffect, useState, useRef} from "react";
-import {CarBrand, CarViewModel} from "../../../models/Booking/CarBookingModel";
-import CarService, {fetchCars, getCarBrands} from "../../../services/CarService";
+import {CarBrand, CarViewModel, CarModel, CarClass, Filial} from "../../../models/Booking/CarBookingModel";
+import CarService, {fetchCars, getCarBrands, getCarModels, getCarClasses, getCarFilials} from "../../../services/CarService";
 import {Rating} from "react-simple-star-rating";
 import {GearBoxEnum} from "../../../models/CarModel";
 import emptyImageCar from '../../../assets/emptyImageCar.png';
@@ -11,15 +11,66 @@ import EditCarPopup from "./editCarPopUp"
 import { useForm} from "react-hook-form"
 import { CarAdd } from '../../../models/Add/Add.model';
 import space from "../../../assets/space.svg"
-import { Select , SelectProps} from 'antd';
-const options: SelectProps[] =[];
+import { Select , SelectProps, DatePicker, Input} from 'antd';
 
-const handleChange = (value: string | string[]) => {
-    console.log(`Selected: ${value}`);
-  };
 
 export function Prewiev(){
+    const [carModels, setCarModels] = useState<CarModel[]| undefined>([]);
+    const [selectedBrand, setSelectedBrand] = useState<number | undefined>(undefined);
+    const [selectedModel, setSelectedModel] = useState<number | undefined>(undefined);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedTransmission, setSelectedTransmission] = useState('');
+    const [selectedCost, setSelectedCost] = useState(0);
+    const [selectedCarFilial, setSelectedCarFilial] = useState('');
+    const [carClasses, setCarClass] = useState<CarClass[]| undefined>([]);
+    const [carFilials, setCarFilials] = useState<Filial[]| undefined>([]);
+
+    const handleFilialChange = (value:any) => {
+        setSelectedCarFilial(value);
+      }; 
+      const handleCostChange = (value:any) => {
+        setSelectedCost(value);
+      }; 
+    const handleTransmissionChange = (value:any) => {
+      setSelectedTransmission(value);
+    }; 
+
+    const [selectedCarClass, setSelectedCarClass] = useState('');
+
+    const handleCarClassChange = (value:any) => {
+        setSelectedCarClass(value);
+    };
+    const transmissionOptions = [
+        { value: 'АКПП', label: 'Автоматическая' },
+        { value: 'МКПП', label: 'Механическая' },
+      ];
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await getCarModels(); 
+          setCarModels(response);
+        } catch (error) {
+          console.error('Error fetching car models:', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
+    const handleBrandChange = (value: number) => {
+      setSelectedBrand(value);
+      setSelectedModel(undefined);
+    };
+  
+    const handleModelChange = (value: number) => {
+      setSelectedModel(value);
+    };
+    const handleDateChange = (date: any) => {
+        setSelectedDate(date);
+      };
     const [brands, setBrands]= useState<CarBrand[]|undefined>([]);
+    const [options, setOptions] = useState<SelectProps[]>([]);
     const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
 
     useEffect(() => {
@@ -44,13 +95,6 @@ export function Prewiev(){
         const file = event.target.files[0];
         setImage(file);
     }
-    const {
-        register,
-        handleSubmit,
-        resetField,
-        formState: {errors}
-    } = useForm<CarAdd>({
-    });
     const [openCarId, setOpenCarId] = useState<number | null>(null);
     const togglePopup = (carId: number) => {
         if (openCarId === carId) {
@@ -60,21 +104,12 @@ export function Prewiev(){
         }
       }
     const resFields = ()=>{
-        resetField("carImage");
-        resetField("carModel.carBrand.name");
-        resetField("carModel.modelName");
-        resetField("year");
-        resetField("gearBox");
-        resetField("carClass");
-        resetField("costDay");
-        resetField("filial");
         setAllInp();
     }
 
     const onSubmit = (data: CarAdd) =>{
         console.log(data);
         setAllInp();
-       // alert("*: поле не заполнено\n **: поле заполнено неправильно")
     }
 
     useEffect(() => {
@@ -89,7 +124,41 @@ export function Prewiev(){
 
         fetchData();
     }, []);
+    useEffect(() => {
+        if (brands) {
+          const brandOptions = brands.map((brand) => ({
+            value: brand?.carBrandId?? '', 
+            label: brand?.name ?? '',
+          }));
+      
+          setOptions(brandOptions);
+        }
+      }, [brands]);
+    
+      useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await getCarClasses();
+                setCarClass(response);
+            } catch (error) {
+                alert('Ошибка сервера.');
+            }
+        }
 
+        fetchData();
+    }, []);
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await getCarFilials();
+                setCarFilials(response);
+            } catch (error) {
+                alert('Ошибка сервера.');
+            }
+        }
+
+        fetchData();
+    }, []);
     const handleDelete = async (carId: number) => {
         try {
             const response = await CarService.DeleteCar(carId);
@@ -147,6 +216,19 @@ export function Prewiev(){
         setInp6(false);
         setInp7(false);
     }
+    const handleSubmit = () => {
+        // Создаем объект с данными для отправки
+        const formData = {
+          carBrandId: selectedBrand,
+          carModelId: selectedModel,
+          year: selectedDate,
+          GearBox: selectedTransmission,
+          carClassId: selectedCarClass,
+          carCost: selectedCost,
+          carFilialId: selectedCarFilial
+        };
+        console.log(formData)
+    }    
 
     let listItems = cars?.map((car) =>
         <li key={car.carId} className={styles.carBlock}>
@@ -180,24 +262,19 @@ export function Prewiev(){
             <img className={styles.toolEdit} src={rewiev} onClick={()=>togglePopup(car.carId)}></img>
                 <EditCarPopup car={car} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)}  content={
                     <div className={styles.addBlock}>
-                    <form className={styles.addForm} onSubmit={handleSubmit(onSubmit)}>
+                    <form className={styles.addForm}>
                         <div className={styles.blockImg} onClick={handleImageClick}>
                             <div className={styles.imgSpace}>
                                 {image ? <img src={URL.createObjectURL(image)} style={{width: "100%", height:"100%", objectFit:"contain"}} />:<img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`} style={{width: "100%", height:"100%", objectFit:"contain",margin:"auto"}}
                     alt={`${car.carModel.modelName}`}></img>}
                             </div>
                             <div className={styles.itemInp}>
-                                {/* <input type="file" accept=".jpg,.jpeg,.png" id="Image" className={styles.inputImg} {
+                             {/* <input type="file" accept=".jpg,.jpeg,.png" id="Image" className={styles.inputImg} {
                                         ...register("carImage"
-                                        // ,{
-                                        //     required:"*"
-                                        // }
-                                        )} ref={inputRef} onChange={handleImageChange} /> */}
+
+                                        )} ref={inputRef} onChange={handleImageChange} />  */}
 
                                 <label htmlFor="Image" className={styles.imgItem}>Загрузить изображение</label>
-                                {/* <div  className={styles.error}>
-                                    {errors?.carImage && <p className={styles.itemError}>{errors?.carImage.message}</p>}
-                                </div> */}
                             </div>
                         </div>
                         <div className={styles.blockInfo}>
@@ -206,137 +283,115 @@ export function Prewiev(){
                                  <div className={styles.itemInp}>
                                  {!inp1&&<p className={styles.itemInpu} onClick={setInpu1}>{car.carModel.carBrand.name}</p>}
                                  {inp1&&<Select
-                                    size={"middle"}
-                                    defaultValue=""
-                                    onChange={handleChange}
-                                    style={{ width: 256 }}
+                                    size={"small"}
+                                    defaultValue={selectedBrand}
+                                    onChange={handleBrandChange}
+                                    style={{ width: 256 , fontFamily: 'Montserrat'}}
                                     options={options}
                                     />}
-                                <datalist className={styles.inputList} id="carBrand">
-                                    <option className={styles.listItem} value="Mercedes-Benz">Mercedes-Benz</option>
-                                    <option className={styles.listItem} value="BMW">BMW</option>
-                                </datalist>
-                                <div className={styles.error}>
-                                    {errors?.carModel?.carBrand?.name && <p className={styles.itemError}>{errors?.carModel?.carBrand.name.message}</p>}
-                                </div>
                                 </div>
                             </div> 
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Модель:</label>
                                 <div className={styles.itemInp}>
                                 {!inp2&&<p className={styles.itemInpu} onClick={setInpu2}>{car.carModel.modelName}</p>}
-                                {inp2 &&<input type="text" list="carModel" className={styles.itemInput}  {
-                                    ...register("carModel.modelName")
-                                }
-                                />}
-                                <datalist className={styles.inputList} id="carModel">
-                                    <option className={styles.listItem} value="G63 AMG">G63 AMG</option>
-                                    <option className={styles.listItem} value="X5">X5</option>
-                                </datalist>
-                                <div className={styles.error}>
-                                    {errors?.carModel?.modelName && <p className={styles.itemError}>{errors?.carModel?.modelName.message}</p>}
-                                </div>
+                                {inp2&&(
+                                <Select
+                                    size="small"
+                                    defaultValue={selectedModel}
+                                    onChange={handleModelChange}
+                                    style={{ marginLeft: '120px', width: 256,fontFamily: 'Montserrat' }}
+                                >
+                                     {carModels &&
+                                    carModels
+                                    .filter((model) => model.carBrand.carBrandId === selectedBrand)
+                                    .map((model) => (
+                                        <Select.Option key={model.carModelId} value={model.carModelId}>
+                                        {model.modelName}
+                                        </Select.Option>
+                                    ))}
+                                </Select>)}
                                 </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Год выпуска:</label>
                                 <div className={styles.itemInp}>
                                 {!inp3&&<p className={styles.itemInpu} onClick={setInpu3}>{car.year}</p>}
-                                {inp3 &&<input type="text" list="carYear" className={styles.itemInput}   {
-                                    ...register("year",{
-                                        pattern:{
-                                            value: /^(195[1-9]|19[6-9]\d|20[0-1]\d|202[0-4])$/i,
-                                            message: "**"
-                                        }
-                                    })
-                                }
+                                {inp3 && <DatePicker
+                                    size="small"
+                                    value={selectedDate}
+                                    picker='year'
+                                    onChange={handleDateChange}
+                                    style={{ marginLeft: '10px', width: 256 ,fontFamily: 'Montserrat'}}
                                 />}
-                                <datalist className={styles.inputList} id="carYear">
-                                    <option className={styles.listItem} value="2020">2020</option>
-                                    <option className={styles.listItem} value="2023">2023</option>
-                                </datalist>
-                                <div className={styles.error}>
-                                    {errors?.year && <p className={styles.itemError}>{errors?.year.message}</p>}
-                                </div>
                                 </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Тип КПП:</label>
                                 <div className={styles.itemInp}>
                                 {!inp4&&<p className={styles.itemInpu} onClick={setInpu4}>{GearBoxEnum[car.gearBox]}</p>}
-                                {inp4&&<input type="text" list="carGear" className={styles.itemInput}  {
-                                    ...register("gearBox",{
-                                        pattern:{
-                                            value:/^(МКПП|АКПП)$/,
-                                            message:"**"
-                                        }
-                                    })
-                                }
-                                />}
-                                <datalist className={styles.inputList} id="carGear">
-                                    <option className={styles.listItem} value="АКПП">АКПП</option>
-                                    <option className={styles.listItem} value="МКПП">МКПП</option>
-                                </datalist>
-                                <div className={styles.error}>
-                                    {errors?.gearBox && <p className={styles.itemError}>{errors?.gearBox.message}</p>}
-                                </div>
+                                {inp4&&<Select
+                                    size="small"
+                                    defaultValue={selectedTransmission}
+                                    onChange={handleTransmissionChange}
+                                    style={{ marginLeft: '10px', width: 256,fontFamily: 'Montserrat' }}
+                                    >
+                                    {transmissionOptions.map((option) => (
+                                        <Select.Option key={option.value} value={option.value}>
+                                        {option.label}
+                                        </Select.Option>
+                                    ))}
+                                    </Select>}
                                 </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Тип кузова:</label>
                                 <div className={styles.itemInp}>
                                 {!inp5&&<p className={styles.itemInpu} onClick={setInpu5}>{car.carClass.className}</p>}
-                                {inp5&&<input type="text" list="carClass" className={styles.itemInput} {
-                                    ...register("carClass")
-                                }
-                                />}
-                                <div className={styles.error}>
-                                    {errors?.carClass && <p className={styles.itemError}>{errors?.carClass.message}</p>}
-                                </div>
-                                </div>
-                                <datalist className={styles.inputList} id="carClass">
-                                    <option className={styles.listItem} value="Внедорожник">Внедорожник</option>
-                                    <option className={styles.listItem} value="Седан">Седан</option>
-                                </datalist>
+                                {inp5&&<Select
+                                    size="small"
+                                    defaultValue={selectedCarClass}
+                                    onChange={handleCarClassChange}
+                                    style={{ marginLeft: '10px', width: 256,fontFamily: 'Montserrat' }}
+                                    >
+                                    {carClasses && carClasses.map((option) => (
+                                        <Select.Option key={option.carClassId} value={option.carClassId}>
+                                        {option.className}
+                                        </Select.Option>
+                                    ))}
+                                    </Select>}
+                            </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Цена аренды в сутки:</label>
                                 <div className={styles.itemInp}>
                                 {!inp6&&<p className={styles.itemInpu} onClick={setInpu6}>{car.costDay}</p>}
-                                {inp6&&<input type="text" list="carPrice" className={styles.itemInputPrice}  {
-                                    ...register("costDay",{
-                                        pattern:{
-                                            value:/^\d+$/,
-                                            message:"**"
-                                        }
-                                    })
-                                }
-                                />}
-                                <div className={styles.error}>
-                                    {errors?.costDay && <p className={styles.itemError}>{errors?.costDay.message}</p>}
-                                </div>
+                                {inp6&&<Input size="small" style={{ marginLeft: '10px', width: 256,fontFamily: 'Montserrat' }} 
+                                onChange={handleCostChange}
+                                defaultValue={selectedCost}></Input>}
                                 </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Филиал:</label>
                                 <div className={styles.itemInp}>
                                 {!inp7&&<p className={styles.itemInpu} onClick={setInpu7}>{car.filial.address}</p>}
-                                {inp7&&<input type="text" list="filialId" className={styles.itemInput}  {
-                                    ...register("filial")
-                                }
-                                />}
-                                <div className={styles.error}>
-                                    {errors?.filial && <p className={styles.itemError}>{errors?.filial.message}</p>}
-                                </div>
-                                </div>
-                                <datalist className={styles.inputList} id="filialId">
-                                    <option className={styles.listItem} value="Эщкинина 10В">Эщкинина 10В</option>
-                                    <option className={styles.listItem} value="Чехова 15">Чехова 15</option>
-                                </datalist>
+                                {inp7&&<Select
+                                    size="small"
+                                    defaultValue={selectedCarFilial}
+                                    onChange={handleFilialChange}
+                                    style={{ marginLeft: '10px', width: 256,fontFamily: 'Montserrat' }}
+                                    >
+                                    {carFilials && carFilials.map((option) => (
+                                        <Select.Option key={option.filialId} value={option.filialId}>
+                                        {option.address}
+                                        </Select.Option>
+                                    ))}
+                                    </Select>}
+                                    </div>
                             </div>
                             <div className={styles.infoButtons}>
                                 <input className={styles.buttonCancel} type="button" onClick={resFields} value="Отмена"></input>
-                                <input onClick={handleSubmit(onSubmit)} type="submit" className={styles.buttonSave}
+                                <input onClick={handleSubmit} type="button" className={styles.buttonSave}
                                        value="Сохранить"></input>
                             </div>
                         </div>

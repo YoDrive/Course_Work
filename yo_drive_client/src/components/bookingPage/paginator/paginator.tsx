@@ -15,7 +15,7 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
                 <button
                     key={i}
                     onClick={() => onPageChange(i)}
-                    className={i === currentPage ? styles.activePage : ''}
+                    className={i === currentPage ? styles.activePage : styles.unactivePage}
                 >
                     {i}
                 </button>
