@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,7 +15,6 @@ using YoDrive.Domain.Enums;
 using YoDrive.Domain.Models;
 
 namespace YoDrive.Controllers;
-
 
 [ApiController]
 [Route("api/[Controller]")]
@@ -33,7 +33,46 @@ public class AuthController : ControllerBase
         _repository = new AuthRepository(_db, _mapper);
         _configuration = configuration;
     }
+    
+    
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var userId = GetUserIdFromContext();
 
+        var user = await _db.User.FindAsync(userId);
+        if (user == null)
+        {
+            return BadRequest("User not found.");
+        }
+
+        var tokenData = await _db.Token.FirstOrDefaultAsync(t => t.UserId == userId);
+        if (tokenData != null)
+        {
+            tokenData.RefreshToken = string.Empty;
+            _db.Token.Update(tokenData);
+            await _db.SaveChangesAsync();
+            return Ok("Logout successful.");
+        }
+
+        return NotFound("Token not found for the user.");
+    }
+
+    private int GetUserIdFromContext()
+    {
+        var userIdClaim = HttpContext.User.FindFirst("Id");
+
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            return userId;
+        }
+        
+        var allClaimsPrincipal = HttpContext.User.Claims.Select(c => $"{c.Type}: {c.Value}");
+        Console.WriteLine("All Claims Principal: " + string.Join(", ", allClaimsPrincipal));
+
+        return -1;
+    }
+    
     [HttpPost("login")]
     public async Task<ActionResult<UserAuthDto>> Login(UserLoginRequestDto request)
     {
@@ -52,26 +91,22 @@ public class AuthController : ControllerBase
         }
 
         var token = CreateToken(dbUser);
-        SaveToken(dbUser.UserId, token.RefreshToken);
+        await SaveToken(dbUser.UserId, token.RefreshToken);
+        var allClaims = HttpContext.User.Claims.Select(c => $"{c.Type}: {c.Value}");
+        Console.WriteLine("All Claims: " + string.Join(", ", allClaims));
+
         
         var response = new UserAuthDto()
         {
             RefreshToken = token.RefreshToken,
             AccessToken = token.AccessToken,
-            User = new UserAuth()
-            {
-                UserId = dbUser.UserId,
-                Email = dbUser.Email,
-                RoleId = dbUser.Role.RoleId,
-                RoleName = dbUser.Role.RoleName
-            }
         };
 
         return Ok(response);
     }
 
     [HttpPost("register")]
-    public ActionResult<UserAuthDto> Register(UserRegisterRequestDto request)
+    public async Task<ActionResult<UserAuthDto>> Register(UserRegisterRequestDto request)
     {
         var users = _db.User.ToList();
         if (users.FirstOrDefault(_ => _.Email == request.Email) != null || users.FirstOrDefault(_ => _.PhoneNumber == request.PhoneNumber) != null)
@@ -97,7 +132,7 @@ public class AuthController : ControllerBase
         user = newUser;
         
         var token = CreateToken(user);
-        SaveToken(user.UserId, token.RefreshToken);
+        await SaveToken(user.UserId, token.RefreshToken);
         
         _db.Add(newUser);
         _db.SaveChanges();
@@ -105,13 +140,6 @@ public class AuthController : ControllerBase
         {
             RefreshToken = token.RefreshToken,
             AccessToken = token.AccessToken,
-            User = new UserAuth()
-            {
-                UserId = newUser.UserId,
-                Email = newUser.Email,
-                RoleId = newUser.Role.RoleId,
-                RoleName = newUser.Role.RoleName
-            }
         };
 
         return Ok(response);
@@ -119,24 +147,26 @@ public class AuthController : ControllerBase
 
     private JwtToken CreateToken(User user)
     {
-        List<Claim> claims = new List<Claim>
+        var claims = new List<Claim>
         {
             new Claim("Id", user.UserId.ToString()),
             new Claim("Email", user.Email),
-            new Claim("Roles", user.Role.RoleName) 
+            new Claim("Roles", user.Role.RoleName),
+            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
             _configuration.GetSection("JwtToken:Secret").Value!));
 
-        var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+        var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
         var token = new JwtSecurityToken(
             claims: claims,
             expires: DateTime.Now.AddDays(1),
             signingCredentials: cred
         );
-    
+        Console.WriteLine("Access Token Content: " + token);
+        
         var refreshToken = new JwtSecurityToken(
             claims: claims,
             expires: DateTime.Now.AddDays(3),
@@ -148,8 +178,9 @@ public class AuthController : ControllerBase
 
         return new JwtToken()
         {
-            AccessToken = "Bearer " + jwtAccess,
-            RefreshToken = jwtRefresh
+            AccessToken = jwtAccess,
+            RefreshToken = jwtRefresh,
+            AccessTokenObject = token
         };
     }
 
@@ -160,15 +191,19 @@ public class AuthController : ControllerBase
         {
             tokenData.RefreshToken = refreshToken;
             _db.Token.Update(tokenData);
-            await _db.SaveChangesAsync();
-            return tokenData;
+        }
+        else
+        {
+            tokenData = new Token
+            {
+                UserId = userId,
+                RefreshToken = refreshToken
+            };
+            _db.Token.Add(tokenData);
         }
 
-        tokenData.UserId = userId;
-        tokenData.RefreshToken = refreshToken;
-        
-        _db.Add(tokenData);
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         return tokenData;
     }
+
 }

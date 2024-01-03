@@ -4,8 +4,7 @@ export interface User {
 }
 
 export interface UserAuth {
-    userId: number;
-    email: string;
-    roleId: number;
-    roleName: string;
+    Id: number;
+    Email: string;
+    Roles: string;
 }

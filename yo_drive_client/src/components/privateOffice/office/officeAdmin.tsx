@@ -4,12 +4,14 @@ import User from '../../../assets/user.svg'
 import { Statistics } from './statistics';
 import { Data } from './data'
 import { Editor } from './editor'
+import {useStore} from "../../../index";
 
 
 export function OfficeAdmin() {
     const[data, setData] = useState(true);
     const[statistics, setStatistics] = useState(false);
     const[editor, setEditor] = useState(false);
+    const store = useStore();
     const dateHandler = () =>{
         setData(true);
         setStatistics(false);
@@ -20,6 +22,15 @@ export function OfficeAdmin() {
         setStatistics(true);
         setEditor(false);
     }
+
+    const handleLogout = async () => {
+        try {
+            await store.logout();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const editorHandler = () =>{
         setData(false);
         setStatistics(false);
@@ -40,7 +51,7 @@ export function OfficeAdmin() {
                             <button onClick={dateHandler} className={styles.menuButton}>Мои данные</button>
                             <button onClick={statisticsHandler} className={styles.menuButton}>Статистика</button>
                             <button onClick={editorHandler} className={styles.menuButton}>Редактор автомобилей</button>
-                            <button className={styles.menuButton}>Выход</button>
+                            <button onClick={handleLogout} className={styles.menuButton}>Выход</button>
                         </div>
                     </div>
                     {data && <Data/>}

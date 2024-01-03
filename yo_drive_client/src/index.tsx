@@ -12,15 +12,25 @@ export const Context = createContext({
     store
 })
 
+const StoreContext = React.createContext<Store | null>(null);
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
-    <Context.Provider value={{store}}>
-        <App />
+    <Context.Provider value={{ store }}>
+        <StoreContext.Provider value={store}>
+            <App />
+        </StoreContext.Provider>
     </Context.Provider>
 );
+
+export function useStore() {
+    const store = React.useContext(StoreContext);
+    if (!store) {
+        throw new Error('useStore must be used within a StoreProvider');
+    }
+    return store;
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
