@@ -185,15 +185,16 @@
     overflow: auto;
     flex-direction: column;
     row-gap: 30px;
-    height: 421px;
+    height: 380px;
     width: 946px;
+    overflow: auto;
 }
 .popupRating{
     display: flex;
     flex-direction: row;
     margin: 8px 25px 0 0px;
 }
-.ratingInput{
+.rating{
     background-color: transparent;
     border: none;
     font-family: Montserrat;
@@ -202,6 +203,7 @@
     width: 50px;
     height: 30px;
     margin-top: 5px;
+    padding-left: 35px;
 }
 .starRating{
     margin-left: 10px;
