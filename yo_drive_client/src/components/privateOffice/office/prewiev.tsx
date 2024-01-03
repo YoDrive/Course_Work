@@ -269,10 +269,7 @@ export function Prewiev(){
                     alt={`${car.carModel.modelName}`}></img>}
                             </div>
                             <div className={styles.itemInp}>
-                             {/* <input type="file" accept=".jpg,.jpeg,.png" id="Image" className={styles.inputImg} {
-                                        ...register("carImage"
-
-                                        )} ref={inputRef} onChange={handleImageChange} />  */}
+                             <input type="file" accept=".jpg,.jpeg,.png" id="Image" defaultValue={image} className={styles.inputImg} ref={inputRef} onChange={handleImageChange} /> 
 
                                 <label htmlFor="Image" className={styles.imgItem}>Загрузить изображение</label>
                             </div>

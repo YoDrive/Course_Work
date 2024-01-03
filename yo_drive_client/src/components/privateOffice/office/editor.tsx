@@ -35,12 +35,16 @@ export function Editor(){
             <div className={styles.headerBlock}>
                 <h1 className={styles.infoHeader}>Редактор автомобилей</h1>
                 <div className={styles.headerButtons}>
-                    <button onClick={prewievHandler} className={styles.buttonPrewiev}>Просмотреть список авто</button>
+                    <button onClick={prewievHandler} className={styles.buttonPrewiev} style={{ background: prewiev ? "#212528" : "#d9d9d9", 
+                    borderColor: prewiev ? "#d9d9d9" : "212528" , color: prewiev? "#d9d9d9": "#212528",
+                     border:prewiev ? " 1px solid #d9d9d9": "solid"}}>Просмотреть список авто</button>
                     {filter &&<div className={styles.filter} onClick={pUpFilterHandler}>
                         <img className={styles.filterImg} src={pUpFilter ? vector1 : vector}></img>
                         <button className={styles.filterButton}>Фильтр</button>
                     </div>}
-                    <button onClick={addFunc} className={styles.buttonAdd}>Добавить авто</button>
+                    <button onClick={addFunc} className={styles.buttonAdd} style={{ background: add ? "#212528" : "#d9d9d9",
+                     borderColor: add ? "#d9d9d9" : "212528" , color: add? "#d9d9d9": "#212528",
+                      border: add ? " 1px solid #d9d9d9": "solid"}}>Добавить авто</button>
                 </div>
             </div>
             {pUpFilter && <FilterPopUp/>}

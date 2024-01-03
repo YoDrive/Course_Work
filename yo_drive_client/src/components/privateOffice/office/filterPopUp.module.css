@@ -142,3 +142,16 @@
 .scndLineBlock{
     margin: 12px 0 0 6px;
 }
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; 
+    width: 100%;
+  }
+  
+select::-ms-expand {
+   display: none; 
+}
+option:first {
+    color: #999;
+}
