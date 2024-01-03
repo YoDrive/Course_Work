@@ -48,7 +48,8 @@ export default class Store {
         try {
             const response = await AuthService.login(user);
             localStorage.setItem('token', response.data.accessToken);
-            this.setAuth(true)
+            await this.loadFromLocalStorage(); // Обновляем данные о пользователе
+            this.setAuth(true);
         } catch (error: any) {
             throw new Error("Неверный логин или пароль.");
         }
