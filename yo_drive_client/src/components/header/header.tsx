@@ -30,8 +30,6 @@ function MenuNav(props: Props) {
     };
 
     const redirectToProfile = async () => {
-        console.log(store.checkAuth())
-        console.log(store.isAdmin())
         if (await store.checkAuth()) {
             if (store.isAdmin()) {
                 handleNavigation('/lkAdmin');
