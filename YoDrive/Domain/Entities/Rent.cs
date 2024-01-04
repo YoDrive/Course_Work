@@ -25,5 +25,7 @@ public class Rent
     public decimal RentCost { get; set; }
     [Required]
     public bool IsDeleted { get; set; }
+    [Required]
+    public DateTime CreatedAt { get; set; }
     public Feedback? Feedback { get; set; }
 }

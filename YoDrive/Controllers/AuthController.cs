@@ -125,7 +125,8 @@ public class AuthController : ControllerBase
             Patronymic = request.Patronymic,
             RoleId = (int)RolesEnum.Client,
             PhoneNumber = request.PhoneNumber,
-            Role = _db.Role.FirstOrDefault(_ => _.RoleId == (int)RolesEnum.Client)
+            Role = _db.Role.FirstOrDefault(_ => _.RoleId == (int)RolesEnum.Client),
+            CreatedAt = DateTime.UtcNow
         };
         
         user = newUser;
@@ -161,14 +162,14 @@ public class AuthController : ControllerBase
 
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddDays(1),
+            expires: DateTime.UtcNow.AddDays(1),
             signingCredentials: cred
         );
         Console.WriteLine("Access Token Content: " + token);
         
         var refreshToken = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddDays(3),
+            expires: DateTime.UtcNow.AddDays(3),
             signingCredentials: cred
         );
 
