@@ -75,7 +75,9 @@ export function OfficeAdmin() {
                         <div className={styles.menuHead}>
                             <p className={styles.headRole}>Администратор</p>
                             <img className={styles.headIcon} src={User} alt=""></img>
-                            <p className={styles.headName}>Фамилия Имя Oтчество</p>
+                            <p className={styles.headName}>
+                                {user ? `${user.surname} ${user.firstName} ${user.patronymic}` : 'Загрузка...'}
+                            </p>
                         </div>
                         <div className={styles.menuButtons}>
                             <button onClick={dateHandler} className={styles.menuButton}>Мои данные</button>
