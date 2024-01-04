@@ -17,3 +17,10 @@ export interface MonthRevenueModel {
     labels: string[];
     data: number[];
 }
+
+export interface DashboardModel {
+    usersModel: UsersModel;
+    bookingsModel: BookingsModel;
+    revenueModel: RevenueModel;
+    monthRevenueModel: MonthRevenueModel
+}

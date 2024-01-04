@@ -34,6 +34,8 @@ public class User
     public string? UserImage { get; set; }
     [Required]
     public bool IsDeleted { get; set; }
+    [Required]
+    public DateTime CreatedAt { get; set; }
     
     [InverseProperty("User")]
     public virtual ICollection<Rent>? Rents { get; set; }

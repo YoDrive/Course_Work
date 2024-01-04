@@ -1,5 +1,3 @@
-using YoDrive.Domain.Dtos;
-
 namespace YoDrive.Domain.AuthDto;
 
 public class UserReadDto
