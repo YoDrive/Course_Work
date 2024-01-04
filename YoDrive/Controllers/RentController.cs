@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Repositories;
@@ -42,6 +43,7 @@ public class RentController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("GetUserRents/{userId}")]
     public async Task<IActionResult> GetUserRents(int userId)
     {
@@ -71,6 +73,7 @@ public class RentController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost("CreateRent")]
     public async Task<IActionResult> CreateRent([FromBody] RentAddDto dto)
     {
@@ -85,6 +88,7 @@ public class RentController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut("UpdateRent")]
     public async Task<IActionResult> UpdateRent([FromBody] RentUpdateDto dto)
     {
@@ -99,6 +103,7 @@ public class RentController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("DeleteRent")]
     public async Task<IActionResult> DeleteRent(int rentId)
     {

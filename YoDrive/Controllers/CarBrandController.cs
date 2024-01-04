@@ -30,7 +30,7 @@ public class CarBrandController : ControllerBase
     /// Получение всех марок
     /// </summary>
     /// <returns></returns>
-    [HttpGet("GetBrands")] //, Authorize(Roles = "Admin")
+    [HttpGet("GetBrands")]
     public async Task<IActionResult> GetBrands()
     {
         try
@@ -69,6 +69,7 @@ public class CarBrandController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost("CreateBrand")]
     public async Task<IActionResult> CreateBrand([FromBody] CarBrandAddDto request)
     {
@@ -83,6 +84,7 @@ public class CarBrandController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpPut("UpdateBrand")]
     public async Task<IActionResult> UpdateBrand(CarBrandUpdateDto dto)
     {
@@ -97,6 +99,7 @@ public class CarBrandController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("DeleteBrand")]
     public async Task<IActionResult> DeleteBrand(int id)
     {
