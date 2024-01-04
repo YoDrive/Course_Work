@@ -12,9 +12,6 @@ import BookingPage from './components/bookingPage/bookingPage';
 import Store from "./store/Store";
 import {useStore} from "./index";
 
-
-const store = new Store();
-
 function App() {
     const store = useStore();
 

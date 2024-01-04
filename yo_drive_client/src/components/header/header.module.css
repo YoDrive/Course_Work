@@ -36,6 +36,11 @@
     font-size: 16px;
     font-weight: 500;
     margin-left: 1px;
+    white-space: nowrap;
+}
+
+.headerListText:last-child {
+    width: 178px;
 }
 
 .headerListText:hover{

@@ -114,6 +114,7 @@
     font-size: 18px;
     font-weight: 300;
     width: 150px;
+    white-space: nowrap;
 }
 .buttons{
     margin-top: 222px;

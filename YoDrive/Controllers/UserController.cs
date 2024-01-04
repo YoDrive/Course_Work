@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Interfaces;
@@ -28,6 +29,21 @@ public class UserController : ControllerBase
         try
         {
             var response = await _repository.UpdateUserPhoto(id, file);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [Authorize]
+    [HttpGet("GetUserInfo/{id}")]
+    public async Task<IActionResult> GetUserInfo(int id)
+    {
+        try
+        {
+            var response = await _repository.GetById(id);
             return Ok(response);
         }
         catch (Exception e)

@@ -1,17 +1,43 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './officeAdmin.module.css';
 import User from '../../../assets/user.svg'
 import { Statistics } from './statistics';
 import { Data } from './data'
 import { Editor } from './editor'
 import {useStore} from "../../../index";
+import {UserModel} from "../../../models/User/UserModel";
+import LkService from "../../../services/lkService";
+import {useNavigate} from "react-router-dom";
 
 
 export function OfficeAdmin() {
-    const[data, setData] = useState(true);
-    const[statistics, setStatistics] = useState(false);
-    const[editor, setEditor] = useState(false);
+    const [data, setData] = useState(true);
+    const [statistics, setStatistics] = useState(false);
+    const [editor, setEditor] = useState(false);
+    const [user, setUser] = useState<UserModel>();
+    const [loading, setLoading] = useState(true);
     const store = useStore();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        async function fetchUserData() {
+            try {
+                const userData = await LkService.GetUserData(store.user.Id);
+                setUser(userData.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                handleNavigation('/homePage');
+            }
+        }
+
+        fetchUserData();
+    }, []);
+
+    const handleNavigation = (path: string) => {
+        navigate(path);
+    };
+
     const dateHandler = () =>{
         setData(true);
         setStatistics(false);
@@ -37,6 +63,10 @@ export function OfficeAdmin() {
         setEditor(true);
     }
 
+    if (loading) {
+        return <p></p>;
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.content}>
@@ -54,7 +84,7 @@ export function OfficeAdmin() {
                             <button onClick={handleLogout} className={styles.menuButton}>Выход</button>
                         </div>
                     </div>
-                    {data && <Data/>}
+                    {data && <Data user={user!}/>}
                     {statistics && <Statistics/>}
                     {editor && <Editor/>}
                 </div>
