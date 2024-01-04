@@ -77,6 +77,7 @@ public class AuthController : ControllerBase
     {
         var dbUser = await _db.User
             .Include(_ => _.Role)
+            .Where(_ => !_.IsDeleted)
             .FirstOrDefaultAsync(_ => _.Email == request.Email);
         
         if (dbUser == null)
