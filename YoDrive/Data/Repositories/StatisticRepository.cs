@@ -28,11 +28,11 @@ public class StatisticRepository : IStatisticRepository
         var monthBookingsCount = _db.Rent.Count(_ => _.CreatedAt >= lastMonthStart);
 
         var dayRevenue = _db.Rent
-            .Where(_ => _.CreatedAt == today)
+            .Where(_ => _.CreatedAt >= today)
             .Sum(_ => _.RentCost); 
 
         var monthRevenue = _db.Rent
-            .Where(_ => _.CreatedAt >= lastMonthStart && _.CreatedAt < today)
+            .Where(_ => _.CreatedAt >= lastMonthStart)
             .Sum(_ => _.RentCost); 
         
         List<string> labels = new List<string>();
