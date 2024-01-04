@@ -1,4 +1,4 @@
-export interface UserModel
+export interface UserUpdateModel
 {
     userId: number;
     firstName: string;
@@ -6,6 +6,4 @@ export interface UserModel
     patronymic: string;
     phoneNumber: string;
     email: string;
-    userImage?: string;
-    image?: Uint8Array | null;
 }
