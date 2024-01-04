@@ -6,15 +6,17 @@ import StoryFeedbackPopup from './storyFeedbackPopUp'
 import {useForm} from "react-hook-form"
 import {BookingResponseModel} from '../../../models/Booking/BookingResponseModel'
 import RentService from "../../../services/RentService";
+import {useStore} from "../../../index";
 
 export function StoryBlock() {
     const [rents, setRents] = useState<BookingResponseModel[] | undefined>([]);
     const [openBookingId, setOpenBookingId] = useState<number | null>(null);
+    const store = useStore();
 
     useEffect(() => {
         async function fetchBookings() {
             try {
-                const response = await RentService.GetUserRents(1);
+                const response = await RentService.GetUserRents(store.user.Id);
                 setRents(response.data);
             } catch (error) {
                 console.error('Error fetching cars:', error);

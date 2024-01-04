@@ -1,17 +1,27 @@
-import {User, UserAuth} from "../models/Auth/User.model";
-import {makeAutoObservable} from "mobx";
+import { User, UserAuth } from "../models/Auth/User.model";
+import { makeAutoObservable } from "mobx";
 import AuthService from "../services/AuthService";
-import axios from "axios";
-import {AuthResponse} from "../models/Auth/AuthResponse";
 import { API_URL } from "../instance";
-import {RegistrationModel} from "../models/Auth/Registration.model";
+import { RegistrationModel } from "../models/Auth/Registration.model";
 
 export default class Store {
     user = {} as UserAuth;
-    isAuth = false;
+    isAuth: boolean | undefined;
 
     constructor() {
         makeAutoObservable(this);
+        this.loadFromLocalStorage();
+    }
+
+    loadFromLocalStorage() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken = this.decodeToken(token);
+            if (decodedToken) {
+                this.isAuth = true;
+                this.setUser(decodedToken);
+            }
+        }
     }
 
     setAuth(bool: boolean) {
@@ -22,14 +32,25 @@ export default class Store {
         this.user = user;
     }
 
+    decodeToken(token: string): UserAuth | null {
+        try {
+            const payloadBase64 = token.split('.')[1];
+            const payloadJson = atob(payloadBase64);
+            const payload = JSON.parse(payloadJson) as UserAuth;
+            return payload;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            return null;
+        }
+    }
+
     async login(user: User) {
         try {
             const response = await AuthService.login(user);
             localStorage.setItem('token', response.data.accessToken);
+            await this.loadFromLocalStorage(); // Обновляем данные о пользователе
             this.setAuth(true);
-            this.setUser(response.data.user);
-        }
-        catch (error: any) {
+        } catch (error: any) {
             throw new Error("Неверный логин или пароль.");
         }
     }
@@ -39,37 +60,28 @@ export default class Store {
             const response = await AuthService.registration(data);
             localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
-            this.setUser(response.data.user);
-        }
-        catch (error: any) {
-            console.log(error.response?.data?.message);
-        }
-    }
-
-    async logout(email: string, password: string) {
-        try {
-            const response = await AuthService.logout();
-            localStorage.removeItem('token');
-            this.setAuth(false);
-            this.setUser({} as UserAuth);
         } catch (error: any) {
             console.log(error.response?.data?.message);
         }
     }
 
-    // async checkAuth() {
-    //     try {
-    //         const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
-    //         console.log(response);
-    //         localStorage.setItem('token', response.data.accessToken);
-    //         this.setAuth(true);
-    //         this.setUser(response.data.user);
-    //     } catch (error: any) {
-    //         console.log(error.response?.data?.message);
-    //     }
-    // }
+    async logout() {
+        try {
+            await AuthService.logout();
+            localStorage.removeItem('token');
+            this.setAuth(false);
+            this.setUser({} as UserAuth);
+            this.setUser(Object.assign({}, {} as UserAuth));
+        } catch (error: any) {
+            console.log(error.response?.data?.message);
+        }
+    }
+
+    async checkAuth() {
+        return this.isAuth;
+    }
 
     isAdmin() {
-        return this.isAuth && this.user.roleName === 'admin';
+        return this.isAuth && this.user.Roles === 'admin';
     }
 }

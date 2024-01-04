@@ -1,14 +1,36 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './office.module.css';
 import User from '../../../assets/user.svg';
 import { Story } from './story';
 import { Data } from './data';
 import {useNavigate} from "react-router-dom";
+import {useStore} from "../../../index";
+import {UserModel} from "../../../models/User/UserModel";
+import LkService from "../../../services/lkService";
 
 export function Office() {
     const navigate = useNavigate();
-    const[data, setData] = useState(true);
-    const[story, setStory] = useState(false);
+    const [data, setData] = useState(true);
+    const [story, setStory] = useState(false);
+    const [user, setUser] = useState<UserModel>();
+    const [loading, setLoading] = useState(true);
+    const store = useStore();
+
+    useEffect(() => {
+        async function fetchUserData() {
+            try {
+                const userData = await LkService.GetUserData(store.user.Id);
+                setUser(userData.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                handleNavigation('/homePage');
+            }
+        }
+
+        fetchUserData();
+    }, []);
+
     const dataHandler = () =>{
         setData(true);
         setStory(false);
@@ -18,9 +40,22 @@ export function Office() {
         setStory(true);
     }
 
+    const handleLogout = async () => {
+        try {
+            await store.logout();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const handleNavigation = (path: string) => {
         navigate(path);
     };
+
+    if (loading) {
+        return <p></p>;
+    }
+
 
     return (
         <div className={styles.container}>
@@ -29,19 +64,23 @@ export function Office() {
                     <div className={styles.menu}>
                         <div className={styles.menuHead}>
                             <img className={styles.headIcon} src={User} alt=""></img>
-                            <p className={styles.headName}>Фамилия Имя Oтчество</p>
+                            <p className={styles.headName}>
+                                {user ? `${user.surname} ${user.firstName} ${user.patronymic}` : 'Загрузка...'}
+                            </p>
                         </div>
                         <div className={styles.menuButtons}>
                             <button onClick={dataHandler} className={styles.menuButton}>Мои данные</button>
                             <button onClick={storyHandler} className={styles.menuButton}>История бронирований</button>
-                            <button onClick={() => handleNavigation('/bookingPage')} className={styles.menuButton}>Забронировать автомобиль</button>
-                            <button  className={styles.menuButton}>Выход</button>
+                            <button onClick={() => handleNavigation('/bookingPage')} className={styles.menuButton}>
+                                Забронировать автомобиль
+                            </button>
+                            <button onClick={handleLogout} className={styles.menuButton}>Выход</button>
                         </div>
                     </div>
-                    {data && <Data/>}
+                    {data && <Data user = {user!}/>}
                     {story && <Story/>}
+                </div>
             </div>
-        </div>
         </div>
     );
 }

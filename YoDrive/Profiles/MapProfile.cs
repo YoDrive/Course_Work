@@ -104,7 +104,6 @@ public class MapProfile : Profile
         #region User
 
         CreateMap<User, UserReadDto>()
-            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
             .ForMember(dest => dest.Patronymic, opt => opt.MapFrom(src => src.Patronymic))
