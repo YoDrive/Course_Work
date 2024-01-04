@@ -39,10 +39,6 @@
     white-space: nowrap;
 }
 
-.headerListText:last-child {
-    width: 178px;
-}
-
 .headerListText:hover{
     color:#a3a3a3;
 }

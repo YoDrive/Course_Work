@@ -205,5 +205,4 @@ public class AuthController : ControllerBase
         await _db.SaveChangesAsync();
         return tokenData;
     }
-
 }
