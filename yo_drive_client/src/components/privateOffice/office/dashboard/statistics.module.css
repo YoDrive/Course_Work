@@ -1,0 +1,113 @@
+.dashboard {
+    margin-left: 55px;
+}
+
+.dashboard_single_metric {
+    display: flex;
+    gap: 36px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.metric {
+    padding: 27px 40px;
+    width: 468px;
+    height: 183px;
+    border-radius: 6px;
+    background-color: #D9D9D9;
+    text-align: left;
+}
+
+.metric_info {
+    width: 250px;
+}
+
+.metric_info_name {
+    font-family: Montserrat;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.metric_info_desc {
+    margin-top: 5px;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.metric_num {
+    font-family: Montserrat;
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 16px;
+}
+
+.metric_circle {
+    width: 110px;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.second_container {
+    display: flex;
+    margin-top: 36px;
+}
+
+.dashboard_revenue_month {
+    width: 731px;
+    height: 279px;
+    border-radius: 6px;
+    background-color: #D9D9D9;
+}
+
+.dashboard_graph_name {
+    text-align: left;
+    padding-top: 15px;
+    margin-left: 40px;
+    font-family: Montserrat;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.dashboard_graph {
+    margin-top: 14px;
+    margin-left: 40px;
+    width: 650px;
+    height: 220px;
+}
+
+.metric_revenue {
+    margin-left: 36px;
+    border-radius: 6px;
+    background-color: rgb(123, 167, 99);
+    width: 205px;
+    height: 279px;
+}
+
+.metric_revenue_name {
+    margin-top: 20px;
+    font-family: Montserrat;
+    font-size: 17px;
+    font-weight: 800;
+    color: #D9D9D9;
+}
+
+.metric_revenue_num {
+    margin-top: 20px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.metric_revenue_circle {
+    margin-top: 32px;
+    margin-left: 45px;
+    width: 110px;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+}

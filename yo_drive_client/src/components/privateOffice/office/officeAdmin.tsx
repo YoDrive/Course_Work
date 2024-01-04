@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from './officeAdmin.module.css';
 import User from '../../../assets/user.svg'
-import { Statistics } from './statistics';
+import { Statistics } from './dashboard/statistics';
 import { Data } from './data'
 import { Editor } from './editor'
 import {useStore} from "../../../index";
