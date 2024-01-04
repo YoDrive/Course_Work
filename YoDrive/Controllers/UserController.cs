@@ -23,6 +23,7 @@ public class UserController : ControllerBase
         _repository = new UserRepository(_db, _mapper);
     }
 
+    [Authorize]
     [HttpPut("UpdateUserPhoto/{id}")]
     public async Task<IActionResult> UpdateUserPhoto(int id, [FromForm] IFormFile file)
     {
@@ -52,6 +53,7 @@ public class UserController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut("UpdateUserInfo")]
     public async Task<IActionResult> UpdateUserInfo(UserUpdateInfoDto dto)
     {
@@ -66,6 +68,7 @@ public class UserController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("DeleteUser/{id}")]
     public async Task<IActionResult> DeleteUser(int id)
     {

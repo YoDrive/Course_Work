@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Repositories;
@@ -80,6 +81,7 @@ public class FeedbackController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost("CreateFeedback")]
     public async Task<IActionResult> CreateFeedback(FeedbackAddDto dto)
     {

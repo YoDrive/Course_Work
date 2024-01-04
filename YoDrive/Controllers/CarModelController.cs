@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
@@ -44,6 +45,7 @@ public class CarModelController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost("CreateModel")]
     public async Task<IActionResult> CreateModel([FromBody] CarModelAddDto dto)
     {
@@ -58,6 +60,7 @@ public class CarModelController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut("UpdateModel")]
     public async Task<IActionResult> UpdateModel([FromBody] CarModelUpdateDto dto)
     {
@@ -72,6 +75,7 @@ public class CarModelController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("DeleteModel")]
     public async Task<IActionResult> DeleteModel(int id)
     {
