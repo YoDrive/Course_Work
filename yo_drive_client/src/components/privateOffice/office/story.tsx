@@ -11,24 +11,20 @@ export function Story(){
     function getCurrentMonth() {
         const currentDate = new Date();
         const year = currentDate.getFullYear();
-        let month = currentDate.getMonth() + 1; // Месяцы в JavaScript начинаются с 0
+        let month = currentDate.getMonth() + 1; 
         return `${year}-${month.toString().padStart(2, '0')}`;
       }
 
   const handleMonthChange = (event:any) => {
     setSelectedMonth(event.target.value);
+    console.log(event.target.value);
   };
-    const[date, setDate]= useState();
-    const dateHandler =()=>{
-        setDate(date);
-        console.log(date);
-    }
     return(
         <div className={styles.info}>
             <div className={styles.headerBlock}>
                <h1 className={styles.infoHeader}>История бронирований</h1>
                <button className={styles.calendar}>
-               <input type="month" className={styles.calendarStyles}  defaultValue={selectedMonth}
+               <input type="month" className={styles.calendarStyles}  defaultValue={selectedMonth} max={getCurrentMonth().toString()}
           onChange={handleMonthChange} />
          
                </button>
