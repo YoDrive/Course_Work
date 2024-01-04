@@ -9,6 +9,7 @@ import {GearBoxEnum} from "../../../models/CarModel";
 import ru from "date-fns/locale/ru";
 import {format} from "date-fns";
 import CarService from "../../../services/CarService";
+import {useStore} from "../../../index";
 
 
 interface PopupProps {
@@ -20,6 +21,7 @@ interface PopupProps {
 const BookingPopup: FunctionComponent<PopupProps> = (props) => {
     const {carId, isOpen, handleClose} = props;
     const [car, setCar] = useState<CarViewModel | undefined>(undefined);
+    const store = useStore();
     const [selectedDate, setSelectedDate] = useState([
         {
             startDate: new Date(),
@@ -57,7 +59,7 @@ const BookingPopup: FunctionComponent<PopupProps> = (props) => {
 
     const handleBooking = async () => {
         const bookingData: BookingAdd = {
-            userId: 1,
+            userId: store.user.Id,
             carId: carId,
             startDate: selectedDate[0].startDate,
             endDate: selectedDate[0].endDate,

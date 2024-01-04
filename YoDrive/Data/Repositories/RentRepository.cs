@@ -108,7 +108,8 @@ public class RentRepository : IRentRepository
             StartDate = dto.StartDate,
             EndDate = dto.EndDate,
             RentCost = dto.RentCost,
-            IsDeleted = false
+            IsDeleted = false,
+            CreatedAt = DateTime.UtcNow
         };
         
         await _db.Rent.AddAsync(response);

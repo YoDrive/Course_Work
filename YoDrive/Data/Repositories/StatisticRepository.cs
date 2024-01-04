@@ -44,7 +44,7 @@ public class StatisticRepository : IStatisticRepository
             DateTime endOfMonthUtc = startOfMonthUtc.AddMonths(1).AddSeconds(-1);
 
             var monthlyRevenue = _db.Rent
-                .Where(r => r.StartDate >= startOfMonthUtc && r.StartDate <= endOfMonthUtc)
+                .Where(r => r.CreatedAt >= startOfMonthUtc && r.CreatedAt < endOfMonthUtc)
                 .Sum(r => r.RentCost);
 
             labels.Insert(0, startOfMonthUtc.ToString("MMM"));
