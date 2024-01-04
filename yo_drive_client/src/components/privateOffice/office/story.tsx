@@ -1,8 +1,6 @@
 import styles from './story.module.css';
 import {useState} from 'react';
-import vector from '../../../assets/Vector2.svg'
 import { StoryBlock } from './storyBlock';
-import { Calendar } from 'primereact/calendar';
 import 'primereact/resources/primereact.min.css';
 
 export function Story(){

@@ -3,11 +3,9 @@ import styles from './story.module.css'
 import star from '../../../assets/star.svg'
 import rewiev from '../../../assets/rewiev.svg'
 import StoryFeedbackPopup from './storyFeedbackPopUp'
-import {useForm} from "react-hook-form"
 import {BookingResponseModel} from '../../../models/Booking/BookingResponseModel'
 import RentService from "../../../services/RentService";
 import { Rating } from 'react-simple-star-rating';
-import TextArea from 'antd/es/input/TextArea'
 import {useStore} from "../../../index";
 
 export function StoryBlock() {

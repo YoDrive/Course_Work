@@ -8,9 +8,7 @@ import {Rating} from "react-simple-star-rating";
 import {GearBoxEnum} from "../../../models/CarModel";
 import emptyImageCar from '../../../assets/emptyImageCar.png';
 import EditCarPopup from "./editCarPopUp"
-import { useForm} from "react-hook-form"
 import { CarAdd } from '../../../models/Add/Add.model';
-import space from "../../../assets/space.svg"
 import { Select , SelectProps, DatePicker, Input} from 'antd';
 
 

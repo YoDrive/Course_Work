@@ -2,8 +2,8 @@ export interface UserModel
 {
     userId: number;
     firstName: string;
-    surname: number;
-    patronymic: number;
+    surname: string;
+    patronymic: string;
     phoneNumber: string;
     email: string;
     userImage?: string;
