@@ -55,17 +55,17 @@ public class StatisticRepository : IStatisticRepository
         {
             UsersModel = new UsersModel()
             {
-                Number = usersCount,
+                Value = usersCount,
                 Percent = monthUsersCount == 0 ? 0 : ((double)usersCount / monthUsersCount) * 100,
             },
             BookingsModel = new BookingsModel()
             {
-                Number = bookingsCount,
+                Value = bookingsCount,
                 Percent = monthBookingsCount == 0 ? 0 : ((double)bookingsCount / monthBookingsCount) * 100,
             },
             RevenueModel = new RevenueModel()
             {
-                Number = Convert.ToDouble(dayRevenue),
+                Value = Convert.ToDouble(dayRevenue),
                 Percent = Convert.ToDouble(monthRevenue == 0 ? 0 : (dayRevenue / monthRevenue) * 100),
             },
             MonthRevenueModel = new MonthRevenueModel()

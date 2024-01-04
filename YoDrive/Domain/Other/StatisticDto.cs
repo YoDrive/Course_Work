@@ -10,19 +10,19 @@ public class StatisticDto
 
 public class UsersModel
 {
-    public int Number { get; set; }
+    public int Value { get; set; }
     public double Percent { get; set; }
 }
 
 public class BookingsModel
 {
-    public int Number { get; set; }
+    public int Value { get; set; }
     public double Percent { get; set; }
 }
 
 public class RevenueModel
 {
-    public double Number { get; set; }
+    public double Value { get; set; }
     public double Percent { get; set; }
 }
 
