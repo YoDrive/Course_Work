@@ -8,6 +8,7 @@ import {BookingResponseModel} from '../../../models/Booking/BookingResponseModel
 import RentService from "../../../services/RentService";
 import { Rating } from 'react-simple-star-rating';
 import TextArea from 'antd/es/input/TextArea'
+import {useStore} from "../../../index";
 
 export function StoryBlock() {
     const [rents, setRents] = useState<BookingResponseModel[] | undefined>([]);
@@ -22,11 +23,13 @@ export function StoryBlock() {
         const feedback = event.target.value;
         setFeedback(feedback)
     }; 
+    const store = useStore();
+
 
     useEffect(() => {
         async function fetchBookings() {
             try {
-                const response = await RentService.GetUserRents(1);
+                const response = await RentService.GetUserRents(store.user.Id);
                 setRents(response.data);
             } catch (error) {
                 console.error('Error fetching cars:', error);

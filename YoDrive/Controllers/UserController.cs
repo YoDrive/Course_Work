@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Interfaces;
@@ -22,6 +23,7 @@ public class UserController : ControllerBase
         _repository = new UserRepository(_db, _mapper);
     }
 
+    [Authorize]
     [HttpPut("UpdateUserPhoto/{id}")]
     public async Task<IActionResult> UpdateUserPhoto(int id, [FromForm] IFormFile file)
     {
@@ -35,7 +37,23 @@ public class UserController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    
+    [Authorize]
+    [HttpGet("GetUserInfo/{id}")]
+    public async Task<IActionResult> GetUserInfo(int id)
+    {
+        try
+        {
+            var response = await _repository.GetById(id);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 
+    [Authorize]
     [HttpPut("UpdateUserInfo")]
     public async Task<IActionResult> UpdateUserInfo(UserUpdateInfoDto dto)
     {
@@ -50,6 +68,7 @@ public class UserController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("DeleteUser/{id}")]
     public async Task<IActionResult> DeleteUser(int id)
     {

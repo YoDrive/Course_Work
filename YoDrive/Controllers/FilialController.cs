@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
 using YoDrive.Domain.Data.Repositories;
@@ -60,6 +61,7 @@ public class FilialController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpPost("CreateFilial")]
     public async Task<IActionResult> CreateFilial(FilialAddDto dto)
     {
@@ -74,6 +76,7 @@ public class FilialController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpPut("UpdateFilial")]
     public async Task<IActionResult> UpdateFilial(FilialUpdateDto dto)
     {
@@ -88,6 +91,7 @@ public class FilialController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpDelete("DeleteFilial")]
     public async Task<IActionResult> DeleteFilial(int id)
     {

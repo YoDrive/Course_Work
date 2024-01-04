@@ -5,7 +5,6 @@ namespace YoDrive.Domain.AuthDto;
 public class UserReadDto
 {
     public int UserId { get; set; }
-    public RoleDto Role { get; set; }
     public string FirstName { get; set; }
     public string Surname { get; set; }
     public string Patronymic { get; set; }
