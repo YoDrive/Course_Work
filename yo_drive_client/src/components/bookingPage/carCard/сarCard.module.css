@@ -66,3 +66,18 @@
     justify-content: space-between;
     margin-top: 17px;
 }
+.carReviewCount{
+    color: #212528;
+    opacity: 0.8;
+    margin-left: 10px;
+    margin-top: 3px;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.carReviewCount:hover{
+    text-decoration: underline;
+}

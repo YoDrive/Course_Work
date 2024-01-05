@@ -31,6 +31,19 @@ const CarCard : FunctionComponent<CarCardProps> = (props) => {
         }
     }
 
+    function formatReviews(count: number) {
+        const lastDigit = count % 10;
+        const lastTwoDigits = count % 100;
+    
+        if (lastDigit === 1 && lastTwoDigits !== 11) {
+            return `${count} отзыв`;
+        } else if ([2, 3, 4].includes(lastDigit) && ![12, 13, 14].includes(lastTwoDigits)) {
+            return `${count} отзыва`;
+        } else {
+            return `${count} отзывов`;
+        }
+    }
+
     return(
         <>
             {car.image && (
@@ -46,7 +59,8 @@ const CarCard : FunctionComponent<CarCardProps> = (props) => {
                     <p className={styles.carName}>{car.carModel.carBrand.name + " " + car.carModel.modelName}</p>
                     <button className={styles.carStars} onClick={() => toggleFeedbackPopup(car.carId)}>
                         <Rating size={22} readonly initialValue={car.rating} allowFraction fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
-                        <p className={styles.carStarsNumber}>{car.rating}</p>
+                        <p className={styles.carStarsNumber}>{car.rating.toFixed(1)}</p>
+                        <p className={styles.carReviewCount}>{formatReviews(car.feedbackCount)}</p>
                     </button>
                     <FeedbackPopup isOpen={openCarIds[car.carId] || false} handleClose={() => toggleFeedbackPopup(car.carId)} carId={car.carId} />
                     <p className={styles.carYear}>{car.year} год выпуска</p>

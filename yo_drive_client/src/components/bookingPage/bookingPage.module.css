@@ -69,7 +69,6 @@
     transition-property: height;
     transition-duration: 250ms;
     overflow: hidden;
-    height: 100%;
 }
 
 .dropMenu {
