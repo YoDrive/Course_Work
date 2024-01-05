@@ -80,12 +80,6 @@ export function FilterPopUp(){
         fetchFilters();
     }, []);
 
-    const filialsView = filials
-        ? filials.map((filial, index) => (
-            <option key={index} className={styles.listItem} value={filial.filialId}>{filial.address}</option>
-        ))
-        : null;
-
         const handleBrandChange = (event:any) => {
           const brand = event.target.value;
           setSelectedBrandId(brand);
@@ -130,7 +124,6 @@ return(
                     onChange={handleModelChange}
                     defaultValue={selectedModelId}
                     autoComplete="off"
-                    placeholder='G63 AMG'
                     >
                          <option value=""></option>
                         {models &&
@@ -230,7 +223,9 @@ return(
                             autoComplete="off"
                         >
                             <option value=""></option>
-                            {filialsView}
+                           {filials&& filials.map((filial, index) => (
+                            <option key={index} className={styles.listItem} value={filial.filialId}>{filial.address}</option>
+                        ))}
                         </select>
                         </label>
                     </div>
