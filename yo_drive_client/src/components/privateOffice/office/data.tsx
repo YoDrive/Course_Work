@@ -18,6 +18,7 @@ export function Data(props: Props) {
     });
 
     const [form, setForm] = useState(false);
+    const [user, setUser] = useState(props.user);
 
     const setUserForm = () => {
         setForm(!form);
@@ -25,15 +26,31 @@ export function Data(props: Props) {
 
     const onSubmit = async (data: any) => {
         setUserForm();
-        const userData: UserUpdateModel = {
-            userId: props.user.userId,
-            firstName: data.firstName,
-            surname: data.surname,
-            patronymic: data.patronymic,
-            phoneNumber: data.phoneNumber,
-            email: data.email,
-        };
-        await UserService.UserUpdateInfo(userData);
+        try {
+            const userData: UserUpdateModel = {
+                userId: props.user.userId,
+                firstName: data.firstName,
+                surname: data.surname,
+                patronymic: data.patronymic,
+                phoneNumber: data.phoneNumber,
+                email: data.email,
+            };
+            await UserService.UserUpdateInfo(userData);
+
+            setUser((prevUser) => ({
+                ...prevUser,
+                firstName: data.firstName,
+                surname: data.surname,
+                patronymic: data.patronymic,
+                phoneNumber: data.phoneNumber,
+                email: data.email,
+            }));
+
+            alert('Данные успешно обновлены!');
+        } catch (error) {
+            alert('Ошибка при обновлении данных:');
+            console.error('Ошибка при обновлении данных:', error);
+        }
     }
 
     return (
@@ -42,32 +59,32 @@ export function Data(props: Props) {
             <form className={styles.infoText} onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.infoName}>
                     <h2 className={styles.name}>Фамилия</h2>
-                    {!form && <p className={styles.nameInfo}>{props.user.surname || ""}</p>}
-                    {form && <input className={styles.nameInput} defaultValue={props.user.surname || ""}
+                    {!form && <p className={styles.nameInfo}>{user.surname || ""}</p>}
+                    {form && <input className={styles.nameInput} defaultValue={user.surname || ""}
                                     {...register("surname")}/>}
                 </div>
                 <div className={styles.infoName}>
                     <h2 className={styles.name}>Имя</h2>
-                    {!form && <p className={styles.nameInfo}>{props.user.firstName || ""}</p>}
-                    {form && <input className={styles.nameInput} defaultValue={props.user.firstName || ""}
+                    {!form && <p className={styles.nameInfo}>{user.firstName || ""}</p>}
+                    {form && <input className={styles.nameInput} defaultValue={user.firstName || ""}
                                     {...register("firstName")}/>}
                 </div>
                 <div className={styles.infoName}>
                     <h2 className={styles.name}>Отчество</h2>
-                    {!form && <p className={styles.nameInfo}>{props.user.patronymic || ""}</p>}
-                    {form && <input className={styles.nameInput} defaultValue={props.user.patronymic || ""}
+                    {!form && <p className={styles.nameInfo}>{user.patronymic || ""}</p>}
+                    {form && <input className={styles.nameInput} defaultValue={user.patronymic || ""}
                                     {...register("patronymic")}/>}
                 </div>
                 <div className={styles.infoName_phone}>
                     <h2 className={styles.name}>Телефон</h2>
-                    {!form && <p className={styles.nameInfo}>{props.user.phoneNumber || ""}</p>}
-                    {form && <input className={styles.nameInput} defaultValue={props.user.phoneNumber || ""}
+                    {!form && <p className={styles.nameInfo}>{user.phoneNumber || ""}</p>}
+                    {form && <input className={styles.nameInput} defaultValue={user.phoneNumber || ""}
                                     {...register("phoneNumber")}/>}
                 </div>
                 <div className={styles.infoName}>
                     <h2 className={styles.name}>Почта</h2>
-                    {!form && <p className={styles.nameInfo}>{props.user.email || ""}</p>}
-                    {form && <input className={styles.nameInput} defaultValue={props.user.email || ""}
+                    {!form && <p className={styles.nameInfo}>{user.email || ""}</p>}
+                    {form && <input className={styles.nameInput} defaultValue={user.email || ""}
                                     {...register("email")}/>}
                 </div>
             </form>
