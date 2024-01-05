@@ -101,7 +101,7 @@ return(
     <div className={styles.filterBox}>
          <form className={styles.filterForm} >
                 <div className={styles.filterScnd}>
-                    <div className={styles.inputBlock}>
+                    <div className={styles.scndLineBlock}>
                     <p className={styles.scndText}>Марка</p>
                     <label className={styles.filterItem}>
                     <select
@@ -122,8 +122,9 @@ return(
                     </div>
                 </div>
                 <div className={styles.filterScnd}>
-                    <div>
+                    <div className={styles.scndLineBlock}>
                     <p className={styles.scndText}>Модель</p>
+                    <label className={styles.filterItem}>
                     <select
                     className={styles.dropItem}
                     onChange={handleModelChange}
@@ -141,11 +142,13 @@ return(
                                 </option>
                             ))}
                     </select>
+                    </label>
                     </div>
                 </div>
                 <div className={styles.filterScnd}>
-                    <div >
+                    <div className={styles.scndLineBlock}>
                     <p className={styles.scndText}>Тип кузова</p>
+                    <label className={styles.filterItem}>
                     <select
                         className={styles.dropItem}
                         onChange={handleClassChange}
@@ -159,10 +162,11 @@ return(
                         </option>
                     ))}
                         </select>
+                        </label>
                     </div>
                 </div>
                 <div className={styles.filterScnd}>
-                    <div>
+                    <div className={styles.scndLineBlock}>
                     <p className={styles.scndText}>Коробка передач</p>
                     <label className={styles.filterItem}>
                         <select
@@ -201,7 +205,7 @@ return(
                 </div>
                 <div className={styles.filterScnd}>
                     <div className={styles.scndLineBlock}>
-                    <p className={styles.scndText}>От</p>
+                    <p className={styles.scndText}>Цена от</p>
                         <label className={styles.filterItem}>
                             <input type="text" defaultValue={minCost} onChange={handleMinCostChange} className={styles.textItem} />
                         </label>
@@ -209,7 +213,7 @@ return(
                 </div>
                 <div className={styles.filterScnd}>
                     <div className={styles.scndLineBlock}>
-                    <p className={styles.scndText}>До</p>
+                    <p className={styles.scndText}>Цена до</p>
                         <label className={styles.filterItem}>
                             <input type="text" defaultValue={maxCost} onChange={handleMaxCostChange} className={styles.textItem}/>
                         </label>
