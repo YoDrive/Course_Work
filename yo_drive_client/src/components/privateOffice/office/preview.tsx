@@ -1,4 +1,4 @@
-import styles from './prewiev.module.css'
+import styles from './preview.module.css'
 import rewiev from '../../../assets/rewiev.svg'
 import trash from '../../../assets/trash.svg'
 import React, {useEffect, useState, useRef} from "react";
@@ -12,7 +12,7 @@ import { CarAdd } from '../../../models/Add/Add.model';
 import { Select , SelectProps, DatePicker, Input} from 'antd';
 
 
-export function Prewiev(){
+export function Preview(){
     const [carModels, setCarModels] = useState<CarModel[]| undefined>([]);
     const [selectedBrand, setSelectedBrand] = useState<number | undefined>(undefined);
     const [selectedModel, setSelectedModel] = useState<number | undefined>(undefined);
@@ -400,7 +400,7 @@ export function Prewiev(){
 
 
     return(
-        <div className={styles.prewievBlock}>
+        <div className={styles.previewBlock}>
             <ul className={styles.carBlocks}>
                 {listItems}
             </ul>
