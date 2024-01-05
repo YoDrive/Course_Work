@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {useForm} from "react-hook-form";
+import React, {useEffect, useState, useMemo} from 'react';
 import styles from './filterPanel.module.css';
 import galOpen from "../../../assets/galochkaClose.svg";
 import galClose from "../../../assets/galochkaOpen.svg"
@@ -20,7 +19,10 @@ export function getCurrentDate(separator='-'){
     return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date<10?`0${date}`:`${date}`}`
     }
 
-export function FilterPanel() {
+interface FilterPanelProps {
+    onFiltersChange: (filters: Filter) => void;
+}
+const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
     const [counter, setCounter] = useState(1);
     const [isExpanded, setExpanded] = useState(false);
     const [minValue, setMinValue] = useState(new Date());
@@ -91,38 +93,23 @@ export function FilterPanel() {
     };
     const onSubmit=() =>{
         checkDate();
-        console.log(
-            selectedBrand,
-            selectedModel,
-            selectedFilial,
-            selectedTransmission,
-            formMinDate,
-            formMaxDate,
-            minCostDay,
-            maxCostDay,
-            selectedCarClass
-        );
+        handleApplyFilters();
     }
     const [selectedBrand, setSelectedBrand] = useState<number | undefined>(undefined);
     const [selectedModel, setSelectedModel] = useState<number | undefined>(undefined);
-    const [selectedTransmission, setSelectedTransmission] = useState('');
-    const [selectedFilial, setSelectedFilial] = useState('');
-    const [selectedCarClass, setSelectedCarClass] = useState('');
+    const [selectedTransmission, setSelectedTransmission] = useState<number |undefined>(undefined);
+    const [selectedFilial, setSelectedFilial] = useState<number |undefined>(undefined);
+    const [selectedCarClass, setSelectedCarClass] = useState<number |undefined>(undefined);
     const [minCostDay, setMinCostDay] = useState();
     const [maxCostDay, setMaxCostDay] = useState();
-    const [minDateH, setMinDate] = useState<Date | null>();
-    const [maxDateH, setMaxDate] = useState<Date | null>();
-
-    const formMinDate = minDateH ? format(minDateH, 'dd-MM-yyyy') : '';
-    const formMaxDate = maxDateH ? format(maxDateH, 'dd-MM-yyyy') : '';
-
-
+    const [minDateH, setMinDate] = useState<Date| undefined>();
+    const [maxDateH, setMaxDate] = useState<Date|undefined>();
     
-    const maxDateHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
+    const maxDateHandler = (event:any) => {
         const selectedMaxDate = event.target.valueAsDate;
         setMaxDate(selectedMaxDate);
     };
-    const minDateHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
+    const minDateHandler = (event:any) => {
         const selectedMinDate = event.target.valueAsDate;
         setMinDate(selectedMinDate);
     };
@@ -139,7 +126,7 @@ export function FilterPanel() {
         setSelectedFilial(selectedFilial);
     };
 
-    const handleTransmissionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTransmissionChange = (event:any) => {
         const transm = event.target.value;
         setSelectedTransmission(transm);
       };
@@ -158,6 +145,28 @@ export function FilterPanel() {
         const model = event.target.value
         setSelectedModel(model);
       };
+
+      const [localFilters, setLocalFilters] = useState<Filter>({});
+
+    useEffect(() => {
+        setLocalFilters({
+            carBrandId: selectedBrand !== undefined ? [selectedBrand] : selectedBrand,
+            modelId: selectedModel !== undefined ? [selectedModel] : selectedModel,
+            classId: selectedCarClass !== undefined ? [selectedCarClass] : selectedCarClass,
+            filialId: selectedFilial !== undefined ? [selectedFilial] : selectedFilial,
+            startDate: minDateH,
+            endDate: maxDateH,
+            minCostDay: Number(minCostDay),
+            maxCostDay: Number(maxCostDay),
+            gearBox: selectedTransmission,
+        });
+    }, [selectedBrand, selectedModel, selectedCarClass, selectedFilial, minDateH, maxDateH, minCostDay, maxCostDay, selectedTransmission]);
+
+    const memoizedLocalFilters = useMemo(() => localFilters, [localFilters]);
+
+    const handleApplyFilters = () => {
+        onFiltersChange(memoizedLocalFilters);
+    };
     return (
         <div className={styles.container}>
             <div className={styles.formHead}>
@@ -204,7 +213,7 @@ export function FilterPanel() {
                         onChange={handleInputChange}>
                         <option value=""></option>
                        {filials&& filials.map((filial) => (
-                        <option key={filial.filialId} className={styles.listItem} value={filial.address}>{filial.address}</option>
+                        <option key={filial.filialId} className={styles.listItem} value={filial.filialId}>{filial.address}</option>
                     ))}</select>
                     
                 </label>
@@ -214,7 +223,7 @@ export function FilterPanel() {
                     <label className={styles.filterItem}>
                         <select className={styles.dropItem}
                          onChangeCapture={handleInputChange} onChange={handleClassChange}>
-                        <option value=""></option>
+                        <option  value={undefined}>-----</option>
                        {classes && classes.map((classModel) => (
                         <option key={classModel.carClassId} value={classModel.carClassId}>{classModel.className}</option>
                     ))}</select>
@@ -259,9 +268,8 @@ export function FilterPanel() {
                     <label className={styles.filterItem}>
                         <input type="radio"
                             name="transmission"
-                            value="Механическая"
+                            value="0"
                             className={styles.checkboxItem}
-                            // checked={selectedTransmission === 'Механическая'}
                             onChange={handleTransmissionChange} />
                         <p className={styles.radioText}>Механическая</p>
                     </label>
@@ -270,7 +278,7 @@ export function FilterPanel() {
                     <input
                         type="radio"
                         name="transmission"
-                        value="Автоматическая"
+                        value="1"
                         className={styles.checkboxItem}
                         // checked={selectedTransmission === 'Автоматическая'}
                         onChange={handleTransmissionChange}

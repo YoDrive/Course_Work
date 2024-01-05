@@ -11,7 +11,11 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css'
 import BookingService from "../../services/BookingService";
 import CarCard from "./carCard/сarCard";
+import { Filter } from '../../../src/models/Booking/FilterBookingModel';
 import Paginator from "./paginator/paginator";
+import { format } from 'date-fns';
+import { GearBoxEnum } from "../../models/CarModel";
+import { number } from "yargs";
 
 const paginateData = (data: CarViewModel[], pageNumber: number, pageSize: number) => {
     const startIndex = (pageNumber - 1) * pageSize;
@@ -19,51 +23,59 @@ const paginateData = (data: CarViewModel[], pageNumber: number, pageSize: number
     return data.slice(startIndex, endIndex);
 };
 
-export function BookingPage() {
+const BookingPage: React.FC = () =>  {
     const [cars, setCars] = useState<CarResponsePage | undefined>();
     const [carsCount, setCarsCount] = useState<number>(0);
     const [selected, setSelected] = useState(galOpen);
     const [isExpanded, setExpanded] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState<number>(0);
+
+    const [filters, setFilters] = useState<Filter>({});
+
     const toggleExpand = () => {
         setExpanded(!isExpanded);
     };
 
-    const handlePageChange = (newPage: number) => {
-        setCurrentPage(newPage);
-    };
+    // const handlePageChange = (newPage: number) => {
+    //     setCurrentPage(newPage);
+    // };
 
     const [sortDirection, setSortDirection] = useState<'asc' | 'dsc'>('asc');
     const [sortField, setSortField] = useState<string>('');
     const fetchData = async () => {
         try {
-            const bookingPageModel: BookingPageModel = {
-                page: {
-                    pageNumber: 1, 
-                    pageSize: 999,  
-                },
-                filter: {
-                    // Заполните поля фильтра в соответствии с вашей логикой
-                },
-                sort: {
-                    dir: sortDirection,
-                    field: sortField,
-                },
-            };
-    
-            const response = await BookingService.getCarsByPage(bookingPageModel);
+          const bookingPageModel: BookingPageModel = {
+            page: {
+              pageNumber: currentPage,
+              pageSize: 10,
+            },
+            filter: {
+              ...filters,
+            },
+            sort: {
+              dir: sortDirection,
+              field: sortField,
+            },
+          };
+      
+          const response = await BookingService.getCarsByPage(bookingPageModel);
+      
+          if (response && response.data) {
             setCars({
-                ...response.data,
+              ...response.data,
             });
-    
+      
             setCarsCount(response.data.count);
             let totalPages = Math.ceil(response.data.count / 10);
             setTotalPages(totalPages);
+          } else {
+            console.error('Response or response.data is undefined:', response);
+          }
         } catch (error) {
-            console.error('Error fetching cars:', error);
+          console.error('Error fetching cars:', error);
         }
-    };
+      };
 
 
     const handleSortChange = (newSortField: string) => {
@@ -79,7 +91,7 @@ export function BookingPage() {
     
     useEffect(() => {
         fetchData();
-    }, [sortField, sortDirection]);
+    }, [sortField, sortDirection, filters]); //
     
     const sortCars = () => {
         if (!cars?.items) return [];
@@ -93,18 +105,30 @@ export function BookingPage() {
             return 0;
         });
     };
-    let listItems = paginateData(sortCars(), currentPage, 10).map((car) => (
+    const handleFiltersChange = (newFilters: Filter) => {
+        setFilters(newFilters);
+        console.log(newFilters);
+        // Вызов fetchData здесь, чтобы обновить данные при изменении фильтров
+        fetchData();
+      };
+    
+      const handlePageChange = (newPage: number) => {
+        setCurrentPage(newPage);
+        // Вызов fetchData здесь, чтобы обновить данные при изменении страницы
+        fetchData();
+      };
+      let listItems = paginateData(sortCars(), currentPage, 10).map((car) => (
         <li key={car.carId} className={styles.catalogItem}>
-            <CarCard car={car} />
+          <CarCard car={car} />
         </li>
-    ));
+      ));
 
     return (
         <div className={styles.bookingPageContainer}>
             <Header/>
             <h1 className={styles.title}>Бронирование автомобиля</h1>
             <div className={styles.catalogContainer}>
-                <FilterPanel/>
+                <FilterPanel onFiltersChange={handleFiltersChange}/>
                 <div className={styles.subtitle}>
                     <div className={styles.subText}>
                         <p className={styles.subtitleText}>Автомобили </p>
