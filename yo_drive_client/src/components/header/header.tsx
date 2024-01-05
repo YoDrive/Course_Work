@@ -117,7 +117,7 @@ export function Header() {
                     :
                     <li className={styles.headerList} onClick={() => store.isAdmin() ? handleNavigation('/lkAdmin') : handleNavigation('/lkClient')}>
                         <img className={styles.headerListIcon} src={authorizationIcon} alt=""/>
-                        <p className={styles.headerListText}>{user?.surname} {user?.firstName}</p>
+                        <p className={styles.headerListText}>{user?.surname} {user?.firstName.substring(0,1)}. {user?.patronymic.substring(0, 1)}.</p>
                     </li>
                 }
                 <OpenMenuBtn isMenuActive={isMenuActive} togle={togle} store={store}/>

@@ -179,26 +179,17 @@
     margin-top: 37px;
     justify-content: space-between;
 }
-.buttonPrewiev{
+.buttonPreview{
     width: 315px;
     height: 50px;
     font-family: Montserrat;
     font-size: 20px;
     font-weight: 300;
-    color: #212528;
-    border:none;
-    background-color: #d9d9d9;
+    border-radius: 2px;
+    border-style: none;
 }
 .buttonPrewiev:hover{
     cursor: pointer;
-}
-.buttonPrewiev:focus{
-    background-color: transparent;
-    color: #d9d9d9;
-    border-style: solid;
-    border-color: #d9d9d9;
-    border-radius: 2px;
-    border-width: 1px;
 }
 .filter{
     display: flex;
@@ -230,28 +221,12 @@
 .buttonAdd{
     width: 197px;
     height: 50px;
-    background-color: #d9d9d9;
     font-family: Montserrat;
     font-size: 20px;
-    color: #212528;
     font-weight: 300;
-    border: none;
 }
 .buttonAdd:hover{
-    background-color: #212528;
-    color: #d9d9d9;
-    border: #d9d9d9;
-    border-style: solid;
-    border-width: 1px;
     cursor: pointer;
-}
-.buttonAdd:focus{
-    background-color: transparent;
-    color: #d9d9d9;
-    border-style: solid;
-    border-color: #d9d9d9;
-    border-radius: 2px;
-    border-width: 1px;
 }
 .nameInput{
     width: 150px;
@@ -262,4 +237,52 @@
     font-family: Montserrat;
     font-size: 18px;
     font-weight: 300;
+}
+.buttonPreviewActive{
+    background:  #212528;
+    color: #d9d9d9;
+    border: 1px solid #d9d9d9;
+    width: 315px;
+    height: 50px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 300;
+    border-radius: 2px;
+}
+.buttonPreviewNotActive{
+    background:  #d9d9d9;
+    border-color: #212528;
+    color: #212528;
+    border: 1px solid #212528;
+    width: 315px;
+    height: 50px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 300;
+    border-radius: 2px;
+    border-style: none;
+}
+.buttonAddActive{
+    width: 197px;
+    height: 50px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 300;
+    background:  #212528;
+    color: #d9d9d9;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+}
+.buttonAddNotActive{
+    background:  #d9d9d9;
+    border-color: #212528;
+    color: #212528;
+    border: 1px solid #212528;
+    width: 197px;
+    height: 50px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 300;
+    border-radius: 2px;
+    border-style: none;
 }

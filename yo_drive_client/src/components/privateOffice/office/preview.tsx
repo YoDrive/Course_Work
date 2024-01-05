@@ -1,15 +1,38 @@
-import styles from './prewiev.module.css'
+import styles from './preview.module.css'
 import rewiev from '../../../assets/rewiev.svg'
 import trash from '../../../assets/trash.svg'
-import React, {useEffect, useState} from "react";
-import {CarViewModel} from "../../../models/Booking/CarBookingModel";
-import CarService, {fetchCars} from "../../../services/CarService";
+import React, {useEffect, useState, useRef} from "react";
+import { CarViewModel} from "../../../models/Booking/CarBookingModel";
+import {fetchCars} from "../../../services/CarService";
 import {Rating} from "react-simple-star-rating";
 import {GearBoxEnum} from "../../../models/CarModel";
 import emptyImageCar from '../../../assets/emptyImageCar.png';
+import EditCarPopup from "./editCarPopUp"
+import CarService from '../../../services/CarService';
 
-export function Prewiev(){
+
+export function Preview(){
+   
     const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
+    const [openCarId, setOpenCarId] = useState<number | null>(null);
+    const togglePopup = (carId: number) => {
+        if (openCarId === carId) {
+          setOpenCarId(null);
+        } else {
+          setOpenCarId(carId);
+        }
+      }
+      const handleDelete = async (carId: number) => {
+        try {
+            const response = await CarService.DeleteCar(carId);
+            if (response) {
+                const carsData = await fetchCars();
+                setCars(carsData);
+            }
+        } catch (error) {
+            alert('Ошибка сервера.');
+        }
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -22,19 +45,7 @@ export function Prewiev(){
         }
 
         fetchData();
-    }, []);
-
-    const handleDelete = async (carId: number) => {
-        try {
-            const response = await CarService.DeleteCar(carId);
-            if (response) {
-                const carsData = await fetchCars();
-                setCars(carsData);
-            }
-        } catch (error) {
-            alert('Ошибка сервера.');
-        }
-    };
+    }, []);   
 
     let listItems = cars?.map((car) =>
         <li key={car.carId} className={styles.carBlock}>
@@ -65,15 +76,14 @@ export function Prewiev(){
                 </div>
             </div>
             <div className={styles.carTools}>
-                <img className={styles.toolEdit} src={rewiev}></img>
+            <img className={styles.toolEdit} src={rewiev} onClick={()=>togglePopup(car.carId)}></img>
+                <EditCarPopup car={car} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)}/>
                 <img className={styles.toolDelete} src={trash} onClick={() => handleDelete(car.carId)}></img>
             </div>
         </li>
     );
-
-
     return(
-        <div className={styles.prewievBlock}>
+        <div className={styles.previewBlock}>
             <ul className={styles.carBlocks}>
                 {listItems}
             </ul>

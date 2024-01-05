@@ -111,8 +111,9 @@
 }
 .popupHead{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-top: 20px;
+    justify-content: space-between;
 }
 .popupText{
     display: flex;
@@ -184,6 +185,50 @@
     overflow: auto;
     flex-direction: column;
     row-gap: 30px;
-    height: 421px;
+    height: 397px;
     width: 946px;
+    overflow: auto;
+}
+.popupRating{
+    display: flex;
+    flex-direction: row;
+    margin: 8px 25px 0 0px;
+}
+.rating{
+    background-color: transparent;
+    border: none;
+    font-family: Montserrat;
+    color: #212528;
+    font-size: 24px;
+    width: 50px;
+    height: 30px;
+    margin-top: 5px;
+    padding-left: 35px;
+}
+.starRating{
+    margin-left: 10px;
+}
+.calendarStyles{
+    width: 230px;
+    height: 37px;
+    background-color: transparent;
+    color: #d9d9d9;
+    font-family: Montserrat;
+    font-size: 26px;
+    border: none;
+    text-align: right;
+}
+.calendarStyles:focus{
+    border: none;
+}
+.calendarStyles::-webkit-calendar-picker-indicator {
+    color: transparent;
+    opacity: 1;
+    background: url(../../../assets/vectorLight.svg);
+    padding-bottom: 2px;
+    padding-left: 5px;
+    cursor: pointer;
+    width: 13px;
+    height: 16px;
+    margin-left: 5px;
 }

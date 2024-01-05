@@ -3,15 +3,26 @@ import styles from './story.module.css'
 import star from '../../../assets/star.svg'
 import rewiev from '../../../assets/rewiev.svg'
 import StoryFeedbackPopup from './storyFeedbackPopUp'
-import {useForm} from "react-hook-form"
 import {BookingResponseModel} from '../../../models/Booking/BookingResponseModel'
 import RentService from "../../../services/RentService";
+import { Rating } from 'react-simple-star-rating';
 import {useStore} from "../../../index";
 
 export function StoryBlock() {
     const [rents, setRents] = useState<BookingResponseModel[] | undefined>([]);
     const [openBookingId, setOpenBookingId] = useState<number | null>(null);
+    const [feedback, setFeedback] = useState("");
+    const [rating, setRating] = useState(0);
+
+    const handleRating = (rate: number) => {
+        setRating(rate)
+    }; 
+    const handleFeedback = (event:any) => {
+        const feedback = event.target.value;
+        setFeedback(feedback)
+    }; 
     const store = useStore();
+
 
     useEffect(() => {
         async function fetchBookings() {
@@ -25,29 +36,27 @@ export function StoryBlock() {
         fetchBookings();
     }, []);
 
-    const resField = () => {
-        if (getValues("feedback") != null) {
-            resetField("feedback")
-        }
-    };
-    const {
-        register,
-        handleSubmit,
-        resetField,
-        getValues
-    } = useForm({
-        mode: "onBlur"
-    });
-
     const toggleFeedbackPopup = (bookingId: number) => {
         if (openBookingId === bookingId) {
             setOpenBookingId(null);
+            setRating(0);
         } else {
             setOpenBookingId(bookingId);
+            setRating(0);
         }
     }
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const resField =()=>{
+        setRating(0);
+        const feedbackTextarea = document.getElementById('feedbackTextarea');
+        if (feedbackTextarea instanceof HTMLTextAreaElement) {
+            feedbackTextarea.value = '';
+          }
+    }
+    const handleSubmit = () => {
+        console.log(
+            rating,
+            feedback
+        )
     }
 
     let listItems = rents?.map((rent) =>
@@ -77,18 +86,15 @@ export function StoryBlock() {
                                     <p className={styles.itemSecond}>{ new Date(rent.startDate).toLocaleDateString('ru-RU') } - { new Date(rent.endDate).toLocaleDateString('ru-RU') }</p>
                                 </div>
                             </div>
-                            <div className={styles.popupRating}>
-                            </div>
+                        <div className={styles.rating}>{rating.toFixed(1)}</div>
+                        <Rating className={styles.starRating}  initialValue={rating} onClick={handleRating} size={36} fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                         </div>
-
-                        <form className={styles.popUpForm} onSubmit={handleSubmit(onSubmit)}>
-                <textarea className={styles.formInput} placeholder='Оставить отзыв...'
-                          {...register("feedback")}/>
+                         <form className={styles.popUpForm}>
+                         <textarea className={styles.formInput}  id="feedbackTextarea" defaultValue={feedback} onChange={handleFeedback} placeholder='Оставить отзыв...'/>
                         </form>
                         <div className={styles.popUpBtns}>
                             <button className={styles.btnReset} onClick={resField}>Отменить</button>
-                            <button className={styles.btnSubmit} onClick={handleSubmit(onSubmit)}>Оставить отзыв
-                            </button>
+                            <button className={styles.btnSubmit} onClick={handleSubmit}>Оставить отзыв</button>
                         </div>
 
                     </div>

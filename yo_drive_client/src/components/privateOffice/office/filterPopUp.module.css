@@ -125,8 +125,8 @@
     padding-bottom: 3px;
 }
 .filterScnd{
-    padding-left: 13px;
-    padding-right: 5px;
+    margin-left: 13px;
+    margin-right: 5px;
 }
 .scndText{
     font-weight: 600;
@@ -136,9 +136,19 @@
     text-align: left;
 
 }
-.inputBlock{
-    margin-left: 6px;
-}
 .scndLineBlock{
-    margin: 12px 0 0 6px;
+    margin: 6px 0 0 6px;
+}
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; 
+    width: 100%;
+  }
+  
+select::-ms-expand {
+   display: none; 
+}
+option:first {
+    color: #999;
 }

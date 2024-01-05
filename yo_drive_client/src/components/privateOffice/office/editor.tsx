@@ -2,7 +2,7 @@ import styles from './office.module.css';
 import vector from '../../../assets/Vector2.svg'
 import vector1 from "../../../assets/Vector21.svg"
 import { useState} from 'react';
-import { Prewiev } from './prewiev'
+import { Preview } from './preview'
 import { Add } from './add'
 import {FilterPopUp} from './filterPopUp';
 export function Editor(){
@@ -11,16 +11,16 @@ export function Editor(){
         setPUpFilter(!pUpFilter)
     }
     const[filter, setFilter] = useState(true);
-    const[prewiev, setPrewiev] = useState(true);
+    const[preview, setpreview] = useState(true);
     const[add, setAdd] = useState(false);
-    const prewievHandler = () =>{
-        setPrewiev(true);
+    const previewHandler = () =>{
+        setpreview(true);
         setAdd(false);
         setFilter(true);
     }
     const addHandler = () =>{
         setAdd(true);
-        setPrewiev(false);
+        setpreview(false);
     }
     const filterHandler = () =>{
         setFilter(false);
@@ -35,16 +35,16 @@ export function Editor(){
             <div className={styles.headerBlock}>
                 <h1 className={styles.infoHeader}>Редактор автомобилей</h1>
                 <div className={styles.headerButtons}>
-                    <button onClick={prewievHandler} className={styles.buttonPrewiev}>Просмотреть список авто</button>
+                    <button onClick={previewHandler} className={preview ? styles.buttonPreviewActive: styles.buttonPreviewNotActive}>Просмотреть список авто</button>
                     {filter &&<div className={styles.filter} onClick={pUpFilterHandler}>
                         <img className={styles.filterImg} src={pUpFilter ? vector1 : vector}></img>
                         <button className={styles.filterButton}>Фильтр</button>
                     </div>}
-                    <button onClick={addFunc} className={styles.buttonAdd}>Добавить авто</button>
+                    <button onClick={addFunc} className={add ? styles.buttonAddActive : styles.buttonAddNotActive}>Добавить авто</button>
                 </div>
             </div>
             {pUpFilter && <FilterPopUp/>}
-            {prewiev && <Prewiev/>}
+            {preview && <Preview/>}
             {add && <Add/>}
         </div>
     )
