@@ -1,10 +1,11 @@
 import styles from './story.module.css';
 import {useState} from 'react';
-import { StoryBlock } from './storyBlock';
+import StoryBlock  from './storyBlock';
 import 'primereact/resources/primereact.min.css';
 
 export function Story(){
     const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
+    const [selectedMonthDate, setSelectedMonthDate] = useState<Date>();
 
     function getCurrentMonth() {
         const currentDate = new Date();
@@ -12,11 +13,17 @@ export function Story(){
         let month = currentDate.getMonth() + 1; 
         return `${year}-${month.toString().padStart(2, '0')}`;
       }
-
-  const handleMonthChange = (event:any) => {
-    setSelectedMonth(event.target.value);
-    console.log(event.target.value);
-  };
+      function getCurrentMonthDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        return new Date(year, month, 1); 
+      }
+      const handleMonthChange = (event: any) => {
+        const selectedDate = new Date(event.target.value + "-01");;
+        setSelectedMonthDate(selectedDate);
+        console.log(selectedDate);
+      };
     return(
         <div className={styles.info}>
             <div className={styles.headerBlock}>
@@ -35,7 +42,7 @@ export function Story(){
                     <p className={styles.storyHeader_date}>Дата</p>
                     <p className={styles.storyHeader_rewiev}>Отзывы</p>
                 </div>
-                <StoryBlock/>
+                <StoryBlock  selectedMonth={selectedMonthDate}/>
             </div>
          </div>
     )

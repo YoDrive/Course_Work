@@ -82,19 +82,20 @@ public class FeedbackController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("CreateFeedback")]
+    [HttpPost("createFeedback", Name = nameof(CreateFeedback))]
     public async Task<IActionResult> CreateFeedback(FeedbackAddDto dto)
     {
         try
         {
             var response = await _repository.CreateFeedback(dto);
-            return CreatedAtRoute(nameof(response), new {Id = response.FeedbackId}, response);
+            return CreatedAtRoute(nameof(CreateFeedback), new { Id = response.FeedbackId }, response);
         }
         catch (Exception e)
         {
             return BadRequest($"Произошла непредвиденная ошибка сервера\n{e.Message}");
         }
     }
+
 
     [HttpPut("UpdateFeedback")]
     public async Task<IActionResult> UpdateFeedback(FeedbackUpdateDto dto)

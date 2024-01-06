@@ -7,9 +7,25 @@ import {BookingResponseModel} from '../../../models/Booking/BookingResponseModel
 import RentService from "../../../services/RentService";
 import { Rating } from 'react-simple-star-rating';
 import {useStore} from "../../../index";
-
-export function StoryBlock() {
-    const [rents, setRents] = useState<BookingResponseModel[] | undefined>([]);
+import FeedbackService from "../../../services/FeedbackService"
+interface monthProps{
+    selectedMonth?: Date;
+}
+const StoryBlock: React.FC<monthProps> = (props) => {
+    const [rents, setRents] = useState<BookingResponseModel[]>([]);
+    const [sortMonth, setSortMonth] = useState<Date>(
+      props.selectedMonth || new Date()
+    );
+    console.log(sortMonth);
+   
+    let sortedRents = rents;
+    if (sortMonth) {
+        const currentMonthDate = new Date(2023, 12);
+        sortedRents = sortedRents.filter(
+          (rent) => new Date(rent.startDate) >= currentMonthDate &&
+                     new Date(rent.startDate) < new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() + 1, 1)
+        )};
+    
     const [openBookingId, setOpenBookingId] = useState<number | null>(null);
     const [feedback, setFeedback] = useState("");
     const [rating, setRating] = useState(0);
@@ -22,7 +38,6 @@ export function StoryBlock() {
         setFeedback(feedback)
     }; 
     const store = useStore();
-
 
     useEffect(() => {
         async function fetchBookings() {
@@ -52,14 +67,34 @@ export function StoryBlock() {
             feedbackTextarea.value = '';
           }
     }
-    const handleSubmit = () => {
-        console.log(
-            rating,
-            feedback
-        )
-    }
+    const handleSubmit = async () => {
+        if (openBookingId !== null) {
+          try {
+            const response = await FeedbackService.createFeedback(
+              {
+                rentId: openBookingId,
+                response: feedback,
+                stars: rating,
+                feedbackDate: new Date(),
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              }
+            );
+      
+              setOpenBookingId(null);
+              setRating(0);
+              setFeedback('');
+              alert("Отзыв отправлен, спасибо за обратную связь!")
+          } catch (error) {
+            console.error('Ошибка при отправке отзыва:', error);
+          }
+        }
+      };
 
-    let listItems = rents?.map((rent) =>
+      let listItems = rents?.sort((a, b) => new Date(a.startDate).getMonth() - new Date(b.startDate).getMonth()).map((rent) => (
         <li key={rent.rentId} className={styles.storyBlock}>
             <p className={styles.blockText_first}>{rent.car.carModel.carBrand.name + ' ' + rent.car.carModel.modelName}</p>
             <p className={styles.blockText_second}>{rent.car.costDay}₽/сутки</p>
@@ -101,7 +136,7 @@ export function StoryBlock() {
                 }/>
             </div>
         </li>
-    )
+      ))
     return (
         <div>
         { rents !== undefined && (rents.length > 0) ? (
@@ -113,3 +148,5 @@ export function StoryBlock() {
         
     )
 }
+
+export default StoryBlock;

@@ -242,3 +242,11 @@
     text-align: center;
     margin-top: 55px;
 }
+.catalog{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    overflow-y: scroll;
+    height: 420px;
+    width: 940px;
+}
