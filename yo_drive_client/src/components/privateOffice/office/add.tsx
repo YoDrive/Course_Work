@@ -1,7 +1,7 @@
 import {useRef, useState, useEffect} from 'react';
 import styles from "./add.module.css"
 import space from "../../../assets/space.svg"
-import { createCar } from '../../../services/CarService';
+import CarService from '../../../services/CarService';
 import { CarAdd } from '../../../models/Add/Add.model';
 import {CarBrand, CarModel, CarClass, Filial} from "../../../models/Booking/CarBookingModel";
 import FilterService from "../../../services/FilterService";
@@ -56,10 +56,15 @@ export function Add(){
         setSelectedModel(null);
     };
     
-    const handleCost = (event:any) => {
+    const handleCost = (event: any) => {
         const selectedCost = event.target.value;
-        setCostDay(selectedCost);
-    };
+        if (!isNaN(selectedCost)) {
+          const valid = Number(selectedCost).toFixed(2);
+          const selectedCost1 = Number(valid);
+          console.log(selectedCost1);
+          setCostDay(selectedCost1);
+        }
+      };
 
     const handleYearChange = (event:any) => {
         const selectedYear = event.target.value;
@@ -89,52 +94,55 @@ export function Add(){
 
     const [localFilters, setLocalFilters] = useState<CarAdd>();
 
-    useEffect(() => {
-        const createCarFilter = () => {
-            const carModel: CarModel = {
-                carModelId: Number(selectedModel) ?? 0,
-                modelName: '', // Задайте настоящее значение в соответствии с вашими данными
-                carBrand: {
-                    carBrandId: Number(selectedBrand) ?? 0,
-                    name: '', // Задайте настоящее значение в соответствии с вашими данными
-                },
-            };
+  useEffect(() => {
+    const createCarFilter = (): CarAdd => {
+      const carModel: CarModel = {
+        carModelId: Number(selectedModel) ?? 0,
+        modelName: '', // Уточните реальное значение
+        carBrand: {
+          carBrandId: Number(selectedBrand) ?? 0,
+          name: '', // Уточните реальное значение
+        },
+      };
 
-            const carClass: CarClass = {
-                carClassId: Number(selectedCarClass) ?? 0,
-                className: '', // Задайте настоящее значение в соответствии с вашими данными
-            };
+      const carClass: CarClass = {
+        carClassId: Number(selectedCarClass) ?? 0,
+        className: '', // Уточните реальное значение
+      };
 
-            const filial: Filial = {
-                filialId: Number(selectedFilial) ?? 0,
-                address: '',
-                phoneNumber: '', // Задайте настоящее значение в соответствии с вашими данными
-                // Добавьте другие свойства по необходимости
-            };
+      const filial: Filial = {
+        filialId: Number(selectedFilial) ?? 0,
+        address: '',
+        phoneNumber: '', // Уточните реальное значение
+        // Добавьте другие свойства при необходимости
+      };
 
-            const yearValue: number = Number(year) ?? 0;
-            const gearBoxValue: GearBoxEnum = selectedTransmission === 0 ? GearBoxEnum["Автоматическая"] : GearBoxEnum["Механическая"];
-            const costDayValue: string = String(costDay) ?? '';
+      const yearValue: number = Number(year) ?? 0;
+      const gearBoxValue: GearBoxEnum =
+        selectedTransmission === 0 ? GearBoxEnum["Автоматическая"] : GearBoxEnum["Механическая"];
+      const costDayValue: number = Number(costDay) ?? 0;
 
-            return {
-                carModel,
-                carClass,
-                filial,
-                year: yearValue,
-                gearBox: gearBoxValue,
-                costDay: costDayValue,
-                carImage: undefined, // Можете отдельно обрабатывать carImage в соответствии с логикой вашего приложения
-            };
-        };
+      const carImageValue: "img.png" | undefined = undefined;
 
-        setLocalFilters(createCarFilter());
-    }, [selectedBrand, selectedModel, selectedCarClass, selectedFilial, costDay, selectedTransmission, year]);
+      return {
+        ModelId: carModel.carModelId,
+        ClassId: carClass.carClassId,
+        FilialId: filial.filialId,
+        Year: yearValue,
+        GearBox: gearBoxValue,
+        CostDay: costDayValue,
+        CarImage: carImageValue,
+      };
+    };
 
+    const filters = createCarFilter();
+    setLocalFilters(filters);
+  }, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay]); // Заметьте, что зависимости должны быть правильно указаны в зависимости от вашего кода.
 
     const handleSave = async () => {
         try {
           if (localFilters) {
-            await createCar(localFilters);
+            await CarService.createCar(localFilters);
             // Успешно создано - выполните нужные действия
           } else {
             console.error('localFilters is undefined');

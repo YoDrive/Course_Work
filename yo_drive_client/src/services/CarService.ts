@@ -15,6 +15,9 @@ export default class CarService {
     static async getCarById(carId: number) : Promise<AxiosResponse<CarViewModel>> {
         return axiosInstance.get<CarViewModel>(`api/car/getCar/${carId}`);
     }
+    static async createCar(data: CarAdd) : Promise<AxiosResponse<CarAdd>> {
+        return axiosInstance.post<CarAdd>('/api/Car/CreateCar', data);
+    }
 }
 
 export async function fetchCars() {
@@ -59,13 +62,4 @@ export async function getCarFilials(){
         throw new Error('Ошибка сервера.');
     }
 }
-
-export async function createCar(data: CarAdd): Promise<AxiosResponse<CarAdd>> {
-    try {
-      const response = await axiosInstance.post<CarAdd>('/api/car/createCar', data);
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  }
   

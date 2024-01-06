@@ -1,4 +1,3 @@
-import {useForm} from "react-hook-form";
 import React, {useEffect, useState} from 'react';
 import styles from './bookingPage.module.css';
 import Header from '../header/header';
@@ -13,9 +12,6 @@ import BookingService from "../../services/BookingService";
 import CarCard from "./carCard/сarCard";
 import { Filter } from '../../../src/models/Booking/FilterBookingModel';
 import Paginator from "./paginator/paginator";
-import { format } from 'date-fns';
-import { GearBoxEnum } from "../../models/CarModel";
-import { number } from "yargs";
 
 const paginateData = (data: CarViewModel[], pageNumber: number, pageSize: number) => {
     const startIndex = (pageNumber - 1) * pageSize;
