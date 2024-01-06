@@ -88,9 +88,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
             if (date1 > date2) {
                 alert("Неправильная дата конца аренды!");
             }
-        } else {
-            alert("Выберите корректные даты для сравнения!");
-        }
+        } 
     };
     const onSubmit=() =>{
         checkDate();

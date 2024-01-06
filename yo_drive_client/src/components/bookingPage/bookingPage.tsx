@@ -32,6 +32,10 @@ const BookingPage: React.FC = () =>  {
     const [totalPages, setTotalPages] = useState<number>(0);
 
     const [filters, setFilters] = useState<Filter>({});
+    const handleFiltersChange = (newFilters: Filter) => {
+        setCurrentPage(1);
+        setFilters(newFilters);
+    };
 
     const toggleExpand = () => {
         setExpanded(!isExpanded);
@@ -39,48 +43,44 @@ const BookingPage: React.FC = () =>  {
 
     const [sortDirection, setSortDirection] = useState<'asc' | 'dsc'>('asc');
     const [sortField, setSortField] = useState<string>('');
+    useEffect(() => {
+        fetchData();
+    }, [currentPage, sortField, sortDirection, filters]);
+
     const fetchData = async () => {
-        try {
-          const bookingPageModel: BookingPageModel = {
+    try {
+        const bookingPageModel: BookingPageModel = {
             page: {
-              pageNumber: currentPage,
-              pageSize: 999,
+                pageNumber: currentPage,
+                pageSize: 10,
             },
             filter: {
-              ...filters,
+                ...filters,
             },
             sort: {
-              dir: sortDirection,
-              field: sortField,
+                dir: sortDirection,
+                field: sortField,
             },
-          };
-          await new Promise(resolve => setTimeout(resolve, 300));
+        };
 
-          const response = await BookingService.getCarsByPage(bookingPageModel);
-      
-          if (response && response.data) {
+        const response = await BookingService.getCarsByPage(bookingPageModel);
+
+        if (response && response.data) {
             setCars({
-              ...response.data,
+                ...response.data,
             });
-      
+
             setCarsCount(response.data.count);
             let totalPages = Math.ceil(response.data.count / 10);
             setTotalPages(totalPages);
-          } else {
+        } else {
             console.error('Response or response.data is undefined:', response);
-          }
-        } catch (error) {
-          console.error('Error fetching cars:', error);
         }
-      };
+    } catch (error) {
+        console.error('Error fetching cars:', error);
+    }
+};
 
-
-      const handleFiltersChange = (newFilters: Filter) => {
-        setFilters(newFilters);
-        console.log(newFilters);
-        setCurrentPage(1); 
-        fetchData();
-    };
     
     const handleSortChange = (newSortField: string) => {
         if (newSortField.toLowerCase() === sortField.toLowerCase()) {
@@ -93,10 +93,6 @@ const BookingPage: React.FC = () =>  {
         setCurrentPage(1);
         fetchData();
     };
-    
-    useEffect(() => {
-        fetchData();
-    }, [currentPage, sortField, sortDirection, filters]);
     
     const sortCars = () => {
         if (!cars?.items) return [];
@@ -159,7 +155,9 @@ const BookingPage: React.FC = () =>  {
                         </div>
                     </form>
                 </div>
-                <ul className={styles.catalog}>{listItems}</ul>
+                {listItems.length > 0 ?
+                <ul className={styles.catalog}>{listItems}</ul>  :
+                <div><p className={styles.listItemsEmpty}>...Oops ничего не найдено по запросу</p></div>}
                 <Paginator currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
             </div>
         </div>

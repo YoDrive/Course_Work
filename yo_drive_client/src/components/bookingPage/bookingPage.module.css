@@ -109,3 +109,12 @@
     background-color: #D9D9D9;
     border-radius: 2px;
 }
+.listItemsEmpty{
+    font-family: Montserrat;
+    font-size: 30px;
+    color: #D9D9D9;
+    width:auto;
+    height: 180px;
+    text-align: center;
+    margin-top: 55px;
+}
