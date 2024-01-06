@@ -8,7 +8,6 @@ import { Filter } from '../../../models/Booking/FilterBookingModel';
 import {CarBrand, CarModel, CarClass, Filial} from "../../../models/Booking/CarBookingModel";
 import BookingService from "../../../services/BookingService";
 import FilterService from "../../../services/FilterService";
-import { format } from 'date-fns';
 import { GearBoxEnum } from '../../../models/CarModel';
 export function getCurrentDate(separator='-'){
 

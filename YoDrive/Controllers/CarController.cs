@@ -60,7 +60,7 @@ public class CarController : ControllerBase
 
     [Authorize]
     [HttpPost("CreateCar")]
-    public async Task<IActionResult> CreateCar([FromForm] CarAddDto dto, [FromForm] IFormFile file)
+    public async Task<IActionResult> CreateCar([FromForm] CarAddDto dto, [FromForm] IFormFile? file)
     {
         try
         {

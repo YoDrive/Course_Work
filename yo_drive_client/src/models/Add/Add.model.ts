@@ -1,6 +1,5 @@
 import { GearBoxEnum } from "../CarModel";
 export interface CarAdd {
-    carId: number;
     carModel: CarModel;
     carClass: CarClass;
     filial: Filial;

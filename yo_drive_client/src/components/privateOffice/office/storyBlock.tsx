@@ -103,6 +103,13 @@ export function StoryBlock() {
         </li>
     )
     return (
-        <ul className={styles.listItems}>{listItems}</ul>
+        <div>
+        { rents !== undefined && (rents.length > 0) ? (
+            <ul className={styles.catalog}>{listItems}</ul>
+        ) : (
+            <p className={styles.listItemsEmpty}>...Oops у вас пока нет бронирований</p>
+        )}
+        </div>
+        
     )
 }
