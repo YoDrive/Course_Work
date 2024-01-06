@@ -9,6 +9,7 @@ import {CarBrand, CarModel, CarClass, Filial} from "../../../models/Booking/CarB
 import BookingService from "../../../services/BookingService";
 import FilterService from "../../../services/FilterService";
 import { format } from 'date-fns';
+import { GearBoxEnum } from '../../../models/CarModel';
 export function getCurrentDate(separator='-'){
 
     let myCurrentDate = new Date()
@@ -121,44 +122,50 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
         const selectedMaxCost = event.target.value;
         setMaxCostDay(selectedMaxCost);
     };
-    const handleFilialChange = (event:any) => {
-        const selectedFilial = event.target.value;
+
+    const handleTransmissionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const transm = event.target.value;
+        setSelectedTransmission(parseInt(transm, 10));
+    };
+  
+    const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedBrand = event.target.value !== '' ? Number(event.target.value) : undefined;
+        setSelectedBrand(selectedBrand);
+        setSelectedModel(undefined);
+    };
+    
+    const handleFilialChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedFilial = event.target.value !== '' ? Number(event.target.value) : undefined;
         setSelectedFilial(selectedFilial);
     };
-
-    const handleTransmissionChange = (event:any) => {
-        const transm = event.target.value;
-        setSelectedTransmission(transm);
-      };
-  
-    const handleClassChange = (event:any) => {
-        const selectedClass = event.target.value;
-        setSelectedCarClass(selectedClass);
-    };
-    const handleBrandChange = (event: any) => {
-        const brand = event.target.value
-        setSelectedBrand(brand);
-        setSelectedModel(undefined);
-      };
     
-      const handleModelChange = (event:any) => {
-        const model = event.target.value
-        setSelectedModel(model);
-      };
+    const handleClassChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedCarClass = event.target.value !== '' ? Number(event.target.value) : undefined;
+        setSelectedCarClass(selectedCarClass);
+    };
+    
+      const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedModel = event.target.value !== '' ? Number(event.target.value) : undefined;
+        setSelectedModel(selectedModel);
+    };
 
       const [localFilters, setLocalFilters] = useState<Filter>({});
 
     useEffect(() => {
         setLocalFilters({
-            carBrandId: selectedBrand !== undefined ? [selectedBrand] : selectedBrand,
-            modelId: selectedModel !== undefined ? [selectedModel] : selectedModel,
-            classId: selectedCarClass !== undefined ? [selectedCarClass] : selectedCarClass,
-            filialId: selectedFilial !== undefined ? [selectedFilial] : selectedFilial,
+            carBrandId: selectedBrand !== undefined ? [Number(selectedBrand)] : selectedBrand,
+            modelId: selectedModel !== undefined ? [Number(selectedModel)] : selectedModel,
+            classId: selectedCarClass !== undefined ? [Number(selectedCarClass)] : selectedCarClass,
+            filialId: selectedFilial !== undefined ? [Number(selectedFilial)] : selectedFilial,
             startDate: minDateH,
             endDate: maxDateH,
-            minCostDay: Number(minCostDay),
-            maxCostDay: Number(maxCostDay),
-            gearBox: selectedTransmission,
+            minCostDay: minCostDay !== undefined ? Number(minCostDay) : undefined,
+            maxCostDay: maxCostDay !== undefined ? Number(maxCostDay) : undefined,
+            gearBox: selectedTransmission === 0
+            ? GearBoxEnum["Автоматическая"]
+            : selectedTransmission === 1
+              ? GearBoxEnum["Механическая"]
+              : undefined,
         });
     }, [selectedBrand, selectedModel, selectedCarClass, selectedFilial, minDateH, maxDateH, minCostDay, maxCostDay, selectedTransmission]);
 
@@ -211,7 +218,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                     <img className={styles.locationImg} src={location}></img>
                     <select className={styles.dropItem} onChangeCapture={handleFilialChange}
                         onChange={handleInputChange}>
-                        <option value=""></option>
+                        <option></option>
                        {filials&& filials.map((filial) => (
                         <option key={filial.filialId} className={styles.listItem} value={filial.filialId}>{filial.address}</option>
                     ))}</select>
@@ -223,7 +230,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                     <label className={styles.filterItem}>
                         <select className={styles.dropItem}
                          onChangeCapture={handleInputChange} onChange={handleClassChange}>
-                        <option  value={undefined}>-----</option>
+                        <option></option>
                        {classes && classes.map((classModel) => (
                         <option key={classModel.carClassId} value={classModel.carClassId}>{classModel.className}</option>
                     ))}</select>
@@ -236,7 +243,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                     <label className={styles.filterItem}>
                         <select  className={styles.dropItem}
                          onChange={handleInputChange} onChangeCapture={handleBrandChange}>
-                        <option value=""></option>
+                        <option></option>
                         {brands && brands.map((brand) => (
                             <option key={brand.carBrandId} value={brand.carBrandId}>{brand.name}</option>
                         ))}</select>
@@ -249,7 +256,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                     <label className={styles.filterItem}>
                         <select className={styles.dropItem} 
                          onChangeCapture={handleInputChange} onChange={handleModelChange}>
-                        <option value=""></option>
+                        <option></option>
                         {models &&
                             models
                             .filter((model) => model.carBrand.carBrandId === Number(selectedBrand))
@@ -268,7 +275,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                     <label className={styles.filterItem}>
                         <input type="radio"
                             name="transmission"
-                            value="0"
+                            value={1}
                             className={styles.checkboxItem}
                             onChange={handleTransmissionChange} />
                         <p className={styles.radioText}>Механическая</p>
@@ -278,9 +285,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                     <input
                         type="radio"
                         name="transmission"
-                        value="1"
+                        value={0}
                         className={styles.checkboxItem}
-                        // checked={selectedTransmission === 'Автоматическая'}
                         onChange={handleTransmissionChange}
                         />
                         <p className={styles.radioText}>Автоматическая</p>
@@ -290,9 +296,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                     <input
                         type="radio"
                         name="transmission"
-                        value="Все"
+                        value={undefined}
                         className={styles.checkboxItem}
-                        // checked={selectedTransmission === 'Все'}
                         onChange={handleTransmissionChange}
                         defaultChecked={true}/>
                         <p className={styles.radioText}>Все</p>

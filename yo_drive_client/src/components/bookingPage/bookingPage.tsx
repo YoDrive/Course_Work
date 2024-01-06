@@ -37,10 +37,6 @@ const BookingPage: React.FC = () =>  {
         setExpanded(!isExpanded);
     };
 
-    // const handlePageChange = (newPage: number) => {
-    //     setCurrentPage(newPage);
-    // };
-
     const [sortDirection, setSortDirection] = useState<'asc' | 'dsc'>('asc');
     const [sortField, setSortField] = useState<string>('');
     const fetchData = async () => {
@@ -48,7 +44,7 @@ const BookingPage: React.FC = () =>  {
           const bookingPageModel: BookingPageModel = {
             page: {
               pageNumber: currentPage,
-              pageSize: 10,
+              pageSize: 999,
             },
             filter: {
               ...filters,
@@ -58,7 +54,8 @@ const BookingPage: React.FC = () =>  {
               field: sortField,
             },
           };
-      
+          await new Promise(resolve => setTimeout(resolve, 300));
+
           const response = await BookingService.getCarsByPage(bookingPageModel);
       
           if (response && response.data) {
@@ -78,20 +75,28 @@ const BookingPage: React.FC = () =>  {
       };
 
 
+      const handleFiltersChange = (newFilters: Filter) => {
+        setFilters(newFilters);
+        console.log(newFilters);
+        setCurrentPage(1); 
+        fetchData();
+    };
+    
     const handleSortChange = (newSortField: string) => {
-    if (newSortField.toLowerCase() === sortField.toLowerCase()) {
-      setSortDirection((prevDirection) => (prevDirection === 'asc' ? 'dsc' : 'asc'));
-    } else {
-      setSortDirection('asc');
-    }
-  
-    setSortField(newSortField);
-    fetchData();
+        if (newSortField.toLowerCase() === sortField.toLowerCase()) {
+            setSortDirection((prevDirection) => (prevDirection === 'asc' ? 'dsc' : 'asc'));
+        } else {
+            setSortDirection('asc');
+        }
+    
+        setSortField(newSortField);
+        setCurrentPage(1);
+        fetchData();
     };
     
     useEffect(() => {
         fetchData();
-    }, [sortField, sortDirection, filters]); //
+    }, [currentPage, sortField, sortDirection, filters]);
     
     const sortCars = () => {
         if (!cars?.items) return [];
@@ -105,18 +110,10 @@ const BookingPage: React.FC = () =>  {
             return 0;
         });
     };
-    const handleFiltersChange = (newFilters: Filter) => {
-        setFilters(newFilters);
-        console.log(newFilters);
-        // Вызов fetchData здесь, чтобы обновить данные при изменении фильтров
-        fetchData();
-      };
-    
-      const handlePageChange = (newPage: number) => {
+    const handlePageChange =(newPage: number) => {
         setCurrentPage(newPage);
-        // Вызов fetchData здесь, чтобы обновить данные при изменении страницы
         fetchData();
-      };
+    };
       let listItems = paginateData(sortCars(), currentPage, 10).map((car) => (
         <li key={car.carId} className={styles.catalogItem}>
           <CarCard car={car} />
