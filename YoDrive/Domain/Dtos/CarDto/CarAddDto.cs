@@ -9,6 +9,6 @@ public class CarAddDto
     public int FilialId { get; set; }
     public int Year { get; set; }
     public GearBox GearBox { get; set; }
-    public decimal CostDay { get; set; }
+    public int CostDay { get; set; }
     public string? CarImage { get; set; }
 }

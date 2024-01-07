@@ -3,16 +3,32 @@ import rewiev from '../../../assets/rewiev.svg'
 import trash from '../../../assets/trash.svg'
 import React, {useEffect, useState, useRef} from "react";
 import { CarViewModel} from "../../../models/Booking/CarBookingModel";
-import {fetchCars} from "../../../services/CarService";
+import {fetchCars, getCarClasses} from "../../../services/CarService";
 import {Rating} from "react-simple-star-rating";
 import {GearBoxEnum} from "../../../models/CarModel";
 import emptyImageCar from '../../../assets/emptyImageCar.png';
 import EditCarPopup from "./editCarPopUp"
 import CarService from '../../../services/CarService';
+import { Filter } from '../../../models/Booking/FilterBookingModel';
+import { getCarsByFilter } from '../../../services/CarService';
+interface FilterPopUpProps {
+    filters: Filter;
+}
+function formatReviews(count: number) {
+    const lastDigit = count % 10;
+    const lastTwoDigits = count % 100;
 
+    if (lastDigit === 1 && lastTwoDigits !== 11) {
+        return `${count} отзыв`;
+    } else if ([2, 3, 4].includes(lastDigit) && ![12, 13, 14].includes(lastTwoDigits)) {
+        return `${count} отзыва`;
+    } else {
+        return `${count} отзывов`;
+    }
+}
 
-export function Preview(){
-   
+const Preview: React.FC<FilterPopUpProps> = ({ filters }) => {
+    console.log(filters);
     const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
     const [openCarId, setOpenCarId] = useState<number | null>(null);
     const togglePopup = (carId: number) => {
@@ -34,18 +50,21 @@ export function Preview(){
         }
     };
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await fetchCars();
-                setCars(response);
-            } catch (error) {
-                alert('Ошибка сервера.');
-            }
+    const fetchData = async () => {
+        try {
+          const response = await getCarsByFilter(filters);
+      
+          if (response) {
+            setCars(response);
+          } 
+        } catch (error) {
+          console.error('Error fetching cars:', error);
         }
-
+      };
+      
+      useEffect(() => {
         fetchData();
-    }, []);   
+      }, [filters]);
 
     let listItems = cars?.map((car) =>
         <li key={car.carId} className={styles.carBlock}>
@@ -65,9 +84,9 @@ export function Preview(){
                     <div className={styles.infoRewiev}>
                         <div className={styles.carStars}>
                             <Rating size={18} readonly initialValue={car.rating} allowFraction fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
-                            <p className={styles.carStarsNumber}>{car.rating}</p>
+                            <p className={styles.carStarsNumber}>{car.rating.toFixed(1)}</p>
                         </div>
-                        <p className={styles.rewievQuantity}>{car.feedbackCount} отзывов</p>
+                        <p className={styles.rewievQuantity}>{formatReviews(car.feedbackCount)}</p>
                     </div>
                     <p className={styles.infoYear}>{car.year} года выпуска</p>
                     <p className={styles.infoGearbox}>{GearBoxEnum[car.gearBox]} коробка передач</p>
@@ -90,3 +109,5 @@ export function Preview(){
         </div>
     )
 }
+
+export default Preview;
