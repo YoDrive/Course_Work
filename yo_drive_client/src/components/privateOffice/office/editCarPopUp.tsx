@@ -30,12 +30,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     }, []);  
     const {isOpen, handleClose, car} = props;
     const carId = props.car.carId;
-    const modelId = props.car.carModel.carModelId;
-    const classId = props.car.carClass.carClassId;
-    const costDayId = props.car.costDay;
-    const filialId = props.car.filial.filialId;
-    const yearId = props.car.year;
-    const gearBoxId = props.car.gearBox;
 
     const [models, setCarModels] = useState<CarModel[]| undefined>([]);
     const [classes, setCarClass] = useState<CarClass[]| undefined>([]);
@@ -104,7 +98,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         setSelectedTransmission(parseInt(transm, 10));
     };
   const [brands, setBrands]= useState<CarBrand[]|undefined>([]);
-  const [options, setOptions] = useState<SelectProps[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
     const [image, setImage] = useState()
 
@@ -131,17 +124,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
 
         fetchData();
     }, []);
-    useEffect(() => {
-        if (brands) {
-          const brandOptions = brands.map((brand) => ({
-            value: brand?.carBrandId?? '', 
-            label: brand?.name ?? '',
-          }));
-      
-          setOptions(brandOptions);
-        }
-      }, [brands]);
-    
       useEffect(() => {
         async function fetchData() {
             try {
@@ -244,7 +226,8 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     try {
       if (localFilters) {
         await CarService.updateCar(localFilters)};
-        alert("Ваша машина отредактирована")
+        alert("Ваша машина отредактирована");
+        handleClose();
     } catch (error) {
         console.error('Ошибка создания автомобиля:', error);
       }
@@ -270,7 +253,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                         </div>
                         <div className={styles.blockInfo}>
                              <div className={styles.infoItem}>
-                                <label className={styles.itemName} >Марка:</label>
+                                <label className={styles.itemName}>Марка:</label>
                                  <div className={styles.itemInp}>
                                  {!inp1&&<p className={styles.itemInpu} onClick={setInpu1}>{car.carModel.carBrand.name}</p>}
                                  {inp1&&<select  className={styles.itemInput}
