@@ -177,8 +177,8 @@ return(
                         autoComplete="off"
                     >
                         <option></option>
-                        <option value="1">Автоматическая</option>
-                        <option value="0">Механическая</option>
+                        <option value="0">Автоматическая</option>
+                        <option value="1">Механическая</option>
                         <option value="">Все</option>
                     </select>
                         </label>

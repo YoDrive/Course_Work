@@ -137,26 +137,17 @@ export function Add(){
 
     const filters = createCarFilter();
     setLocalFilters(filters);
-  }, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay]); // Заметьте, что зависимости должны быть правильно указаны в зависимости от вашего кода.
-
-    const handleSave = async () => {
-        try {
-          if (localFilters) {
-            await CarService.createCar(localFilters);
-            // Успешно создано - выполните нужные действия
-          } else {
-            console.error('localFilters is undefined');
-          }
-        } catch (error) {
-          if (axios.isAxiosError(error) && error.response?.status === 409) {
-            console.error('Конфликт: данные уже существуют');
-            // Добавьте обработку конфликта по вашему усмотрению
-          } else {
-            console.error('Ошибка создания автомобиля:', error);
-            // Обработайте другие ошибки
-          }
-        }
-      };
+}, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay]);
+  const handleSave = async () => {
+    try {
+      if (localFilters) {
+        await CarService.createCar(localFilters)};
+        alert("Ваша машина создана")
+    } catch (error) {
+        console.error('Ошибка создания автомобиля:', error);
+      }
+        };
+  
 
     return(
         <div className={styles.addBlock}>

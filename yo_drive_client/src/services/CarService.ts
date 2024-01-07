@@ -1,4 +1,4 @@
-import {AxiosResponse, Axios} from "axios/index";
+import {AxiosResponse, Axios, AxiosError} from "axios/index";
 import axiosInstance from "../instance";
 import {CarBrand, CarClass, CarViewModel, Filial} from "../models/Booking/CarBookingModel";
 import { CarAdd, CarModel } from "../models/Add/Add.model";
@@ -16,9 +16,18 @@ export default class CarService {
     static async getCarById(carId: number) : Promise<AxiosResponse<CarViewModel>> {
         return axiosInstance.get<CarViewModel>(`api/car/getCar/${carId}`);
     }
-    static async createCar(data: CarAdd) : Promise<AxiosResponse<CarAdd>> {
-        return axiosInstance.post<CarAdd>('/api/Car/CreateCar', data);
-    }
+    static async createCar(data: CarAdd): Promise<AxiosResponse<CarAdd>> {
+        try {
+            return await axiosInstance.post<CarAdd>('/api/Car/CreateCar', data,{
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
+            });
+          } catch (error) {
+            console.error('Error creating car:', error);
+            throw error; // Перебросьте ошибку после обработки
+          }}
+      
 }
 
 export async function fetchCars() {
