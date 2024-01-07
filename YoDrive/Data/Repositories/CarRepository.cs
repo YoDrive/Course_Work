@@ -21,22 +21,21 @@ public class CarRepository : ICarRepository
         _db = db;
         _mapper = mapper;
     }
-
+    
     public async Task<IEnumerable<CarReadDto>> GetAllCars()
     {
         var cars = await _mapper.ProjectTo<CarReadDto>(_db.Car
-                .Where(_ => !_.IsDeleted)
-                .Include(_ => _.CarModel)
-                .ThenInclude(_ => _.CarBrand)
-                .Include(_ => _.Filial)
-                .Include(_ => _.Rents)
-                .ThenInclude(_ => _.Feedback)
-                .Include(_ => _.CarClass))
+            .Where(_ => !_.IsDeleted)
+            .Include(_ => _.CarModel)
+            .ThenInclude(_ => _.CarBrand)
+            .Include(_ => _.Filial)
+            .Include(_ => _.Rents)
+            .ThenInclude(_ => _.Feedback)
+            .Include(_ => _.CarClass))
             .ToListAsync();
 
         return cars;
     }
-
 
     public async Task<List<CarMinDto>> GetAutopark()
     {
@@ -179,7 +178,8 @@ public class CarRepository : ICarRepository
             .Include(_ => _.Rents)
             .ThenInclude(_ => _.Feedback)
             .IgnoreQueryFilters()
-            .Where(_ => (request.StartDate == null || _.Rents.Any(_ => _.EndDate < request.StartDate))
+            .Where(_ => !_.IsDeleted
+                        && (request.StartDate == null || _.Rents.Any(_ => _.EndDate < request.StartDate))
                         && (request.EndDate == null || _.Rents.Any(_ => _.StartDate > request.EndDate))
                         && (request.MinCostDay == null || request.MinCostDay <= _.CostDay)
                         && (request.MaxCostDay == null || request.MaxCostDay >= _.CostDay)
@@ -193,27 +193,29 @@ public class CarRepository : ICarRepository
         return response;
     }
 
+
     public async Task<CarResponsePage> GetCarsByPage(CarRequestDto request)
     {
         var cars = _db.Car
-            .Include(_ => _.CarModel)
-                .ThenInclude(_ => _.CarBrand)
-            .Include(_ => _.Filial)
-            .Include(_ => _.CarClass)
-            .Include(_ => _.Rents)
-                .ThenInclude(_ => _.Feedback)
-            .IgnoreQueryFilters()
-            .Where(_ => (request.Filter.StartDate == null || _.Rents.Any(_ => _.EndDate < request.Filter.StartDate))
-                        && (request.Filter.EndDate == null || _.Rents.Any(_ => _.StartDate > request.Filter.EndDate))
-                        && (request.Filter.MinCostDay == null || request.Filter.MinCostDay <= _.CostDay)
-                        && (request.Filter.MaxCostDay == null || request.Filter.MaxCostDay >= _.CostDay)
-                        && (request.Filter.GearBox == null || request.Filter.GearBox == _.GearBox)
-                        && (request.Filter.CarBrandId == null || request.Filter.CarBrandId.Contains(_.CarModel.CarBrandId))
-                        && (request.Filter.ModelId == null || request.Filter.ModelId.Contains(_.ModelId))
-                        && (request.Filter.FilialId == null || request.Filter.FilialId.Contains(_.FilialId))
-                        && (request.Filter.ClassId == null || request.Filter.ClassId.Contains(_.ClassId)))
-            .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
-            .AsEnumerable();
+        .Include(_ => _.CarModel)
+        .ThenInclude(_ => _.CarBrand)
+        .Include(_ => _.Filial)
+        .Include(_ => _.CarClass)
+        .Include(_ => _.Rents)
+        .ThenInclude(_ => _.Feedback)
+        .IgnoreQueryFilters()
+        .Where(_ => !_.IsDeleted
+                    && (request.Filter.StartDate == null || _.Rents.Any(_ => _.EndDate < request.Filter.StartDate))
+                    && (request.Filter.EndDate == null || _.Rents.Any(_ => _.StartDate > request.Filter.EndDate))
+                    && (request.Filter.MinCostDay == null || request.Filter.MinCostDay <= _.CostDay)
+                    && (request.Filter.MaxCostDay == null || request.Filter.MaxCostDay >= _.CostDay)
+                    && (request.Filter.GearBox == null || request.Filter.GearBox == _.GearBox)
+                    && (request.Filter.CarBrandId == null || request.Filter.CarBrandId.Contains(_.CarModel.CarBrandId))
+                    && (request.Filter.ModelId == null || request.Filter.ModelId.Contains(_.ModelId))
+                    && (request.Filter.FilialId == null || request.Filter.FilialId.Contains(_.FilialId))
+                    && (request.Filter.ClassId == null || request.Filter.ClassId.Contains(_.ClassId)))
+        .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
+        .AsEnumerable(); ;
 
         if (request.Sort != null)
         {
