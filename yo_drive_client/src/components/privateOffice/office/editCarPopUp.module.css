@@ -61,8 +61,7 @@
     border-color: #212528;
     border-width: 1px;
     border-radius: 2px;
-    margin: 22px 0 0 42px;
-    object-fit: contain;
+    margin: 22px 0 40px 42px;
 }
 .addForm{
     display: flex;
@@ -120,7 +119,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin-top: 34px;
+    margin-top: 24px;
 }
 .buttonCancel{
     width: 118px;
@@ -166,11 +165,11 @@
     font-weight: 300;
     color: #d9d9d9;
     background-color: #212528;
-    width: 273px;
+    width: 320px;
     height: 48px;
     margin-left: 42px;
     margin-top: 10px;
-    padding-top: 12px;
+    padding: 13px 22px 13px 22px;
 }
 .inputImg + label:hover {
     background-color: #d9d9d9;
@@ -222,15 +221,14 @@
     margin-top: 3px;
     margin-right: 5px;
 }
-.itemInp{
-    display: flex;
-    flex-direction: row;
-}
 .itemInpu{
     display: flex;
     flex-direction: row;
     width: 256px;
     font-size: 18px;
     color: #212528;
-    height: 24px;
+    height: 28px;
+    border-bottom: #212528;
+    border-bottom: solid;
+    border-width: 1px;
 }

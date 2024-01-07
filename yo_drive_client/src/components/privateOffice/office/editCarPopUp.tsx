@@ -4,6 +4,8 @@ import {CarBrand, CarViewModel, CarModel, CarClass, Filial} from "../../../model
 import {fetchCars, getCarBrands, getCarModels, getCarClasses, getCarFilials} from "../../../services/CarService";
 import { Select , SelectProps, DatePicker, Input} from 'antd';
 import { GearBoxEnum } from "../../../models/CarModel";
+import CarService from "../../../services/CarService";
+import { CarUpdated } from "../../../models/Add/UpdateCar.model";
 
 interface PopupProps {
   handleClose: () => void;
@@ -14,72 +16,92 @@ interface PopupProps {
 const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
   const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
 
-  useEffect(() => {
-      async function fetchData() {
-          try {
-              const response = await fetchCars();
-              setCars(response);
-          } catch (error) {
-              alert('Ошибка сервера.');
-          }
-      }
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await fetchCars();
+                setCars(response);
+            } catch (error) {
+                alert('Ошибка сервера.');
+            }
+        }
 
-      fetchData();
-  }, []);  
-  const {isOpen, handleClose, car} = props;
-  const [carModels, setCarModels] = useState<CarModel[]| undefined>([]);
-  const [selectedBrand, setSelectedBrand] = useState<number | undefined>(undefined);
-  const [selectedModel, setSelectedModel] = useState<number | undefined>(undefined);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTransmission, setSelectedTransmission] = useState('');
-  const [selectedCost, setSelectedCost] = useState(0);
-  const [selectedCarFilial, setSelectedCarFilial] = useState('');
-  const [carClasses, setCarClass] = useState<CarClass[]| undefined>([]);
-  const [carFilials, setCarFilials] = useState<Filial[]| undefined>([]);
+        fetchData();
+    }, []);  
+    const {isOpen, handleClose, car} = props;
+    const carId = props.car.carId;
+    const modelId = props.car.carModel.carModelId;
+    const classId = props.car.carClass.carClassId;
+    const costDayId = props.car.costDay;
+    const filialId = props.car.filial.filialId;
+    const yearId = props.car.year;
+    const gearBoxId = props.car.gearBox;
 
-  const handleFilialChange = (value:any) => {
-      setSelectedCarFilial(value);
-    }; 
-    const handleCostChange = (value:any) => {
-      setSelectedCost(value);
-    }; 
-  const handleTransmissionChange = (value:any) => {
-    setSelectedTransmission(value);
-  }; 
+    const [models, setCarModels] = useState<CarModel[]| undefined>([]);
+    const [classes, setCarClass] = useState<CarClass[]| undefined>([]);
+    const [filials, setCarFilials] = useState<Filial[]| undefined>([]);
 
-  const [selectedCarClass, setSelectedCarClass] = useState('');
+    useEffect(() => {
+        const fetchData = async () => {
+        try {
+            const response = await getCarModels(); 
+            setCarModels(response);
+        } catch (error) {
+            console.error('Error fetching car models:', error);
+        }
+        };
 
-  const handleCarClassChange = (value:any) => {
-      setSelectedCarClass(value);
-  };
-  const transmissionOptions = [
-      { value: 'АКПП', label: 'Автоматическая' },
-      { value: 'МКПП', label: 'Механическая' },
-    ];
+        fetchData();
+    }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getCarModels(); 
-        setCarModels(response);
-      } catch (error) {
-        console.error('Error fetching car models:', error);
-      }
+    const [selectedBrand, setSelectedBrand] = useState<number| null>();
+    const [selectedModel, setSelectedModel] = useState<number | null>();
+    const [selectedTransmission, setSelectedTransmission] = useState<GearBoxEnum>();
+    const [selectedFilial, setSelectedFilial] = useState<number |null>();
+    const [selectedCarClass, setSelectedCarClass] = useState<number |null>();
+    const [costDay, setCostDay] = useState<number |null>();;
+    const [year, setYear] = useState<number |null>();;
+
+    const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedBrandValue = event.target.value;
+        const brandId = selectedBrandValue !== '' ? Number(selectedBrandValue) : null;
+        setSelectedBrand(brandId);
+        setSelectedModel(null);
     };
+    
+    const handleCost = (event: any) => {
+        const selectedCost = event.target.value;
+        if (!isNaN(selectedCost)) {
+          const valid = Number(selectedCost).toFixed(2);
+          const selectedCost1 = Number(valid);
+          setCostDay(selectedCost1);
+        }
+      };
 
-    fetchData();
-  }, []);
-
-  const handleBrandChange = (value: number) => {
-    setSelectedBrand(value);
-    setSelectedModel(undefined);
-  };
-
-  const handleModelChange = (value: number) => {
-    setSelectedModel(value);
-  };
-  const handleDateChange = (date: any) => {
-      setSelectedDate(date);
+    const handleYearChange = (event:any) => {
+        const selectedYear = event.target.value;
+        setYear(selectedYear);
+    };
+    const handleFilialChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedFilialValue = event.target.value;
+        const filialId = selectedFilialValue !== '' ? Number(selectedFilialValue) : null;
+        setSelectedFilial(filialId);;
+    };
+    
+    const handleClassChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedClassValue = event.target.value;
+        const classId = selectedClassValue !== '' ? Number(selectedClassValue) : null;
+        setSelectedCarClass(classId);
+    };
+    
+      const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedModelValue = event.target.value;
+        const modelId = selectedModelValue !== '' ? Number(selectedModelValue) : null;
+        setSelectedModel(modelId);
+    };
+    const handleTransmissionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        const transm = event.target.value;
+        setSelectedTransmission(parseInt(transm, 10));
     };
   const [brands, setBrands]= useState<CarBrand[]|undefined>([]);
   const [options, setOptions] = useState<SelectProps[]>([]);
@@ -190,19 +212,44 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         setInp6(false);
         setInp7(false);
     }
-    const handleSubmit = () => {
-        // Создаем объект с данными для отправки
-        const formData = {
-          carBrandId: selectedBrand,
-          carModelId: selectedModel,
-          year: selectedDate,
-          GearBox: selectedTransmission,
-          carClassId: selectedCarClass,
-          carCost: selectedCost,
-          carFilialId: selectedCarFilial
+
+    const [localFilters, setLocalFilters] = useState<CarUpdated>();
+
+    useEffect(() => {
+        const createCarFilter = (): CarUpdated => {
+            const updatedFilters: CarUpdated = {
+                carId: carId,
+                modelId: (selectedModel !== null && !isNaN(Number(selectedModel))) ? Number(selectedModel) : (props.car.carModel.carModelId ?? 0),
+                classId: (selectedCarClass !== null && !isNaN(Number(selectedCarClass))) ? Number(selectedCarClass) : (props.car.carClass.carClassId ?? 0),
+                filialId:(selectedFilial !== null && !isNaN(Number(selectedFilial))) ? Number(selectedFilial) : (props.car.filial.filialId ?? 0),
+
+                year: (year !== null && !isNaN(Number(year))) ? Number(year) : (props.car.year ?? 0),
+                gearBox:  selectedTransmission === 0 ? GearBoxEnum["Автоматическая"] :
+                    selectedTransmission === 1 ? GearBoxEnum["Механическая"] :
+                    (props.car.gearBox ?? 0),
+                costDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
+                carImage: undefined, // Вы должны обработать изображение здесь
+            };
+    
+            setLocalFilters(updatedFilters);
+    
+            return updatedFilters;
         };
-        console.log(formData)
-    } 
+    
+        const filters = createCarFilter();
+        setLocalFilters(filters);
+    }, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay, image]);
+    
+  const handleSave = async () => {
+    try {
+      if (localFilters) {
+        await CarService.updateCar(localFilters)};
+        alert("Ваша машина отредактирована")
+    } catch (error) {
+        console.error('Ошибка создания автомобиля:', error);
+      }
+        };
+  
 
   return (
     <div className={styles.popupBox} style={{ display: isOpen ? "block" : "none" }}>
@@ -217,9 +264,8 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     alt={`${car.carModel.modelName}`}></img>}
                             </div>
                             <div className={styles.itemInp}>
-                             <input type="file" accept=".jpg,.jpeg,.png" id="Image" defaultValue={image} className={styles.inputImg} ref={inputRef} onChange={handleImageChange} /> 
-
-                                <label htmlFor="Image" className={styles.imgItem}>Загрузить изображение</label>
+                             <input type="file" accept=".png" id="Image" defaultValue={image} className={styles.inputImg} ref={inputRef} onChange={handleImageChange} /> 
+                             <label htmlFor="Image" >Загрузить изображение</label>
                             </div>
                         </div>
                         <div className={styles.blockInfo}>
@@ -227,116 +273,81 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                                 <label className={styles.itemName} >Марка:</label>
                                  <div className={styles.itemInp}>
                                  {!inp1&&<p className={styles.itemInpu} onClick={setInpu1}>{car.carModel.carBrand.name}</p>}
-                                 {inp1&&<Select
-                                    size={"small"}
-                                    defaultValue={selectedBrand}
-                                    onChange={handleBrandChange}
-                                    style={{ width: 256 , fontFamily: 'Montserrat'}}
-                                    options={options}
-                                    />}
-                                </div>
+                                 {inp1&&<select  className={styles.itemInput}
+                                    onChange={handleBrandChange}>
+                                    <option></option>
+                                    {brands && brands.map((brand) => (
+                                        <option key={brand.carBrandId} value={brand.carBrandId}>{brand.name}</option>
+                                    ))}</select>}
+                        </div>
                             </div> 
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Модель:</label>
                                 <div className={styles.itemInp}>
                                 {!inp2&&<p className={styles.itemInpu} onClick={setInpu2}>{car.carModel.modelName}</p>}
                                 {inp2&&(
-                                <Select
-                                    size="small"
-                                    defaultValue={selectedModel}
-                                    onChange={handleModelChange}
-                                    style={{ marginLeft: '120px', width: 256,fontFamily: 'Montserrat' }}
-                                >
-                                     {carModels &&
-                                    carModels
-                                    .filter((model) => model.carBrand.carBrandId === selectedBrand)
+                                <select className={styles.itemInput} onChange={handleModelChange}>
+                                <option></option>
+                                {models &&
+                                    models
+                                    .filter((model) => model.carBrand.carBrandId === Number(selectedBrand))
                                     .map((model) => (
-                                        <Select.Option key={model.carModelId} value={model.carModelId}>
+                                        <option key={model.carModelId} value={model.carModelId}>
                                         {model.modelName}
-                                        </Select.Option>
-                                    ))}
-                                </Select>)}
+                                        </option>
+                                    ))}</select>)}
                                 </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Год выпуска:</label>
                                 <div className={styles.itemInp}>
                                 {!inp3&&<p className={styles.itemInpu} onClick={setInpu3}>{car.year}</p>}
-                                {inp3 && <DatePicker
-                                    size="small"
-                                    value={selectedDate}
-                                    picker='year'
-                                    onChange={handleDateChange}
-                                    style={{ marginLeft: '10px', width: 256 ,fontFamily: 'Montserrat'}}
-                                />}
+                                {inp3 && <input className={styles.itemInput} type="number" min="1980" max="2024" onChange={handleYearChange}  />}
                                 </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Тип КПП:</label>
                                 <div className={styles.itemInp}>
                                 {!inp4&&<p className={styles.itemInpu} onClick={setInpu4}>{GearBoxEnum[car.gearBox]}</p>}
-                                {inp4&&<Select
-                                    size="small"
-                                    defaultValue={selectedTransmission}
-                                    onChange={handleTransmissionChange}
-                                    style={{ marginLeft: '10px', width: 256,fontFamily: 'Montserrat' }}
-                                    >
-                                    {transmissionOptions.map((option) => (
-                                        <Select.Option key={option.value} value={option.value}>
-                                        {option.label}
-                                        </Select.Option>
-                                    ))}
-                                    </Select>}
+                                {inp4&&<select className={styles.itemInput} onChange={handleTransmissionChange}>
+                                    <option></option>
+                                    <option value={1}>Механическая</option>
+                                    <option value={2}>Автоматическая</option>
+                                </select>}
                                 </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Тип кузова:</label>
                                 <div className={styles.itemInp}>
                                 {!inp5&&<p className={styles.itemInpu} onClick={setInpu5}>{car.carClass.className}</p>}
-                                {inp5&&<Select
-                                    size="small"
-                                    defaultValue={selectedCarClass}
-                                    onChange={handleCarClassChange}
-                                    style={{ marginLeft: '10px', width: 256,fontFamily: 'Montserrat' }}
-                                    >
-                                    {carClasses && carClasses.map((option) => (
-                                        <Select.Option key={option.carClassId} value={option.carClassId}>
-                                        {option.className}
-                                        </Select.Option>
-                                    ))}
-                                    </Select>}
+                                {inp5&&<select className={styles.itemInput} onChange={handleClassChange}>
+                                    <option></option>
+                                {classes && classes.map((classModel) => (
+                                    <option key={classModel.carClassId} value={classModel.carClassId}>{classModel.className}</option>
+                                ))}</select>}
                             </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Цена аренды в сутки:</label>
                                 <div className={styles.itemInp}>
                                 {!inp6&&<p className={styles.itemInpu} onClick={setInpu6}>{car.costDay}</p>}
-                                {inp6&&<Input size="small" style={{ marginLeft: '10px', width: 256,fontFamily: 'Montserrat' }} 
-                                onChange={handleCostChange}
-                                defaultValue={selectedCost}></Input>}
+                                {inp6&&<input type="text"  className={styles.itemInputPrice} autoComplete="off" onChange={handleCost}/>}
                                 </div>
                             </div>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Филиал:</label>
                                 <div className={styles.itemInp}>
                                 {!inp7&&<p className={styles.itemInpu} onClick={setInpu7}>{car.filial.address}</p>}
-                                {inp7&&<Select
-                                    size="small"
-                                    defaultValue={selectedCarFilial}
-                                    onChange={handleFilialChange}
-                                    style={{ marginLeft: '10px', width: 256,fontFamily: 'Montserrat' }}
-                                    >
-                                    {carFilials && carFilials.map((option) => (
-                                        <Select.Option key={option.filialId} value={option.filialId}>
-                                        {option.address}
-                                        </Select.Option>
-                                    ))}
-                                    </Select>}
+                                {inp7&&<select className={styles.itemInput} onChangeCapture={handleFilialChange}>
+                                        <option></option>
+                                    {filials&& filials.map((filial) => (
+                                        <option key={filial.filialId} className={styles.listItem} value={filial.filialId}>{filial.address}</option>
+                                    ))}</select>}
                                     </div>
                             </div>
                             <div className={styles.infoButtons}>
                                 <input className={styles.buttonCancel} type="button" onClick={resFields} value="Отмена"></input>
-                                <input onClick={handleSubmit} type="button" className={styles.buttonSave}
+                                <input onClick={handleSave} type="button" className={styles.buttonSave}
                                        value="Сохранить"></input>
                             </div>
                         </div>

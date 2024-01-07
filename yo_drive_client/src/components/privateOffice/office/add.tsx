@@ -157,7 +157,7 @@ export function Add(){
                         {image ? <img src={URL.createObjectURL(image)} style={{width: "100%", height:"100%", objectFit:"contain"}} />:<img className={styles.spaceIcon} src={space}></img>}
                     </div>
                     <div className={styles.itemInp}>
-                        <input type="file" accept=".jpg,.jpeg,.png" id="Image" className={styles.inputImg} ref={inputRef} onChange={handleImageChange} />   
+                        <input type="file" accept=".png" id="Image" className={styles.inputImg} ref={inputRef} onChange={handleImageChange} />   
                         <label htmlFor="Image" className={styles.imgItem}>Загрузить изображение</label>
                     </div>
                 </div>

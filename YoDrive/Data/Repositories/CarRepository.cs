@@ -21,21 +21,22 @@ public class CarRepository : ICarRepository
         _db = db;
         _mapper = mapper;
     }
-    
+
     public async Task<IEnumerable<CarReadDto>> GetAllCars()
     {
         var cars = await _mapper.ProjectTo<CarReadDto>(_db.Car
-            .Where(_ => !_.IsDeleted)
-            .Include(_ => _.CarModel)
-            .ThenInclude(_ => _.CarBrand)
-            .Include(_ => _.Filial)
-            .Include(_ => _.Rents)
-            .ThenInclude(_ => _.Feedback)
-            .Include(_ => _.CarClass))
+                .Where(_ => !_.IsDeleted)
+                .Include(_ => _.CarModel)
+                .ThenInclude(_ => _.CarBrand)
+                .Include(_ => _.Filial)
+                .Include(_ => _.Rents)
+                .ThenInclude(_ => _.Feedback)
+                .Include(_ => _.CarClass))
             .ToListAsync();
 
         return cars;
     }
+
 
     public async Task<List<CarMinDto>> GetAutopark()
     {
@@ -106,12 +107,34 @@ public class CarRepository : ICarRepository
         return response;
     }
 
-    public async Task<CarReadDto> UpdateCar(CarUpdateDto dto)
+    public async Task<CarReadDto> UpdateCar(CarUpdateDto dto, IFormFile? file)
     {
         var car = _db.Car.FirstOrDefault(_ => _.CarId == dto.CarId);
 
         if (car == null)
             throw new KeyNotFoundException($"Автомобиль с Id {dto.CarId} не найден");
+
+        if (file != null)
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var folderPath = Path.Combine(currentDirectory, "../yo_drive_store/Cars");
+            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(folderPath, fileName);
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            if (file.Length > 0)
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+            dto.CarImage = fileName;
+        }
 
         car.IsDeleted = false;
         car.CarImage = dto.CarImage;
@@ -119,6 +142,7 @@ public class CarRepository : ICarRepository
         car.FilialId = dto.FilialId;
         car.ModelId = dto.ModelId;
         car.Year = dto.Year;
+        car.CostDay =dto.CostDay;
         car.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
                        throw new Exception("Модель не найдена");
         car.CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ??
