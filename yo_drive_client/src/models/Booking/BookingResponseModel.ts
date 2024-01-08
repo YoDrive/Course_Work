@@ -7,7 +7,7 @@ export interface BookingResponseModel {
     startDate: Date;
     endDate: Date;
     rentCost: number;
-    feedback?: FeedbackModel;
+    feedback: FeedbackModel;
 }
 
 export interface UserModel {

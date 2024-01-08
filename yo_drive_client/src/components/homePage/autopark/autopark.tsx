@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
 import BookingService from "../../../services/BookingService";
+import emptyImageCar from "../../../assets/EmptyCarImgWhite.png";
 
 export function Autopark() {
     const [cars, setCars] = useState<CarSwiperModel[]>([]);
@@ -45,11 +46,12 @@ export function Autopark() {
                 navigation = {true}>
                 {cars.map((car) => (
                     <SwiperSlide key={car.carId}>
-                        <img
+                        {car.image && (<img
                             src={`data:image/png;base64,${car.image}`}
                             alt={`${car.name}`}
                             className={styles.img}
-                        />
+                        />)}
+                        {!car.image && (<img src={emptyImageCar} width={'452px'} height={'194px'}/>)}
                         <p className={styles.carName}>{car.name}</p>
                     </SwiperSlide>
                 ))}

@@ -2,9 +2,10 @@ import styles from './office.module.css';
 import vector from '../../../assets/Vector2.svg'
 import vector1 from "../../../assets/Vector21.svg"
 import { useState} from 'react';
-import { Preview } from './preview'
+import Preview  from './preview'
 import { Add } from './add'
-import {FilterPopUp} from './filterPopUp';
+import FilterPopUp from './filterPopUp';
+import { Filter } from '../../../models/Booking/FilterBookingModel';
 export function Editor(){
     const[pUpFilter, setPUpFilter] = useState(false);
     const pUpFilterHandler = () =>{
@@ -30,6 +31,10 @@ export function Editor(){
         filterHandler();
         setPUpFilter(false);
     }
+    const [filters, setFilters] = useState<Filter>({});
+    const handleFiltersChange = (newFilters: Filter) => {
+        setFilters(newFilters);
+    };
     return(
         <div className={styles.info}>
             <div className={styles.headerBlock}>
@@ -43,8 +48,8 @@ export function Editor(){
                     <button onClick={addFunc} className={add ? styles.buttonAddActive : styles.buttonAddNotActive}>Добавить авто</button>
                 </div>
             </div>
-            {pUpFilter && <FilterPopUp/>}
-            {preview && <Preview/>}
+            {pUpFilter && <FilterPopUp onFiltersChange={handleFiltersChange}/>}
+            {preview && <Preview filters={filters}/>}
             {add && <Add/>}
         </div>
     )

@@ -98,7 +98,7 @@ public class FeedbackRepository : IFeedbackRepository
         await _db.SaveChangesAsync();
         return _mapper.Map<FeedbackReadDto>(response);
     }
-    
+
     /// <summary>
     /// Обновление отзыва
     /// </summary>
@@ -115,14 +115,23 @@ public class FeedbackRepository : IFeedbackRepository
             throw new Exception($"Отзыв с Id {dto.FeedbackId} не найден");
 
         feedback.IsDeleted = false;
-        feedback.Response = dto.Response;
-        feedback.Stars = dto.Stars;
+
+        if (dto.Response != null)
+        {
+            feedback.Response = dto.Response;
+        }
+
+        if (dto.Stars != null)
+        {
+            feedback.Stars = dto.Stars;
+        }
 
         _db.Feedback.Update(feedback);
         await _db.SaveChangesAsync();
 
         return _mapper.Map<FeedbackReadDto>(feedback);
     }
+
 
     /// <summary>
     /// Удаление отзыва

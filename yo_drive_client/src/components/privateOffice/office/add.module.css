@@ -167,16 +167,8 @@
      margin-top: 3px;
      margin-right: 5px;
 }
-.itemError{
-     font-family: Montserrat;
-     font-size: 24px;
-     color: #b42121;
-}
 .itemInp{
      display: flex;
      flex-direction: row;
 }
-.error{
-     height: 13px;
-     width: 2px
-}
+

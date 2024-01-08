@@ -108,8 +108,8 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                         fillColor="#CCB746" emptyColor="#BDBCB4"/>
                 <p className={styles.rewiewDate}>{formattedDate(new Date(feedback.feedbackDate))}</p>
             </div>
-            <p className={styles.rewiewText}>
-                {feedback.response}
+            <p className={feedback.response.length > 0 ? styles.rewiewText : styles.rewiewTextEmpty}>
+                {feedback.response.length > 0 ? feedback.response : 'Пользователь оставил только оценку..'}
             </p>
         </li>
     );
@@ -127,8 +127,8 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                     <p className={styles.popupTitle}>Отзывы</p>
                     <div>
                         <div className={styles.totalRating}>
-                            <p className={styles.totalRatingNum}>{car.rating}</p>
-                            <Rating className={styles.totalRatingStars} size={32} readonly initialValue={4}
+                            <p className={styles.totalRatingNum}>{car.rating.toFixed(1)}</p>
+                            <Rating className={styles.totalRatingStars} size={32} readonly initialValue={car.rating}
                                     fillColor="#CCB746" emptyColor="#BDBCB4"/>
                             <p className={styles.totalRatingText}>на
                                 основании {car.feedbackCount} оценок</p>
@@ -179,7 +179,7 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                                 />
                             )}
                             {car == undefined || !car.image &&
-                                <img src={emptyImageCar} width={'452px'} height={'194px'}/>}
+                                <img src={emptyImageCar} width={'345px'} height={'147px'}/>}
                         </div>
                         <div className={styles.rewiew}>
                             <form className={styles.rewiewSort}
@@ -205,7 +205,8 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                                     ))}
                                 </div>
                             </form>
-                            <ul>{feedbackList}</ul>
+                            { feedbackList && feedbackList?.length > 0 ? 
+                            <ul>{feedbackList}</ul>:<p className={styles.emptyMessage}>...Oops у машины пока что нет отзывов</p>}
                         </div>
                     </div>
                 </div>
