@@ -141,7 +141,7 @@ public class CarRepository : ICarRepository
         car.FilialId = dto.FilialId;
         car.ModelId = dto.ModelId;
         car.Year = dto.Year;
-        car.CostDay =dto.CostDay;
+        car.CostDay = dto.CostDay;
         car.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
                        throw new Exception("Модель не найдена");
         car.CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ??

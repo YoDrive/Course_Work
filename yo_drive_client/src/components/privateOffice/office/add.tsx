@@ -61,7 +61,6 @@ export function Add(){
         if (!isNaN(selectedCost)) {
           const valid = Number(selectedCost).toFixed(2);
           const selectedCost1 = Number(valid);
-          console.log(selectedCost1);
           setCostDay(selectedCost1);
         }
       };
@@ -98,23 +97,22 @@ export function Add(){
     const createCarFilter = (): CarAdd => {
       const carModel: CarModel = {
         carModelId: Number(selectedModel) ?? 0,
-        modelName: '', // Уточните реальное значение
+        modelName: '',
         carBrand: {
           carBrandId: Number(selectedBrand) ?? 0,
-          name: '', // Уточните реальное значение
+          name: '', 
         },
       };
 
       const carClass: CarClass = {
         carClassId: Number(selectedCarClass) ?? 0,
-        className: '', // Уточните реальное значение
+        className: '',
       };
 
       const filial: Filial = {
         filialId: Number(selectedFilial) ?? 0,
         address: '',
-        phoneNumber: '', // Уточните реальное значение
-        // Добавьте другие свойства при необходимости
+        phoneNumber: '',
       };
 
       const yearValue: number = Number(year) ?? 0;
