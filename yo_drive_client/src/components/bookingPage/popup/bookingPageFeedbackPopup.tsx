@@ -108,8 +108,8 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                         fillColor="#CCB746" emptyColor="#BDBCB4"/>
                 <p className={styles.rewiewDate}>{formattedDate(new Date(feedback.feedbackDate))}</p>
             </div>
-            <p className={styles.rewiewText}>
-                {feedback.response}
+            <p className={feedback.response.length > 0 ? styles.rewiewText : styles.rewiewTextEmpty}>
+                {feedback.response.length > 0 ? feedback.response : 'Пользователь оставил только оценку..'}
             </p>
         </li>
     );
@@ -179,7 +179,7 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                                 />
                             )}
                             {car == undefined || !car.image &&
-                                <img src={emptyImageCar} width={'452px'} height={'194px'}/>}
+                                <img src={emptyImageCar} width={'345px'} height={'147px'}/>}
                         </div>
                         <div className={styles.rewiew}>
                             <form className={styles.rewiewSort}
