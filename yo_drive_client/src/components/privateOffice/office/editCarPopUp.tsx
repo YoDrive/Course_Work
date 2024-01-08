@@ -1,4 +1,4 @@
-import React, {FunctionComponent,useState, useRef, useEffect} from "react";
+import React, {FunctionComponent,useState, useRef, useEffect, useCallback} from "react";
 import styles from "../office/editCarPopUp.module.css"
 import {CarBrand, CarViewModel, CarModel, CarClass, Filial} from "../../../models/Booking/CarBookingModel";
 import {fetchCars, getCarBrands, getCarModels, getCarClasses, getCarFilials} from "../../../services/CarService";
@@ -239,6 +239,19 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         console.error('Ошибка создания автомобиля:', error);
       }
         };
+
+
+        const handleKeyPress = useCallback((event: any) => {
+            if (event.key === 'Escape') {
+              handleClose();
+            }
+          }, [handleClose]);
+          useEffect(() => {
+            document.addEventListener('keydown', handleKeyPress);
+            return () => {
+              document.removeEventListener('keydown', handleKeyPress);
+            };
+          }, [handleKeyPress]);
   
 
   return (

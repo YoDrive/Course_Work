@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from "react";
+import React, {FunctionComponent, useCallback, useEffect} from "react";
 import styles from "../office/storyFeedbackPopUp.module.css"
 import { BookingResponseModel } from "../../../models/Booking/BookingResponseModel";
 interface FeedbackPopupProps {
@@ -8,8 +8,19 @@ interface FeedbackPopupProps {
     booking: BookingResponseModel
   }
   
-  const storyFeedbackPopup: FunctionComponent<FeedbackPopupProps> = (props) => {
+  const StoryFeedbackPopup: FunctionComponent<FeedbackPopupProps> = (props) => {
     const {isOpen, handleClose, content, booking} = props;
+    const handleKeyPress = useCallback((event: any) => {
+      if (event.key === 'Escape') {
+        handleClose();
+      }
+    }, [handleClose]);
+    useEffect(() => {
+      document.addEventListener('keydown', handleKeyPress);
+      return () => {
+        document.removeEventListener('keydown', handleKeyPress);
+      };
+    }, [handleKeyPress]);
   
     return (   
         <div className={styles.popupBox} style={{ display: isOpen ? "block" : "none" }}>
@@ -23,4 +34,4 @@ interface FeedbackPopupProps {
     );
   };
   
-  export default storyFeedbackPopup;
+  export default StoryFeedbackPopup;
