@@ -28,7 +28,6 @@ function formatReviews(count: number) {
 }
 
 const Preview: React.FC<FilterPopUpProps> = ({ filters }) => {
-    console.log(filters);
     const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
     const [openCarId, setOpenCarId] = useState<number | null>(null);
     const togglePopup = (carId: number) => {

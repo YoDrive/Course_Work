@@ -16,7 +16,6 @@ const StoryBlock: React.FC<monthProps> = (props) => {
     const [sortMonth, setSortMonth] = useState<Date>(
       props.selectedMonth || new Date()
     );
-    console.log(sortMonth);
    
     let sortedRents = rents;
     if (sortMonth) {
@@ -76,11 +75,6 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                 response: feedback,
                 stars: rating,
                 feedbackDate: new Date(),
-              },
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                },
               }
             );
       

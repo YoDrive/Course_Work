@@ -62,7 +62,6 @@ export function Add(){
         if (!isNaN(selectedCost)) {
           const valid = Number(selectedCost).toFixed(2);
           const selectedCost1 = Number(valid);
-          console.log(selectedCost1);
           setCostDay(selectedCost1);
         }
       };

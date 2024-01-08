@@ -22,7 +22,6 @@ export function Story(){
       const handleMonthChange = (event: any) => {
         const selectedDate = new Date(event.target.value + "-01");;
         setSelectedMonthDate(selectedDate);
-        console.log(selectedDate);
       };
     return(
         <div className={styles.info}>
