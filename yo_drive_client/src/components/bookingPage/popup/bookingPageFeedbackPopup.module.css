@@ -215,3 +215,13 @@ input[type='range']::-webkit-slider-thumb {
   background: #5A5C5E;
   box-shadow: -91px 0 0 91px #5A5C5E;
 }
+.emptyMessage{
+  font-family: Montserrat;
+    font-size: 30px;
+    color: #212528;
+    width:auto;
+    opacity: 0.9;
+    height: 150px;
+    text-align: center;
+    margin-top: 85px;
+}

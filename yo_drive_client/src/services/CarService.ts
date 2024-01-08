@@ -1,7 +1,8 @@
-import {AxiosResponse} from "axios/index";
+import {AxiosResponse, Axios, AxiosError} from "axios/index";
 import axiosInstance from "../instance";
 import {CarBrand, CarClass, CarViewModel, Filial} from "../models/Booking/CarBookingModel";
-import { CarModel } from "../models/Add/Add.model";
+import { CarAdd, CarModel } from "../models/Add/Add.model";
+import { Filter } from "../models/Booking/FilterBookingModel";
 
 export default class CarService {
     static async DeleteCar(carId: number): Promise<AxiosResponse<boolean>> {
@@ -15,6 +16,18 @@ export default class CarService {
     static async getCarById(carId: number) : Promise<AxiosResponse<CarViewModel>> {
         return axiosInstance.get<CarViewModel>(`api/car/getCar/${carId}`);
     }
+    static async createCar(data: CarAdd): Promise<AxiosResponse<CarAdd>> {
+        try {
+            return await axiosInstance.post<CarAdd>('/api/Car/CreateCar', data,{
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
+            });
+          } catch (error) {
+            console.error('Error creating car:', error);
+            throw error; // Перебросьте ошибку после обработки
+          }}
+      
 }
 
 export async function fetchCars() {
@@ -59,3 +72,13 @@ export async function getCarFilials(){
         throw new Error('Ошибка сервера.');
     }
 }
+
+export async function getCarsByFilter(filter: Filter): Promise<CarViewModel[]> {
+    try {
+      const response = await axiosInstance.post<CarViewModel[]>('/api/car/GetCarsByFilter', filter);
+      return response.data;
+    } catch (error) {
+      throw new Error('Ошибка сервера.');
+    }
+  }
+  

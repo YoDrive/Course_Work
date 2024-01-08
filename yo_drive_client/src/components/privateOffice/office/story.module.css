@@ -232,3 +232,21 @@
     height: 16px;
     margin-left: 5px;
 }
+.listItemsEmpty{
+    font-family: Montserrat;
+    font-size: 24px;
+    opacity: 0.9;
+    color: #D9D9D9;
+    width:auto;
+    height: 180px;
+    text-align: center;
+    margin-top: 55px;
+}
+.catalog{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    overflow-y: scroll;
+    height: 420px;
+    width: 940px;
+}
