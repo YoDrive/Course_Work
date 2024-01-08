@@ -48,7 +48,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         fetchData();
     }, []);
 
-    const [selectedBrand, setSelectedBrand] = useState<number| null>();
+    const [selectedBrand, setSelectedBrand] = useState<number| null>(props.car.carModel.carBrand.carBrandId);
     const [selectedModel, setSelectedModel] = useState<number | null>();
     const [selectedTransmission, setSelectedTransmission] = useState<GearBoxEnum>();
     const [selectedFilial, setSelectedFilial] = useState<number |null>();
