@@ -20,7 +20,12 @@ const StoryBlock: React.FC<monthProps> = (props) => {
     const [rating, setRating] = useState(0);
     const [ratingUpd, setRatingUpd] = useState<number>();
     const [feedbackUpd, setFeedbackUpd] = useState(undefined);
-
+    const setRatingDef= (rate: number) =>{
+        setRatingUpd(rate);
+    }
+    const setFeedbackDef = (rate:any) =>{
+        setFeedbackUpd(rate);
+    }
     const handleRatingUpd = (rate: number) => {
         setRatingUpd(rate)
     }; 
@@ -66,9 +71,6 @@ const StoryBlock: React.FC<monthProps> = (props) => {
           }
     }
     const [feedbackId, setFeedbackId] = useState<number>(0);
-    const getFeedbackId = (feedback : number) =>{
-        setFeedbackId(feedback);
-    }
     const handleSubmit = async () => {
         if (openBookingId !== null) {
           try {
@@ -161,7 +163,7 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                     </div>
               ):
                 rent.feedback &&(  <div className={styles.popup}>
-                    <div className={styles.popupHead} onClick={() =>{getFeedbackId(rent.feedback.feedbackId);}}>
+                    <div className={styles.popupHead}>
                         <div className={styles.popupText}>
                             <div className={styles.textItems}>
                                 <p className={styles.itemOne}>Автомобиль: </p>
@@ -176,11 +178,17 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                         <Rating className={styles.starRating}  initialValue={rent.feedback.stars} onClick={handleRatingUpd} size={36} fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                     </div>
                     <form className={styles.popUpForm}>
-                        <textarea className={styles.formInput}  id="feedbackTextarea" defaultValue={rent.feedback.response} onChange={handleFeedbackUpd} onChangeCapture={() =>getFeedbackId(rent.feedback.feedbackId)} placeholder='Оставить отзыв...'/>
+                        <textarea className={styles.formInput}  id="feedbackTextarea" defaultValue={rent.feedback.response} onChange={handleFeedbackUpd}  placeholder='Оставить отзыв...'/>
                     </form>
                     <div className={styles.popUpBtns}>
                         <button className={styles.btnReset} onClick={resField}>Отменить</button>
-                        <button className={styles.btnSubmit} onClick={handleSubmitUpdate}>Редактировать</button>
+                        <button className={styles.btnSubmit} onMouseOverCapture={()=>setFeedbackId(rent.feedback.feedbackId)} onMouseOver={() => {
+                            if (ratingUpd == null) {
+                                setRatingDef(rent.feedback?.stars || 0);
+                            }
+                            if (feedbackUpd == null) {setFeedbackDef(rent.feedback?.response || '');
+                            }
+                            }}  onClick={handleSubmitUpdate}>Редактировать</button>
                     </div>
                 </div>
                     )}/>
