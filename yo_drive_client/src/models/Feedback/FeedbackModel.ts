@@ -6,3 +6,8 @@ export interface FeedbackModel {
     stars: number;
     feedbackDate: Date;
 }
+export interface FeedbackUpdateModel {
+    FeedbackId: number;
+    Response?: string;
+    Stars?: number;
+}

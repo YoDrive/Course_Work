@@ -26,7 +26,7 @@ interface FeedbackPopupProps {
         <div className={styles.popupBox} style={{ display: isOpen ? "block" : "none" }}>
           <div className={styles.box}>
             <div className={styles.popupClose}><span className={styles.popupCloseIcon} onClick={handleClose}>x</span></div>
-            <p className={styles.popupTitle}>Отзыв</p>
+            <p className={styles.popupTitle}>{!booking.feedback ? "Отзыв": "Редактор отзыва"}</p>
             {content}
           </div>
         </div>

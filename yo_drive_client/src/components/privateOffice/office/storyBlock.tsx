@@ -18,13 +18,22 @@ const StoryBlock: React.FC<monthProps> = (props) => {
     const [openBookingId, setOpenBookingId] = useState<number | null>(null);
     const [feedback, setFeedback] = useState("");
     const [rating, setRating] = useState(0);
+    const [ratingUpd, setRatingUpd] = useState<number>();
+    const [feedbackUpd, setFeedbackUpd] = useState(undefined);
 
+    const handleRatingUpd = (rate: number) => {
+        setRatingUpd(rate)
+    }; 
     const handleRating = (rate: number) => {
         setRating(rate)
     }; 
     const handleFeedback = (event:any) => {
         const feedback = event.target.value;
         setFeedback(feedback)
+    }; 
+    const handleFeedbackUpd = (event:any) => {
+        const feedback = event.target.value;
+        setFeedbackUpd(feedback)
     }; 
     const store = useStore();
 
@@ -56,6 +65,10 @@ const StoryBlock: React.FC<monthProps> = (props) => {
             feedbackTextarea.value = '';
           }
     }
+    const [feedbackId, setFeedbackId] = useState<number>(0);
+    const getFeedbackId = (feedback : number) =>{
+        setFeedbackId(feedback);
+    }
     const handleSubmit = async () => {
         if (openBookingId !== null) {
           try {
@@ -65,6 +78,26 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                 response: feedback,
                 stars: rating,
                 feedbackDate: new Date(),
+              }
+            );
+      
+              setOpenBookingId(null);
+              setRating(0);
+              setFeedback('');
+              alert("Отзыв отправлен, спасибо за обратную связь!")
+          } catch (error) {
+            console.error('Ошибка при отправке отзыва:', error);
+          }
+        }
+      };
+      const handleSubmitUpdate = async () => {
+        if (openBookingId !== null) {
+          try {
+            const response = await FeedbackService.updateFeedback(
+              {
+                FeedbackId: feedbackId ,
+                Response: feedbackUpd,
+                Stars: ratingUpd,
               }
             );
       
@@ -101,8 +134,8 @@ const StoryBlock: React.FC<monthProps> = (props) => {
             </div>
             <div>
                 <StoryFeedbackPopup booking={rent} handleClose={() => toggleFeedbackPopup(rent.rentId)}
-                                    isOpen={openBookingId === rent.rentId} content={
-                    <div className={styles.popup}>
+                                    isOpen={openBookingId === rent.rentId  } content={
+                                        !rent.feedback ? ( <div className={styles.popup}>
                         <div className={styles.popupHead}>
                             <div className={styles.popupText}>
                                 <div className={styles.textItems}>
@@ -115,10 +148,10 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                                 </div>
                             </div>
                         <div className={styles.rating}>{rating.toFixed(1)}</div>
-                        <Rating className={styles.starRating}  initialValue={rating} onClick={handleRating} size={36} fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
+                            <Rating className={styles.starRating}   initialValue={rating} onClick={handleRating} size={36} fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                         </div>
                          <form className={styles.popUpForm}>
-                         <textarea className={styles.formInput}  id="feedbackTextarea" defaultValue={feedback} onChange={handleFeedback} placeholder='Оставить отзыв...'/>
+                            <textarea className={styles.formInput}  id="feedbackTextarea"  onChange={handleFeedback} placeholder='Оставить отзыв...'/>
                         </form>
                         <div className={styles.popUpBtns}>
                             <button className={styles.btnReset} onClick={resField}>Отменить</button>
@@ -126,7 +159,31 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                         </div>
 
                     </div>
-                }/>
+              ):
+                rent.feedback &&(  <div className={styles.popup}>
+                    <div className={styles.popupHead} onClick={() =>{getFeedbackId(rent.feedback.feedbackId);}}>
+                        <div className={styles.popupText}>
+                            <div className={styles.textItems}>
+                                <p className={styles.itemOne}>Автомобиль: </p>
+                                <p className={styles.itemSecond}>{rent.car.carModel.carBrand.name + ' ' + rent.car.carModel.modelName}</p>
+                            </div>
+                            <div className={styles.textItems}>
+                                <p className={styles.itemOne}>Дата:</p>
+                                <p className={styles.itemSecond}>{ new Date(rent.startDate).toLocaleDateString('ru-RU') } - { new Date(rent.endDate).toLocaleDateString('ru-RU') }</p>
+                            </div>
+                        </div>
+                    <div className={styles.rating}>{ratingUpd ? (ratingUpd).toFixed(1) : (rent.feedback.stars).toFixed(1)}</div>
+                        <Rating className={styles.starRating}  initialValue={rent.feedback.stars} onClick={handleRatingUpd} size={36} fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
+                    </div>
+                    <form className={styles.popUpForm}>
+                        <textarea className={styles.formInput}  id="feedbackTextarea" defaultValue={rent.feedback.response} onChange={handleFeedbackUpd} onChangeCapture={() =>getFeedbackId(rent.feedback.feedbackId)} placeholder='Оставить отзыв...'/>
+                    </form>
+                    <div className={styles.popUpBtns}>
+                        <button className={styles.btnReset} onClick={resField}>Отменить</button>
+                        <button className={styles.btnSubmit} onClick={handleSubmitUpdate}>Редактировать</button>
+                    </div>
+                </div>
+                    )}/>
             </div>
         </li>
       ))

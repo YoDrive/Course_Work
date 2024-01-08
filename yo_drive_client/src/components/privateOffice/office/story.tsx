@@ -29,7 +29,7 @@ export function Story(){
             <div className={styles.headerBlock}>
                <h1 className={styles.infoHeader}>История бронирований</h1>
                <button className={styles.calendar}>
-               <input type="month" className={styles.calendarStyles}  defaultValue={selectedMonth} max={getCurrentMonth().toString()}
+               <input type="month" className={styles.calendarStyles}  defaultValue={selectedMonth} 
           onChange={handleMonthChange} />
          
                </button>
