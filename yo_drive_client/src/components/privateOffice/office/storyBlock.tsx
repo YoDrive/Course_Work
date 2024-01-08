@@ -9,21 +9,11 @@ import { Rating } from 'react-simple-star-rating';
 import {useStore} from "../../../index";
 import FeedbackService from "../../../services/FeedbackService"
 interface monthProps{
-    selectedMonth?: Date;
+    selectedMonth: Date;
 }
 const StoryBlock: React.FC<monthProps> = (props) => {
     const [rents, setRents] = useState<BookingResponseModel[]>([]);
-    const [sortMonth, setSortMonth] = useState<Date>(
-      props.selectedMonth || new Date()
-    );
-   
-    let sortedRents = rents;
-    if (sortMonth) {
-        const currentMonthDate = new Date(2023, 12);
-        sortedRents = sortedRents.filter(
-          (rent) => new Date(rent.startDate) >= currentMonthDate &&
-                     new Date(rent.startDate) < new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() + 1, 1)
-        )};
+    const sortMonth = props.selectedMonth;
     
     const [openBookingId, setOpenBookingId] = useState<number | null>(null);
     const [feedback, setFeedback] = useState("");
@@ -88,7 +78,16 @@ const StoryBlock: React.FC<monthProps> = (props) => {
         }
       };
 
-      let listItems = rents?.sort((a, b) => new Date(a.startDate).getMonth() - new Date(b.startDate).getMonth()).map((rent) => (
+      let listItems = rents
+      ?.filter((rent) => {
+        const rentStartDate = new Date(rent.startDate);
+        return (
+          rentStartDate.getFullYear() === sortMonth.getFullYear() &&
+          rentStartDate.getMonth() === sortMonth.getMonth()
+        );
+      })
+      .sort((a, b) => new Date(a.startDate).getMonth() - new Date(b.startDate).getMonth())
+      .map((rent) => (
         <li key={rent.rentId} className={styles.storyBlock}>
             <p className={styles.blockText_first}>{rent.car.carModel.carBrand.name + ' ' + rent.car.carModel.modelName}</p>
             <p className={styles.blockText_second}>{rent.car.costDay}₽/сутки</p>
@@ -133,11 +132,12 @@ const StoryBlock: React.FC<monthProps> = (props) => {
       ))
     return (
         <div>
-        { rents !== undefined && (rents.length > 0) ? (
-            <ul className={styles.catalog}>{listItems}</ul>
-        ) : (
-            <p className={styles.listItemsEmpty}>...Oops у вас пока нет бронирований</p>
-        )}
+         {listItems.length > 0 && (
+             <ul className={styles.catalog}>{listItems}</ul>
+            )}
+            {listItems.length === 0 && (
+            <p className={styles.listItemsEmpty}>...Oops в этом месяце у вас нет бронирований</p>
+         )}
         </div>
         
     )

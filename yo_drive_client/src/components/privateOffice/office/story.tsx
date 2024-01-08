@@ -5,7 +5,7 @@ import 'primereact/resources/primereact.min.css';
 
 export function Story(){
     const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
-    const [selectedMonthDate, setSelectedMonthDate] = useState<Date>();
+    const [selectedMonthDate, setSelectedMonthDate] = useState<Date>(new Date);
 
     function getCurrentMonth() {
         const currentDate = new Date();
@@ -21,6 +21,7 @@ export function Story(){
       }
       const handleMonthChange = (event: any) => {
         const selectedDate = new Date(event.target.value + "-01");;
+        console.log(selectedDate);
         setSelectedMonthDate(selectedDate);
       };
     return(
