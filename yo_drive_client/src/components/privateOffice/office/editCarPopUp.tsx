@@ -99,15 +99,20 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     };
   const [brands, setBrands]= useState<CarBrand[]|undefined>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
-    const [image, setImage] = useState()
+  const [image, setImage] = useState<File>();
+    const [imageUrl, setImageUrl] = useState<string|undefined>()
 
     const handleImageClick = () =>{
         inputRef.current?.focus();
     }
     const handleImageChange = (event:any) =>{
         const file = event.target.files[0];
-        setImage(file);
-    }
+        setImageUrl(file.name);
+        const file1 = event.target.files[0];
+        setImage(file1);
+        console.log(file1);
+    };
+
     const resFields = ()=>{
         setAllInp();
     }
@@ -210,7 +215,8 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     selectedTransmission === 1 ? GearBoxEnum["Механическая"] :
                     (props.car.gearBox ?? 0),
                 costDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
-                carImage: props.car.carImage, // Вы должны обработать изображение здесь
+                fileName: (imageUrl !== null)? imageUrl : props.car.carImage,
+                file: image // Вы должны обработать изображение здесь
             };
     
             setLocalFilters(updatedFilters);
@@ -220,8 +226,9 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     
         const filters = createCarFilter();
         setLocalFilters(filters);
-    }, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay, image]);
+    }, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay, image,]);
     
+    console.log(localFilters);
   const handleSave = async () => {
     try {
       if (localFilters) {
@@ -243,11 +250,15 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     <form className={styles.addForm}>
                         <div className={styles.blockImg} onClick={handleImageClick}>
                             <div className={styles.imgSpace}>
-                                {image ? <img className={styles.img}src={URL.createObjectURL(image)} />:<img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`}
+                                {image ? <img className={styles.img}
+                                // src={URL.createObjectURL(image)}
+                                 />:<img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`}
                     alt={`${car.carModel.modelName}`}></img>}
                             </div>
                             <div className={styles.itemInp}>
-                             <input type="file" accept=".png" id="Image" defaultValue={image} className={styles.inputImg} ref={inputRef} onChange={handleImageChange} /> 
+                             <input type="file" accept=".png" id="Image" 
+                            //  defaultValue={image}
+                              className={styles.inputImg} ref={inputRef} onChange={handleImageChange} /> 
                              <label htmlFor="Image" >Загрузить изображение</label>
                             </div>
                         </div>

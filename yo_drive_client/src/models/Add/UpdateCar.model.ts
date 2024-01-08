@@ -6,5 +6,6 @@ export interface CarUpdated{
     year: number,
     gearBox: number,
     costDay: number,
-    carImage?: string
+    fileName?: string
+    file: File|undefined
 }

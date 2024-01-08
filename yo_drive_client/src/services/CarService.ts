@@ -32,7 +32,7 @@ export default class CarService {
         try {
             return await axiosInstance.put<CarUpdated>('/api/Car/UpdateCar', data, {
                 headers: {
-                   'Content-Type': 'application/json'
+                   'Content-Type': 'multipart/form-data'
                 }
             });
         } catch (error) {
