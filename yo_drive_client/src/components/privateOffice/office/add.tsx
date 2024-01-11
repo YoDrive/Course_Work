@@ -6,7 +6,6 @@ import { CarAdd } from '../../../models/Add/Add.model';
 import {CarBrand, CarModel, CarClass, Filial} from "../../../models/Booking/CarBookingModel";
 import FilterService from "../../../services/FilterService";
 import { GearBoxEnum } from '../../../models/CarModel';
-import axios, { AxiosError } from 'axios'
 
 export function Add(){
     const [models, setModels] = useState<CarModel[] | undefined>();
@@ -32,7 +31,8 @@ export function Add(){
         fetchFilters();
     }, []);
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [image, setImage] = useState(undefined)
+    const [image, setImage] = useState<File|undefined>(undefined)
+    const [imageUrl, setImageUrl] = useState<string|undefined>(undefined)
 
     const handleImageClick = () =>{
         inputRef.current?.focus();
@@ -40,6 +40,7 @@ export function Add(){
     const handleImageChange = (event:any) =>{
         const file = event.target.files[0];
         setImage(file);
+        setImageUrl(file.name);
     }
     const [selectedBrand, setSelectedBrand] = useState<number| null>(null);
     const [selectedModel, setSelectedModel] = useState<number | null>(null);
@@ -95,47 +96,26 @@ export function Add(){
 
   useEffect(() => {
     const createCarFilter = (): CarAdd => {
-      const carModel: CarModel = {
-        carModelId: Number(selectedModel) ?? 0,
-        modelName: '',
-        carBrand: {
-          carBrandId: Number(selectedBrand) ?? 0,
-          name: '', 
-        },
-      };
+      const CarModel: CarAdd ={
+        ModelId: (selectedModel !== null && !isNaN(Number(selectedModel))) ? Number(selectedModel) :  0,
+        ClassId: (selectedCarClass !== null && !isNaN(Number(selectedCarClass))) ? Number(selectedCarClass) :  0,
+        FilialId:(selectedFilial !== null && !isNaN(Number(selectedFilial))) ? Number(selectedFilial) :  0,
 
-      const carClass: CarClass = {
-        carClassId: Number(selectedCarClass) ?? 0,
-        className: '',
-      };
+        Year: (year !== null && !isNaN(Number(year))) ? Number(year) :  0,
+        GearBox:  selectedTransmission === 0 ? GearBoxEnum["Автоматическая"] :
+            selectedTransmission === 1 ? GearBoxEnum["Механическая"] :
+            0,
+        CostDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) :  0,
+        Image: image, 
+        CarImage: imageUrl// Вы должны обработать изображение здесь
+    };
 
-      const filial: Filial = {
-        filialId: Number(selectedFilial) ?? 0,
-        address: '',
-        phoneNumber: '',
-      };
-
-      const yearValue: number = Number(year) ?? 0;
-      const gearBoxValue: GearBoxEnum =
-        selectedTransmission === 0 ? GearBoxEnum["Автоматическая"] : GearBoxEnum["Механическая"];
-      const costDayValue: number = Number(costDay) ?? 0;
-
-      const carImageValue: "img.png" | undefined = undefined;
-
-      return {
-        ModelId: carModel.carModelId,
-        ClassId: carClass.carClassId,
-        FilialId: filial.filialId,
-        Year: yearValue,
-        GearBox: gearBoxValue,
-        CostDay: costDayValue,
-        CarImage: carImageValue,
-      };
+      return CarModel;
     };
 
     const filters = createCarFilter();
     setLocalFilters(filters);
-}, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay]);
+}, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay, image]);
   const handleSave = async () => {
     try {
       if (localFilters) {
