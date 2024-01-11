@@ -216,7 +216,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     (props.car.gearBox ?? 0),
                 costDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
                 fileName: (imageUrl !== null)? imageUrl : props.car.carImage,
-                file: image // Вы должны обработать изображение здесь
+                //file: image // Вы должны обработать изображение здесь
             };
     
             setLocalFilters(updatedFilters);
@@ -239,19 +239,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         console.error('Ошибка создания автомобиля:', error);
       }
         };
-
-
-        const handleKeyPress = useCallback((event: any) => {
-            if (event.key === 'Escape') {
-              handleClose();
-            }
-          }, [handleClose]);
-          useEffect(() => {
-            document.addEventListener('keydown', handleKeyPress);
-            return () => {
-              document.removeEventListener('keydown', handleKeyPress);
-            };
-          }, [handleKeyPress]);
   
 
   return (

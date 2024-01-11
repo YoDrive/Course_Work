@@ -7,5 +7,5 @@ export interface CarUpdated{
     gearBox: number,
     costDay: number,
     fileName?: string
-    file: File|undefined
+    //file: File|undefined
 }

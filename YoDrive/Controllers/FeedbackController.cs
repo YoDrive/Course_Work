@@ -82,7 +82,9 @@ public class FeedbackController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("createFeedback", Name = nameof(CreateFeedback))]
+
+    [HttpPost("CreateFeedback")]
+
     public async Task<IActionResult> CreateFeedback(FeedbackAddDto dto)
     {
         try

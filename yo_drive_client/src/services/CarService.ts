@@ -30,11 +30,7 @@ export default class CarService {
           }}
     static async updateCar(data: CarUpdated): Promise<AxiosResponse<CarUpdated>> {
         try {
-            return await axiosInstance.put<CarUpdated>('/api/Car/UpdateCar', data, {
-                headers: {
-                   'Content-Type': 'multipart/form-data'
-                }
-            });
+            return await axiosInstance.put<CarUpdated>('/api/Car/UpdateCar', data);
         } catch (error) {
             console.error('Error updating car:', error);
                 throw error;
