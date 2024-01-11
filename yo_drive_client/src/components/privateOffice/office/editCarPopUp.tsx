@@ -228,7 +228,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         setLocalFilters(filters);
     }, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay, image,]);
     
-    console.log(localFilters);
   const handleSave = async () => {
     try {
       if (localFilters) {
