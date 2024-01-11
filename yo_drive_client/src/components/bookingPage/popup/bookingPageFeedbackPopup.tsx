@@ -113,6 +113,24 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
             </p>
         </li>
     );
+    const getFeedbackText = (count:number) => {
+        const lastDigit = count % 10;
+        const lastTwoDigits = count % 100;
+    
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+            return 'оценок'; 
+        }
+    
+        if (lastDigit === 1) {
+            return 'оценки'; 
+        }
+    
+        if (lastDigit >= 2 && lastDigit <= 4) {
+            return 'оценок'; 
+        }
+    
+        return 'оценок'; 
+    };
 
     return (
         car == undefined ?
@@ -130,8 +148,7 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                             <p className={styles.totalRatingNum}>{car.rating.toFixed(1)}</p>
                             <Rating className={styles.totalRatingStars} size={32} readonly initialValue={car.rating}
                                     fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                            <p className={styles.totalRatingText}>на
-                                основании {car.feedbackCount} оценок</p>
+                            <p className={styles.totalRatingText}>на основании {car.feedbackCount} {getFeedbackText(car.feedbackCount)}</p>
                         </div>
                         <div className={styles.starRatingChartContainer}>
                             <div className={styles.starRatingChart}>

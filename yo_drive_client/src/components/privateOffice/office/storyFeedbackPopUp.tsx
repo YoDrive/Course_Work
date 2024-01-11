@@ -10,17 +10,6 @@ interface FeedbackPopupProps {
   
   const StoryFeedbackPopup: FunctionComponent<FeedbackPopupProps> = (props) => {
     const {isOpen, handleClose, content, booking} = props;
-    const handleKeyPress = useCallback((event: any) => {
-      if (event.key === 'Escape') {
-        handleClose();
-      }
-    }, [handleClose]);
-    useEffect(() => {
-      document.addEventListener('keydown', handleKeyPress);
-      return () => {
-        document.removeEventListener('keydown', handleKeyPress);
-      };
-    }, [handleKeyPress]);
   
     return (   
         <div className={styles.popupBox} style={{ display: isOpen ? "block" : "none" }}>

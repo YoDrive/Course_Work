@@ -19,7 +19,7 @@ const StoryBlock: React.FC<monthProps> = (props) => {
     const [feedback, setFeedback] = useState("");
     const [rating, setRating] = useState(0);
     const [ratingUpd, setRatingUpd] = useState<number>();
-    const [feedbackUpd, setFeedbackUpd] = useState(undefined);
+    const [feedbackUpd, setFeedbackUpd] = useState('');
     const setRatingDef= (rate: number) =>{
         setRatingUpd(rate);
     }
@@ -69,6 +69,14 @@ const StoryBlock: React.FC<monthProps> = (props) => {
         if (feedbackTextarea instanceof HTMLTextAreaElement) {
             feedbackTextarea.value = '';
           }
+    }
+    const resFieldEdit = (rentId: number, defaultResponse: string, defaultRating: number) => {
+        setRatingUpd(defaultRating);
+        setFeedbackUpd(defaultResponse);
+        const feedbackTextarea = document.getElementById(`feedbackTextarea2_${rentId}`);
+        if (feedbackTextarea instanceof HTMLTextAreaElement) {
+            feedbackTextarea.value = defaultResponse;
+        }
     }
     const [feedbackId, setFeedbackId] = useState<number>(0);
     const handleSubmit = async () => {
@@ -135,7 +143,7 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                      onClick={() => toggleFeedbackPopup(rent.rentId)}></img>
             </div>
             <div>
-                <StoryFeedbackPopup booking={rent} handleClose={() => toggleFeedbackPopup(rent.rentId)}
+                <StoryFeedbackPopup booking={rent} handleClose={() => {toggleFeedbackPopup(rent.rentId);setRatingUpd(0)}}
                                     isOpen={openBookingId === rent.rentId  } content={
                                         !rent.feedback ? ( <div className={styles.popup}>
                         <div className={styles.popupHead}>
@@ -175,13 +183,13 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                             </div>
                         </div>
                     <div className={styles.rating}>{ratingUpd ? (ratingUpd).toFixed(1) : (rent.feedback.stars).toFixed(1)}</div>
-                        <Rating className={styles.starRating}  initialValue={rent.feedback.stars} onClick={handleRatingUpd} size={36} fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
+                        <Rating className={styles.starRating}  initialValue={ratingUpd ? (ratingUpd) : (rent.feedback.stars)} onClick={handleRatingUpd} size={36} fillColor="#CCB746" emptyColor="#D9D9D9" SVGstrokeColor="#CCB746" SVGstorkeWidth={1}/>
                     </div>
                     <form className={styles.popUpForm}>
-                        <textarea className={styles.formInput}  id="feedbackTextarea" defaultValue={rent.feedback.response} onChange={handleFeedbackUpd}  placeholder='Оставить отзыв...'/>
+                        <textarea className={styles.formInput}  id={`feedbackTextarea2_${rent.rentId}`} defaultValue={rent.feedback.response} onChange={handleFeedbackUpd}  placeholder='Оставить отзыв...'/>
                     </form>
                     <div className={styles.popUpBtns}>
-                        <button className={styles.btnReset} onClick={resField}>Отменить</button>
+                        <button className={styles.btnReset} onClick={() => resFieldEdit(rent.rentId, rent.feedback.response, rent.feedback.stars)}>Отменить</button>
                         <button className={styles.btnSubmit} onMouseOverCapture={()=>setFeedbackId(rent.feedback.feedbackId)} onMouseOver={() => {
                             if (ratingUpd == null) {
                                 setRatingDef(rent.feedback?.stars || 0);
