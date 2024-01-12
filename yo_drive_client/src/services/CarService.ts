@@ -26,11 +26,12 @@ export default class CarService {
             });
           } catch (error) {
             console.error('Error creating car:', error);
-            throw error; // Перебросьте ошибку после обработки
+            throw error; 
           }}
     static async updateCar(data: CarUpdated): Promise<AxiosResponse<CarUpdated>> {
         try {
-            return await axiosInstance.put<CarUpdated>('/api/Car/UpdateCar', data);
+            return await axiosInstance.put<CarUpdated>('/api/Car/UpdateCar', data
+            );
         } catch (error) {
             console.error('Error updating car:', error);
                 throw error;

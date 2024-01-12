@@ -18,7 +18,7 @@ const StoryBlock: React.FC<monthProps> = (props) => {
     const [openBookingId, setOpenBookingId] = useState<number | null>(null);
     const [feedback, setFeedback] = useState("");
     const [rating, setRating] = useState(0);
-    const [ratingUpd, setRatingUpd] = useState<number>();
+    const [ratingUpd, setRatingUpd] = useState<number|null>();
     const [feedbackUpd, setFeedbackUpd] = useState('');
     const setRatingDef= (rate: number) =>{
         setRatingUpd(rate);
@@ -112,8 +112,8 @@ const StoryBlock: React.FC<monthProps> = (props) => {
             );
       
               setOpenBookingId(null);
-              setRating(0);
-              setFeedback('');
+              setRatingUpd(undefined);
+              setFeedbackUpd('');
               alert("Отзыв отправлен, спасибо за обратную связь!")
           } catch (error) {
             console.error('Ошибка при отправке отзыва:', error);
@@ -143,7 +143,7 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                      onClick={() => toggleFeedbackPopup(rent.rentId)}></img>
             </div>
             <div>
-                <StoryFeedbackPopup booking={rent} handleClose={() => {toggleFeedbackPopup(rent.rentId);setRatingUpd(0)}}
+                <StoryFeedbackPopup booking={rent} handleClose={() => {toggleFeedbackPopup(rent.rentId);setRatingUpd(undefined);setFeedbackUpd("")}}
                                     isOpen={openBookingId === rent.rentId  } content={
                                         !rent.feedback ? ( <div className={styles.popup}>
                         <div className={styles.popupHead}>
@@ -190,11 +190,11 @@ const StoryBlock: React.FC<monthProps> = (props) => {
                     </form>
                     <div className={styles.popUpBtns}>
                         <button className={styles.btnReset} onClick={() => resFieldEdit(rent.rentId, rent.feedback.response, rent.feedback.stars)}>Отменить</button>
-                        <button className={styles.btnSubmit} onMouseOverCapture={()=>setFeedbackId(rent.feedback.feedbackId)} onMouseOver={() => {
+                        <button className={styles.btnSubmit} onMouseDownCapture={()=>setFeedbackId(rent.feedback.feedbackId)} onMouseDown={() => {
                             if (ratingUpd == null) {
-                                setRatingDef(rent.feedback?.stars || 0);
+                                setRatingDef(rent.feedback.stars);
                             }
-                            if (feedbackUpd == null) {setFeedbackDef(rent.feedback?.response || '');
+                            if (feedbackUpd == "") {setFeedbackDef(rent.feedback.response);
                             }
                             }}  onClick={handleSubmitUpdate}>Редактировать</button>
                     </div>

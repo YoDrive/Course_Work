@@ -110,7 +110,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         setImageUrl(file.name);
         const file1 = event.target.files[0];
         setImage(file1);
-        console.log(file1);
     };
 
     const resFields = ()=>{
@@ -216,7 +215,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     (props.car.gearBox ?? 0),
                 costDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
                 fileName: (imageUrl !== null)? imageUrl : props.car.carImage,
-                //file: image // Вы должны обработать изображение здесь
+                file: image // Вы должны обработать изображение здесь
             };
     
             setLocalFilters(updatedFilters);

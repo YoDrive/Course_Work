@@ -107,7 +107,7 @@ export function Add(){
             0,
         CostDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) :  0,
         Image: image, 
-        CarImage: imageUrl// Вы должны обработать изображение здесь
+        CarImage: imageUrl
     };
 
       return CarModel;

@@ -9,5 +9,5 @@ export interface FeedbackModel {
 export interface FeedbackUpdateModel {
     FeedbackId: number;
     Response?: string;
-    Stars?: number;
+    Stars?: number|null;
 }
