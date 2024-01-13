@@ -41,7 +41,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         setCostDay(null);
         setYear(null);
         setImage(undefined);
-        setImageUrl(undefined);
         props.handleClose();
     };
 
@@ -116,17 +115,14 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     };
     const [brands, setBrands] = useState<CarBrand[] | undefined>([]);
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [image, setImage] = useState<File>();
-    const [imageUrl, setImageUrl] = useState<string | undefined>()
+    const [image, setImage] = useState<File|undefined>(undefined)
 
     const handleImageClick = () => {
         inputRef.current?.focus();
     }
     const handleImageChange = (event: any) => {
         const file = event.target.files[0];
-        setImageUrl(file.name);
-        const file1 = event.target.files[0];
-        setImage(file1);
+        setImage(file);
     };
 
     const resFields = () => {
@@ -269,14 +265,14 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     <form className={styles.addForm}>
                         <div className={styles.blockImg} onClick={handleImageClick}>
                             <div className={styles.imgSpace}>
-                                {image ? <img src={URL.createObjectURL(image)}
+                                {/* {image ? <img src={URL.createObjectURL(image)}
                                               style={{width: "100%", height: "100%", objectFit: "contain"}}/> :
-                                    <img className={styles.spaceIcon} src={space}></img>}
-                                {/* {image && <img className={styles.img}
+                                    <img className={styles.spaceIcon} src={space}></img>} */}
+                                {image ? <img className={styles.img}
                                  src={URL.createObjectURL(image)}
-    />} */}
-                                {/* // :<img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`}
-                    // alt={`${car.carModel.modelName}`}></img>} */}
+    />
+                                 :<img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`}
+                     alt={`${car.carModel.modelName}`}></img>}
                             </div>
                             <div className={styles.itemInp}>
                                 <input type="file" accept=".png" id="Image"
