@@ -61,7 +61,6 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
             }
         }
 
-        // Выполняем запрос только при открытии попапа
         if (isOpen) {
             fetchFeedback();
         }
@@ -87,7 +86,7 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
             break;
         }
         console.log(selectedSortTextPopup);
-        toggleSortOrder(); // Move toggleSortOrder after setting the selected sort text
+        toggleSortOrder(); 
         setPopupListExpanded(false);
       };
 
@@ -230,7 +229,7 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                                             value="default"
                                             className={styles.dropBtn}
                                             checked={selectedSort === 'default'}
-                                            onChange={() => onSubmitPopupList('default')} // You can handle 'default' case if needed
+                                            onChange={() => onSubmitPopupList('default')} 
                                         />
                                         <p className={styles.btnText}>По умолчанию</p>
                                     </label>
