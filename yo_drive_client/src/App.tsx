@@ -9,7 +9,6 @@ import AuthorizationPage from "./components/authorization/login";
 import {observer} from "mobx-react-lite";
 import Registration from './components/registration/registration';
 import BookingPage from './components/bookingPage/bookingPage';
-import Store from "./store/Store";
 import {useStore} from "./index";
 
 function App() {
