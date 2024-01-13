@@ -126,7 +126,6 @@
   transition-property: height;
   transition-duration: 150ms;
   overflow: hidden;
-  border-radius: 4px;
 }
 
 .dropMenuPopup {
@@ -233,4 +232,22 @@ input[type='range']::-webkit-slider-thumb {
   margin-top: 12px;
   padding-right: 2px;
   opacity: 0.8;
+}
+.dropMenu{
+    background-color: #D9D9D9;
+    width: 190px;
+    border: none;
+}
+.btnText{
+    font-size: 20px;
+    color: #212528;
+    height: 40px;
+    border: 1px solid #212528;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 5px 0 0 10px;
+}
+.dropBtn {
+  display: none;
 }
