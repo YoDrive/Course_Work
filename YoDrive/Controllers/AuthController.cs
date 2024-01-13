@@ -65,9 +65,6 @@ public class AuthController : ControllerBase
         {
             return userId;
         }
-        
-        var allClaimsPrincipal = HttpContext.User.Claims.Select(c => $"{c.Type}: {c.Value}");
-        Console.WriteLine("All Claims Principal: " + string.Join(", ", allClaimsPrincipal));
 
         return -1;
     }

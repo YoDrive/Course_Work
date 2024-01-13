@@ -205,8 +205,8 @@ public class CarRepository : ICarRepository
         .ThenInclude(_ => _.Feedback)
         .IgnoreQueryFilters()
         .Where(_ => !_.IsDeleted
-                    && (request.Filter.StartDate == null || _.Rents.Any(_ => _.EndDate < request.Filter.StartDate))
-                    && (request.Filter.EndDate == null || _.Rents.Any(_ => _.StartDate > request.Filter.EndDate))
+                    && (request.Filter.StartDate == null || _.Rents.Count == 0 || _.Rents.Any(_ => _.EndDate < request.Filter.StartDate))
+                    && (request.Filter.EndDate == null || _.Rents.Count == 0 || _.Rents.Any(_ => _.StartDate > request.Filter.EndDate))
                     && (request.Filter.MinCostDay == null || request.Filter.MinCostDay <= _.CostDay)
                     && (request.Filter.MaxCostDay == null || request.Filter.MaxCostDay >= _.CostDay)
                     && (request.Filter.GearBox == null || request.Filter.GearBox == _.GearBox)
@@ -215,7 +215,7 @@ public class CarRepository : ICarRepository
                     && (request.Filter.FilialId == null || request.Filter.FilialId.Contains(_.FilialId))
                     && (request.Filter.ClassId == null || request.Filter.ClassId.Contains(_.ClassId)))
         .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
-        .AsEnumerable(); ;
+        .AsQueryable();
 
         if (request.Sort != null)
         {
