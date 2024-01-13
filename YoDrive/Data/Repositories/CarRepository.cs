@@ -215,7 +215,7 @@ public class CarRepository : ICarRepository
                     && (request.Filter.FilialId == null || request.Filter.FilialId.Contains(_.FilialId))
                     && (request.Filter.ClassId == null || request.Filter.ClassId.Contains(_.ClassId)))
         .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
-        .AsQueryable();
+        .AsEnumerable();
 
         if (request.Sort != null)
         {
