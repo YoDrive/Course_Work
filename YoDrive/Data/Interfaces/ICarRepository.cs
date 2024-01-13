@@ -7,7 +7,7 @@ public interface ICarRepository
 {
     Task<IEnumerable<CarReadDto>> GetAllCars();
     Task<CarReadDto> GetCarById(int id);
-    Task<CarReadDto> CreateCar(CarAddDto dto, IFormFile? file);
+    Task<CarReadDto> CreateCar(CarAddDto dto);
     Task<CarReadDto> UpdateCar(CarUpdateDto dto, IFormFile? file);
     Task<bool> DeleteCar(int id);
     Task<IEnumerable<CarReadDto>> GetCarsByFilter(Filter filters);

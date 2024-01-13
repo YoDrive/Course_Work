@@ -52,7 +52,7 @@ public class CarRepository : ICarRepository
             .Include(_ => _.CarClass)
             .Include(_ => _.Rents)
             .ThenInclude(_ => _.Feedback)
-            .FirstOrDefaultAsync(_ => _.CarId == id); 
+            .FirstOrDefaultAsync(_ => _.CarId == id);
 
         if (car == null)
             throw new Exception($"Автомобиль с Id {id} не найден");
@@ -62,13 +62,15 @@ public class CarRepository : ICarRepository
         return response;
     }
 
-    public async Task<CarReadDto> CreateCar(CarAddDto dto, IFormFile? file)
+    public async Task<CarReadDto> CreateCar(CarAddDto dto)
     {
-        if(file != null) 
+        string fileName = null;
+        
+        if (dto.Image != null) 
         { 
             var currentDirectory = Directory.GetCurrentDirectory();
             var folderPath = Path.Combine(currentDirectory, "../yo_drive_store/Cars");
-            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            fileName = Guid.NewGuid() + dto.Image.FileName;
             var filePath = Path.Combine(folderPath, fileName);
 
             if (!Directory.Exists(folderPath))
@@ -76,19 +78,19 @@ public class CarRepository : ICarRepository
                 Directory.CreateDirectory(folderPath);
             }
             
-            if (file.Length > 0)
+            if (dto.Image.Length > 0)
             {
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    await file.CopyToAsync(stream);
+                    await dto.Image.CopyToAsync(stream);
                 }
             }
-            dto.CarImage = fileName;
         }
+        
         var entity = new Car()
         {
             IsDeleted = false,
-            CarImage = dto.CarImage,
+            CarImage = fileName,
             ClassId = dto.ClassId,
             FilialId = dto.FilialId,
             Year = dto.Year,

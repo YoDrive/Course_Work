@@ -106,8 +106,7 @@ export function Add(){
             selectedTransmission === 1 ? GearBoxEnum["Механическая"] :
             0,
         CostDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) :  0,
-        Image: image, 
-        CarImage: imageUrl
+        Image: image
     };
 
       return CarModel;
@@ -124,7 +123,7 @@ export function Add(){
     } catch (error) {
         console.error('Ошибка создания автомобиля:', error);
       }
-        };
+  };
   
 
     return(

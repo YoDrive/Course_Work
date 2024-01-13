@@ -4,6 +4,7 @@ import {CarBrand, CarClass, CarViewModel, Filial} from "../models/Booking/CarBoo
 import { CarAdd, CarModel } from "../models/Add/Add.model";
 import { Filter } from "../models/Booking/FilterBookingModel";
 import { CarUpdated } from "../models/Add/UpdateCar.model";
+import header from "../components/header/header";
 
 export default class CarService {
     static async DeleteCar(carId: number): Promise<AxiosResponse<boolean>> {
@@ -30,8 +31,7 @@ export default class CarService {
           }}
     static async updateCar(data: CarUpdated): Promise<AxiosResponse<CarUpdated>> {
         try {
-            return await axiosInstance.put<CarUpdated>('/api/Car/UpdateCar', data
-            );
+            return await axiosInstance.post<CarUpdated>('/api/Car/UpdateCar', data);
         } catch (error) {
             console.error('Error updating car:', error);
                 throw error;

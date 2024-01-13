@@ -6,8 +6,7 @@ export interface CarAdd {
     Year: number;
     GearBox: GearBoxEnum;
     CostDay: number;
-    CarImage?: string;
-    Image?: File| undefined;
+    Image?: File;
 }
 
 export interface CarModel {
