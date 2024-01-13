@@ -6,6 +6,7 @@ import { Select , SelectProps, DatePicker, Input} from 'antd';
 import { GearBoxEnum } from "../../../models/CarModel";
 import CarService from "../../../services/CarService";
 import { CarUpdated } from "../../../models/Add/UpdateCar.model";
+import space from "../../../assets/space.svg"
 
 interface PopupProps {
   handleClose: () => void;
@@ -97,9 +98,9 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         const transm = event.target.value;
         setSelectedTransmission(parseInt(transm, 10));
     };
-  const [brands, setBrands]= useState<CarBrand[]|undefined>([]);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [image, setImage] = useState<File>();
+    const [brands, setBrands]= useState<CarBrand[]|undefined>([]);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const [image, setImage] = useState<File>();
     const [imageUrl, setImageUrl] = useState<string|undefined>()
 
     const handleImageClick = () =>{
@@ -204,18 +205,17 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     useEffect(() => {
         const createCarFilter = (): CarUpdated => {
             const updatedFilters: CarUpdated = {
-                carId: carId,
-                modelId: (selectedModel !== null && !isNaN(Number(selectedModel))) ? Number(selectedModel) : (props.car.carModel.carModelId ?? 0),
-                classId: (selectedCarClass !== null && !isNaN(Number(selectedCarClass))) ? Number(selectedCarClass) : (props.car.carClass.carClassId ?? 0),
-                filialId:(selectedFilial !== null && !isNaN(Number(selectedFilial))) ? Number(selectedFilial) : (props.car.filial.filialId ?? 0),
+                CarId: carId,
+                ModelId: (selectedModel !== null && !isNaN(Number(selectedModel))) ? Number(selectedModel) : (props.car.carModel.carModelId ?? 0),
+                ClassId: (selectedCarClass !== null && !isNaN(Number(selectedCarClass))) ? Number(selectedCarClass) : (props.car.carClass.carClassId ?? 0),
+                FilialId:(selectedFilial !== null && !isNaN(Number(selectedFilial))) ? Number(selectedFilial) : (props.car.filial.filialId ?? 0),
 
-                year: (year !== null && !isNaN(Number(year))) ? Number(year) : (props.car.year ?? 0),
-                gearBox:  selectedTransmission === 0 ? GearBoxEnum["Автоматическая"] :
+                Year: (year !== null && !isNaN(Number(year))) ? Number(year) : (props.car.year ?? 0),
+                GearBox:  selectedTransmission === 0 ? GearBoxEnum["Автоматическая"] :
                     selectedTransmission === 1 ? GearBoxEnum["Механическая"] :
                     (props.car.gearBox ?? 0),
-                costDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
-                fileName: (imageUrl !== null)? imageUrl : props.car.carImage,
-                file: image
+                CostDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
+                CarImage: image 
             };
     
             setLocalFilters(updatedFilters);
@@ -248,10 +248,12 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     <form className={styles.addForm}>
                         <div className={styles.blockImg} onClick={handleImageClick}>
                             <div className={styles.imgSpace}>
-                                {image ? <img className={styles.img}
-                                // src={URL.createObjectURL(image)}
-                                 />:<img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`}
-                    alt={`${car.carModel.modelName}`}></img>}
+                            {image ? <img src={URL.createObjectURL(image)} style={{width: "100%", height:"100%", objectFit:"contain"}} />:<img className={styles.spaceIcon} src={space}></img>}
+                               {/* {image && <img className={styles.img}
+                                 src={URL.createObjectURL(image)}
+    />} */}
+    {/* // :<img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`}
+                    // alt={`${car.carModel.modelName}`}></img>} */}
                             </div>
                             <div className={styles.itemInp}>
                              <input type="file" accept=".png" id="Image" 

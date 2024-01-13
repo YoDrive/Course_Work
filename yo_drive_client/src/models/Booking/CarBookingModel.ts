@@ -32,7 +32,7 @@ export interface CarViewModel {
     gearBox: GearBoxEnum;
     costDay: number;
     carImage?: string;
-    image?: Uint8Array | null;
+    image?: File;
     rating: number;
 }
 
