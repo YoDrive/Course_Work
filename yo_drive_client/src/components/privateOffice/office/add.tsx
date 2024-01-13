@@ -32,7 +32,6 @@ export function Add(){
     }, []);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [image, setImage] = useState<File|undefined>(undefined)
-    const [imageUrl, setImageUrl] = useState<string|undefined>(undefined)
 
     const handleImageClick = () =>{
         inputRef.current?.focus();
@@ -40,7 +39,6 @@ export function Add(){
     const handleImageChange = (event:any) =>{
         const file = event.target.files[0];
         setImage(file);
-        setImageUrl(file.name);
     }
     const [selectedBrand, setSelectedBrand] = useState<number| null>(null);
     const [selectedModel, setSelectedModel] = useState<number | null>(null);

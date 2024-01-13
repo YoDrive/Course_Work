@@ -4,6 +4,7 @@ import styles from './office.module.css';
 import {UserModel} from "../../../models/User/UserModel";
 import UserService from "../../../services/UserService";
 import {UserUpdateModel} from "../../../models/User/UserUpdateModel";
+import LkService from '../../../services/lkService';
 
 interface Props {
     user: UserModel;
@@ -52,7 +53,27 @@ export function Data(props: Props) {
             console.error('Ошибка при обновлении данных:', error);
         }
     }
+    const [image, setImage] = useState<FormData>()
 
+    const setUserPhoto = (event: any) => {
+        const img = event.target.files[0];
+        const formData = new FormData();
+        formData.append('file', img);
+        setImage(formData);
+        console.log(formData);
+    }
+
+    const handleSave = async () => {
+        try {
+            if (image) {
+                await UserService.updateUserPhoto(props.user.userId, image);
+                alert("Фото успешно обновлено");
+            }
+        } catch (error) {
+            console.error('Ошибка при обновлении фото:', error);
+            alert("Ошибка при обновлении фото");
+        }
+    };
     return (
         <div className={styles.info}>
             <h1 className={styles.infoHeader}>Мои данные</h1>
@@ -94,8 +115,8 @@ export function Data(props: Props) {
                 {form &&
                     <button className={styles.buttonEdit} onClick={handleSubmit(onSubmit)}>Сохранить данные</button>}
                 <label htmlFor="userImg"   className={styles.buttonImg}>Загрузить изображение</label>
-                <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}></input>
-                <button className={styles.buttonDelete}>Удалить аккаунт</button>
+                <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon} onChange={setUserPhoto}></input>
+                <button className={styles.buttonDelete} onClick={handleSave}>Удалить аккаунт</button>
             </div>
         </div>
     )
