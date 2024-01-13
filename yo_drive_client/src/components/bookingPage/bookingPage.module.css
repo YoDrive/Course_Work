@@ -69,7 +69,6 @@
     transition-property: height;
     transition-duration: 250ms;
     overflow: hidden;
-    height: 100%;
 }
 
 .dropMenu {
@@ -109,4 +108,13 @@
     padding: 44px 0;
     background-color: #D9D9D9;
     border-radius: 2px;
+}
+.listItemsEmpty{
+    font-family: Montserrat;
+    font-size: 30px;
+    color: #D9D9D9;
+    width:auto;
+    height: 180px;
+    text-align: center;
+    margin-top: 55px;
 }

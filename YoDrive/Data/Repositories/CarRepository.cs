@@ -62,27 +62,29 @@ public class CarRepository : ICarRepository
         return response;
     }
 
-    public async Task<CarReadDto> CreateCar(CarAddDto dto, IFormFile file)
+    public async Task<CarReadDto> CreateCar(CarAddDto dto, IFormFile? file)
     {
-        var currentDirectory = Directory.GetCurrentDirectory();
-        var folderPath = Path.Combine(currentDirectory, "../yo_drive_store/Cars");
-        var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-        var filePath = Path.Combine(folderPath, fileName);
+        if(file != null) 
+        { 
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var folderPath = Path.Combine(currentDirectory, "../yo_drive_store/Cars");
+            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(folderPath, fileName);
 
-        if (!Directory.Exists(folderPath))
-        {
-            Directory.CreateDirectory(folderPath);
-        }
-            
-        if (file.Length > 0)
-        {
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            if (!Directory.Exists(folderPath))
             {
-                await file.CopyToAsync(stream);
+                Directory.CreateDirectory(folderPath);
             }
+            
+            if (file.Length > 0)
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+            dto.CarImage = fileName;
         }
-        dto.CarImage = fileName;
-        
         var entity = new Car()
         {
             IsDeleted = false,
@@ -104,12 +106,34 @@ public class CarRepository : ICarRepository
         return response;
     }
 
-    public async Task<CarReadDto> UpdateCar(CarUpdateDto dto)
+    public async Task<CarReadDto> UpdateCar(CarUpdateDto dto, IFormFile? file)
     {
         var car = _db.Car.FirstOrDefault(_ => _.CarId == dto.CarId);
 
         if (car == null)
             throw new KeyNotFoundException($"Автомобиль с Id {dto.CarId} не найден");
+
+        if (file != null)
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var folderPath = Path.Combine(currentDirectory, "../yo_drive_store/Cars");
+            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(folderPath, fileName);
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            if (file.Length > 0)
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+            dto.CarImage = fileName;
+        }
 
         car.IsDeleted = false;
         car.CarImage = dto.CarImage;
@@ -117,6 +141,7 @@ public class CarRepository : ICarRepository
         car.FilialId = dto.FilialId;
         car.ModelId = dto.ModelId;
         car.Year = dto.Year;
+        car.CostDay = dto.CostDay;
         car.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
                        throw new Exception("Модель не найдена");
         car.CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ??
@@ -153,7 +178,8 @@ public class CarRepository : ICarRepository
             .Include(_ => _.Rents)
             .ThenInclude(_ => _.Feedback)
             .IgnoreQueryFilters()
-            .Where(_ => (request.StartDate == null || _.Rents.Any(_ => _.EndDate < request.StartDate))
+            .Where(_ => !_.IsDeleted
+                        && (request.StartDate == null || _.Rents.Any(_ => _.EndDate < request.StartDate))
                         && (request.EndDate == null || _.Rents.Any(_ => _.StartDate > request.EndDate))
                         && (request.MinCostDay == null || request.MinCostDay <= _.CostDay)
                         && (request.MaxCostDay == null || request.MaxCostDay >= _.CostDay)
@@ -167,27 +193,29 @@ public class CarRepository : ICarRepository
         return response;
     }
 
+
     public async Task<CarResponsePage> GetCarsByPage(CarRequestDto request)
     {
         var cars = _db.Car
-            .Include(_ => _.CarModel)
-                .ThenInclude(_ => _.CarBrand)
-            .Include(_ => _.Filial)
-            .Include(_ => _.CarClass)
-            .Include(_ => _.Rents)
-                .ThenInclude(_ => _.Feedback)
-            .IgnoreQueryFilters()
-            .Where(_ => (request.Filter.StartDate == null || _.Rents.Any(_ => _.EndDate < request.Filter.StartDate))
-                        && (request.Filter.EndDate == null || _.Rents.Any(_ => _.StartDate > request.Filter.EndDate))
-                        && (request.Filter.MinCostDay == null || request.Filter.MinCostDay <= _.CostDay)
-                        && (request.Filter.MaxCostDay == null || request.Filter.MaxCostDay >= _.CostDay)
-                        && (request.Filter.GearBox == null || request.Filter.GearBox == _.GearBox)
-                        && (request.Filter.CarBrandId == null || request.Filter.CarBrandId.Contains(_.CarModel.CarBrandId))
-                        && (request.Filter.ModelId == null || request.Filter.ModelId.Contains(_.ModelId))
-                        && (request.Filter.FilialId == null || request.Filter.FilialId.Contains(_.FilialId))
-                        && (request.Filter.ClassId == null || request.Filter.ClassId.Contains(_.ClassId)))
-            .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
-            .AsEnumerable();
+        .Include(_ => _.CarModel)
+        .ThenInclude(_ => _.CarBrand)
+        .Include(_ => _.Filial)
+        .Include(_ => _.CarClass)
+        .Include(_ => _.Rents)
+        .ThenInclude(_ => _.Feedback)
+        .IgnoreQueryFilters()
+        .Where(_ => !_.IsDeleted
+                    && (request.Filter.StartDate == null || _.Rents.Any(_ => _.EndDate < request.Filter.StartDate))
+                    && (request.Filter.EndDate == null || _.Rents.Any(_ => _.StartDate > request.Filter.EndDate))
+                    && (request.Filter.MinCostDay == null || request.Filter.MinCostDay <= _.CostDay)
+                    && (request.Filter.MaxCostDay == null || request.Filter.MaxCostDay >= _.CostDay)
+                    && (request.Filter.GearBox == null || request.Filter.GearBox == _.GearBox)
+                    && (request.Filter.CarBrandId == null || request.Filter.CarBrandId.Contains(_.CarModel.CarBrandId))
+                    && (request.Filter.ModelId == null || request.Filter.ModelId.Contains(_.ModelId))
+                    && (request.Filter.FilialId == null || request.Filter.FilialId.Contains(_.FilialId))
+                    && (request.Filter.ClassId == null || request.Filter.ClassId.Contains(_.ClassId)))
+        .ProjectTo<CarReadDto>(_mapper.ConfigurationProvider)
+        .AsEnumerable(); ;
 
         if (request.Sort != null)
         {
