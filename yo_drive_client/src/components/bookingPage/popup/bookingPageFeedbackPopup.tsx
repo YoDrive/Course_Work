@@ -9,7 +9,6 @@ import emptyImageCar from "../../../assets/emptyImageCar.png";
 import rowsPopup from "../../../assets/rowsPopu.svg";
 import popupGalOpen from "../../../assets/popupSort.svg"
 import popupGalClose from "../../../assets/popupSortClose.svg"
-import {useForm} from "react-hook-form";
 import CarService from "../../../services/CarService";
 import FeedbackService from "../../../services/FeedbackService";
 
@@ -62,7 +61,6 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
             }
         }
 
-        // Выполняем запрос только при открытии попапа
         if (isOpen) {
             fetchFeedback();
         }
@@ -72,35 +70,52 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
         setPopupListExpanded(!isPopupListExpanded);
     };
 
-    const {
-        register,
-        handleSubmit,
-    } = useForm({
-        mode: "onBlur"
-    });
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-    const onSubmitPopupList = (data: any) => {
-        switch (data.sortType) {
-            case 'rating':
-                setSelectedSortTextPopup('По рейтингу');
-                break;
-            case 'date':
-                setSelectedSortTextPopup('По дате');
-                break;
-            default:
-                setSelectedSortTextPopup('Сортировка');
-                break;
+    const onSubmitPopupList =(selectedValue: string)=> {
+      
+        switch (selectedValue) {
+          case 'rating':
+            setSelectedSortTextPopup('По рейтингу');
+            break;
+          case 'date':
+            setSelectedSortTextPopup('По дате');
+            break;
+          default:
+            setSelectedSortTextPopup('Сортировка');
+            break;
         }
+        console.log(selectedSortTextPopup);
+        toggleSortOrder(); 
         setPopupListExpanded(false);
+      };
+
+    const toggleSortOrder = () => {
+        setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
     };
 
     const sortOptions = [
-        {label: 'По умолчанию', value: 'startState'},
-        {label: 'По рейтингу', value: 'rating'},
-        {label: 'По дате', value: 'date'},
+        { label: 'По умолчанию', value: 'startState' },
+        { label: 'По рейтингу', value: 'rating' },
+        { label: 'По дате', value: 'date' },
     ];
 
-    const feedbackList = feedbacks?.map((feedback) =>
+    const sortedFeedbacks = feedbacks?.slice();
+
+    sortedFeedbacks?.sort((a, b) => {
+    const orderMultiplier = sortOrder === 'asc' ? 1 : -1;
+
+    switch (selectedSortTextPopup) {
+        case 'По рейтингу':
+        return orderMultiplier * (b.stars - a.stars);
+        case 'По дате':
+        return orderMultiplier * (new Date(b.feedbackDate).getTime() - new Date(a.feedbackDate).getTime());
+        default:
+        return 0;
+    }
+    });
+    
+    const feedbackList = sortedFeedbacks?.map((feedback) =>
         <li key={feedback.feedbackId} className={styles.rewiewCard}>
             <div className={styles.rewiewData}>
                 <p className={styles.rewiewName}>{feedback.userName}</p>
@@ -108,11 +123,29 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                         fillColor="#CCB746" emptyColor="#BDBCB4"/>
                 <p className={styles.rewiewDate}>{formattedDate(new Date(feedback.feedbackDate))}</p>
             </div>
-            <p className={styles.rewiewText}>
-                {feedback.response}
+            <p className={feedback.response.length > 0 ? styles.rewiewText : styles.rewiewTextEmpty}>
+                {feedback.response.length > 0 ? feedback.response : 'Пользователь оставил только оценку..'}
             </p>
         </li>
     );
+    const getFeedbackText = (count:number) => {
+        const lastDigit = count % 10;
+        const lastTwoDigits = count % 100;
+    
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+            return 'оценок'; 
+        }
+    
+        if (lastDigit === 1) {
+            return 'оценки'; 
+        }
+    
+        if (lastDigit >= 2 && lastDigit <= 4) {
+            return 'оценок'; 
+        }
+    
+        return 'оценок'; 
+    };
 
     return (
         car == undefined ?
@@ -127,11 +160,10 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                     <p className={styles.popupTitle}>Отзывы</p>
                     <div>
                         <div className={styles.totalRating}>
-                            <p className={styles.totalRatingNum}>{car.rating}</p>
-                            <Rating className={styles.totalRatingStars} size={32} readonly initialValue={4}
+                            <p className={styles.totalRatingNum}>{car.rating.toFixed(1)}</p>
+                            <Rating className={styles.totalRatingStars} size={32} readonly initialValue={car.rating}
                                     fillColor="#CCB746" emptyColor="#BDBCB4"/>
-                            <p className={styles.totalRatingText}>на
-                                основании {car.feedbackCount} оценок</p>
+                            <p className={styles.totalRatingText}>на основании {car.feedbackCount} {getFeedbackText(car.feedbackCount)}</p>
                         </div>
                         <div className={styles.starRatingChartContainer}>
                             <div className={styles.starRatingChart}>
@@ -179,12 +211,11 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                                 />
                             )}
                             {car == undefined || !car.image &&
-                                <img src={emptyImageCar} width={'452px'} height={'194px'}/>}
+                                <img src={emptyImageCar} width={'345px'} height={'147px'}/>}
                         </div>
                         <div className={styles.rewiew}>
                             <form className={styles.rewiewSort}
-                                  onClick={() => (isPopupListExpanded === false) && (selectedSort === popupGalOpen) ? setSelectedSort(popupGalClose) : setSelectedSort(popupGalOpen)}
-                                  onChange={handleSubmit(onSubmitPopupList)}>
+                                  onClick={() => (isPopupListExpanded === false) && (selectedSort === popupGalOpen) ? setSelectedSort(popupGalClose) : setSelectedSort(popupGalOpen)}>
                                 <div className={styles.rewiewSubSortBtn} onClick={() => togglePopupListExpand()}>
                                     <img className={styles.rewiewSortGal} src={selectedSort} alt="Sorting options"/>
                                     <p className={styles.rewiewSortText}>{selectedSortTextPopup}</p>
@@ -192,20 +223,40 @@ const FeedbackPopup: FunctionComponent<PopupProps> = (props) => {
                                 </div>
                                 <div className={styles.dropDownPopup}
                                      style={{height: isPopupListExpanded ? 'auto' : '0px', border: isPopupListExpanded ? 'solid 1px #212528' : 'none'}}>
-                                    {sortOptions.map((option) => (
-                                        <label key={option.value} className={styles.dropMenuPopup}>
-                                            <input
-                                                type="radio"
-                                                value={option.value}
-                                                className={styles.dropBtnPopup}
-                                                {...register('sortType')}
-                                            />
-                                            <p className={styles.btnTextPopup}>{option.label}</p>
-                                        </label>
-                                    ))}
+                                    <label className={styles.dropMenu}>
+                                        <input
+                                            type="radio"
+                                            value="default"
+                                            className={styles.dropBtn}
+                                            checked={selectedSort === 'default'}
+                                            onChange={() => onSubmitPopupList('default')} 
+                                        />
+                                        <p className={styles.btnText}>По умолчанию</p>
+                                    </label>
+                                    <label className={styles.dropMenu}>
+                                        <input
+                                            type="radio"
+                                            value="rating"
+                                            className={styles.dropBtn}
+                                            checked={selectedSort === 'rating'}
+                                            onChange={() => onSubmitPopupList('rating')}
+                                        />
+                                        <p className={styles.btnText}>По рейтингу</p>
+                                    </label>
+                                    <label className={styles.dropMenu}>
+                                        <input
+                                            type="radio"
+                                            value="date"
+                                            className={styles.dropBtn}
+                                            checked={selectedSort === 'date'}
+                                            onChange={() => onSubmitPopupList('date')}
+                                        />
+                                        <p className={styles.btnText}>По дате</p>
+                                    </label>
                                 </div>
                             </form>
-                            <ul>{feedbackList}</ul>
+                            { feedbackList && feedbackList?.length > 0 ? 
+                            <ul>{feedbackList}</ul>:<p className={styles.emptyMessage}>...Oops у машины пока что нет отзывов</p>}
                         </div>
                     </div>
                 </div>

@@ -1,12 +1,38 @@
-import {useRef, useState} from 'react';
+import {useRef, useState, useEffect} from 'react';
 import styles from "./add.module.css"
 import space from "../../../assets/space.svg"
-import { useForm} from "react-hook-form"
+import CarService from '../../../services/CarService';
 import { CarAdd } from '../../../models/Add/Add.model';
+import {CarBrand, CarModel, CarClass, Filial} from "../../../models/Booking/CarBookingModel";
+import FilterService from "../../../services/FilterService";
+import { GearBoxEnum } from '../../../models/CarModel';
 
 export function Add(){
+    const [models, setModels] = useState<CarModel[] | undefined>();
+    const [brands, setBrands] = useState<CarBrand[] | undefined>();
+    const [classes, setClasses] = useState<CarClass[] | undefined>();
+    const [filials, setfilials] = useState<Filial[] | undefined>();
+    useEffect(() => {
+        async function fetchFilters() {
+            try {
+                const responseModel = await FilterService.GetModels();
+                setModels(responseModel.data);
+                const responseBrand = await FilterService.GetBrands();
+                setBrands(responseBrand.data);
+                const responseClass = await FilterService.GetClasses();
+                setClasses(responseClass.data);
+                const responseFilial = await FilterService.GetFilials();
+                setfilials(responseFilial.data);
+            } catch (error) {
+                console.error('Error fetching filters:', error);
+            }
+        }
+
+        fetchFilters();
+    }, []);
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [image, setImage] = useState()
+    const [image, setImage] = useState<File|undefined>(undefined)
+    const [imageUrl, setImageUrl] = useState<string|undefined>(undefined)
 
     const handleImageClick = () =>{
         inputRef.current?.focus();
@@ -14,188 +40,163 @@ export function Add(){
     const handleImageChange = (event:any) =>{
         const file = event.target.files[0];
         setImage(file);
+        setImageUrl(file.name);
     }
-    const {
-        register,
-        handleSubmit,
-        resetField,
-        formState: {errors}
-    } = useForm<CarAdd>({
-    });
-    const resFields = ()=>{
-        resetField("carImage");
-        resetField("carModel.carBrand.name");
-        resetField("carModel.modelName");
-        resetField("year");
-        resetField("gearBox");
-        resetField("carClass");
-        resetField("costDay");
-        resetField("filial");
-    }
+    const [selectedBrand, setSelectedBrand] = useState<number| null>(null);
+    const [selectedModel, setSelectedModel] = useState<number | null>(null);
+    const [selectedTransmission, setSelectedTransmission] = useState<GearBoxEnum>();
+    const [selectedFilial, setSelectedFilial] = useState<number |null>(null);
+    const [selectedCarClass, setSelectedCarClass] = useState<number |null>(null);
+    const [costDay, setCostDay] = useState<number |null>(null);;
+    const [year, setYear] = useState<number |null>(null);;
 
-    const onSubmit = (data: CarAdd) =>{
-        console.log(data);
-       // alert("*: поле не заполнено\n **: поле заполнено неправильно")
-    }
+    const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedBrandValue = event.target.value;
+        const brandId = selectedBrandValue !== '' ? Number(selectedBrandValue) : null;
+        setSelectedBrand(brandId);
+        setSelectedModel(null);
+    };
+    
+    const handleCost = (event: any) => {
+        const selectedCost = event.target.value;
+        if (!isNaN(selectedCost)) {
+          const valid = Number(selectedCost).toFixed(2);
+          const selectedCost1 = Number(valid);
+          setCostDay(selectedCost1);
+        }
+      };
+
+    const handleYearChange = (event:any) => {
+        const selectedYear = event.target.value;
+        setYear(selectedYear);
+    };
+    const handleFilialChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedFilialValue = event.target.value;
+        const filialId = selectedFilialValue !== '' ? Number(selectedFilialValue) : null;
+        setSelectedFilial(filialId);;
+    };
+    
+    const handleClassChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedClassValue = event.target.value;
+        const classId = selectedClassValue !== '' ? Number(selectedClassValue) : null;
+        setSelectedCarClass(classId);
+    };
+    
+      const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedModelValue = event.target.value;
+        const modelId = selectedModelValue !== '' ? Number(selectedModelValue) : null;
+        setSelectedModel(modelId);
+    };
+    const handleTransmissionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        const transm = event.target.value;
+        setSelectedTransmission(parseInt(transm, 10));
+    };
+
+    const [localFilters, setLocalFilters] = useState<CarAdd>();
+
+  useEffect(() => {
+    const createCarFilter = (): CarAdd => {
+      const CarModel: CarAdd ={
+        ModelId: (selectedModel !== null && !isNaN(Number(selectedModel))) ? Number(selectedModel) :  0,
+        ClassId: (selectedCarClass !== null && !isNaN(Number(selectedCarClass))) ? Number(selectedCarClass) :  0,
+        FilialId:(selectedFilial !== null && !isNaN(Number(selectedFilial))) ? Number(selectedFilial) :  0,
+
+        Year: (year !== null && !isNaN(Number(year))) ? Number(year) :  0,
+        GearBox:  selectedTransmission === 0 ? GearBoxEnum["Автоматическая"] :
+            selectedTransmission === 1 ? GearBoxEnum["Механическая"] :
+            0,
+        CostDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) :  0,
+        Image: image, 
+        CarImage: imageUrl
+    };
+
+      return CarModel;
+    };
+
+    const filters = createCarFilter();
+    setLocalFilters(filters);
+}, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay, image]);
+  const handleSave = async () => {
+    try {
+      if (localFilters) {
+        await CarService.createCar(localFilters)};
+        alert("Ваша машина создана")
+    } catch (error) {
+        console.error('Ошибка создания автомобиля:', error);
+      }
+        };
+  
+
     return(
         <div className={styles.addBlock}>
-            <form className={styles.addForm} onSubmit={handleSubmit(onSubmit)}>
+            <form className={styles.addForm} >
                 <div className={styles.blockImg} onClick={handleImageClick}>
                     <div className={styles.imgSpace}>
                         {image ? <img src={URL.createObjectURL(image)} style={{width: "100%", height:"100%", objectFit:"contain"}} />:<img className={styles.spaceIcon} src={space}></img>}
                     </div>
                     <div className={styles.itemInp}>
-                        <input type="file" accept=".jpg,.jpeg,.png" id="Image" className={styles.inputImg} {
-                                ...register("carImage"
-                                // ,{
-                                //     required:"*"
-                                // }
-                                )} ref={inputRef} onChange={handleImageChange} />
-                            
+                        <input type="file" accept=".png" id="Image" className={styles.inputImg} ref={inputRef} onChange={handleImageChange} />   
                         <label htmlFor="Image" className={styles.imgItem}>Загрузить изображение</label>
-                        {/* <div  className={styles.error}>
-                            {errors?.carImage && <p className={styles.itemError}>{errors?.carImage.message}</p>}
-                        </div> */}
                     </div>
                 </div>
                 <div className={styles.blockInfo}>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Марка:</label>
-                        <div className={styles.itemInp}>
-                        <input type="text" list="carBrand" className={styles.itemInput} autoComplete="off" {
-                            ...register("carModel.carBrand.name",{
-                                required:"*"
-                            })
-                        }
-                        />
-                        <datalist className={styles.inputList} id="carBrand">
-                            <option className={styles.listItem} value="Mercedes-Benz">Mercedes-Benz</option>
-                            <option className={styles.listItem} value="BMW">BMW</option>
-                        </datalist>
-                        <div className={styles.error}>
-                            {errors?.carModel?.carBrand?.name && <p className={styles.itemError}>{errors?.carModel?.carBrand.name.message}</p>}
-                        </div>
-                        </div>
+                        <select  className={styles.itemInput}
+                         onChangeCapture={handleBrandChange}>
+                        <option></option>
+                        {brands && brands.map((brand) => (
+                            <option key={brand.carBrandId} value={brand.carBrandId}>{brand.name}</option>
+                        ))}</select>
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Модель:</label>
-                        <div className={styles.itemInp}>
-                        <input type="text" list="carModel" className={styles.itemInput} autoComplete="off" {
-                            ...register("carModel.modelName",{
-                                required:"*"
-                            })
-                        }
-                        />
-                        <datalist className={styles.inputList} id="carModel">
-                            <option className={styles.listItem} value="G63 AMG">G63 AMG</option>
-                            <option className={styles.listItem} value="X5">X5</option>
-                        </datalist>
-                        <div className={styles.error}>
-                            {errors?.carModel?.modelName && <p className={styles.itemError}>{errors?.carModel?.modelName.message}</p>}
-                        </div>
-                        </div>
+                        <select className={styles.itemInput} onChange={handleModelChange}>
+                        <option></option>
+                        {models &&
+                            models
+                            .filter((model) => model.carBrand.carBrandId === Number(selectedBrand))
+                            .map((model) => (
+                                <option key={model.carModelId} value={model.carModelId}>
+                                {model.modelName}
+                                </option>
+                            ))}</select>
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Год выпуска:</label>
-                        <div className={styles.itemInp}>
-                        <input type="text" list="carYear" className={styles.itemInput} autoComplete="off" {
-                            ...register("year",{
-                                required:"*",
-                                pattern:{
-                                    value: /^(195[1-9]|19[6-9]\d|20[0-1]\d|202[0-4])$/i,
-                                    message: "**"
-                                }
-                            })
-                        }
-                        />
-                        <datalist className={styles.inputList} id="carYear">
-                            <option className={styles.listItem} value="2020">2020</option>
-                            <option className={styles.listItem} value="2023">2023</option>
-                        </datalist>
-                        <div className={styles.error}>
-                            {errors?.year && <p className={styles.itemError}>{errors?.year.message}</p>}
-                        </div>
-                        </div>
+                        <input className={styles.itemInput} type="number" min="1980" max="2024" onChange={handleYearChange}  />
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Тип КПП:</label>
-                        <div className={styles.itemInp}>
-                        <input type="text" list="carGear" className={styles.itemInput} autoComplete="off"{
-                            ...register("gearBox",{
-                                required:"*",
-                                pattern:{
-                                    value:/^(МКПП|АКПП)$/,
-                                    message:"**"
-                                }
-                            })
-                        }
-                        />
-                        <datalist className={styles.inputList} id="carGear">
-                            <option className={styles.listItem} value="АКПП">АКПП</option>
-                            <option className={styles.listItem} value="МКПП">МКПП</option>
-                        </datalist>
-                        <div className={styles.error}>
-                            {errors?.gearBox && <p className={styles.itemError}>{errors?.gearBox.message}</p>}
-                        </div>
-                        </div>
+                        <select className={styles.itemInput} onChange={handleTransmissionChange}>
+                            <option></option>
+                            <option value={1}>Механическая</option>
+                            <option value={2}>Автоматическая</option>
+                        </select>
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Тип кузова:</label>
-                        <div className={styles.itemInp}>
-                        <input type="text" list="carClass" className={styles.itemInput} autoComplete="off"{
-                            ...register("carClass",{
-                                required:"*"
-                            })
-                        }
-                        />
-                        <div className={styles.error}>
-                            {errors?.carClass && <p className={styles.itemError}>{errors?.carClass.message}</p>}
-                        </div>
-                        </div>
-                        <datalist className={styles.inputList} id="carClass">
-                            <option className={styles.listItem} value="Внедорожник">Внедорожник</option>
-                            <option className={styles.listItem} value="Седан">Седан</option>
-                        </datalist>
+                        <select className={styles.itemInput} onChange={handleClassChange}>
+                        <option></option>
+                       {classes && classes.map((classModel) => (
+                        <option key={classModel.carClassId} value={classModel.carClassId}>{classModel.className}</option>
+                    ))}</select>
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Цена аренды в сутки:</label>
-                        <div className={styles.itemInp}>
-                        <input type="text" list="carPrice" className={styles.itemInputPrice} autoComplete="off"{
-                            ...register("costDay",{
-                                required:"*",
-                                pattern:{
-                                    value:/^\d+$/,
-                                    message:"**"
-                                }
-                            })
-                        }
-                        />
-                        <div className={styles.error}>
-                            {errors?.costDay && <p className={styles.itemError}>{errors?.costDay.message}</p>}
-                        </div>
-                        </div>
+                        <input type="text"  className={styles.itemInputPrice} autoComplete="off" onChange={handleCost}/>
                     </div>
                     <div className={styles.infoItem}>
                         <label className={styles.itemName}>Филиал:</label>
-                        <div className={styles.itemInp}>
-                        <input type="text" list="filialId" className={styles.itemInput} autoComplete="off"{
-                            ...register("filial",{
-                                required:"*"
-                            })
-                        }
-                        />
-                        <div className={styles.error}>
-                            {errors?.filial && <p className={styles.itemError}>{errors?.filial.message}</p>}
-                        </div>
-                        </div>
-                        <datalist className={styles.inputList} id="filialId">
-                            <option className={styles.listItem} value="Эщкинина 10В">Эщкинина 10В</option>
-                            <option className={styles.listItem} value="Чехова 15">Чехова 15</option>
-                        </datalist>
+                        <select className={styles.itemInput} onChangeCapture={handleFilialChange}>
+                        <option></option>
+                       {filials&& filials.map((filial) => (
+                        <option key={filial.filialId} className={styles.listItem} value={filial.filialId}>{filial.address}</option>
+                    ))}</select>
                     </div>
                     <div className={styles.infoButtons}>
-                        <input className={styles.buttonCancel} type="button" onClick={resFields} value="Отмена"></input>
-                        <input onClick={handleSubmit(onSubmit)} type="submit" className={styles.buttonSave}
+                        <input className={styles.buttonCancel} type="button"  value="Отмена"></input>
+                        <input  type="button" className={styles.buttonSave} onClick={handleSave}
                                value="Сохранить"></input>
                     </div>
                 </div>

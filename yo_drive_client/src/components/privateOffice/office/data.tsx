@@ -93,7 +93,8 @@ export function Data(props: Props) {
                     <button className={styles.buttonEdit} onClick={() => setUserForm()}>Редактировать данные</button>}
                 {form &&
                     <button className={styles.buttonEdit} onClick={handleSubmit(onSubmit)}>Сохранить данные</button>}
-                <button className={styles.buttonImg}>Загрузить изображение</button>
+                <label htmlFor="userImg"   className={styles.buttonImg}>Загрузить изображение</label>
+                <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}></input>
                 <button className={styles.buttonDelete}>Удалить аккаунт</button>
             </div>
         </div>

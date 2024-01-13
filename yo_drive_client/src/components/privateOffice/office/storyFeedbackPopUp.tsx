@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from "react";
+import React, {FunctionComponent, useCallback, useEffect} from "react";
 import styles from "../office/storyFeedbackPopUp.module.css"
 import { BookingResponseModel } from "../../../models/Booking/BookingResponseModel";
 interface FeedbackPopupProps {
@@ -8,14 +8,14 @@ interface FeedbackPopupProps {
     booking: BookingResponseModel
   }
   
-  const storyFeedbackPopup: FunctionComponent<FeedbackPopupProps> = (props) => {
+  const StoryFeedbackPopup: FunctionComponent<FeedbackPopupProps> = (props) => {
     const {isOpen, handleClose, content, booking} = props;
   
     return (   
         <div className={styles.popupBox} style={{ display: isOpen ? "block" : "none" }}>
           <div className={styles.box}>
             <div className={styles.popupClose}><span className={styles.popupCloseIcon} onClick={handleClose}>x</span></div>
-            <p className={styles.popupTitle}>Отзыв</p>
+            <p className={styles.popupTitle}>{!booking.feedback ? "Отзыв": "Редактор отзыва"}</p>
             {content}
           </div>
         </div>
@@ -23,4 +23,4 @@ interface FeedbackPopupProps {
     );
   };
   
-  export default storyFeedbackPopup;
+  export default StoryFeedbackPopup;
