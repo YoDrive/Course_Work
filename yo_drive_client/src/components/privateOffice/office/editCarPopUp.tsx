@@ -215,7 +215,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     (props.car.gearBox ?? 0),
                 costDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
                 fileName: (imageUrl !== null)? imageUrl : props.car.carImage,
-                file: image // Вы должны обработать изображение здесь
+                file: image
             };
     
             setLocalFilters(updatedFilters);

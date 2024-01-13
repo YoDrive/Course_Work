@@ -11,5 +11,5 @@ public class CarUpdateDto
     public int Year { get; set; }
     public GearBox GearBox { get; set; }
     public decimal CostDay { get; set; }
-    public string? CarImage { get; set; }
+    public IFormFile? CarImage { get; set; }
 }

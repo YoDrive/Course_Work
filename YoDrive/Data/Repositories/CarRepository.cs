@@ -70,7 +70,7 @@ public class CarRepository : ICarRepository
         { 
             var currentDirectory = Directory.GetCurrentDirectory();
             var folderPath = Path.Combine(currentDirectory, "../yo_drive_store/Cars");
-            fileName = Guid.NewGuid() + dto.Image.FileName;
+            fileName = Guid.NewGuid() + Path.GetExtension(dto.Image.FileName);
             var filePath = Path.Combine(folderPath, fileName);
 
             if (!Directory.Exists(folderPath))
@@ -108,18 +108,20 @@ public class CarRepository : ICarRepository
         return response;
     }
 
-    public async Task<CarReadDto> UpdateCar(CarUpdateDto dto, IFormFile? file)
+    public async Task<CarReadDto> UpdateCar(CarUpdateDto dto)
     {
         var car = _db.Car.FirstOrDefault(_ => _.CarId == dto.CarId);
 
         if (car == null)
             throw new KeyNotFoundException($"Автомобиль с Id {dto.CarId} не найден");
 
-        if (file != null)
+        string fileName = null;
+
+        if (dto.CarImage != null)
         {
             var currentDirectory = Directory.GetCurrentDirectory();
             var folderPath = Path.Combine(currentDirectory, "../yo_drive_store/Cars");
-            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            fileName = Guid.NewGuid() + Path.GetExtension(dto.CarImage.FileName);
             var filePath = Path.Combine(folderPath, fileName);
 
             if (!Directory.Exists(folderPath))
@@ -127,23 +129,23 @@ public class CarRepository : ICarRepository
                 Directory.CreateDirectory(folderPath);
             }
 
-            if (file.Length > 0)
+            if (dto.CarImage.Length > 0)
             {
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    await file.CopyToAsync(stream);
+                    await dto.CarImage.CopyToAsync(stream);
                 }
             }
-            dto.CarImage = fileName;
         }
 
         car.IsDeleted = false;
-        car.CarImage = dto.CarImage;
+        car.CarImage = fileName;
         car.ClassId = dto.ClassId;
         car.FilialId = dto.FilialId;
         car.ModelId = dto.ModelId;
         car.Year = dto.Year;
         car.CostDay = dto.CostDay;
+        car.GearBox = dto.GearBox;
         car.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
                        throw new Exception("Модель не найдена");
         car.CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ??
