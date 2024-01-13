@@ -32,6 +32,19 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     const {isOpen, handleClose, car} = props;
     const carId = props.car.carId;
 
+    const handleClosePopUp = () => {
+        setSelectedBrand(null);
+        setSelectedModel(null);
+        setSelectedTransmission(undefined);
+        setSelectedFilial(null);
+        setSelectedCarClass(null);
+        setCostDay(null);
+        setYear(null);
+        setImage(undefined);
+        setImageUrl(undefined);
+        props.handleClose();
+      };
+
     const [models, setCarModels] = useState<CarModel[]| undefined>([]);
     const [classes, setCarClass] = useState<CarClass[]| undefined>([]);
     const [filials, setCarFilials] = useState<Filial[]| undefined>([]);
@@ -115,6 +128,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
 
     const resFields = ()=>{
         setAllInp();
+        handleClosePopUp();
     }
 
     useEffect(() => {
@@ -226,7 +240,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         const filters = createCarFilter();
         setLocalFilters(filters);
     }, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay, image,]);
-    
+
   const handleSave = async () => {
     try {
       if (localFilters) {
@@ -236,13 +250,14 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     } catch (error) {
         console.error('Ошибка создания автомобиля:', error);
       }
+      fetchCars();
         };
   
 
   return (
     <div className={styles.popupBox} style={{ display: isOpen ? "block" : "none" }}>
       <div className={styles.box}>
-        <div className={styles.popupClose}><span className={styles.popupCloseIcon} onClick={handleClose}>x</span></div>
+        <div className={styles.popupClose}><span className={styles.popupCloseIcon} onClick={handleClosePopUp}>x</span></div>
         <p className={styles.popupTitle}>Редактор автомобиля</p>
         <div className={styles.addBlock}>
                     <form className={styles.addForm}>
