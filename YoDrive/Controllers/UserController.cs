@@ -24,12 +24,12 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
-    [HttpPut("UpdateUserPhoto/{id}")]
-    public async Task<IActionResult> UpdateUserPhoto(int id, [FromForm] IFormFile file)
+    [HttpPut("UpdateUserPhoto")]
+    public async Task<IActionResult> UpdateUserPhoto([FromForm] UserUpdatePhotoDto dto)
     {
         try
         {
-            var response = await _repository.UpdateUserPhoto(id, file);
+            var response = await _repository.UpdateUserPhoto(dto);
             return Ok(response);
         }
         catch (Exception e)

@@ -9,7 +9,8 @@ export interface UserModel
     userImage?: string;
     image?: File;
 }
-export interface UserPhoto
+export interface UserUpdatePhotoModel
 {
+    userId: number;
     image?: File;
 }

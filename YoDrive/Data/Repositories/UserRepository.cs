@@ -43,14 +43,14 @@ public class UserRepository : IUserRepository
         return _mapper.Map<UserReadDto>(user);
     }
 
-    public async Task<UserReadDto> UpdateUserPhoto(int id, IFormFile file)
+    public async Task<UserReadDto> UpdateUserPhoto(UserUpdatePhotoDto dto)
     {
-        var user = await _db.User.FirstOrDefaultAsync(_ => _.UserId == id)
-                   ?? throw new Exception($"Пользователь с Id {id} не найден");
+        var user = await _db.User.FirstOrDefaultAsync(_ => _.UserId == dto.UserId)
+                   ?? throw new Exception($"Пользователь с Id {dto.UserId} не найден");
         
         var currentDirectory = Directory.GetCurrentDirectory();
         var folderPath = Path.Combine(currentDirectory, "../yo_drive_store/Users");
-        var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        var fileName = Guid.NewGuid() + Path.GetExtension(dto.Image.FileName);
         var filePath = Path.Combine(folderPath, fileName);
 
         if (!Directory.Exists(folderPath))
@@ -58,14 +58,17 @@ public class UserRepository : IUserRepository
             Directory.CreateDirectory(folderPath);
         }
             
-        if (file.Length > 0)
+        if (dto.Image.Length > 0)
         {
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                await dto.Image.CopyToAsync(stream);
             }
         }
         user.UserImage = fileName;
+        
+        _db.User.Update(user);
+        await _db.SaveChangesAsync();
 
         return _mapper.Map<UserReadDto>(user);
     }
