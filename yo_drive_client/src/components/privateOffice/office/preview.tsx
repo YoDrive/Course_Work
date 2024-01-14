@@ -65,7 +65,7 @@ const Preview: React.FC<FilterPopUpProps> = ({ filters }) => {
         fetchData();
       }, [filters]);
 
-    let listItems = cars?.map((car) =>
+    let listItems = cars?.map((car, carIndex) =>
         <li key={car.carId} className={styles.carBlock}>
             {car.image && (
                 <img
@@ -95,7 +95,7 @@ const Preview: React.FC<FilterPopUpProps> = ({ filters }) => {
             </div>
             <div className={styles.carTools}>
             <img className={styles.toolEdit} src={rewiev} onClick={()=>togglePopup(car.carId)}></img>
-                <EditCarPopup car={car} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)}/>
+                <EditCarPopup car={car} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)} carIndex={carIndex}/>
                 <img className={styles.toolDelete} src={trash} onClick={() => handleDelete(car.carId)}></img>
             </div>
         </li>
