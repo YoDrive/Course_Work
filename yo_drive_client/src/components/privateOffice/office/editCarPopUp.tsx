@@ -186,7 +186,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     selectedTransmission === 1 ? GearBoxEnum["Механическая"] :
                         (props.car.gearBox ?? 0),
                 CostDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
-                CarImage: image ? image : props.car.image ? props.car.image : undefined
+                CarImage: image !== undefined ? image : undefined,
             };
 
             setLocalFilters(updatedFilters);
