@@ -87,7 +87,7 @@ export function Office() {
                             />
                         </div>
                     </div>
-                    {data && <Data user = {user!}/>}
+                    {data && <Data user = {user!} logout={handleLogout}/>}
                     {story && <Story/>}
                 </div>
             </div>

@@ -10,6 +10,7 @@ import SuccessPopUp from "../../extentions/successPopUp";
 
 interface Props {
     user: UserModel;
+    logout: () => void;
 }
 
 export function Data(props: Props) {
@@ -23,6 +24,7 @@ export function Data(props: Props) {
     const [form, setForm] = useState(false);
     const [user, setUser] = useState(props.user);
     const [isSuccessPopUpVisible, setSuccessPopUpVisible] = useState(false);
+    const [isSuccessPopUpDeleteVisible, setSuccessPopUpDeleteVisible] = useState(false);
 
     const setUserForm = () => {
         setForm(!form);
@@ -89,6 +91,18 @@ export function Data(props: Props) {
         }
     };
 
+    const handleDelete = async () => {
+        try {
+            if (await UserService.deleteUser(user.userId))
+            {
+                props.logout();
+            }
+        }
+        catch (error) {
+            alert("Ошибка при удалении аккаунта");
+        }
+    }
+
     const onClose = () => {
         setForm(!form)
         setSuccessPopUpVisible(false)
@@ -143,7 +157,13 @@ export function Data(props: Props) {
                 {!image &&<label htmlFor="userImg" className={styles.buttonImg}>Загрузить изображение</label>}
                 {!image ? <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}  onChange={(e) => setUserPhoto(e)}></input>
                 :<button className={styles.buttonImgSave} onClick={handleSave}>Сохранить фото</button>}
-                <button className={styles.buttonDelete} onClick={handleSave}>Удалить аккаунт</button>
+                <button className={styles.buttonDelete} onClick={() => setSuccessPopUpDeleteVisible(true)}>Удалить аккаунт</button>
+                <SuccessPopUp
+                    onConfirm={handleDelete}
+                    text="Вы уверены, что хотите удалить аккаунт?"
+                    isVisible={isSuccessPopUpDeleteVisible}
+                    onClose={() => setSuccessPopUpDeleteVisible(false)}
+                />
             </div>
         </div>
     )
