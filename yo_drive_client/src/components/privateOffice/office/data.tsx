@@ -126,7 +126,7 @@ export function Data(props: Props) {
                     <button className={styles.buttonEdit} onClick={handleSubmit(onSubmit)}>Сохранить данные</button>}
                 {!image &&<label htmlFor="userImg" className={styles.buttonImg}>Загрузить изображение</label>}
                 {!image ? <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}  onChange={(e) => setUserPhoto(e)}></input>
-                :<button className={styles.buttonImg} onClick={handleSave}>Сохранить фото</button>}
+                :<button className={styles.buttonImgSave} onClick={handleSave}>Сохранить фото</button>}
                 <button className={styles.buttonDelete} onClick={handleSave}>Удалить аккаунт</button>
             </div>
         </div>
