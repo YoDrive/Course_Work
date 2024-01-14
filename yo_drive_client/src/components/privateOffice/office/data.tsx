@@ -53,21 +53,21 @@ export function Data(props: Props) {
             console.error('Ошибка при обновлении данных:', error);
         }
     }
-    const [image, setImage] = useState<File|undefined>()
-    const [userUpdateData, setUserUpdateData] = useState<UserUpdatePhotoModel>({
-        userId: 0,
-        image: undefined,
-    })
+    const [image, setImage] = useState<File>()
+    const [userUpdateData, setUserUpdateData] = useState<UserUpdatePhotoModel>()
 
-    const setUserPhoto = (event: any) => {
-        const img = event.target.files[0];
-        setImage(img);
-        handleSave();
+    const setUserPhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = event.target.files?.[0];
+    
+        if (selectedFile) {
+            setImage(selectedFile);
+            handleSave();
+        }
     }
-
+   
     const handleSave = async () => {
         try {
-            if (image) {
+            if (image && (user.userId !== 0)) {
                 const updatedUserPhoto = {
                     ...userUpdateData,
                     image: image,
@@ -126,7 +126,7 @@ export function Data(props: Props) {
                 {form &&
                     <button className={styles.buttonEdit} onClick={handleSubmit(onSubmit)}>Сохранить данные</button>}
                 <label htmlFor="userImg" className={styles.buttonImg}>Загрузить изображение</label>
-                <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon} onChange={setUserPhoto}></input>
+                <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}  onChange={(e) => setUserPhoto(e)}></input>
                 <button className={styles.buttonDelete} onClick={handleSave}>Удалить аккаунт</button>
             </div>
         </div>
