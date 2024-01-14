@@ -136,10 +136,10 @@ public class CarRepository : ICarRepository
                     await dto.CarImage.CopyToAsync(stream);
                 }
             }
+            car.CarImage = fileName;
         }
 
         car.IsDeleted = false;
-        car.CarImage = fileName;
         car.ClassId = dto.ClassId;
         car.FilialId = dto.FilialId;
         car.ModelId = dto.ModelId;
