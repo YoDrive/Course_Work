@@ -90,7 +90,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         const selectedFilialValue = event.target.value;
         const filialId = selectedFilialValue !== '' ? Number(selectedFilialValue) : null;
         setSelectedFilial(filialId);
-        ;
     };
 
     const handleClassChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -184,7 +183,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     selectedTransmission === 1 ? GearBoxEnum["Механическая"] :
                         (props.car.gearBox ?? 0),
                 CostDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
-                CarImage: image ? image : undefined
+                CarImage: image ? image : props.car.image ? props.car.image : undefined
             };
 
             setLocalFilters(updatedFilters);

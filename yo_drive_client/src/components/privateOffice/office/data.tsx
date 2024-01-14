@@ -61,9 +61,8 @@ export function Data(props: Props) {
     
         if (selectedFile) {
             setImage(selectedFile);
-            handleSave();
         }
-    }
+    };
    
     const handleSave = async () => {
         try {
@@ -125,8 +124,9 @@ export function Data(props: Props) {
                     <button className={styles.buttonEdit} onClick={() => setUserForm()}>Редактировать данные</button>}
                 {form &&
                     <button className={styles.buttonEdit} onClick={handleSubmit(onSubmit)}>Сохранить данные</button>}
-                <label htmlFor="userImg" className={styles.buttonImg}>Загрузить изображение</label>
-                <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}  onChange={(e) => setUserPhoto(e)}></input>
+                {!image &&<label htmlFor="userImg" className={styles.buttonImg}>Загрузить изображение</label>}
+                {!image ? <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}  onChange={(e) => setUserPhoto(e)}></input>
+                :<button className={styles.buttonImg} onClick={handleSave}>Сохранить фото</button>}
                 <button className={styles.buttonDelete} onClick={handleSave}>Удалить аккаунт</button>
             </div>
         </div>
