@@ -1,6 +1,7 @@
 import styles from './preview.module.css'
 import rewiev from '../../../assets/rewiev.svg'
 import trash from '../../../assets/trash.svg'
+
 import React, {useEffect, useState, useRef} from "react";
 import {CarViewModel} from "../../../models/Booking/CarBookingModel";
 import {fetchCars, getCarClasses} from "../../../services/CarService";
@@ -62,11 +63,19 @@ const Preview: React.FC<FilterPopUpProps> = ({filters}) => {
         }
     };
 
+    const updateCars = async () => {
+        try {
+            const carsData = await fetchCars();
+            setCars(carsData);
+        } catch (error) {
+            console.error('Error updating cars:', error);
+        }
+    };
     useEffect(() => {
         fetchData();
     }, [filters]);
 
-    let listItems = cars?.map((car) =>
+    let listItems = cars?.map((car, carIndex) =>
         <li key={car.carId} className={styles.carBlock}>
             {car.image && (
                 <img
@@ -97,7 +106,8 @@ const Preview: React.FC<FilterPopUpProps> = ({filters}) => {
             </div>
             <div className={styles.carTools}>
                 <img className={styles.toolEdit} src={rewiev} onClick={() => togglePopup(car.carId)}></img>
-                <EditCarPopup car={car} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)}/>
+                <EditCarPopup car={car} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)}
+                              loadNewCars={() => updateCars()}/>
                 <img className={styles.toolDelete} src={trash} onClick={() => setSuccessPopUpVisible((prev) => ({ ...prev, [car.carId]: true }))}></img>
                 <SuccessPopUp
                     onConfirm={() => handleDelete(car.carId)}

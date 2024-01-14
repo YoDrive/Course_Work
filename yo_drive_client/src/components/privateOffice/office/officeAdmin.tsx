@@ -77,7 +77,8 @@ export function OfficeAdmin() {
                     <div className={styles.menu}>
                         <div className={styles.menuHead}>
                             <p className={styles.headRole}>Администратор</p>
-                            <img className={styles.headIcon} src={User} alt=""></img>
+                            {user && user.image ? <img className={styles.headIconUser} src={`data:image;base64,${user.image}`} alt=""></img>
+                            : <img className={styles.headIcon} src={User} alt=""></img>}
                             <p className={styles.headName}>
                                 {user ? `${user.surname} ${user.firstName} ${user.patronymic}` : 'Загрузка...'}
                             </p>

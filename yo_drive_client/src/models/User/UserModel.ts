@@ -7,5 +7,10 @@ export interface UserModel
     phoneNumber: string;
     email: string;
     userImage?: string;
-    image?: Uint8Array | null;
+    image?: File;
+}
+export interface UserUpdatePhotoModel
+{
+    userId: number;
+    image?: File;
 }

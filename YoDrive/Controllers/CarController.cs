@@ -60,11 +60,11 @@ public class CarController : ControllerBase
 
     [Authorize]
     [HttpPost("CreateCar")]
-    public async Task<IActionResult> CreateCar([FromForm] CarAddDto dto, [FromForm] IFormFile? file)
+    public async Task<IActionResult> CreateCar([FromForm] CarAddDto dto)
     {
         try
         {
-            var response = await _repository.CreateCar(dto, file);
+            var response = await _repository.CreateCar(dto);
             return Created(nameof(CreateCar), response);
         }
         catch (Exception e)
@@ -75,11 +75,11 @@ public class CarController : ControllerBase
 
     [Authorize]
     [HttpPut("UpdateCar")]
-    public async Task<IActionResult> UpdateCar([FromBody] CarUpdateDto dto, [FromForm] IFormFile? file)
+    public async Task<IActionResult> UpdateCar([FromForm] CarUpdateDto dto)
     {
         try
         {
-            var response = await _repository.UpdateCar(dto, file);
+            var response = await _repository.UpdateCar(dto);
             return Ok(response);
         }
         catch (Exception e)

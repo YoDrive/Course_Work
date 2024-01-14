@@ -1,11 +1,10 @@
-export interface CarUpdated{
-    carId: number,
-    modelId: number,
-    classId: number,
-    filialId: number,
-    year: number,
-    gearBox: number,
-    costDay: number,
-    fileName?: string,
-    file?: File
+export interface CarUpdated {
+    CarId: number,
+    ModelId: number,
+    ClassId: number,
+    FilialId: number,
+    Year: number,
+    GearBox: number,
+    CostDay: number,
+    CarImage?: File
 }

@@ -10,5 +10,5 @@ public class CarAddDto
     public int Year { get; set; }
     public GearBox GearBox { get; set; }
     public decimal CostDay { get; set; }
-    public string? CarImage { get; set; }
+    public IFormFile? Image { get; set; }
 }

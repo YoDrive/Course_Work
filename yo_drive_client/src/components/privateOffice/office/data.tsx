@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {useForm} from "react-hook-form"
 import styles from './office.module.css';
-import {UserModel} from "../../../models/User/UserModel";
+import {UserModel, UserUpdatePhotoModel} from "../../../models/User/UserModel";
 import UserService from "../../../services/UserService";
 import {UserUpdateModel} from "../../../models/User/UserUpdateModel";
+import LkService from '../../../services/lkService';
 import SuccessPopUp from "../../extentions/successPopUp";
+
 
 interface Props {
     user: UserModel;
@@ -54,6 +56,38 @@ export function Data(props: Props) {
             console.error('Ошибка при обновлении данных:', error);
         }
     }
+    const [image, setImage] = useState<File>()
+    const [userUpdateData, setUserUpdateData] = useState<UserUpdatePhotoModel>()
+
+
+    const setUserPhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = event.target.files?.[0];
+    
+        if (selectedFile) {
+            setImage(selectedFile);
+        }
+    };
+   
+    const handleSave = async () => {
+        try {
+            if (image && (user.userId !== 0)) {
+                const updatedUserPhoto = {
+                    ...userUpdateData,
+                    image: image,
+                    userId: user.userId,
+                };
+                setUserUpdateData(updatedUserPhoto);
+                await UserService.updateUserPhoto(updatedUserPhoto);
+                alert("Фото успешно обновлено");
+                setUserUpdateData(
+                    {userId: 0,
+                    image: undefined});
+                setImage(undefined);
+            }
+        } catch (error) {
+            alert("Ошибка при обновлении фото");
+        }
+    };
 
     const onClose = () => {
         setForm(!form)
@@ -100,15 +134,16 @@ export function Data(props: Props) {
                     <button className={styles.buttonEdit} onClick={() => setUserForm()}>Редактировать данные</button>}
                 {form &&
                     <button className={styles.buttonEdit} onClick={() => setSuccessPopUpVisible(true)}>Сохранить данные</button>}
-                <SuccessPopUp
-                    onConfirm={handleSubmit(onSubmit)}
-                    text="Вы уверены, что хотите сохранить данные?"
-                    isVisible={isSuccessPopUpVisible}
-                    onClose={() => onClose()}
-                />
-                <label htmlFor="userImg"   className={styles.buttonImg}>Загрузить изображение</label>
-                <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}></input>
-                <button className={styles.buttonDelete}>Удалить аккаунт</button>
+                    <SuccessPopUp
+                        onConfirm={handleSubmit(onSubmit)}
+                        text="Вы уверены, что хотите сохранить данные?"
+                        isVisible={isSuccessPopUpVisible}
+                        onClose={() => onClose()}
+                    />
+                {!image &&<label htmlFor="userImg" className={styles.buttonImg}>Загрузить изображение</label>}
+                {!image ? <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}  onChange={(e) => setUserPhoto(e)}></input>
+                :<button className={styles.buttonImgSave} onClick={handleSave}>Сохранить фото</button>}
+                <button className={styles.buttonDelete} onClick={handleSave}>Удалить аккаунт</button>
             </div>
         </div>
     )
