@@ -6,7 +6,11 @@ import 'primereact/resources/primereact.min.css';
 export function Story(){
     const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
     const [selectedMonthDate, setSelectedMonthDate] = useState<Date>(new Date);
+    const [allRent, setAllRent] = useState(false);
 
+    const rentHandler =() =>{
+      setAllRent(true)
+    }
     function getCurrentMonth() {
         const currentDate = new Date();
         const year = currentDate.getFullYear();
@@ -22,16 +26,19 @@ export function Story(){
       const handleMonthChange = (event: any) => {
         const selectedDate = new Date(event.target.value + "-01");;
         setSelectedMonthDate(selectedDate);
+        setAllRent(false)
       };
     return(
         <div className={styles.info}>
             <div className={styles.headerBlock}>
                <h1 className={styles.infoHeader}>История бронирований</h1>
-               <button className={styles.calendar}>
-               <input type="month" className={styles.calendarStyles}  defaultValue={selectedMonth} 
-          onChange={handleMonthChange} />
-         
-               </button>
+               <div className={styles.headerButtons}>
+                <button className={styles.allButton} onClick={rentHandler}>Все</button>
+                <button className={styles.calendar}>
+                <input type="month" className={styles.calendarStyles}  defaultValue={selectedMonth} 
+            onChange={handleMonthChange} />
+                </button>
+                </div>
             </div>
             <div className={styles.infoStory}>
                 <div className={styles.storyHeaders}>
@@ -41,7 +48,7 @@ export function Story(){
                     <p className={styles.storyHeader_date}>Дата</p>
                     <p className={styles.storyHeader_rewiev}>Отзывы</p>
                 </div>
-                <StoryBlock  selectedMonth={selectedMonthDate}/>
+                <StoryBlock  selectedMonth={selectedMonthDate} allRent={allRent}/>
             </div>
          </div>
     )
