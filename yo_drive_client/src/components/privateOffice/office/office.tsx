@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {useStore} from "../../../index";
 import {UserModel} from "../../../models/User/UserModel";
 import LkService from "../../../services/lkService";
+import SuccessPopUp from "../../extentions/successPopUp";
 
 export function Office() {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ export function Office() {
     const [story, setStory] = useState(false);
     const [user, setUser] = useState<UserModel>();
     const [loading, setLoading] = useState(true);
+    const [isSuccessPopUpVisible, setSuccessPopUpVisible] = useState(false);
     const store = useStore();
 
     useEffect(() => {
@@ -42,6 +44,7 @@ export function Office() {
 
     const handleLogout = async () => {
         try {
+            setSuccessPopUpVisible(false);
             await store.logout();
         } catch (error) {
             console.log(error);
@@ -75,7 +78,13 @@ export function Office() {
                             <button onClick={() => handleNavigation('/bookingPage')} className={styles.menuButton}>
                                 Забронировать автомобиль
                             </button>
-                            <button onClick={handleLogout} className={styles.menuButton}>Выход</button>
+                            <button onClick={() => setSuccessPopUpVisible(true)} className={styles.menuButton}>Выход</button>
+                            <SuccessPopUp
+                                onConfirm={handleLogout}
+                                text="Вы уверены, что хотите выйти?"
+                                isVisible={isSuccessPopUpVisible}
+                                onClose={() => setSuccessPopUpVisible(false)}
+                            />
                         </div>
                     </div>
                     {data && <Data user = {user!}/>}

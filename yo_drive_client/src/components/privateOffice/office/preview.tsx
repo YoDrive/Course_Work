@@ -1,9 +1,10 @@
 import styles from './preview.module.css'
 import rewiev from '../../../assets/rewiev.svg'
 import trash from '../../../assets/trash.svg'
-import React, {useEffect, useState} from "react";
+
+import React, {useEffect, useState, useRef} from "react";
 import {CarViewModel} from "../../../models/Booking/CarBookingModel";
-import {fetchCars} from "../../../services/CarService";
+import {fetchCars, getCarClasses} from "../../../services/CarService";
 import {Rating} from "react-simple-star-rating";
 import {GearBoxEnum} from "../../../models/CarModel";
 import emptyImageCar from '../../../assets/emptyImageCar.png';
@@ -11,6 +12,7 @@ import EditCarPopup from "./editCarPopUp"
 import CarService from '../../../services/CarService';
 import {Filter} from '../../../models/Booking/FilterBookingModel';
 import {getCarsByFilter} from '../../../services/CarService';
+import SuccessPopUp from "../../extentions/successPopUp";
 
 interface FilterPopUpProps {
     filters: Filter;
@@ -32,19 +34,17 @@ function formatReviews(count: number) {
 const Preview: React.FC<FilterPopUpProps> = ({filters}) => {
     const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
     const [openCarId, setOpenCarId] = useState<number | null>(null);
+    const [isSuccessPopUpVisible, setSuccessPopUpVisible] = useState<{ [carId: number]: boolean }>({});
     const togglePopup = (carId: number) => {
-        if (openCarId === carId) {
-            setOpenCarId(null);
-        } else {
-            setOpenCarId(carId);
-        }
-    }
+        setOpenCarId((prev) => (prev === carId ? null : carId));
+    };
     const handleDelete = async (carId: number) => {
         try {
             const response = await CarService.DeleteCar(carId);
             if (response) {
                 const carsData = await fetchCars();
                 setCars(carsData);
+                setSuccessPopUpVisible((prev) => ({ ...prev, [carId]: false }));
             }
         } catch (error) {
             alert('Ошибка сервера.');
@@ -71,7 +71,6 @@ const Preview: React.FC<FilterPopUpProps> = ({filters}) => {
             console.error('Error updating cars:', error);
         }
     };
-
     useEffect(() => {
         fetchData();
     }, [filters]);
@@ -109,7 +108,13 @@ const Preview: React.FC<FilterPopUpProps> = ({filters}) => {
                 <img className={styles.toolEdit} src={rewiev} onClick={() => togglePopup(car.carId)}></img>
                 <EditCarPopup car={car} isOpen={openCarId === car.carId} handleClose={() => togglePopup(car.carId)}
                               loadNewCars={() => updateCars()}/>
-                <img className={styles.toolDelete} src={trash} onClick={() => handleDelete(car.carId)}></img>
+                <img className={styles.toolDelete} src={trash} onClick={() => setSuccessPopUpVisible((prev) => ({ ...prev, [car.carId]: true }))}></img>
+                <SuccessPopUp
+                    onConfirm={() => handleDelete(car.carId)}
+                    text="Вы уверены, что хотите удалить автомобиль?"
+                    isVisible={isSuccessPopUpVisible[car.carId] || false}
+                    onClose={() => setSuccessPopUpVisible((prev) => ({ ...prev, [car.carId]: false }))}
+                />
             </div>
         </li>
     );

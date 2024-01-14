@@ -138,7 +138,7 @@ const StoryBlock: React.FC<monthProps> = (props) => {
             <p className={styles.blockText_fourth}>{ new Date(rent.startDate).toLocaleDateString('ru-RU') } - { new Date(rent.endDate).toLocaleDateString('ru-RU') }</p>
             <div className={styles.blockText_rewiev}>
                 <img className={styles.rewiev_star} src={star}></img>
-                <p className={styles.rewiev_digit}>{rent.car.rating.toFixed(1)}</p>
+                <p className={styles.rewiev_digit}>{rent && rent.feedback && rent.feedback.stars ? rent.feedback.stars.toFixed(1) : '0.0'}</p>
                 <img className={styles.rewiev_icon} src={rewiev}
                      onClick={() => toggleFeedbackPopup(rent.rentId)}></img>
             </div>

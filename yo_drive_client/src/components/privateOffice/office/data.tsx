@@ -5,6 +5,8 @@ import {UserModel, UserUpdatePhotoModel} from "../../../models/User/UserModel";
 import UserService from "../../../services/UserService";
 import {UserUpdateModel} from "../../../models/User/UserUpdateModel";
 import LkService from '../../../services/lkService';
+import SuccessPopUp from "../../extentions/successPopUp";
+
 
 interface Props {
     user: UserModel;
@@ -20,6 +22,7 @@ export function Data(props: Props) {
 
     const [form, setForm] = useState(false);
     const [user, setUser] = useState(props.user);
+    const [isSuccessPopUpVisible, setSuccessPopUpVisible] = useState(false);
 
     const setUserForm = () => {
         setForm(!form);
@@ -56,6 +59,7 @@ export function Data(props: Props) {
     const [image, setImage] = useState<File>()
     const [userUpdateData, setUserUpdateData] = useState<UserUpdatePhotoModel>()
 
+
     const setUserPhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files?.[0];
     
@@ -84,6 +88,12 @@ export function Data(props: Props) {
             alert("Ошибка при обновлении фото");
         }
     };
+
+    const onClose = () => {
+        setForm(!form)
+        setSuccessPopUpVisible(false)
+    }
+
     return (
         <div className={styles.info}>
             <h1 className={styles.infoHeader}>Мои данные</h1>
@@ -123,7 +133,13 @@ export function Data(props: Props) {
                 {!form &&
                     <button className={styles.buttonEdit} onClick={() => setUserForm()}>Редактировать данные</button>}
                 {form &&
-                    <button className={styles.buttonEdit} onClick={handleSubmit(onSubmit)}>Сохранить данные</button>}
+                    <button className={styles.buttonEdit} onClick={() => setSuccessPopUpVisible(true)}>Сохранить данные</button>}
+                    <SuccessPopUp
+                        onConfirm={handleSubmit(onSubmit)}
+                        text="Вы уверены, что хотите сохранить данные?"
+                        isVisible={isSuccessPopUpVisible}
+                        onClose={() => onClose()}
+                    />
                 {!image &&<label htmlFor="userImg" className={styles.buttonImg}>Загрузить изображение</label>}
                 {!image ? <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}  onChange={(e) => setUserPhoto(e)}></input>
                 :<button className={styles.buttonImgSave} onClick={handleSave}>Сохранить фото</button>}

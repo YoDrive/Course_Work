@@ -14,7 +14,7 @@ export function Registration() {
         register,
         formState: { errors },
         handleSubmit
-    } = useForm<RegistrationModel>({ // Укажите тип данных для useForm
+    } = useForm<RegistrationModel>({
         mode: "onBlur"
     });
 

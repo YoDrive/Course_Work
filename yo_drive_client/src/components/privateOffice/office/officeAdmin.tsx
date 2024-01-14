@@ -8,6 +8,7 @@ import {useStore} from "../../../index";
 import {UserModel} from "../../../models/User/UserModel";
 import LkService from "../../../services/lkService";
 import {useNavigate} from "react-router-dom";
+import SuccessPopUp from "../../extentions/successPopUp";
 
 
 export function OfficeAdmin() {
@@ -16,6 +17,7 @@ export function OfficeAdmin() {
     const [editor, setEditor] = useState(false);
     const [user, setUser] = useState<UserModel>();
     const [loading, setLoading] = useState(true);
+    const [isSuccessPopUpVisible, setSuccessPopUpVisible] = useState(false);
     const store = useStore();
     const navigate = useNavigate();
 
@@ -51,6 +53,7 @@ export function OfficeAdmin() {
 
     const handleLogout = async () => {
         try {
+            setSuccessPopUpVisible(false);
             await store.logout();
         } catch (error) {
             console.log(error);
@@ -84,7 +87,13 @@ export function OfficeAdmin() {
                             <button onClick={dateHandler} className={styles.menuButton}>Мои данные</button>
                             <button onClick={statisticsHandler} className={styles.menuButton}>Статистика</button>
                             <button onClick={editorHandler} className={styles.menuButton}>Редактор автомобилей</button>
-                            <button onClick={handleLogout} className={styles.menuButton}>Выход</button>
+                            <button onClick={() => setSuccessPopUpVisible(true)} className={styles.menuButton}>Выход</button>
+                            <SuccessPopUp
+                                onConfirm={handleLogout}
+                                text="Вы уверены, что хотите выйти?"
+                                isVisible={isSuccessPopUpVisible}
+                                onClose={() => setSuccessPopUpVisible(false)}
+                            />
                         </div>
                     </div>
                     {data && <Data user={user!}/>}
