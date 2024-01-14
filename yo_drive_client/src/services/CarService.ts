@@ -43,7 +43,6 @@ export default class CarService {
             throw error;
         }
     }
-
 }
 
 export async function fetchCars() {

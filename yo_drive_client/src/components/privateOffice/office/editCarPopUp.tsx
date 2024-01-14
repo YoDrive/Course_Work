@@ -10,16 +10,49 @@ import space from "../../../assets/space.svg"
 
 interface PopupProps {
     handleClose: () => void;
+    loadNewCars: () => void;
     isOpen: boolean;
     car: CarViewModel;
-    carIndex: number;
 }
 
 const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
-    const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
+    const [selectedBrand, setSelectedBrand] = useState<number | null>(props.car.carModel.carBrand.carBrandId);
+    const [selectedModel, setSelectedModel] = useState<number | null>();
+    const [selectedTransmission, setSelectedTransmission] = useState<GearBoxEnum>();
+    const [selectedFilial, setSelectedFilial] = useState<number | null>();
+    const [selectedCarClass, setSelectedCarClass] = useState<number | null>();
+    const [costDay, setCostDay] = useState<number | null>();
+    const [year, setYear] = useState<number | null>();
+    const [models, setCarModels] = useState<CarModel[] | undefined>([]);
+    const [classes, setCarClass] = useState<CarClass[] | undefined>([]);
+    const [filials, setCarFilials] = useState<Filial[] | undefined>([]);
+    const [localFilters, setLocalFilters] = useState<CarUpdated>();
+    const [brands, setBrands] = useState<CarBrand[] | undefined>([]);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const [image, setImage] = useState<File | undefined>(undefined)
+    const [loadImg, setLoadImg] = useState(false);
 
     const {isOpen, handleClose, car} = props;
     const carId = props.car.carId;
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await getCarClasses();
+                setCarClass(response);
+                const filials = await getCarFilials();
+                setCarFilials(filials);
+                const brands = await getCarBrands();
+                setBrands(brands);
+                const models = await getCarModels();
+                setCarModels(models);
+            } catch (error) {
+                alert('Ошибка сервера.');
+            }
+        }
+
+        fetchData();
+    }, []);
 
     const handleClosePopUp = () => {
         setSelectedBrand(null);
@@ -32,33 +65,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         setImage(undefined);
         props.handleClose();
     };
-
-    const [models, setCarModels] = useState<CarModel[] | undefined>([]);
-    const [classes, setCarClass] = useState<CarClass[] | undefined>([]);
-    const [filials, setCarFilials] = useState<Filial[] | undefined>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getCarModels();
-                setCarModels(response);
-            } catch (error) {
-                console.error('Error fetching car models:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    const [selectedBrand, setSelectedBrand] = useState<number | null>(props.car.carModel.carBrand.carBrandId);
-    const [selectedModel, setSelectedModel] = useState<number | null>();
-    const [selectedTransmission, setSelectedTransmission] = useState<GearBoxEnum>();
-    const [selectedFilial, setSelectedFilial] = useState<number | null>();
-    const [selectedCarClass, setSelectedCarClass] = useState<number | null>();
-    const [costDay, setCostDay] = useState<number | null>();
-    ;
-    const [year, setYear] = useState<number | null>();
-    ;
 
     const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedBrandValue = event.target.value;
@@ -102,16 +108,12 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         const transm = event.target.value;
         setSelectedTransmission(parseInt(transm, 10));
     };
-    const [brands, setBrands] = useState<CarBrand[] | undefined>([]);
-    const inputRef = useRef<HTMLInputElement | null>(null);
-    const [image, setImage] = useState<File|undefined>(undefined)
-    const [loadImg, setLoadImg] = useState(false);
 
     const handleImageClick = () => {
         inputRef.current?.focus();
     }
-    const handleImageChange = (event: any, carIndex: number) => {
-        const file = event.target.files[carIndex];
+    const handleImageChange = (event: any) => {
+        const file = event.target.files[0];
         setImage(file);
         setLoadImg(true);
     };
@@ -120,43 +122,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         setAllInp();
         handleClosePopUp();
     }
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await getCarBrands();
-                setBrands(response);
-            } catch (error) {
-                alert('Ошибка сервера.');
-            }
-        }
-
-        fetchData();
-    }, []);
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await getCarClasses();
-                setCarClass(response);
-            } catch (error) {
-                alert('Ошибка сервера.');
-            }
-        }
-
-        fetchData();
-    }, []);
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await getCarFilials();
-                setCarFilials(response);
-            } catch (error) {
-                alert('Ошибка сервера.');
-            }
-        }
-
-        fetchData();
-    }, []);
 
     const [inp1, setInp1] = useState(false);
 
@@ -206,8 +171,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         setLoadImg(false);
     }
 
-    const [localFilters, setLocalFilters] = useState<CarUpdated>();
-
     useEffect(() => {
         const createCarFilter = (): CarUpdated => {
             const updatedFilters: CarUpdated = {
@@ -221,7 +184,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                     selectedTransmission === 1 ? GearBoxEnum["Механическая"] :
                         (props.car.gearBox ?? 0),
                 CostDay: (costDay !== null && !isNaN(Number(costDay))) ? Number(costDay) : (props.car.costDay ?? 0),
-                CarImage: (image!== undefined) ? image : undefined
+                CarImage: image ? image : undefined
             };
 
             setLocalFilters(updatedFilters);
@@ -231,20 +194,20 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
 
         const filters = createCarFilter();
         setLocalFilters(filters);
-        console.log(localFilters);
     }, [selectedModel, selectedBrand, selectedCarClass, selectedFilial, year, selectedTransmission, costDay, image]);
 
     const handleSave = async () => {
         try {
             if (localFilters) {
                 await CarService.updateCar(localFilters)
-            };
+            }
+            ;
             alert("Ваша машина отредактирована");
             handleClose();
+            props.loadNewCars();
         } catch (error) {
             console.error('Ошибка создания автомобиля:', error);
         }
-        fetchCars();
     };
 
 
@@ -259,13 +222,15 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                         <div className={styles.blockImg} onClick={handleImageClick}>
                             <div className={styles.imgSpace}>
                                 {image && <img className={styles.img}
-                                 src={URL.createObjectURL(image)}/>}
-                                {!loadImg && <img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`}
-                     alt={`${car.carModel.modelName}`}></img>}
+                                               src={URL.createObjectURL(image)}/>}
+                                {!loadImg &&
+                                    <img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`}
+                                         alt={`${car.carModel.modelName}`}></img>}
                             </div>
                             <div className={styles.itemInp}>
                                 <input type="file" accept=".png" id="Image"
-                                       className={styles.inputImg} ref={inputRef} onChange={(event) => handleImageChange(event, props.carIndex)}/>
+                                       className={styles.inputImg} ref={inputRef}
+                                       onChange={(event) => handleImageChange(event)}/>
                                 <label htmlFor="Image">Загрузить изображение</label>
                             </div>
                         </div>
