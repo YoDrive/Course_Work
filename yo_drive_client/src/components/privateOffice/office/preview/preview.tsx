@@ -1,18 +1,18 @@
 import styles from './preview.module.css'
-import rewiev from '../../../assets/rewiev.svg'
-import trash from '../../../assets/trash.svg'
+import rewiev from '../../../../assets/rewiev.svg'
+import trash from '../../../../assets/trash.svg'
 
 import React, {useEffect, useState, useRef} from "react";
-import {CarViewModel} from "../../../models/Booking/CarBookingModel";
-import {fetchCars, getCarClasses} from "../../../services/CarService";
+import {CarViewModel} from "../../../../models/Booking/CarBookingModel";
+import {fetchCars, getCarClasses} from "../../../../services/CarService";
 import {Rating} from "react-simple-star-rating";
-import {GearBoxEnum} from "../../../models/CarModel";
-import emptyImageCar from '../../../assets/emptyImageCar.png';
-import EditCarPopup from "./editCarPopUp"
-import CarService from '../../../services/CarService';
-import {Filter} from '../../../models/Booking/FilterBookingModel';
-import {getCarsByFilter} from '../../../services/CarService';
-import SuccessPopUp from "../../extentions/successPopUp";
+import {GearBoxEnum} from "../../../../models/CarModel";
+import emptyImageCar from '../../../../assets/emptyImageCar.png';
+import EditCarPopup from "../editCarPopUp/editCarPopUp"
+import CarService from '../../../../services/CarService';
+import {Filter} from '../../../../models/Booking/FilterBookingModel';
+import {getCarsByFilter} from '../../../../services/CarService';
+import SuccessPopUp from "../../../extentions/successPopUp";
 
 interface FilterPopUpProps {
     filters: Filter;

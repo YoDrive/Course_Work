@@ -1,12 +1,12 @@
 import React, {FunctionComponent, useState, useRef, useEffect, useCallback} from "react";
-import styles from "../office/editCarPopUp.module.css"
-import {CarBrand, CarViewModel, CarModel, CarClass, Filial} from "../../../models/Booking/CarBookingModel";
-import {fetchCars, getCarBrands, getCarModels, getCarClasses, getCarFilials} from "../../../services/CarService";
+import styles from "./editCarPopUp.module.css"
+import {CarBrand, CarViewModel, CarModel, CarClass, Filial} from "../../../../models/Booking/CarBookingModel";
+import {fetchCars, getCarBrands, getCarModels, getCarClasses, getCarFilials} from "../../../../services/CarService";
 import {Select, SelectProps, DatePicker, Input} from 'antd';
-import {GearBoxEnum} from "../../../models/CarModel";
-import CarService from "../../../services/CarService";
-import {CarUpdated} from "../../../models/Add/UpdateCar.model";
-import space from "../../../assets/space.svg"
+import {GearBoxEnum} from "../../../../models/CarModel";
+import CarService from "../../../../services/CarService";
+import {CarUpdated} from "../../../../models/Add/UpdateCar.model";
+import space from "../../../../assets/space.svg"
 
 interface PopupProps {
     handleClose: () => void;

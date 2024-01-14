@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import styles from './officeAdmin.module.css';
-import User from '../../../assets/user.svg'
-import { Statistics } from './dashboard/statistics';
-import { Data } from './data'
-import { Editor } from './editor'
-import {useStore} from "../../../index";
-import {UserModel} from "../../../models/User/UserModel";
-import LkService from "../../../services/lkService";
+import User from '../../../../assets/user.svg'
+import { Statistics } from '../dashboard/statistics';
+import { Editor } from '../editor'
+import {useStore} from "../../../../index";
+import {UserModel} from "../../../../models/User/UserModel";
+import LkService from "../../../../services/lkService";
 import {useNavigate} from "react-router-dom";
-import SuccessPopUp from "../../extentions/successPopUp";
+import SuccessPopUp from "../../../extentions/successPopUp";
+import {Data} from "../data";
 
 
 export function OfficeAdmin() {

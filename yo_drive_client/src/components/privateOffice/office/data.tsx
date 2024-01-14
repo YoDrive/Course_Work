@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useForm} from "react-hook-form"
-import styles from './office.module.css';
+import styles from './clientOffice/office.module.css';
 import {UserModel, UserUpdatePhotoModel} from "../../../models/User/UserModel";
 import UserService from "../../../services/UserService";
 import {UserUpdateModel} from "../../../models/User/UserUpdateModel";

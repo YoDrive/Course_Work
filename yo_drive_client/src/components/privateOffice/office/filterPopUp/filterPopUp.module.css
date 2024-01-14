@@ -43,16 +43,16 @@
 .dateItem::-webkit-calendar-picker-indicator {
     color: transparent;
     opacity: 1;
-    background: url(../../../assets/calendar.svg);
+    background: url(../../../../assets/calendar.svg);
     padding-bottom: 2px;
     padding-left: 5px;
     cursor: pointer;
 }
 .dropItem{
-    background: url("../../../assets/galochkaClose.svg") 135px  no-repeat;
+    background: url("../../../../assets/galochkaClose.svg") 135px  no-repeat;
 }
 .dropItem:focus{
-    background: url("../../../assets/galochkaOpen.svg") 135px  no-repeat;
+    background: url("../../../../assets/galochkaOpen.svg") 135px  no-repeat;
 }
 .dropItem::-webkit-calendar-picker-indicator {
     display: none !important;

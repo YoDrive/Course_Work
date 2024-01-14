@@ -126,10 +126,10 @@
      border-width: 1px;
 }
 .itemInput{
-     background: url("../../../assets/galochkaClose.svg") 220px  no-repeat;
+     background: url("../../../../assets/galochkaClose.svg") 220px  no-repeat;
 }
 .itemInput:focus{
-     background: url("../../../assets/galochkaOpen.svg") 220px  no-repeat;
+     background: url("../../../../assets/galochkaOpen.svg") 220px  no-repeat;
 }
 .itemInput::-webkit-calendar-picker-indicator {
      display: none !important;

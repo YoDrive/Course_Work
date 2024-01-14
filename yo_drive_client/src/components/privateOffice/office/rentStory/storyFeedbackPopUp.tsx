@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useCallback, useEffect} from "react";
-import styles from "../office/storyFeedbackPopUp.module.css"
-import { BookingResponseModel } from "../../../models/Booking/BookingResponseModel";
+import styles from "./storyFeedbackPopUp.module.css"
+import { BookingResponseModel } from "../../../../models/Booking/BookingResponseModel";
 interface FeedbackPopupProps {
     handleClose: () => void;
     content: React.ReactNode;

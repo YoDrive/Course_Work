@@ -1,10 +1,10 @@
-import styles from './office.module.css';
+import styles from './clientOffice/office.module.css';
 import vector from '../../../assets/Vector2.svg'
 import vector1 from "../../../assets/Vector21.svg"
 import { useState} from 'react';
-import Preview  from './preview'
-import { Add } from './add'
-import FilterPopUp from './filterPopUp';
+import Preview  from './preview/preview'
+import { Add } from './addCar/add'
+import FilterPopUp from './filterPopUp/filterPopUp';
 import { Filter } from '../../../models/Booking/FilterBookingModel';
 export function Editor(){
     const[pUpFilter, setPUpFilter] = useState(false);

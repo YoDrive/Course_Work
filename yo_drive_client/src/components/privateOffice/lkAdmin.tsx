@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "./lkClient.module.css"
-import OfficeAdmin from './office/officeAdmin'
+import OfficeAdmin from './office/officeAdmin/officeAdmin'
 import Header from '../header/header';
 
 export function LKAdmin() {

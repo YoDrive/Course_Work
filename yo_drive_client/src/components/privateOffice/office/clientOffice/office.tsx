@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import styles from './office.module.css';
-import User from '../../../assets/user.svg';
-import { Story } from './story';
-import { Data } from './data';
+import User from '../../../../assets/user.svg';
+import { Story } from '../rentStory/story';
 import {useNavigate} from "react-router-dom";
-import {useStore} from "../../../index";
-import {UserModel} from "../../../models/User/UserModel";
-import LkService from "../../../services/lkService";
-import SuccessPopUp from "../../extentions/successPopUp";
+import {useStore} from "../../../../index";
+import {UserModel} from "../../../../models/User/UserModel";
+import LkService from "../../../../services/lkService";
+import SuccessPopUp from "../../../extentions/successPopUp";
+import {Data} from "../data";
 
 export function Office() {
     const navigate = useNavigate();

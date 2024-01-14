@@ -1,10 +1,10 @@
 import styles from "./filterPopUp.module.css"
-import location from "../../../assets/location.svg"
+import location from "../../../../assets/location.svg"
 import React, {useEffect, useState, useMemo} from "react";
-import {CarBrand, CarClass, CarModel, Filial} from "../../../models/Booking/CarBookingModel";
-import FilterService from "../../../services/FilterService";
-import { Filter } from "../../../models/Booking/FilterBookingModel";
-import { GearBoxEnum } from "../../../models/CarModel";
+import {CarBrand, CarClass, CarModel, Filial} from "../../../../models/Booking/CarBookingModel";
+import FilterService from "../../../../services/FilterService";
+import { Filter } from "../../../../models/Booking/FilterBookingModel";
+import { GearBoxEnum } from "../../../../models/CarModel";
 interface FilterPopUpProps {
     onFiltersChange: (filters: Filter) => void;
 }

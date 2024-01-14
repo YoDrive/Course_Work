@@ -1,13 +1,13 @@
 import {useEffect, useState} from 'react'
 import styles from './story.module.css'
-import star from '../../../assets/star.svg'
-import rewiev from '../../../assets/rewiev.svg'
+import star from '../../../../assets/star.svg'
+import rewiev from '../../../../assets/rewiev.svg'
 import StoryFeedbackPopup from './storyFeedbackPopUp'
-import {BookingResponseModel} from '../../../models/Booking/BookingResponseModel'
-import RentService from "../../../services/RentService";
+import {BookingResponseModel} from '../../../../models/Booking/BookingResponseModel'
+import RentService from "../../../../services/RentService";
 import { Rating } from 'react-simple-star-rating';
-import {useStore} from "../../../index";
-import FeedbackService from "../../../services/FeedbackService"
+import {useStore} from "../../../../index";
+import FeedbackService from "../../../../services/FeedbackService"
 interface monthProps{
     selectedMonth: Date;
     allRent : boolean;
