@@ -265,5 +265,6 @@
 }
 .allButton:hover{
     text-decoration: underline;
-    opacity: 0.9;;
+    opacity: 0.9;
+    cursor: pointer;;
 }
