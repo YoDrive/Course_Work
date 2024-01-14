@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+    color: #212528;
+}
+
+.popupContent {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.buttons {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-around;
+}
+
+.btn {
+    width: 50px;
+    height: 40px;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.visible {
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
