@@ -28,7 +28,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     const [filials, setCarFilials] = useState<Filial[] | undefined>([]);
     const [localFilters, setLocalFilters] = useState<CarUpdated>();
     const [brands, setBrands] = useState<CarBrand[] | undefined>([]);
-    const inputRef = useRef<HTMLInputElement | null>(null);
+    // const inputRef = useRef<HTMLInputElement | null>(null);
     const [image, setImage] = useState<File | undefined>(undefined)
     const [loadImg, setLoadImg] = useState(false);
 
@@ -108,9 +108,12 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
         setSelectedTransmission(parseInt(transm, 10));
     };
 
-    const handleImageClick = () => {
-        inputRef.current?.focus();
-    }
+    const handleImageClick = (carId: number) => {
+        const inputRef = inputRefs.current[carId];
+        if (inputRef) {
+          inputRef.focus();
+        }
+      };
     const handleImageChange = (event: any) => {
         const file = event.target.files[0];
         setImage(file);
@@ -200,7 +203,6 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
             if (localFilters) {
                 await CarService.updateCar(localFilters)
             }
-            ;
             alert("Ваша машина отредактирована");
             handleClose();
             props.loadNewCars();
@@ -208,6 +210,7 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
             console.error('Ошибка создания автомобиля:', error);
         }
     };
+    const inputRefs = useRef<Record<number, HTMLInputElement | null>>({});
 
 
     return (
@@ -217,22 +220,30 @@ const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
                                                          onClick={handleClosePopUp}>x</span></div>
                 <p className={styles.popupTitle}>Редактор автомобиля</p>
                 <div className={styles.addBlock}>
-                    <form className={styles.addForm}>
-                        <div className={styles.blockImg} onClick={handleImageClick}>
-                            <div className={styles.imgSpace}>
-                                {image && <img className={styles.img}
-                                               src={URL.createObjectURL(image)}/>}
-                                {!loadImg &&
-                                    <img className={styles.spaceIcon} src={`data:image/png;base64,${car.image}`}
-                                         alt={`${car.carModel.modelName}`}></img>}
-                            </div>
-                            <div className={styles.itemInp}>
-                                <input type="file" accept=".png" id="Image"
-                                       className={styles.inputImg} ref={inputRef}
-                                       onChange={(event) => handleImageChange(event)}/>
-                                <label htmlFor="Image">Загрузить изображение</label>
-                            </div>
+                <form className={styles.addForm}>
+                    <div className={styles.blockImg} onClick={() => handleImageClick(car.carId)}>
+                        <div className={styles.imgSpace}>
+                        {image && <img className={styles.img} src={URL.createObjectURL(image)} />}
+                        {!loadImg && (
+                            <img
+                            className={styles.spaceIcon}
+                            src={`data:image/png;base64,${car.image}`}
+                            alt={`${car.carModel.modelName}`}
+                            />
+                        )}
                         </div>
+                        <div className={styles.itemInp}>
+                        <input
+                            type="file"
+                            accept=".png"
+                            id={`Image${car.carId}`}
+                            className={styles.inputImg}
+                            ref={(el) => (inputRefs.current[car.carId] = el)}
+                            onChange={(event) => handleImageChange(event)}
+                        />
+                        <label htmlFor={`Image${car.carId}`}>Загрузить изображение</label>
+                        </div>
+                    </div>
                         <div className={styles.blockInfo}>
                             <div className={styles.infoItem}>
                                 <label className={styles.itemName}>Марка:</label>
