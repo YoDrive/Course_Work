@@ -76,6 +76,10 @@ export function Data(props: Props) {
                 setUserUpdateData(updatedUserPhoto);
                 await UserService.updateUserPhoto(updatedUserPhoto);
                 alert("Фото успешно обновлено");
+                setUserUpdateData(
+                    {userId: 0,
+                    image: undefined});
+                setImage(undefined);
             }
         } catch (error) {
             alert("Ошибка при обновлении фото");

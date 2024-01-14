@@ -290,3 +290,11 @@
 .imgIcon{
     display: none;
 }
+.headIconUser{
+    width: 92px;
+    height: 92px;
+    border-radius: 100%;
+    object-fit:cover;
+    margin-top: 25px;
+    margin-left: 130px;
+}

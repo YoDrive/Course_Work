@@ -74,7 +74,6 @@ export function Header() {
 
     const [isMenuActive, setMenuActive] = useState(false);
     const [user, setUser] = useState<UserModel>();
-    // const [loading, setLoading] = useState(true);
     const store = useStore();
 
     useEffect(() => {
@@ -116,7 +115,7 @@ export function Header() {
                     </li>
                     :
                     <li className={styles.headerList} onClick={() => store.isAdmin() ? handleNavigation('/lkAdmin') : handleNavigation('/lkClient')}>
-                        <img className={styles.headerListIcon} src={authorizationIcon} alt=""/>
+                        {user && user.image ? <img className={styles.headIconUser} src={`data:image;base64,${user.image}`} alt=""></img>:<img className={styles.headerListIcon} src={authorizationIcon} alt=""/>}
                         <p className={styles.headerListText}>{user?.surname} {user?.firstName.substring(0,1)}. {user?.patronymic.substring(0, 1)}.</p>
                     </li>
                 }

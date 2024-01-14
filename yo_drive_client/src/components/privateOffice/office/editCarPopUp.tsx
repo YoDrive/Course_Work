@@ -18,18 +18,6 @@ interface PopupProps {
 const EditCarPopup: FunctionComponent<PopupProps> = (props) => {
     const [cars, setCars] = useState<CarViewModel[] | undefined>([]);
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await fetchCars();
-                setCars(response);
-            } catch (error) {
-                alert('Ошибка сервера.');
-            }
-        }
-
-        fetchData();
-    }, []);
     const {isOpen, handleClose, car} = props;
     const carId = props.car.carId;
 

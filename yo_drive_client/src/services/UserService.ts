@@ -8,13 +8,9 @@ export default class UserService {
         return axiosInstance.put<UserModel>(`/api/User/UpdateUserInfo`, userData);
     }
 
-    static async updateUserPhoto(data: UserUpdatePhotoModel): Promise<AxiosResponse<UserModel>> {
+    static async updateUserPhoto(data: UserUpdatePhotoModel): Promise<AxiosResponse<UserUpdatePhotoModel>> {
         try {
-            return axiosInstance.put<UserModel>(`/api/User/UpdateUserPhoto`, data, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            return axiosInstance.put<UserUpdatePhotoModel>(`/api/User/UpdateUserPhoto`, data);
         } catch (error) {
             console.error('Error updating photo:', error);
             throw error;
