@@ -4,6 +4,7 @@ import styles from './office.module.css';
 import {UserModel} from "../../../models/User/UserModel";
 import UserService from "../../../services/UserService";
 import {UserUpdateModel} from "../../../models/User/UserUpdateModel";
+import SuccessPopUp from "../../extentions/successPopUp";
 
 interface Props {
     user: UserModel;
@@ -19,6 +20,7 @@ export function Data(props: Props) {
 
     const [form, setForm] = useState(false);
     const [user, setUser] = useState(props.user);
+    const [isSuccessPopUpVisible, setSuccessPopUpVisible] = useState(false);
 
     const setUserForm = () => {
         setForm(!form);
@@ -51,6 +53,11 @@ export function Data(props: Props) {
             alert('Ошибка при обновлении данных:');
             console.error('Ошибка при обновлении данных:', error);
         }
+    }
+
+    const onClose = () => {
+        setForm(!form)
+        setSuccessPopUpVisible(false)
     }
 
     return (
@@ -92,7 +99,13 @@ export function Data(props: Props) {
                 {!form &&
                     <button className={styles.buttonEdit} onClick={() => setUserForm()}>Редактировать данные</button>}
                 {form &&
-                    <button className={styles.buttonEdit} onClick={handleSubmit(onSubmit)}>Сохранить данные</button>}
+                    <button className={styles.buttonEdit} onClick={() => setSuccessPopUpVisible(true)}>Сохранить данные</button>}
+                <SuccessPopUp
+                    onConfirm={handleSubmit(onSubmit)}
+                    text="Вы уверены, что хотите сохранить данные?"
+                    isVisible={isSuccessPopUpVisible}
+                    onClose={() => onClose()}
+                />
                 <label htmlFor="userImg"   className={styles.buttonImg}>Загрузить изображение</label>
                 <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon}></input>
                 <button className={styles.buttonDelete}>Удалить аккаунт</button>
