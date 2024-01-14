@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useForm} from "react-hook-form"
 import styles from './office.module.css';
-import {UserModel} from "../../../models/User/UserModel";
+import {UserModel, UserUpdatePhotoModel} from "../../../models/User/UserModel";
 import UserService from "../../../services/UserService";
 import {UserUpdateModel} from "../../../models/User/UserUpdateModel";
 import LkService from '../../../services/lkService';
@@ -53,24 +53,31 @@ export function Data(props: Props) {
             console.error('Ошибка при обновлении данных:', error);
         }
     }
-    const [image, setImage] = useState<FormData>()
+    const [image, setImage] = useState<File|undefined>()
+    const [userUpdateData, setUserUpdateData] = useState<UserUpdatePhotoModel>({
+        userId: 0,
+        image: undefined,
+    })
 
     const setUserPhoto = (event: any) => {
         const img = event.target.files[0];
-        const formData = new FormData();
-        formData.append('file', img);
-        setImage(formData);
-        console.log(formData);
+        setImage(img);
+        handleSave();
     }
 
     const handleSave = async () => {
         try {
             if (image) {
-                await UserService.updateUserPhoto(props.user.userId, image);
+                const updatedUserPhoto = {
+                    ...userUpdateData,
+                    image: image,
+                    userId: user.userId,
+                };
+                setUserUpdateData(updatedUserPhoto);
+                await UserService.updateUserPhoto(updatedUserPhoto);
                 alert("Фото успешно обновлено");
             }
         } catch (error) {
-            console.error('Ошибка при обновлении фото:', error);
             alert("Ошибка при обновлении фото");
         }
     };
@@ -114,7 +121,7 @@ export function Data(props: Props) {
                     <button className={styles.buttonEdit} onClick={() => setUserForm()}>Редактировать данные</button>}
                 {form &&
                     <button className={styles.buttonEdit} onClick={handleSubmit(onSubmit)}>Сохранить данные</button>}
-                <label htmlFor="userImg"   className={styles.buttonImg}>Загрузить изображение</label>
+                <label htmlFor="userImg" className={styles.buttonImg}>Загрузить изображение</label>
                 <input type='file' accept=".png, .jpg,.jpeg" id="userImg" className={styles.imgIcon} onChange={setUserPhoto}></input>
                 <button className={styles.buttonDelete} onClick={handleSave}>Удалить аккаунт</button>
             </div>
