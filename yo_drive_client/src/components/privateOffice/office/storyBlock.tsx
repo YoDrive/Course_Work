@@ -10,6 +10,7 @@ import {useStore} from "../../../index";
 import FeedbackService from "../../../services/FeedbackService"
 interface monthProps{
     selectedMonth: Date;
+    allRent : boolean;
 }
 const StoryBlock: React.FC<monthProps> = (props) => {
     const [rents, setRents] = useState<BookingResponseModel[]>([]);
@@ -121,16 +122,20 @@ const StoryBlock: React.FC<monthProps> = (props) => {
         }
       };
 
-      let listItems = rents
-      ?.filter((rent) => {
+    let filteredAndSortedRents = rents;
+
+    if (!props.allRent) {
+    filteredAndSortedRents = filteredAndSortedRents
+        .filter((rent) => {
         const rentStartDate = new Date(rent.startDate);
         return (
-          rentStartDate.getFullYear() === sortMonth.getFullYear() &&
-          rentStartDate.getMonth() === sortMonth.getMonth()
+            rentStartDate.getFullYear() === sortMonth.getFullYear() &&
+            rentStartDate.getMonth() === sortMonth.getMonth()
         );
-      })
-      .sort((a, b) => new Date(a.startDate).getMonth() - new Date(b.startDate).getMonth())
-      .map((rent) => (
+        })
+        .sort((a, b) => new Date(a.startDate).getMonth() - new Date(b.startDate).getMonth());
+    }
+    let listItems = filteredAndSortedRents.map((rent) => (
         <li key={rent.rentId} className={styles.storyBlock}>
             <p className={styles.blockText_first}>{rent.car.carModel.carBrand.name + ' ' + rent.car.carModel.modelName}</p>
             <p className={styles.blockText_second}>{rent.car.costDay}₽/сутки</p>
