@@ -1,4 +1,4 @@
-export interface CarUpdated{
+export interface CarUpdated {
     CarId: number,
     ModelId: number,
     ClassId: number,
@@ -6,5 +6,5 @@ export interface CarUpdated{
     Year: number,
     GearBox: number,
     CostDay: number,
-    CarImage: File | undefined
+    CarImage?: File
 }
