@@ -85,6 +85,7 @@ export function Data(props: Props) {
                     {userId: 0,
                     image: undefined});
                 setImage(undefined);
+                window.location.reload();
             }
         } catch (error) {
             alert("Ошибка при обновлении фото");
