@@ -8,32 +8,51 @@
     background: rgba(0, 0, 0, 0.6);
     justify-content: center;
     align-items: center;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-weight: 400;
     color: #212528;
 }
 
 .popupContent {
-    background: #fff;
-    padding: 20px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 63px 83px 58px 83px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: #D9D9D9;
 }
 
 .buttons {
     display: flex;
-    margin-top: 20px;
     justify-content: space-around;
+    margin-top: 34px;
 }
 
 .btn {
-    width: 50px;
-    height: 40px;
+    padding: 7px 75px;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    text-align: center;
+}
+
+.btn:first-child {
+    background-color: transparent;
+    border: none;
+}
+
+.btn:last-child {
+    background-color: transparent;
+    border: solid;
+    border-color: #212528;
+    border-width: 1px;
 }
 
 .btn:hover {
     cursor: pointer;
+    font-weight: 600;
+    color: #F5F5F5;
+    background-color: #212528;
 }
 
 .visible {

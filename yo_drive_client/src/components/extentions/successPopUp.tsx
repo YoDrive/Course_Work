@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from './successPopUp.module.css';
-import Store from "../../store/Store";
 
 interface Props {
     onConfirm: () => void;
