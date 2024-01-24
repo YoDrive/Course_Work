@@ -16,11 +16,11 @@ public class UserController : ControllerBase
     private readonly IUserRepository _repository;
     private readonly IMapper _mapper;
 
-    public UserController(AppDbContext db, IMapper mapper)
+    public UserController(AppDbContext db, IMapper mapper, IUserRepository repository)
     {
         _db = db;
         _mapper = mapper;
-        _repository = new UserRepository(_db, _mapper);
+        _repository = repository;
     }
 
     [Authorize]

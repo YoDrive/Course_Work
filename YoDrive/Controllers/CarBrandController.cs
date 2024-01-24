@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
+using YoDrive.Domain.Data.Interfaces;
 using YoDrive.Domain.Data.Repositories;
 using YoDrive.Domain.Dtos.CarBrandDto;
 using YoDrive.Domain.Models;
@@ -16,14 +17,14 @@ namespace YoDrive.Controllers;
 public class CarBrandController : ControllerBase
 {
     private readonly AppDbContext _db;
-    private readonly CarBrandRepository _repository;
+    private readonly ICarBrandRepository _repository;
     private readonly IMapper _mapper;
 
-    public CarBrandController(AppDbContext db, IMapper mapper)
+    public CarBrandController(AppDbContext db, IMapper mapper, ICarBrandRepository repository)
     {
         _db = db;
         _mapper = mapper;
-        _repository = new CarBrandRepository(_db, _mapper);
+        _repository = repository;
     }
 
     /// <summary>

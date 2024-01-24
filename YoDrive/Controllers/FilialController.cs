@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
+using YoDrive.Domain.Data.Interfaces;
 using YoDrive.Domain.Data.Repositories;
 using YoDrive.Domain.Dtos.FilialDto;
 using YoDrive.Domain.Models;
@@ -17,14 +18,14 @@ namespace YoDrive.Controllers;
 public class FilialController : ControllerBase
 {
     private readonly AppDbContext _db;
-    private readonly FilialRepository _repository;
+    private readonly IFilialRepository _repository;
     private readonly IMapper _mapper;
 
-    public FilialController(AppDbContext db, IMapper mapper)
+    public FilialController(AppDbContext db, IMapper mapper, IFilialRepository repository)
     {
         _db = db;
         _mapper = mapper;
-        _repository = new FilialRepository(_db, _mapper);
+        _repository = repository;
     }
 
     [HttpGet("GetFilials")]

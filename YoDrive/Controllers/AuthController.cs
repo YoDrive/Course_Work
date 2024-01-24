@@ -25,11 +25,11 @@ public class AuthController : ControllerBase
     public static User user = new User();
     private readonly IConfiguration _configuration;
 
-    public AuthController(AppDbContext db, IMapper mapper, IConfiguration configuration)
+    public AuthController(AppDbContext db, IMapper mapper, IConfiguration configuration, IAuthRepository repository)
     {
         _db = db;
         _mapper = mapper;
-        _repository = new AuthRepository(_db, _mapper);
+        _repository = repository;
         _configuration = configuration;
     }
     

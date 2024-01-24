@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
+using YoDrive.Domain.Data.Interfaces;
 using YoDrive.Domain.Data.Repositories;
 using YoDrive.Domain.Dtos.CarDto;
 using YoDrive.Domain.Other;
@@ -13,14 +14,14 @@ namespace YoDrive.Controllers;
 public class CarController : ControllerBase
 {
     private readonly AppDbContext _db;
-    private readonly CarRepository _repository;
+    private readonly ICarRepository _repository;
     private readonly IMapper _mapper;
 
-    public CarController(AppDbContext db, IMapper mapper)
+    public CarController(AppDbContext db, IMapper mapper, ICarRepository repository)
     {
         _db = db;
         _mapper = mapper;
-        _repository = new CarRepository(_db, _mapper);
+        _repository = repository;
     }
     
     [HttpGet("GetCars")]

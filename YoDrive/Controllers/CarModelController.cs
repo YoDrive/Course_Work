@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
+using YoDrive.Domain.Data.Interfaces;
 using YoDrive.Domain.Data.Repositories;
 using YoDrive.Domain.Dtos.CarBrandDto;
 using YoDrive.Domain.Dtos.ModelDto;
@@ -14,14 +15,14 @@ namespace YoDrive.Controllers;
 public class CarModelController : ControllerBase
 {
     private readonly AppDbContext _db;
-    private readonly CarModelRepository _repository;
+    private readonly ICarModelRepository _repository;
     private readonly IMapper _mapper;
 
-    public CarModelController(AppDbContext db, IMapper mapper)
+    public CarModelController(AppDbContext db, IMapper mapper, ICarModelRepository repository)
     {
         _db = db;
         _mapper = mapper;
-        _repository = new CarModelRepository(_db, _mapper);
+        _repository = repository;
     }
 
     [HttpGet("GetAllModels")]

@@ -11,4 +11,6 @@ public interface ICarRepository
     Task<CarReadDto> UpdateCar(CarUpdateDto dto);
     Task<bool> DeleteCar(int id);
     Task<IEnumerable<CarReadDto>> GetCarsByFilter(Filter filters);
+    Task<List<CarMinDto>> GetAutopark();
+    Task<CarResponsePage> GetCarsByPage(CarRequestDto request);
 }

@@ -15,11 +15,11 @@ public class StatisticController : ControllerBase
     private readonly IStatisticRepository _repository;
     private readonly IMapper _mapper;
 
-    public StatisticController(AppDbContext db, IMapper mapper)
+    public StatisticController(AppDbContext db, IMapper mapper, IStatisticRepository repository)
     {
         _db = db;
         _mapper = mapper;
-        _repository = new StatisticRepository(_db, _mapper);
+        _repository = repository;
     }
     
     [Authorize]

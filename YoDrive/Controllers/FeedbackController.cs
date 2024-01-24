@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YoDrive.Domain.Data;
+using YoDrive.Domain.Data.Interfaces;
 using YoDrive.Domain.Data.Repositories;
 using YoDrive.Domain.Dtos.FeedbackDto;
 
@@ -15,14 +16,14 @@ namespace YoDrive.Controllers;
 public class FeedbackController : ControllerBase
 {
     private readonly AppDbContext _db;
-    private readonly FeedbackRepository _repository;
+    private readonly IFeedbackRepository _repository;
     private readonly IMapper _mapper;
     
-    public FeedbackController(AppDbContext db, IMapper mapper)
+    public FeedbackController(AppDbContext db, IMapper mapper, IFeedbackRepository repository)
     {
         _db = db;
         _mapper = mapper;
-        _repository = new FeedbackRepository(_db, _mapper);
+        _repository = repository;
     }
 
     [HttpGet("GetAllFeedbacks")]
