@@ -55,7 +55,8 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseNpgsql(connectionString);
+    options.UseNpgsql(connectionString)
+        .UseSnakeCaseNamingConvention();
 });
 
 builder.Services.AddControllers().AddJsonOptions(options =>
