@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using YoDrive.Domain.Models;
 
 namespace YoDrive.Domain.Data;
@@ -7,8 +8,7 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-        //Database.EnsureDeleted();
-        Database.EnsureCreated();
+        
     }   
     
     public DbSet<CarBrand> CarBrand { get; set; }
@@ -25,19 +25,19 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CarModel>()
-            .HasOne(e => e.CarBrand)
-            .WithMany(cb => cb.CarModels)
-            .HasForeignKey(e => e.CarBrandId)
-            .HasPrincipalKey(cb => cb.Id)
-            .OnDelete(DeleteBehavior.Cascade);
-
         modelBuilder.Entity<CarBrand>()
             .HasMany(e => e.CarModels)
             .WithOne(cm => cm.CarBrand)
             .HasForeignKey(cm => cm.CarBrandId)
             .HasPrincipalKey(e => e.Id)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<CarModel>()
+            .HasOne(e => e.CarBrand)
+            .WithMany(cb => cb.CarModels)
+            .HasForeignKey(e => e.CarBrandId)
+            .HasPrincipalKey(cb => cb.Id)
+            .OnDelete(DeleteBehavior.Cascade);
         
         modelBuilder.Entity<Role>()
             .HasMany(e => e.Users)

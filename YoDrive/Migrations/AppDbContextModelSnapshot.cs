@@ -489,7 +489,7 @@ namespace YoDrive.Migrations
                     b.HasOne("YoDrive.Domain.Models.CarBrand", "CarBrand")
                         .WithMany("CarModels")
                         .HasForeignKey("CarBrandId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_car_model_car_brand_car_brand_id");
 

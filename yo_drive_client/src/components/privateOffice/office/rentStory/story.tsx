@@ -1,7 +1,6 @@
 import styles from './story.module.css';
 import {useState} from 'react';
 import StoryBlock  from './storyBlock';
-import 'primereact/resources/primereact.min.css';
 
 export function Story(){
     const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());

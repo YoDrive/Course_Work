@@ -12,8 +12,8 @@ using YoDrive.Domain.Data;
 namespace YoDrive.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240316101553_AddBaseEntity")]
-    partial class AddBaseEntity
+    [Migration("20240316135644_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -492,7 +492,7 @@ namespace YoDrive.Migrations
                     b.HasOne("YoDrive.Domain.Models.CarBrand", "CarBrand")
                         .WithMany("CarModels")
                         .HasForeignKey("CarBrandId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_car_model_car_brand_car_brand_id");
 
