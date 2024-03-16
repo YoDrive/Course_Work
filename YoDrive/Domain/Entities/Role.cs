@@ -4,11 +4,8 @@ using System.Text.Json.Serialization;
 
 namespace YoDrive.Domain.Models;
 
-public class Role
+public class Role : BaseEntity
 {
-    [Key]
-    [Required]
-    public int RoleId { get; set; }
     [Required]
     [MaxLength(30)]
     public string RoleName { get; set; }

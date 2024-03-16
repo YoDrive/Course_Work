@@ -36,7 +36,7 @@ public class FeedbackRepository : IFeedbackRepository
     /// <exception cref="NotImplementedException"></exception>
     public async Task<IEnumerable<FeedbackReadDto>> GetAllCarFeedback(int idCar)
     {
-        var car = _db.Car.FirstOrDefault(_ => _.CarId == idCar);
+        var car = _db.Car.FirstOrDefault(_ => _.Id == idCar);
         if (car == null)
             throw new Exception($"Автомобиль с Id {idCar} не найден");
         
@@ -76,7 +76,7 @@ public class FeedbackRepository : IFeedbackRepository
     {
         var feedback = await _db.Feedback
             .Include(_ => _.Rent)
-            .FirstOrDefaultAsync(_ => _.FeedbackId == id);
+            .FirstOrDefaultAsync(_ => _.Id == id);
 
         if (feedback == null)
             throw new Exception($"Отзыв с Id {id} не найден");
@@ -109,22 +109,15 @@ public class FeedbackRepository : IFeedbackRepository
     {
         var feedback = _db.Feedback
             .Include(_ => _.Rent)
-            .FirstOrDefault(_ => _.FeedbackId == dto.FeedbackId);
+            .FirstOrDefault(_ => _.Id == dto.FeedbackId);
 
         if (feedback == null)
             throw new Exception($"Отзыв с Id {dto.FeedbackId} не найден");
-
+        
         feedback.IsDeleted = false;
-
-        if (dto.Response != null)
-        {
-            feedback.Response = dto.Response;
-        }
-
-        if (dto.Stars != null)
-        {
-            feedback.Stars = dto.Stars;
-        }
+        feedback.Response = dto.Response;
+        feedback.Stars = dto.Stars;
+        feedback.UpdatedAt = DateTime.UtcNow;
 
         _db.Feedback.Update(feedback);
         await _db.SaveChangesAsync();
@@ -140,10 +133,12 @@ public class FeedbackRepository : IFeedbackRepository
     /// <exception cref="KeyNotFoundException"></exception>
     public async Task<bool> DeleteFeedback(int id)
     {
-        var feedback = _db.Feedback.FirstOrDefault(_ => _.FeedbackId == id);
+        var feedback = _db.Feedback.FirstOrDefault(_ => _.Id == id);
 
         if (feedback == null)
             throw new Exception($"Отзыв с Id {id} не найден");
+        
+        feedback.UpdatedAt = DateTime.UtcNow;
         feedback.IsDeleted = true;
         
         return await _db.SaveChangesAsync() > 0;

@@ -40,7 +40,7 @@ public class CarModelRepository : ICarModelRepository
     {
         var model = await _db.CarModel
             .Include(_ => _.CarBrand)
-            .FirstOrDefaultAsync(_ => _.CarModelId == id);
+            .FirstOrDefaultAsync(_ => _.Id == id);
         
         if (model == null)
             throw new Exception($"Модель с Id {id} не найдена");
@@ -63,6 +63,8 @@ public class CarModelRepository : ICarModelRepository
         {
             if (entity.IsDeleted)
             {
+                entity.CreatedAt = DateTime.UtcNow;
+                entity.UpdatedAt = DateTime.UtcNow;
                 entity.IsDeleted = false;
                 entity.ModelName = dto.ModelName;
                 _db.CarModel.Update(entity);
@@ -91,20 +93,21 @@ public class CarModelRepository : ICarModelRepository
     {
         var model = _db.CarModel
             .Include(_ => _.CarBrand)
-            .FirstOrDefault(_ => _.CarModelId == dto.CarModelId);
+            .FirstOrDefault(_ => _.Id == dto.CarModelId);
 
         if (model == null)
             throw new KeyNotFoundException();
 
         if (_db.CarModel.FirstOrDefault(_ => _.CarBrandId == dto.CarBrandId
                                              && _.ModelName.ToLower() == dto.ModelName.ToLower()
-                                             && _.CarModelId != dto.CarModelId) != null) 
+                                             && _.Id != dto.CarModelId) != null) 
         {
             throw new Exception($"Модель автомобиля с названием '{dto.ModelName}' уже существует");   
         }
 
 
         model.IsDeleted = false;
+        model.UpdatedAt = DateTime.UtcNow;
         model.ModelName = dto.ModelName;
 
         _db.CarModel.Update(model);
@@ -121,7 +124,7 @@ public class CarModelRepository : ICarModelRepository
     /// <exception cref="NotImplementedException"></exception>
     public async Task<bool> DeleteModel(int id)
     {
-        var model = _db.CarModel.FirstOrDefault(_ => _.CarModelId == id);
+        var model = _db.CarModel.FirstOrDefault(_ => _.Id == id);
 
         if (model == null)
             throw new KeyNotFoundException($"Модель автомобиля с Id {id} не найдена");
@@ -131,6 +134,7 @@ public class CarModelRepository : ICarModelRepository
             throw new Exception($"Невозможно удалить {model.ModelName}, имеются активные связи с автомобилями, в количестве: {count}");
 
         model.IsDeleted = true;
+        model.UpdatedAt = DateTime.UtcNow;
         _db.CarModel.Update(model);
         
         return await _db.SaveChangesAsync() > 0;

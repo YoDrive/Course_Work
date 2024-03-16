@@ -88,7 +88,7 @@ public class AuthController : ControllerBase
         }
 
         var token = CreateToken(dbUser);
-        await SaveToken(dbUser.UserId, token.RefreshToken);
+        await SaveToken(dbUser.Id, token.RefreshToken);
         var allClaims = HttpContext.User.Claims.Select(c => $"{c.Type}: {c.Value}");
         Console.WriteLine("All Claims: " + string.Join(", ", allClaims));
 
@@ -123,14 +123,14 @@ public class AuthController : ControllerBase
             Patronymic = request.Patronymic,
             RoleId = (int)RolesEnum.Client,
             PhoneNumber = request.PhoneNumber,
-            Role = _db.Role.FirstOrDefault(_ => _.RoleId == (int)RolesEnum.Client),
+            Role = _db.Role.FirstOrDefault(_ => _.Id == (int)RolesEnum.Client),
             CreatedAt = DateTime.UtcNow
         };
         
         user = newUser;
         
         var token = CreateToken(user);
-        await SaveToken(user.UserId, token.RefreshToken);
+        await SaveToken(user.Id, token.RefreshToken);
         
         _db.Add(newUser);
         _db.SaveChanges();
@@ -147,10 +147,10 @@ public class AuthController : ControllerBase
     {
         var claims = new List<Claim>
         {
-            new Claim("Id", user.UserId.ToString()),
+            new Claim("Id", user.Id.ToString()),
             new Claim("Email", user.Email),
             new Claim("Roles", user.Role.RoleName),
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

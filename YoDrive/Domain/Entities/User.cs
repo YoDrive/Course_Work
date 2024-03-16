@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YoDrive.Domain.Models;
 
-public class User
+public class User : BaseEntity
 {
-    [Key]
-    [Required]
-    public int UserId { get; set; }
     [ForeignKey(nameof(RoleId))]
     public int RoleId { get; set; }
     [Required]
@@ -32,10 +29,6 @@ public class User
     public string Password { get; set; }
     [MaxLength(255)]
     public string? UserImage { get; set; }
-    [Required]
-    public bool IsDeleted { get; set; }
-    [Required]
-    public DateTime CreatedAt { get; set; }
     
     [InverseProperty("User")]
     public virtual ICollection<Rent>? Rents { get; set; }

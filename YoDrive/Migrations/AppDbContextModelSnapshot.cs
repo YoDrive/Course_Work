@@ -24,423 +24,434 @@ namespace YoDrive.Migrations
 
             modelBuilder.Entity("YoDrive.Domain.Models.Car", b =>
                 {
-                    b.Property<int>("CarId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("car_id")
-                        .HasComment("ID автомобиля");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CarImage")
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
-                        .HasColumnName("car_image")
-                        .HasComment("Фото автомобиля");
+                        .HasColumnName("car_image");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("integer")
-                        .HasColumnName("class_id")
-                        .HasComment("ID класса автомобиля");
+                        .HasColumnName("class_id");
 
                     b.Property<decimal>("CostDay")
                         .HasColumnType("money")
-                        .HasColumnName("cost_day")
-                        .HasComment("Стоимость аренды в день");
+                        .HasColumnName("cost_day");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<int>("FilialId")
                         .HasColumnType("integer")
-                        .HasColumnName("filial_id")
-                        .HasComment("ID филиала автомобиля");
+                        .HasColumnName("filial_id");
 
                     b.Property<short>("GearBox")
                         .HasColumnType("smallint")
-                        .HasColumnName("gear_box")
-                        .HasComment("Тип коробки передач");
+                        .HasColumnName("gear_box");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted")
-                        .HasComment("Флаг удаления");
+                        .HasColumnName("is_deleted");
 
                     b.Property<int>("ModelId")
                         .HasColumnType("integer")
-                        .HasColumnName("model_id")
-                        .HasComment("ID модели автомобиля");
+                        .HasColumnName("model_id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.Property<int>("Year")
                         .HasColumnType("integer")
-                        .HasColumnName("year")
-                        .HasComment("Год выпуска");
+                        .HasColumnName("year");
 
-                    b.HasKey("CarId");
+                    b.HasKey("Id")
+                        .HasName("pk_car");
 
-                    b.HasIndex("ClassId");
+                    b.HasIndex("ClassId")
+                        .HasDatabaseName("ix_car_class_id");
 
-                    b.HasIndex("FilialId");
+                    b.HasIndex("FilialId")
+                        .HasDatabaseName("ix_car_filial_id");
 
-                    b.HasIndex("ModelId");
+                    b.HasIndex("ModelId")
+                        .HasDatabaseName("ix_car_model_id");
 
-                    b.ToTable("car", null, t =>
-                        {
-                            t.HasComment("Автомобиль");
-                        });
+                    b.ToTable("car", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.CarBrand", b =>
                 {
-                    b.Property<int>("CarBrandId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("car_brand_id")
-                        .HasComment("ID марки автомобиля");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarBrandId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted")
-                        .HasComment("Флаг удаления");
+                        .HasColumnName("is_deleted");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("name")
-                        .HasComment("Название марки автомобиля");
+                        .HasColumnName("name");
 
-                    b.HasKey("CarBrandId");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
-                    b.ToTable("car_brand", null, t =>
-                        {
-                            t.HasComment("Марка автомобиля");
-                        });
+                    b.HasKey("Id")
+                        .HasName("pk_car_brand");
+
+                    b.ToTable("car_brand", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.CarClass", b =>
                 {
-                    b.Property<int>("CarClassId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("car_class_id")
-                        .HasComment("ID класса автомобиля");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarClassId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClassName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
-                        .HasColumnName("class_name")
-                        .HasComment("Название класса автомобиля");
+                        .HasColumnName("class_name");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted")
-                        .HasComment("Флаг удаления");
+                        .HasColumnName("is_deleted");
 
-                    b.HasKey("CarClassId");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
-                    b.ToTable("car_class", null, t =>
-                        {
-                            t.HasComment("Класс автомобиля");
-                        });
+                    b.HasKey("Id")
+                        .HasName("pk_car_class");
+
+                    b.ToTable("car_class", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.CarModel", b =>
                 {
-                    b.Property<int>("CarModelId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("car_model_id")
-                        .HasComment("ID модели автомобиля");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarModelId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CarBrandId")
                         .HasColumnType("integer")
-                        .HasColumnName("car_brand_id")
-                        .HasComment("ID бренда автомобиля");
+                        .HasColumnName("car_brand_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted")
-                        .HasComment("Флаг удаления");
+                        .HasColumnName("is_deleted");
 
                     b.Property<string>("ModelName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
-                        .HasColumnName("model_name")
-                        .HasComment("Название модели автомобиля");
+                        .HasColumnName("model_name");
 
-                    b.HasKey("CarModelId");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
-                    b.HasIndex("CarBrandId");
+                    b.HasKey("Id")
+                        .HasName("pk_car_model");
 
-                    b.ToTable("car_model", null, t =>
-                        {
-                            t.HasComment("Модель автомобиля");
-                        });
+                    b.HasIndex("CarBrandId")
+                        .HasDatabaseName("ix_car_model_car_brand_id");
+
+                    b.ToTable("car_model", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.Feedback", b =>
                 {
-                    b.Property<int>("FeedbackId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("feedback_id")
-                        .HasComment("ID отзыва");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FeedbackId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("FeedbackDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("feedback_date")
-                        .HasComment("Дата отзыва");
+                        .HasColumnName("created_at");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted")
-                        .HasComment("Флаг удаления");
+                        .HasColumnName("is_deleted");
 
                     b.Property<int>("RentId")
                         .HasColumnType("integer")
-                        .HasColumnName("rent_id")
-                        .HasComment("ID аренды");
+                        .HasColumnName("rent_id");
 
                     b.Property<string>("Response")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("response")
-                        .HasComment("Текст отзыва");
+                        .HasColumnName("response");
 
                     b.Property<byte>("Stars")
                         .HasColumnType("smallint")
-                        .HasColumnName("stars")
-                        .HasComment("Количество звезд");
+                        .HasColumnName("stars");
 
-                    b.HasKey("FeedbackId");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_feedback");
 
                     b.HasIndex("RentId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_feedback_rent_id");
 
-                    b.ToTable("feedback", null, t =>
-                        {
-                            t.HasComment("Отзыв");
-                        });
+                    b.ToTable("feedback", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.Filial", b =>
                 {
-                    b.Property<int>("FilialId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("filial_id")
-                        .HasComment("ID филиала");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FilialId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
-                        .HasColumnName("address")
-                        .HasComment("Адрес филиала");
+                        .HasColumnName("address");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted")
-                        .HasComment("Флаг удаления");
+                        .HasColumnName("is_deleted");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
-                        .HasColumnName("phone_number")
-                        .HasComment("Номер телефона филиала");
+                        .HasColumnName("phone_number");
 
-                    b.HasKey("FilialId");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
-                    b.ToTable("filial", null, t =>
-                        {
-                            t.HasComment("Филиал");
-                        });
+                    b.HasKey("Id")
+                        .HasName("pk_filial");
+
+                    b.ToTable("filial", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.Rent", b =>
                 {
-                    b.Property<int>("RentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("rent_id")
-                        .HasComment("ID аренды");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RentId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CarId")
                         .HasColumnType("integer")
-                        .HasColumnName("car_id")
-                        .HasComment("ID автомобиля");
+                        .HasColumnName("car_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("end_date")
-                        .HasComment("Дата окончания аренды");
+                        .HasColumnName("end_date");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted")
-                        .HasComment("Флаг удаления");
+                        .HasColumnName("is_deleted");
 
                     b.Property<decimal>("RentCost")
                         .HasColumnType("money")
-                        .HasColumnName("rent_cost")
-                        .HasComment("Стоимость аренды");
+                        .HasColumnName("rent_cost");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("start_date")
-                        .HasComment("Дата начала аренды");
+                        .HasColumnName("start_date");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
-                        .HasColumnName("user_id")
-                        .HasComment("ID пользователя");
+                        .HasColumnName("user_id");
 
-                    b.HasKey("RentId");
+                    b.HasKey("Id")
+                        .HasName("pk_rent");
 
-                    b.HasIndex("CarId");
+                    b.HasIndex("CarId")
+                        .HasDatabaseName("ix_rent_car_id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_rent_user_id");
 
-                    b.ToTable("rent", null, t =>
-                        {
-                            t.HasComment("Аренда");
-                        });
+                    b.ToTable("rent", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.Role", b =>
                 {
-                    b.Property<int>("RoleId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("role_id")
-                        .HasComment("ID роли");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RoleId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
-                        .HasColumnName("role_name")
-                        .HasComment("Название роли");
+                        .HasColumnName("role_name");
 
-                    b.HasKey("RoleId");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
-                    b.ToTable("role", null, t =>
-                        {
-                            t.HasComment("Роль пользователя");
-                        });
+                    b.HasKey("Id")
+                        .HasName("pk_role");
+
+                    b.ToTable("role", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.Token", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("RefreshToken")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("refresh_token");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserId")
+                        .HasName("pk_token");
 
-                    b.ToTable("Token");
+                    b.ToTable("token", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("user_id")
-                        .HasComment("ID пользователя");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("email")
-                        .HasComment("Email");
+                        .HasColumnName("email");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
-                        .HasColumnName("first_name")
-                        .HasComment("Имя");
+                        .HasColumnName("first_name");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted")
-                        .HasComment("Флаг удаления");
+                        .HasColumnName("is_deleted");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("password")
-                        .HasComment("Пароль");
+                        .HasColumnName("password");
 
                     b.Property<string>("Patronymic")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
-                        .HasColumnName("patronymic")
-                        .HasComment("Отчество");
+                        .HasColumnName("patronymic");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
-                        .HasColumnName("phone_number")
-                        .HasComment("Номер телефона");
+                        .HasColumnName("phone_number");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("integer")
-                        .HasColumnName("role_id")
-                        .HasComment("ID роли");
+                        .HasColumnName("role_id");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
-                        .HasColumnName("surname")
-                        .HasComment("Фамилия");
+                        .HasColumnName("surname");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.Property<string>("UserImage")
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
-                        .HasColumnName("user_image")
-                        .HasComment("Изображение пользователя");
+                        .HasColumnName("user_image");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id")
+                        .HasName("pk_user");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_user_role_id");
 
-                    b.ToTable("user", null, t =>
-                        {
-                            t.HasComment("Пользователь");
-                        });
+                    b.ToTable("user", (string)null);
                 });
 
             modelBuilder.Entity("YoDrive.Domain.Models.Car", b =>
@@ -449,19 +460,22 @@ namespace YoDrive.Migrations
                         .WithMany("Cars")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_car_car_class_class_id");
 
                     b.HasOne("YoDrive.Domain.Models.Filial", "Filial")
                         .WithMany("Cars")
                         .HasForeignKey("FilialId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_car_filial_filial_id");
 
                     b.HasOne("YoDrive.Domain.Models.CarModel", "CarModel")
                         .WithMany("Cars")
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_car_car_model_car_model_id");
 
                     b.Navigation("CarClass");
 
@@ -475,8 +489,9 @@ namespace YoDrive.Migrations
                     b.HasOne("YoDrive.Domain.Models.CarBrand", "CarBrand")
                         .WithMany("CarModels")
                         .HasForeignKey("CarBrandId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_car_model_car_brand_car_brand_id");
 
                     b.Navigation("CarBrand");
                 });
@@ -487,7 +502,8 @@ namespace YoDrive.Migrations
                         .WithOne("Feedback")
                         .HasForeignKey("YoDrive.Domain.Models.Feedback", "RentId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_feedback_rent_rent_id");
 
                     b.Navigation("Rent");
                 });
@@ -498,13 +514,15 @@ namespace YoDrive.Migrations
                         .WithMany("Rents")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_rent_car_car_id");
 
                     b.HasOne("YoDrive.Domain.Models.User", "User")
                         .WithMany("Rents")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_rent_user_user_id");
 
                     b.Navigation("Car");
 
@@ -517,7 +535,8 @@ namespace YoDrive.Migrations
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_user_role_role_id");
 
                     b.Navigation("Role");
                 });
