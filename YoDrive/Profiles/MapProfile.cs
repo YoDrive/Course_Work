@@ -20,7 +20,8 @@ public class MapProfile : Profile
     {
         #region Auth
 
-        CreateMap<User, UserReadDto>();
+        CreateMap<User, UserReadDto>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
         CreateMap<UserLoginRequestDto, User>();
         CreateMap<UserReadDto, UserLoginRequestDto>();
         
@@ -28,28 +29,39 @@ public class MapProfile : Profile
 
         #region CarBrand
 
-        CreateMap<CarBrand, CarBrandUpdateDto>().ReverseMap();
+        CreateMap<CarBrand, CarBrandUpdateDto>()
+            .ForMember(dest => dest.CarBrandId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<CarBrandAddDto, CarBrand>().ReverseMap();
-        CreateMap<CarBrand, CarBrandReadDto>().ReverseMap();
+        CreateMap<CarBrand, CarBrandReadDto>()
+            .ForMember(dest => dest.CarBrandId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<CarBrandAddDto, CarBrandReadDto>().ReverseMap();
 
         #endregion
 
         #region CarClass
 
-        CreateMap<CarClass, ClassUpdateDto>().ReverseMap();
+        CreateMap<CarClass, ClassUpdateDto>()
+            .ForMember(dest => dest.CarClassId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<ClassAddDto, CarClass>().ReverseMap();
-        CreateMap<CarClass, ClassReadDto>().ReverseMap();
+        CreateMap<CarClass, ClassReadDto>()
+            .ForMember(dest => dest.CarClassId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<ClassAddDto, ClassReadDto>().ReverseMap();
 
         #endregion
 
         #region Car
 
-        CreateMap<Car, CarUpdateDto>().ReverseMap();
+        CreateMap<Car, CarUpdateDto>()
+            .ForMember(dest => dest.CarId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<CarAddDto, Car>()
             .ReverseMap();
         CreateMap<Car, CarReadDto>()
+            .ForMember(dest => dest.CarId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.CarImage, "Cars")))
             .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => CalculateRating(src.Rents)))
             .ForMember(dest => dest.FeedbackCount, opt => opt.MapFrom(src => src.Rents.Where(_ => _.Feedback != null && _.Feedback.IsDeleted == false).Count()))
@@ -63,41 +75,56 @@ public class MapProfile : Profile
 
         #region Feedback
 
-        CreateMap<Feedback, FeedbackUpdateDto>().ReverseMap();
+        CreateMap<Feedback, FeedbackUpdateDto>()
+            .ForMember(dest => dest.FeedbackId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<FeedbackAddDto, Feedback>().ReverseMap();
         CreateMap<Feedback, FeedbackReadDto>()
+            .ForMember(dest => dest.FeedbackId, opt => opt.MapFrom(src => src.Id))
             .ForMember(_ => _.UserName, n => n.MapFrom(_ => $"{_.Rent.User.FirstName} {_.Rent.User.Surname[0]}."))
             .ForMember(_ => _.FeedbackDate, n => n.MapFrom(_ => _.CreatedAt))
             .ReverseMap();
-        CreateMap<FeedbackAddDto, FeedbackReadDto>().ReverseMap();
+        CreateMap<FeedbackAddDto, FeedbackReadDto>()
+            .ReverseMap();
 
         #endregion
 
         #region Filial
 
-        CreateMap<Filial, FilialUpdateDto>().ReverseMap();
+        CreateMap<Filial, FilialUpdateDto>()
+            .ForMember(dest => dest.FilialId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<FilialAddDto, Filial>().ReverseMap();
-        CreateMap<Filial, FilialReadDto>().ReverseMap();
+        CreateMap<Filial, FilialReadDto>()
+            .ForMember(dest => dest.FilialId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<FilialAddDto, FilialReadDto>().ReverseMap();
 
         #endregion
 
         #region CarModel
 
-        CreateMap<CarModelReadDto, CarModel>().ReverseMap();
+        CreateMap<CarModelReadDto, CarModel>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CarModelId))
+            .ReverseMap();
         CreateMap<CarModel, CarModelAddDto>();
-        CreateMap<CarModelUpdateDto, CarModel>();
+        CreateMap<CarModelUpdateDto, CarModel>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CarModelId));
         CreateMap<CarModelAddDto, CarModel>();
         CreateMap<CarModel, CarModelReadDto>()
-            .ForMember(dest => dest.CarBrand, opt => opt.MapFrom(src => src.CarBrand));
+            .ForMember(dest => dest.CarModelId, opt => opt.MapFrom(src => src.Id));
 
         #endregion
 
         #region Rent
 
-        CreateMap<Rent, RentUpdateDto>().ReverseMap();
+        CreateMap<Rent, RentUpdateDto>()
+            .ForMember(dest => dest.RentId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<RentAddDto, Rent>().ReverseMap();
-        CreateMap<Rent, RentReadDto>().ReverseMap();
+        CreateMap<Rent, RentReadDto>()
+            .ForMember(dest => dest.RentId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         CreateMap<RentAddDto, RentReadDto>().ReverseMap();
 
         #endregion
@@ -105,6 +132,7 @@ public class MapProfile : Profile
         #region User
 
         CreateMap<User, UserReadDto>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
             .ForMember(dest => dest.Patronymic, opt => opt.MapFrom(src => src.Patronymic))
@@ -114,7 +142,9 @@ public class MapProfile : Profile
             .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageHelper.GetImage(src.UserImage, "Users")))
             .ReverseMap();
 
-        CreateMap<User, UserUpdateInfoDto>().ReverseMap();
+        CreateMap<User, UserUpdateInfoDto>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap();
         
         CreateMap<User, UserAuthDto>()
             .ReverseMap();
