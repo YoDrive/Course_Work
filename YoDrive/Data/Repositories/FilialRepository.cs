@@ -27,7 +27,7 @@ public class FilialRepository : IFilialRepository
 
     public async Task<FilialReadDto> GetFilialById(int id)
     {
-        var filial = await _db.Filial.FirstOrDefaultAsync(_ => _.FilialId == id);
+        var filial = await _db.Filial.FirstOrDefaultAsync(_ => _.Id == id);
 
         if (filial == null)
             throw new Exception($"Филиал с id {id} не найден");
@@ -43,6 +43,8 @@ public class FilialRepository : IFilialRepository
         {
             if (entity.IsDeleted)
             {
+                entity.UpdatedAt = DateTime.UtcNow;
+                entity.CreatedAt = DateTime.UtcNow;
                 entity.IsDeleted = false;
                 entity.Address = dto.Address;
                 _db.Filial.Update(entity);
@@ -64,19 +66,20 @@ public class FilialRepository : IFilialRepository
 
     public async Task<FilialReadDto> UpdateFilial(FilialUpdateDto dto)
     {
-        var filial = _db.Filial.FirstOrDefault(_ => _.FilialId == dto.FilialId);
+        var filial = _db.Filial.FirstOrDefault(_ => _.Id == dto.FilialId);
 
         if (filial == null)
             throw new KeyNotFoundException();
         
         if (_db.Filial.FirstOrDefault(_ => _.Address.ToLower() == dto.Address.ToLower()
-                                           && _.FilialId != dto.FilialId) != null)
+                                           && _.Id != dto.FilialId) != null)
         {
             throw new Exception($"Филиал с адресом '{dto.Address}' уже существует");   
         }
         
         filial.Address = dto.Address;
         filial.PhoneNumber = dto.PhoneNumber;
+        filial.UpdatedAt = DateTime.UtcNow;
 
         _db.Filial.Update(filial);
         await _db.SaveChangesAsync();
@@ -86,7 +89,7 @@ public class FilialRepository : IFilialRepository
 
     public async Task<bool> DeleteFilial(int id)
     {
-        var filial = _db.Filial.FirstOrDefault(_ => _.FilialId == id);
+        var filial = _db.Filial.FirstOrDefault(_ => _.Id == id);
 
         if (filial == null)
             throw new KeyNotFoundException($"Филиал с Id {id} не найден");
@@ -95,6 +98,7 @@ public class FilialRepository : IFilialRepository
         if (count > 0)
             throw new Exception($"Невозможно удалить {filial.Address}, имеются активные связи с автомобилями, в количестве: {count}");
 
+        filial.UpdatedAt = DateTime.UtcNow;
         filial.IsDeleted = true;
         _db.Filial.Update(filial);
         

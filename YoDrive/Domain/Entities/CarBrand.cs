@@ -3,16 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YoDrive.Domain.Models;
 
-public class CarBrand
+public class CarBrand : BaseEntity
 {
-    [Key]
-    [Required]
-    public int CarBrandId { get; set; }
     [Required] 
     [Column(TypeName = "varchar(100)")]
     public string Name { get; set; }
-    [Required]
-    public bool IsDeleted { get; set; }
     
     [InverseProperty("CarBrand")]
     public virtual ICollection<CarModel>? CarModels { get; set; }

@@ -38,7 +38,7 @@ public class CarBrandRepository : ICarBrandRepository
     /// <exception cref="ArgumentException"></exception>
     public async Task<CarBrandReadDto> GetCarBrandById(int id)
     {
-        var brand = await _db.CarBrand.FirstOrDefaultAsync(_ => _.CarBrandId == id);
+        var brand = await _db.CarBrand.FirstOrDefaultAsync(_ => _.Id == id);
 
         if (brand == null)
             throw new ArgumentException($"Марка автомобиля с Id {id} не найдена");
@@ -61,6 +61,8 @@ public class CarBrandRepository : ICarBrandRepository
             if (entity.IsDeleted)
             {
                 entity.IsDeleted = false;
+                entity.CreatedAt = DateTime.UtcNow;
+                entity.UpdatedAt = DateTime.UtcNow;
                 entity.Name = dto.Name;
                 _db.CarBrand.Update(entity);
                 await _db.SaveChangesAsync();
@@ -80,18 +82,19 @@ public class CarBrandRepository : ICarBrandRepository
 
     public async Task<CarBrandReadDto> UpdateCarBrand(CarBrandUpdateDto dto)
     {
-        var brand = _db.CarBrand.FirstOrDefault(_ => _.CarBrandId == dto.CarBrandId);
+        var brand = _db.CarBrand.FirstOrDefault(_ => _.Id == dto.CarBrandId);
 
         if (brand == null)
             throw new KeyNotFoundException();
 
         if (_db.CarBrand.FirstOrDefault(_ => _.Name.ToLower() == dto.Name.ToLower()
-                                             && _.CarBrandId != dto.CarBrandId) != null)
+                                             && _.Id != dto.CarBrandId) != null)
         {
             throw new Exception($"Марка автомобиля с названием '{dto.Name}' уже существует");   
         }
 
         brand.IsDeleted = false;
+        brand.UpdatedAt = DateTime.UtcNow;
         brand.Name = dto.Name;
 
         _db.CarBrand.Update(brand);
@@ -102,7 +105,7 @@ public class CarBrandRepository : ICarBrandRepository
 
     public async Task<bool> DeleteCarBrand(int id)
     {
-        var brand = _db.CarBrand.FirstOrDefault(_ => _.CarBrandId == id);
+        var brand = _db.CarBrand.FirstOrDefault(_ => _.Id == id);
 
         if (brand == null)
             throw new KeyNotFoundException($"Марка автомобиля с Id {id} не найдена");
@@ -112,6 +115,7 @@ public class CarBrandRepository : ICarBrandRepository
             throw new Exception($"Невозможно удалить {brand.Name}, имеются активные связи с моделями, в количестве: {count}");
 
         brand.IsDeleted = true;
+        brand.UpdatedAt = DateTime.UtcNow;
         _db.CarBrand.Update(brand);
         
         return await _db.SaveChangesAsync() > 0;

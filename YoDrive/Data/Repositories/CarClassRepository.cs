@@ -28,7 +28,7 @@ public class CarClassRepository : ICarClassRepository
 
     public async Task<ClassReadDto> GetClassById(int id)
     {
-        var carClass = await _db.CarClass.FirstOrDefaultAsync(_ => _.CarClassId == id);
+        var carClass = await _db.CarClass.FirstOrDefaultAsync(_ => _.Id == id);
 
         if (carClass == null)
             throw new ArgumentException($"Тип кузова автомобиля с Id {id} не найден");
@@ -44,6 +44,8 @@ public class CarClassRepository : ICarClassRepository
         {
             if (entity.IsDeleted)
             {
+                entity.CreatedAt = DateTime.UtcNow;
+                entity.UpdatedAt = DateTime.UtcNow;
                 entity.IsDeleted = false;
                 entity.ClassName = dto.ClassName;
                 _db.CarClass.Update(entity);
@@ -64,18 +66,19 @@ public class CarClassRepository : ICarClassRepository
 
     public async Task<ClassReadDto> UpdateClass(ClassUpdateDto dto)
     {
-        var brand = _db.CarClass.FirstOrDefault(_ => _.CarClassId == dto.CarClassId);
+        var brand = _db.CarClass.FirstOrDefault(_ => _.Id == dto.CarClassId);
 
         if (brand == null)
             throw new KeyNotFoundException();
 
         if (_db.CarClass.FirstOrDefault(_ => _.ClassName.ToLower() == dto.ClassName.ToLower()
-                                             && _.CarClassId != dto.CarClassId) != null)
+                                             && _.Id != dto.CarClassId) != null)
         {
             throw new Exception($"Тип кузова с названием '{dto.CarClassId}' уже существует");   
         }
         
         brand.IsDeleted = false;
+        brand.UpdatedAt = DateTime.UtcNow;
         brand.ClassName = dto.ClassName;
 
         _db.CarClass.Update(brand);
@@ -86,16 +89,17 @@ public class CarClassRepository : ICarClassRepository
 
     public async Task<bool> DeleteClass(int id)
     {
-        var carClass = _db.CarClass.FirstOrDefault(_ => _.CarClassId == id);
+        var carClass = _db.CarClass.FirstOrDefault(_ => _.Id == id);
 
         if (carClass == null)
             throw new KeyNotFoundException($"Тип кузова с Id {id} не найдена");
 
-        var count = _db.CarClass.Where(_ => _.CarClassId == id).ToList().Count();
+        var count = _db.CarClass.Where(_ => _.Id == id).ToList().Count();
         if (count > 0)
             throw new Exception($"Невозможно удалить {carClass.ClassName}, имеются активные связи с автомобилями, в количестве: {count}");
 
         carClass.IsDeleted = true;
+        carClass.UpdatedAt = DateTime.UtcNow;;
         _db.CarClass.Update(carClass);
         
         return await _db.SaveChangesAsync() > 0;

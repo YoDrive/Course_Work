@@ -52,7 +52,7 @@ public class CarRepository : ICarRepository
             .Include(_ => _.CarClass)
             .Include(_ => _.Rents)
             .ThenInclude(_ => _.Feedback)
-            .FirstOrDefaultAsync(_ => _.CarId == id);
+            .FirstOrDefaultAsync(_ => _.Id == id);
 
         if (car == null)
             throw new Exception($"Автомобиль с Id {id} не найден");
@@ -97,9 +97,9 @@ public class CarRepository : ICarRepository
             ModelId = dto.ModelId,
             GearBox = dto.GearBox,
             CostDay = dto.CostDay,
-            CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ?? throw new Exception("Модель не найдена"),
-            CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ?? throw new Exception("Класс не найден"),
-            Filial = _db.Filial.FirstOrDefault(filial => filial.FilialId == dto.FilialId) ?? throw new Exception("Филиал не найден")
+            CarModel = _db.CarModel.FirstOrDefault(model => model.Id == dto.ModelId) ?? throw new Exception("Модель не найдена"),
+            CarClass = _db.CarClass.FirstOrDefault(c => c.Id == dto.ClassId) ?? throw new Exception("Класс не найден"),
+            Filial = _db.Filial.FirstOrDefault(filial => filial.Id == dto.FilialId) ?? throw new Exception("Филиал не найден")
         };
             
         await _db.Car.AddAsync(entity);
@@ -110,7 +110,7 @@ public class CarRepository : ICarRepository
 
     public async Task<CarReadDto> UpdateCar(CarUpdateDto dto)
     {
-        var car = _db.Car.FirstOrDefault(_ => _.CarId == dto.CarId);
+        var car = _db.Car.FirstOrDefault(_ => _.Id == dto.CarId);
 
         if (car == null)
             throw new KeyNotFoundException($"Автомобиль с Id {dto.CarId} не найден");
@@ -139,6 +139,8 @@ public class CarRepository : ICarRepository
             car.CarImage = fileName;
         }
 
+        car.CreatedAt = DateTime.UtcNow;
+        car.UpdatedAt = DateTime.UtcNow;
         car.IsDeleted = false;
         car.ClassId = dto.ClassId;
         car.FilialId = dto.FilialId;
@@ -146,11 +148,11 @@ public class CarRepository : ICarRepository
         car.Year = dto.Year;
         car.CostDay = dto.CostDay;
         car.GearBox = dto.GearBox;
-        car.CarModel = _db.CarModel.FirstOrDefault(model => model.CarModelId == dto.ModelId) ??
+        car.CarModel = _db.CarModel.FirstOrDefault(model => model.Id == dto.ModelId) ??
                        throw new Exception("Модель не найдена");
-        car.CarClass = _db.CarClass.FirstOrDefault(c => c.CarClassId == dto.ClassId) ??
+        car.CarClass = _db.CarClass.FirstOrDefault(c => c.Id == dto.ClassId) ??
                        throw new Exception("Класс не найден");
-        car.Filial = _db.Filial.FirstOrDefault(filial => filial.FilialId == dto.FilialId) ??
+        car.Filial = _db.Filial.FirstOrDefault(filial => filial.Id == dto.FilialId) ??
                      throw new Exception("Филиал не найден");
 
         _db.Car.Update(car);
@@ -161,11 +163,12 @@ public class CarRepository : ICarRepository
 
     public async Task<bool> DeleteCar(int id)
     {
-        var car = _db.Car.FirstOrDefault(_ => _.CarId == id);
+        var car = _db.Car.FirstOrDefault(_ => _.Id == id);
 
         if (car == null)
             throw new KeyNotFoundException($"Автомобиль с Id {id} не найден");
 
+        car.UpdatedAt = DateTime.UtcNow;
         car.IsDeleted = true;
         _db.Car.Update(car);
         

@@ -19,8 +19,9 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> DeleteUser(int id)
     {
-        var user = await _db.User.FirstOrDefaultAsync(_ => _.UserId == id)
+        var user = await _db.User.FirstOrDefaultAsync(_ => _.Id == id)
                    ?? throw new Exception($"Пользователь с Id {id} не найден");
+        user.UpdatedAt = DateTime.UtcNow;
         user.IsDeleted = true;
         
         return await _db.SaveChangesAsync() > 0;
@@ -28,7 +29,7 @@ public class UserRepository : IUserRepository
 
     public async Task<UserReadDto> UpdateUserInfo(UserUpdateInfoDto dto)
     {
-        var user = await _db.User.FirstOrDefaultAsync(_ => _.UserId == dto.UserId)
+        var user = await _db.User.FirstOrDefaultAsync(_ => _.Id == dto.UserId)
                    ?? throw new Exception($"Пользователь с Id {dto.UserId} не найден");
 
         user.FirstName = dto.FirstName;
@@ -36,6 +37,7 @@ public class UserRepository : IUserRepository
         user.Patronymic = dto.Patronymic;
         user.Email = dto.Email;
         user.PhoneNumber = dto.PhoneNumber;
+        user.UpdatedAt = DateTime.UtcNow;
 
         _db.User.Update(user);
         await _db.SaveChangesAsync();
@@ -45,7 +47,7 @@ public class UserRepository : IUserRepository
 
     public async Task<UserReadDto> UpdateUserPhoto(UserUpdatePhotoDto dto)
     {
-        var user = await _db.User.FirstOrDefaultAsync(_ => _.UserId == dto.UserId)
+        var user = await _db.User.FirstOrDefaultAsync(_ => _.Id == dto.UserId)
                    ?? throw new Exception($"Пользователь с Id {dto.UserId} не найден");
         
         var currentDirectory = Directory.GetCurrentDirectory();
@@ -66,6 +68,7 @@ public class UserRepository : IUserRepository
             }
         }
         user.UserImage = fileName;
+        user.UpdatedAt = DateTime.UtcNow;
         
         _db.User.Update(user);
         await _db.SaveChangesAsync();
@@ -81,7 +84,7 @@ public class UserRepository : IUserRepository
 
     public async Task<UserReadDto> GetById(int id)
     {
-        var user = await _db.User.FirstOrDefaultAsync(_ => _.UserId == id)
+        var user = await _db.User.FirstOrDefaultAsync(_ => _.Id == id)
                    ?? throw new Exception($"Пользователь с Id {id} не найден");
         
         return _mapper.Map<UserReadDto>(user);

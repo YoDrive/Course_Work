@@ -28,14 +28,14 @@ public class RentRepository : IRentRepository
 
     public async Task<IEnumerable<RentReadDto>> GetCarRents(int carId)
     {
-        var car = _db.Car.FirstOrDefault(_ => _.CarId == carId);
+        var car = _db.Car.FirstOrDefault(_ => _.Id == carId);
         if (car == null)
             throw new Exception($"Автомобиль с Id {carId} не найден");
         
         var carFeedbacks = _db.Rent
             .Include(_ => _.Feedback)
             .Include(_ => _.Car)
-            .Where(_ => _.Car.CarId == carId);
+            .Where(_ => _.Car.Id == carId);
 
         var response = await _mapper.ProjectTo<RentReadDto>(carFeedbacks).ToListAsync();
 
@@ -44,7 +44,7 @@ public class RentRepository : IRentRepository
 
     public async Task<IEnumerable<RentReadDto>> GetUserRents(int userId)
     {
-        var user = _db.User.FirstOrDefault(_ => _.UserId == userId);
+        var user = _db.User.FirstOrDefault(_ => _.Id == userId);
         if (user == null)
             throw new Exception($"Пользователь с Id {userId} не найден");
         
@@ -76,7 +76,7 @@ public class RentRepository : IRentRepository
         var rent = await _db.Rent
             .Include(_ => _.Feedback)
             .Include(_ => _.Car)
-            .FirstOrDefaultAsync(_ => _.RentId == rentId);
+            .FirstOrDefaultAsync(_ => _.Id == rentId);
 
         if (rent == null)
             throw new ArgumentException($"Аренда с Id {rent} не найден");
@@ -98,13 +98,13 @@ public class RentRepository : IRentRepository
         {
             UserId = dto.UserId,
             User = _db.User
-                .FirstOrDefault(model => model.UserId == dto.UserId) ?? throw new Exception("Пользователь не найден"),
+                .FirstOrDefault(model => model.Id == dto.UserId) ?? throw new Exception("Пользователь не найден"),
             CarId = dto.CarId,
             Car = _db.Car
                 .Include(_ => _.CarModel)
                 .Include(_ => _.CarClass)
                 .Include(_ => _.Filial)
-                .FirstOrDefault(model => model.CarId == dto.CarId) ?? throw new Exception("Автомобиль не найден"),
+                .FirstOrDefault(model => model.Id == dto.CarId) ?? throw new Exception("Автомобиль не найден"),
             StartDate = dto.StartDate,
             EndDate = dto.EndDate,
             RentCost = dto.RentCost,
@@ -120,11 +120,12 @@ public class RentRepository : IRentRepository
     public async Task<RentReadDto> UpdateRent(RentUpdateDto dto)
     {
         var rent = _db.Rent
-            .FirstOrDefault(_ => _.RentId == dto.RentId);
+            .FirstOrDefault(_ => _.Id == dto.RentId);
 
         if (rent == null)
             throw new Exception($"Аренда с Id {dto.RentId} не найдена");
 
+        rent.UpdatedAt = DateTime.UtcNow;
         rent.IsDeleted = false;
         rent.StartDate = dto.StartDate;
         rent.EndDate = dto.EndDate;
@@ -138,10 +139,12 @@ public class RentRepository : IRentRepository
 
     public async Task<bool> DeleteRent(int rentId)
     {
-        var rent = _db.Rent.FirstOrDefault(_ => _.RentId == rentId);
+        var rent = _db.Rent.FirstOrDefault(_ => _.Id == rentId);
 
         if (rent == null)
             throw new Exception($"Аренда с Id {rentId} не найдена");
+        
+        rent.UpdatedAt = DateTime.UtcNow;
         rent.IsDeleted = true;
         
         return await _db.SaveChangesAsync() > 0;

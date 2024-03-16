@@ -4,11 +4,8 @@ using YoDrive.Domain.Enums;
 
 namespace YoDrive.Domain.Models;
 
-public class Car
+public class Car : BaseEntity
 {
-    [Key]
-    [Required]
-    public int CarId { get; set; }
     [ForeignKey(nameof(ModelId))]
     public int ModelId { get; set; }
     [Required]
@@ -31,8 +28,6 @@ public class Car
     public decimal CostDay { get; set; }
     [MaxLength(255)]
     public string? CarImage { get; set; }
-    [Required]
-    public bool IsDeleted { get; set; }
 
     [InverseProperty("Car")]
     public virtual ICollection<Rent>? Rents { get; set; }

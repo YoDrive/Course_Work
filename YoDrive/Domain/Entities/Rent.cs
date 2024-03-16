@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YoDrive.Domain.Models;
 
-public class Rent
+public class Rent : BaseEntity
 {
-    [Key]
-    [Required]
-    public int RentId { get; set; }
     [ForeignKey(nameof(UserId))]
     public int UserId { get; set; }
     [Required]
@@ -23,9 +20,5 @@ public class Rent
     [Required]
     [Column(TypeName="money")]
     public decimal RentCost { get; set; }
-    [Required]
-    public bool IsDeleted { get; set; }
-    [Required]
-    public DateTime CreatedAt { get; set; }
     public Feedback? Feedback { get; set; }
 }
