@@ -66,7 +66,7 @@ public class CarRepository : ICarRepository
         if (dto.Image != null) 
         { 
             var currentDirectory = Directory.GetCurrentDirectory();
-            var folderPath = Path.Combine(currentDirectory, "../../yo_drive_store/Cars");
+            var folderPath = Path.Combine(currentDirectory, "./YoDrive.Infrastructure/yo_drive_store/Cars");
             fileName = Guid.NewGuid() + Path.GetExtension(dto.Image.FileName);
             var filePath = Path.Combine(folderPath, fileName);
 
@@ -94,9 +94,12 @@ public class CarRepository : ICarRepository
             ModelId = dto.ModelId,
             GearBox = dto.GearBox,
             CostDay = dto.CostDay,
-            CarModel = _db.CarModel.FirstOrDefault(model => model.Id == dto.ModelId) ?? throw new Exception("Модель не найдена"),
-            CarClass = _db.CarClass.FirstOrDefault(c => c.Id == dto.ClassId) ?? throw new Exception("Класс не найден"),
-            Filial = _db.Filial.FirstOrDefault(filial => filial.Id == dto.FilialId) ?? throw new Exception("Филиал не найден")
+            CarModel = _db.CarModel.FirstOrDefault(model => model.Id == dto.ModelId) 
+                       ?? throw new Exception("Модель не найдена"),
+            CarClass = _db.CarClass.FirstOrDefault(c => c.Id == dto.ClassId) 
+                       ?? throw new Exception("Класс не найден"),
+            Filial = _db.Filial.FirstOrDefault(filial => filial.Id == dto.FilialId) 
+                     ?? throw new Exception("Филиал не найден")
         };
             
         await _db.Car.AddAsync(entity);
@@ -112,13 +115,11 @@ public class CarRepository : ICarRepository
         if (car == null)
             throw new KeyNotFoundException($"Автомобиль с Id {dto.CarId} не найден");
 
-        string fileName = null;
-
         if (dto.CarImage != null)
         {
             var currentDirectory = Directory.GetCurrentDirectory();
-            var folderPath = Path.Combine(currentDirectory, "../../yo_drive_store/Cars");
-            fileName = Guid.NewGuid() + Path.GetExtension(dto.CarImage.FileName);
+            var folderPath = Path.Combine(currentDirectory, "./YoDrive.Infrastructure/yo_drive_store/Cars");
+            var fileName = Guid.NewGuid() + Path.GetExtension(dto.CarImage.FileName);
             var filePath = Path.Combine(folderPath, fileName);
 
             if (!Directory.Exists(folderPath))

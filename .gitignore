@@ -637,7 +637,12 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+# Custom ignore
+
+/yo_drivebackend/YoDrive.Infrastructure/yo_drive_store
+
 # JetBrains Rider
+
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
