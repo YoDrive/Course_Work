@@ -2,10 +2,14 @@
 
 services:
   yoDriveBackend:
-    image: yocars
+    image: yodrive
     build:
       context: .
-      dockerfile: ./YoDrive/Dockerfile
+      dockerfile: ./yo_drive_backend/YoDrive.API/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=yodrivedb:5432;DataBase=yodrivedb;Username=postgres;Password=admin
+    depends_on:
+      - yoDriveDb
   yoDriveDb:
     image: postgres
     container_name: yodrivedb
@@ -17,15 +21,5 @@ services:
       POSTGRES_DB: "yodrivedb"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "admin"
-  react-app:
-    build:
-      context: ./yo_drive_client
-    ports:
-      - "3000:80"
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - "8080:8080"
 volumes:
   pg_data: 
