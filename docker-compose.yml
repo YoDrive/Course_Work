@@ -2,6 +2,7 @@
 
 services:
   yoDriveBackend:
+    container_name: YoDriveApi
     image: yodrive
     build:
       context: ./yo_drive_backend
@@ -11,8 +12,8 @@ services:
     depends_on:
       - yoDriveDb
   yoDriveDb:
-    image: postgres
     container_name: yodrivedb
+    image: postgres
     ports:
       - "5446:5432"
     volumes:
