@@ -4,8 +4,8 @@ services:
   yoDriveBackend:
     image: yodrive
     build:
-      context: .
-      dockerfile: ./yo_drive_backend/YoDrive.API/Dockerfile
+      context: ./yo_drive_backend
+      dockerfile: YoDrive.API/Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=yodrivedb:5432;DataBase=yodrivedb;Username=postgres;Password=admin
     depends_on:
