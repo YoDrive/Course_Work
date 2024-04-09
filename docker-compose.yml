@@ -4,6 +4,8 @@ services:
   yoDriveBackend:
     container_name: YoDriveApi
     image: yodrive
+    ports:
+      - "5083:5083"
     build:
       context: ./yo_drive_backend
       dockerfile: YoDrive.API/Dockerfile

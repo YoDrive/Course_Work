@@ -52,7 +52,7 @@ public class UserRepository : IUserRepository
                    ?? throw new Exception($"Пользователь с Id {dto.UserId} не найден");
         
         var currentDirectory = Directory.GetCurrentDirectory();
-        var folderPath = Path.Combine(currentDirectory, "./YoDrive.Infrastructure/yo_drive_store/Users");
+        var folderPath = Path.Combine(currentDirectory, "../YoDrive.Infrastructure/yo_drive_store/Users");
         var fileName = Guid.NewGuid() + Path.GetExtension(dto.Image.FileName);
         var filePath = Path.Combine(folderPath, fileName);
 

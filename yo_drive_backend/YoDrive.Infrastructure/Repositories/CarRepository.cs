@@ -66,7 +66,7 @@ public class CarRepository : ICarRepository
         if (dto.Image != null) 
         { 
             var currentDirectory = Directory.GetCurrentDirectory();
-            var folderPath = Path.Combine(currentDirectory, "./YoDrive.Infrastructure/yo_drive_store/Cars");
+            var folderPath = Path.Combine(currentDirectory, "../YoDrive.Infrastructure/yo_drive_store/Cars");
             fileName = Guid.NewGuid() + Path.GetExtension(dto.Image.FileName);
             var filePath = Path.Combine(folderPath, fileName);
 
@@ -118,7 +118,7 @@ public class CarRepository : ICarRepository
         if (dto.CarImage != null)
         {
             var currentDirectory = Directory.GetCurrentDirectory();
-            var folderPath = Path.Combine(currentDirectory, "./YoDrive.Infrastructure/yo_drive_store/Cars");
+            var folderPath = Path.Combine(currentDirectory, "../YoDrive.Infrastructure/yo_drive_store/Cars");
             var fileName = Guid.NewGuid() + Path.GetExtension(dto.CarImage.FileName);
             var filePath = Path.Combine(folderPath, fileName);
 
