@@ -7,8 +7,8 @@ services:
     ports:
       - "5083:5083"
     build:
-      context: ./yo_drive_backend
-      dockerfile: YoDrive.API/Dockerfile
+      context: .
+      dockerfile: yo_drive_backend/YoDrive.API/Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=yodrivedb:5432;DataBase=yodrivedb;Username=postgres;Password=admin
     depends_on:

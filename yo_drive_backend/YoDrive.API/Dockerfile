@@ -5,10 +5,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["YoDrive.API/YoDrive.API.csproj", "YoDrive.API/"]
-RUN dotnet restore "YoDrive.API/YoDrive.API.csproj"
+COPY ["yo_drive_backend/YoDrive.API/YoDrive.API.csproj", "yo_drive_backend/YoDrive.API/"]
+RUN dotnet restore "yo_drive_backend/YoDrive.API/YoDrive.API.csproj"
 COPY . .
-WORKDIR "/src/YoDrive.API"
+WORKDIR "/src/yo_drive_backend/YoDrive.API"
 RUN dotnet build "YoDrive.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
